@@ -1,0 +1,12 @@
+.alert-table-row:hover {
+  background: #181818;
+}
+
+.hover:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.unread-alert-row {
+  background: #ffffff12;
+}

@@ -1,0 +1,71 @@
+{
+  "name": "Wallet Guard: Browse Web3 Securely",
+  "version": "0.7.0",
+  "description": "A browser extension for detecting phishing attacks on crypto wallets",
+  "main": "index.js",
+  "scripts": {
+    "dev:chrome": "cross-env TARGET_BROWSER=chrome webpack --config webpack/webpack.dev.js --watch",
+    "build:chrome": "npm run clean && cross-env TARGET_BROWSER=chrome webpack --config webpack/webpack.prod.js",
+    "zip:chrome": "web-ext build -s dist/chrome -a dist -n chrome.zip -o",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.16",
+    "@chakra-ui/react": "^2.4.8",
+    "@emotion/styled": "^11.10.5",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@sentry/react": "^7.37.1",
+    "@sentry/tracing": "^7.37.1",
+    "eth-rpc-errors": "^4.0.3",
+    "parse-domain": "^7.0.0",
+    "pino": "^8.8.0",
+    "posthog-js": "^1.40.2",
+    "react": "^18.2.0",
+    "react-icons": "^4.4.0",
+    "react-share": "^4.4.1",
+    "stream-browserify": "^3.0.0",
+    "uuid": "^9.0.0",
+    "webextension-polyfill": "^0.9.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.191",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^18.0.10",
+    "@types/uuid": "^9.0.0",
+    "@types/webextension-polyfill": "^0.9.0",
+    "buffer": "^6.0.3",
+    "copy-webpack-plugin": "^9.0.1",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
+    "dotenv-webpack": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "postcss": "^8.4.14",
+    "postcss-loader": "^7.0.1",
+    "postcss-preset-env": "^7.7.2",
+    "prettier": "^2.7.1",
+    "process": "^0.11.10",
+    "rimraf": "^3.0.2 ",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^8.0.0",
+    "typescript": "^4.4.3 ",
+    "web-ext": "^7.1.1",
+    "webpack": "^5.61.0",
+    "webpack-cli": "^4.0.0",
+    "webpack-merge": "^5.0.0",
+    "webpack-merge-and-include-globally": "^2.3.4",
+    "wext-manifest-loader": "^2.4.1",
+    "wext-manifest-webpack-plugin": "^1.2.1"
+  },
+  "resolutions": {
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0"
+  },
+  "lint-staged": {
+    "*": "prettier -u --write"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  }
+}

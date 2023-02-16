@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Wallet Guard: Browse Web3 Securely",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0SMGNwLFsP2k1jAD54vtDqLJuIpeZWCc9gdvo2N8hzE1qIkOt29ynU1VgkJbtfuWHqWSyOCo1ljs2MjbqqFjG4qz5o3ZrEAMwmEbWGCuPddUIIiWIK0oF+BkwZiRpRS2nw/i9Dmeusf0eOlxxLYD0NpKszX73lqGt4LBIY8Wva7vmqdnKPa1F6+DDZviXcBRa8CLCzqDujTjON37o+NvQOq2u49UzVXr/DcePFrUTnnjdNkKTQkLlH00lwvxUUJl0g5IVdlxNgZXPY/C6P39YIIxsBFJH0rXvQrLgED6NGR17CBnLhOmmYghku17yoUGg3KrT4aeh8+uG5NrQZuqGwIDAQAB",
+  "description": "Wallet Guard acts as a security companion to your crypto wallet of choice, so you can browse at ease.",
+  "version": "0.7.0",
+  "icons": {
+    "128": "images/wg_logos/logo_128x128.png"
+  },
+  "offline_enabled": false,
+  "options_ui": {
+    "page": "dashboard.html",
+    "open_in_tab": true
+  },
+  "action": {
+    "default_icon": "images/wg_logos/logo_16x16.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/vendor.js", "js/content-scripts/contentScripts.js"],
+      "all_frames": true,
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": ["<all_urls>"],
+      "resources": ["js/injected/injectWalletGuard.js", "js/vendor.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "permissions": ["storage", "scripting", "tabs", "alarms", "management", "notifications"],
+  "host_permissions": ["<all_urls>"]
+}

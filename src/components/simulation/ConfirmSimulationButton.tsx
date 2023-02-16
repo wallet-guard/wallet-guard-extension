@@ -1,0 +1,93 @@
+import posthog from 'posthog-js';
+import React, { useEffect, useState } from 'react';
+import type { StoredSimulation } from '../../lib/simulation/storage';
+import { simulationNeedsAction, StoredSimulationState, updateSimulationState } from '../../lib/simulation/storage';
+import { SimulationMethodType, SimulationWarningType } from '../../models/simulation/Transaction';
+import styles from './simulation.module.css';
+
+export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation: StoredSimulation }) => {
+  const { id, signer, state } = storedSimulation;
+
+  if (simulationNeedsAction(state)) {
+    return (
+      <div className="container">
+        <div className="row text-center pl-3 pr-3 pt-4">
+          <div className="col-6 text-center">
+            <button
+              className={`${styles['reject-button']} btn`}
+              onClick={() => {
+                posthog.capture('simulation rejected', {
+                  warningType: storedSimulation.simulation?.warningType,
+                  storedSimulation: storedSimulation,
+                });
+                updateSimulationState(id, StoredSimulationState.Rejected);
+              }}
+            >
+              <img
+                src="/images/popup/x.png"
+                alt=""
+                width={19}
+                className={`${styles['font-archivo-bold']} pr-2`}
+                style={{ marginTop: '-3px' }}
+              />
+              Reject
+            </button>
+          </div>
+          <div className="col-6 text-center">
+            {state === StoredSimulationState.Success || state === StoredSimulationState.Revert ? (
+              <button
+                className={`${styles['confirm-button']} btn`}
+                onClick={() => {
+                  posthog.capture('simulation confirmed', {
+                    warningType: storedSimulation.simulation?.warningType,
+                    storedSimulation: storedSimulation,
+                  });
+                  updateSimulationState(id, StoredSimulationState.Confirmed);
+                }}
+              >
+                <div>
+                  <img
+                    src="/images/popup/circleCheck.png"
+                    alt=""
+                    width={23}
+                    className={`${styles['font-archivo-bold']} pr-2`}
+                    style={{ marginTop: '-2px' }}
+                  />
+                  Continue
+                </div>
+              </button>
+            ) : storedSimulation.simulation &&
+              storedSimulation.simulation.method === SimulationMethodType.EthSign &&
+              storedSimulation.simulation.warningType === SimulationWarningType.Warn ? (
+              <div></div>
+            ) : (
+              <button
+                className={`${styles['confirm-button']} btn`}
+                onClick={() => {
+                  posthog.alias(signer);
+                  posthog.capture('simulation confirmed', {
+                    warningType: storedSimulation.simulation?.warningType,
+                    storedSimulation: storedSimulation,
+                  });
+                  updateSimulationState(id, StoredSimulationState.Confirmed);
+                }}
+              >
+                <div>
+                  <img
+                    src="/images/popup/circleCheck.png"
+                    alt=""
+                    width={23}
+                    className={`${styles['font-archivo-bold']} pr-2`}
+                    style={{ marginTop: '-2px' }}
+                  />
+                  Skip
+                </div>
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};

@@ -1,0 +1,137 @@
+.tutorialContainer {
+  min-width: 600px;
+}
+
+.container {
+  width: 425px;
+}
+
+.hover:hover {
+  cursor: pointer;
+}
+
+.link {
+  color: blue;
+}
+
+.linkUnderline {
+  color: blue;
+  text-decoration: underline;
+}
+
+.linkUnderline:hover,
+.link:hover {
+  cursor: pointer;
+}
+
+.truncate {
+  width: 425px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 7px;
+  margin-bottom: 0;
+  color: darkslategrey;
+  font-size: 14px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.whitelistIcon {
+  margin-right: 10px;
+}
+
+.footer {
+  width: 100%;
+  border-top: 1px solid darkgrey;
+}
+
+.report {
+  color: #6c757d;
+  float: right;
+}
+
+.custom-field {
+  position: relative;
+  font-size: 16px;
+  border-top: 20px solid transparent;
+  margin-bottom: 5px;
+  --field-padding: 12px;
+}
+
+.custom-field input {
+  border: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #f2f2f2;
+  padding: var(--field-padding);
+  border-radius: 3px;
+  width: 250px;
+  outline: none;
+  font-size: 16px;
+  background: linear-gradient(90deg, #222, #222) center bottom/0 0.15em
+      no-repeat,
+    linear-gradient(90deg, #ccc, #ccc) left bottom/100% 0.15em no-repeat,
+    linear-gradient(90deg, #fafafa, #fafafa) left bottom/100% no-repeat;
+  transition: background-size 0.3s ease;
+}
+
+.custom-field .placeholder {
+  position: absolute;
+  left: var(--field-padding);
+  width: calc(100% - (var(--field-padding) * 2));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  top: 11px;
+  line-height: 100%;
+  transform: translateY(-50%);
+  color: #aaa;
+  transition: top 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+}
+
+.custom-field input:focus + .placeholder,
+.custom-field input:not(:placeholder-shown) + .placeholder {
+  top: -10px;
+  font-size: 12px;
+  color: #222;
+}
+
+.custom-field input:not(:placeholder-shown),
+.custom-field input:focus {
+  background-size: 100% 0.15em, 100% 0.1em, 100%;
+}
+
+.colorSwitcherPopup {
+  position: absolute;
+  top: 1%;
+  right: 8%;
+}
+
+.notifications {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+}
+
+/* phishing page */
+.center {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 85%;
+}

@@ -1,0 +1,99 @@
+.center-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.bouncing-loader {
+  display: flex;
+  justify-content: center;
+  margin: 40px auto;
+}
+
+.bouncing-loader > div {
+  width: 16px;
+  height: 16px;
+  margin: 3px 6px;
+  border-radius: 50%;
+  background-color: #a3a1a1;
+  opacity: 1;
+  animation: bouncing-loader 0.6s infinite alternate;
+}
+
+@keyframes bouncing-loader {
+  to {
+    opacity: 0.1;
+    transform: translateY(-16px);
+  }
+}
+
+.bouncing-loader > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bouncing-loader > div:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.confirm-button {
+  min-width: 100px;
+  border-radius: .5em;
+  background-color: #ffffff;
+  border-color: #7e7e7e;
+  color: black;
+  font-weight: bold;
+  width: 90%;
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+
+.reject-button {
+  min-width: 100px;
+  border-radius: .5em;
+  background-color: #0e0e0e;
+  border-color: white;
+  font-weight: bold;
+  color: white;
+  width: 90%;
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+
+
+.copy:hover {
+  background-color: #3E3E3E;
+}
+
+.zoom:hover {
+  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+@font-face {
+  font-family: "ArchivoBold";
+  src: local("ArchivoBold"),
+   url("../../fonts/Archivo-Bold.ttf") format("truetype");
+  font-weight: bold;
+  }
+
+  @font-face {
+    font-family: "ArchivoMedium";
+    src: local("ArchivoMedium"),
+     url("../../fonts/Archivo-Medium.ttf") format("truetype");
+    }
+
+    .font-archivo-medium {
+      font-family: "ArchivoMedium";
+     }
+
+  .font-archivo-bold {
+    font-family: "ArchivoBold";
+   }
+
+   .links:hover {
+    text-decoration: underline solid #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
