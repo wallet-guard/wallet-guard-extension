@@ -52,6 +52,8 @@ export function PhishingWarning() {
     integrations: [new BrowserTracing()],
   });
 
+  posthog.capture('shown phishing page', { proceedAnywayUrl, reason });
+
   function openSafeLink() {
     posthog.capture('open safe link', { mappedSafeUrl });
     chrome.tabs.update({ url: mappedSafeUrl });
