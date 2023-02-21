@@ -16,7 +16,7 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import posthog from 'posthog-js';
 import { toUnicode } from 'punycode';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BsQuestionCircleFill } from 'react-icons/bs';
 import { TwitterShareButton } from 'react-share';
@@ -41,18 +41,18 @@ export function PhishingWarning() {
   const logoSrc = 'images/wg_logos/Logo-phishing-protection.png';
   const warningText = getWarningText();
 
-  posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
-    api_host: 'https://app.posthog.com',
-    persistence: 'localStorage',
-    autocapture: false,
-  });
+  useEffect(() => {
+    posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
+      api_host: 'https://app.posthog.com',
+      persistence: 'localStorage',
+      autocapture: false,
+    });
 
-  Sentry.init({
-    dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
-    integrations: [new BrowserTracing()],
-  });
-
-  posthog.capture('shown phishing page', { proceedAnywayUrl, reason });
+    Sentry.init({
+      dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
+      integrations: [new BrowserTracing()],
+    });
+  }, []);
 
   function openSafeLink() {
     posthog.capture('open safe link', { mappedSafeUrl });
@@ -85,7 +85,7 @@ export function PhishingWarning() {
   }
 
   function getWarningText() {
-    posthog.capture('show phishing screen', { phishingWebsite: proceedAnywayUrl });
+    posthog.capture('show phishing screen', { phishingWebsite: proceedAnywayUrl, reason });
     if (isConfirmedPhishing) {
       return (
         <Text variant={'muted'} fontSize={'lg'}>

@@ -38,6 +38,7 @@ import { OnboardingWelcome } from './onboarding/OnboardingWelcome';
 import { OnboardingSimulation } from './onboarding/OnboardingSimulation';
 import { OnboardingCommunity } from './onboarding/OnboardingCommunity';
 import { OnboardingPhishing } from './onboarding/OnboardingPhishing';
+import { posthog } from 'posthog-js';
 
 export function DashboardTab() {
   const [walletInfo, setWalletInfo] = useState<WalletInfo[]>([]);
@@ -61,7 +62,12 @@ export function DashboardTab() {
 
     AlertHandler.clearNotifications();
     AlertHandler.getAllAlerts().then((_alertsFeed) => setAlertsHistory(_alertsFeed));
-    AlertHandler.removeAllUnreadAlerts().then((alerts) => setUnreadAlerts(alerts));
+    AlertHandler.removeAllUnreadAlerts().then((alerts) => {
+      chrome.action.getUserSettings().then((settings) => {
+        setUnreadAlerts(alerts);
+        posthog.capture('visit dashboard', { alertsCount: alerts.length, isPinned: settings.isOnToolbar });
+      });
+    });
     localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((res) => {
       if (res !== true) {
         setTutorialComplete(false);
