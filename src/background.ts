@@ -14,10 +14,15 @@ import { getCurrentSite } from './services/phishing/currentSiteService';
 import { checkUrlForPhishing } from './services/phishing/phishingService';
 import { checkAllWalletsAndCreateAlerts } from './services/http/versionService';
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
+import * as Sentry from '@sentry/react';
 
 const log = logger.child({ component: 'Background' });
 
 let currentPopup: undefined | number;
+
+Sentry.init({
+  dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
+});
 
 // Open Dashboard on Extension click
 chrome.action.onClicked.addListener(function (tab) {
