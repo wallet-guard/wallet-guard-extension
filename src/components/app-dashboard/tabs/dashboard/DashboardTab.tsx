@@ -62,12 +62,7 @@ export function DashboardTab() {
 
     AlertHandler.clearNotifications();
     AlertHandler.getAllAlerts().then((_alertsFeed) => setAlertsHistory(_alertsFeed));
-    AlertHandler.removeAllUnreadAlerts().then((alerts) => {
-      chrome.action.getUserSettings().then((settings) => {
-        setUnreadAlerts(alerts);
-        posthog.capture('visit dashboard', { alertsCount: alerts.length, isPinned: settings.isOnToolbar });
-      });
-    });
+    AlertHandler.removeAllUnreadAlerts().then((alerts) => setUnreadAlerts(alerts));
     localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((res) => {
       if (res !== true) {
         setTutorialComplete(false);
