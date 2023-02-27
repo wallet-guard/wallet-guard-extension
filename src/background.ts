@@ -107,14 +107,11 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     // TODO: Signin Anonymously
   }
 
-  chrome.storage.local.set({ settings: WG_DEFAULT_SETTINGS });
-
-  // TODO: Re-add this after txn simulation release
-  // localStorageHelpers.get<Settings>(WgKeys.Settings).then((res) => {
-  //   if (!res) {
-  //     chrome.storage.local.set({ settings: WG_DEFAULT_SETTINGS });
-  //   }
-  // });
+  localStorageHelpers.get<Settings>(WgKeys.Settings).then((res) => {
+    if (!res) {
+      chrome.storage.local.set({ settings: WG_DEFAULT_SETTINGS });
+    }
+  });
 
   const ONE_DAY_AS_MINUTES = 1440;
   chrome.alarms.create('checkVersions', {

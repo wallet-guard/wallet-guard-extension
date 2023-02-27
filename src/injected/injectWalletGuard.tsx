@@ -211,14 +211,14 @@ const addWalletGuardProxy = (provider: any) => {
         log.info(request, 'Request being sent');
         provider
           .request({ method: 'eth_chainId' })
-          .then((chainId: any) =>
-            REQUEST_MANAGER.request({
+          .then((chainId: any) => {
+            return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[0].from,
               transaction: request.params[0],
               method: request.method,
-            })
-          )
+            });
+          })
           .then((response: any) => {
             if (response === Response.Reject) {
               log.info('Reject');
@@ -252,16 +252,16 @@ const addWalletGuardProxy = (provider: any) => {
 
         provider
           .request({ method: 'eth_chainId' })
-          .then((chainId: any) =>
-            REQUEST_MANAGER.request({
+          .then((chainId: any) => {
+            return REQUEST_MANAGER.request({
               chainId,
               signer: params[0],
               domain: params['domain'],
               message: params['message'],
               primaryType: params['primaryType'],
               method: request.method,
-            })
-          )
+            });
+          })
           .then((response: any) => {
             if (response === Response.Reject) {
               log.info('Reject');
@@ -293,7 +293,7 @@ const addWalletGuardProxy = (provider: any) => {
         provider
           .request({ method: 'eth_chainId' })
           .then((chainId: any) => {
-            REQUEST_MANAGER.request({
+            return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[0],
               hash: request.params[1],
@@ -331,7 +331,7 @@ const addWalletGuardProxy = (provider: any) => {
         provider
           .request({ method: 'eth_chainId' })
           .then((chainId: any) => {
-            REQUEST_MANAGER.request({
+            return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[1],
               signMessage: request.params[0],
