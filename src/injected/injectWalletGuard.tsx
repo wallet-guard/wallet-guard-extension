@@ -105,10 +105,16 @@ const addWalletGuardProxy = (provider: any) => {
         const params = JSON.parse(request.params[1]);
         log.info({ params }, 'Request being sent');
 
+        let signer = params[0];
+
+        if (!signer) {
+          signer = request.params[0];
+        }
+
         // Sending response.
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
-          signer: params[0],
+          signer: signer,
           domain: params['domain'],
           message: params['message'],
           primaryType: params['primaryType'],
@@ -250,12 +256,18 @@ const addWalletGuardProxy = (provider: any) => {
         const params = JSON.parse(request.params[1]);
         log.info({ params }, 'Request being sent');
 
+        let signer = params[0];
+
+        if (!signer) {
+          signer = request.params[0];
+        }
+
         provider
           .request({ method: 'eth_chainId' })
           .then((chainId: any) => {
             return REQUEST_MANAGER.request({
               chainId,
-              signer: params[0],
+              signer: signer,
               domain: params['domain'],
               message: params['message'],
               primaryType: params['primaryType'],
