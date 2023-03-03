@@ -60,7 +60,6 @@ export const addSimulation = async (simulation: StoredSimulation) => {
   // Add new simulation to the front.
   simulations.push({ ...simulation });
 
-  console.log('add simulation', simulation);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -69,14 +68,12 @@ const completeSimulation = async (id: string, simulation: SimulationResponse) =>
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
     if (storedSimulation.id === id) {
-      console.log('simulation found id', id);
       log.debug('Simulation found id', id);
       storedSimulation.state = StoredSimulationState.Success;
       storedSimulation.simulation = simulation;
     }
   });
 
-  console.log('completeSimulation', simulation);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -91,7 +88,6 @@ export const skipSimulation = async (id: string) => {
     }
   });
 
-  console.log('skipSimulation', id);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -106,7 +102,6 @@ const revertSimulation = async (id: string, error?: string) => {
     }
   });
 
-  console.log('revertSimulation', id, error);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -117,7 +112,6 @@ export const removeSimulation = async (id: string) => {
     return storedSimulation.id !== id;
   });
 
-  console.log('removesimulation', id, simulations);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -133,7 +127,6 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
       : x
   );
 
-  console.log('update simulation state', state, id, simulations);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -151,7 +144,6 @@ const updateSimulatioWithErrorMsg = async (id: string, error?: string) => {
       : x
   );
 
-  console.log('update simulation with error msg', id, error, simulations);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -164,7 +156,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
     state = StoredSimulationState.Confirmed;
   }
 
-  console.log('args', args);
   if ('transaction' in args) {
     const result = await Promise.all([
       addSimulation({
@@ -198,7 +189,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
       fetchSignature(args),
     ]);
     response = result[1];
-    console.log(response, 'sign message response');
   } else {
     const result = await Promise.all([
       addSimulation({
@@ -227,7 +217,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
     if (!response.simulation) {
       throw new Error('Invalid state');
     }
-    console.log('made it through');
     return completeSimulation(args.id, response.simulation);
   }
 };

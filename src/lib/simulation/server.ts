@@ -36,7 +36,6 @@ export const fetchSimulate = async (args: {
     const { error } = await result.json();
     return { type: ResponseType.Error, error };
   } catch (e: any) {
-    console.log('ERROR: ', e);
     return { error: e.message, type: ResponseType.Error };
   }
 };
@@ -88,7 +87,6 @@ export const fetchSignature = async (
       return { type: ResponseType.Error };
     }
   } catch (e: any) {
-    console.log('ERROR: ', e);
     return { error: e.message, type: ResponseType.Error };
   }
 };

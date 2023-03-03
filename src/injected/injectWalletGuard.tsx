@@ -389,11 +389,9 @@ const addWalletGuardProxy = (provider: any) => {
         value: new Proxy(provider.sendAsync, sendAsyncHandler),
       });
       provider.isWalletGuard = true;
-      console.log('Wallet Guard is running!');
     } catch (error) {
       // If we can't add ourselves to this provider, don't mess with other providers.
       log.warn({ provider, error }, 'Could not attach to provider');
-      console.log('Wallet Guard could not start!');
     }
   }
 };
