@@ -12,6 +12,7 @@ import theme from '../lib/theme';
 import posthog from 'posthog-js';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
+import { Chatweb3Tab } from '../components/app-dashboard/tabs/chatweb3/Chatweb3Tab';
 
 export function Dashboard() {
   const pageData = useNavigation();
@@ -33,6 +34,8 @@ export function Dashboard() {
         return <DashboardTab />;
       case 'settings':
         return <SettingsTab />;
+      case 'chatweb3':
+        return <Chatweb3Tab />;
       case 'extensions':
         return <ExtensionsTab />;
       case 'alerts':
