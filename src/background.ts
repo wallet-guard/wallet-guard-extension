@@ -137,7 +137,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
   if (details.reason === 'update') {
     chrome.management.getSelf().then((res) => {
-      posthog.capture('update');
+      posthog.capture('update', { version: res.version });
     });
   }
 });
