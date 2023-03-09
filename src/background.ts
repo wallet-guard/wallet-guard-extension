@@ -15,7 +15,6 @@ import { checkUrlForPhishing } from './services/phishing/phishingService';
 import { checkAllWalletsAndCreateAlerts } from './services/http/versionService';
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
-import { posthog } from 'posthog-js';
 
 const log = logger.child({ component: 'Background' });
 
@@ -123,22 +122,9 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
   await checkAllWalletsAndCreateAlerts();
 
-  posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
-    api_host: 'https://app.posthog.com',
-    persistence: 'localStorage',
-    autocapture: false,
-  });
-
   if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
-    posthog.capture('install');
     openDashboard();
     chrome.runtime.setUninstallURL('https://forms.gle/KzGYKYFzUpYtTn9i8');
-  }
-
-  if (details.reason === 'update') {
-    chrome.management.getSelf().then((res) => {
-      posthog.capture('update', { version: res.version });
-    });
   }
 });
 
