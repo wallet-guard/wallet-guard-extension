@@ -52,11 +52,6 @@ export function DashboardTab() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const LAST_TUTORIAL_INDEX = 3;
 
-  function completeTutorial() {
-    setTutorialComplete(true);
-    chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
-  }
-
   useEffect(() => {
     getVersionFromLocalStorage();
 
@@ -70,6 +65,7 @@ export function DashboardTab() {
     });
     localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((res) => {
       if (res !== true) {
+        posthog.capture('startTutorial');
         setTutorialComplete(false);
       } else {
         setTutorialComplete(true);
@@ -89,13 +85,22 @@ export function DashboardTab() {
 
   function goToTutorialStep(index: number) {
     setTutorialStep(index);
+    posthog.capture('updateTutorialStep', { step: index });
   }
 
   function nextTutorialStep() {
     if (tutorialStep === LAST_TUTORIAL_INDEX) {
       completeTutorial();
+      return;
     }
     setTutorialStep((step) => step + 1);
+    posthog.capture('updateTutorialStep', { step: tutorialStep + 1 });
+  }
+
+  function completeTutorial() {
+    posthog.capture('completeTutorial');
+    setTutorialComplete(true);
+    chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
   }
 
   function getTutorialText() {

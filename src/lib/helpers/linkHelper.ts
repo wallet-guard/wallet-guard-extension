@@ -7,7 +7,7 @@ export function openGuide() {
 }
 
 export function openDashboard(updateCurrentURL = false) {
-  posthog.capture('open dashboard')
+  posthog.capture('open dashboard');
   if (updateCurrentURL) {
     chrome.tabs.update({ url: 'chrome-extension://pdgbckgdncnhihllonhnjbdoighgpimk/dashboard.html' });
   } else {
