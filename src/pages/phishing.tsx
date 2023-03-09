@@ -52,6 +52,7 @@ export function PhishingWarning() {
       dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
       integrations: [new BrowserTracing()],
     });
+    posthog.capture('show phishing screen', { phishingWebsite: proceedAnywayUrl, reason });
   }, []);
 
   function openSafeLink() {
@@ -85,7 +86,6 @@ export function PhishingWarning() {
   }
 
   function getWarningText() {
-    posthog.capture('show phishing screen', { phishingWebsite: proceedAnywayUrl, reason });
     if (isConfirmedPhishing) {
       return (
         <Text variant={'muted'} fontSize={'lg'}>
