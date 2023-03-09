@@ -32,6 +32,6 @@
   "background": {
     "service_worker": "js/background.js"
   },
-  "permissions": ["storage", "scripting", "tabs", "alarms", "management", "notifications"],
+  "permissions": ["storage", "tabs", "alarms", "management", "notifications"],
   "host_permissions": ["<all_urls>"]
 }
