@@ -1,5 +1,5 @@
 import posthog from 'posthog-js';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import type { StoredSimulation } from '../../lib/simulation/storage';
 import { simulationNeedsAction, StoredSimulationState, updateSimulationState } from '../../lib/simulation/storage';
 import { SimulationMethodType, SimulationWarningType } from '../../models/simulation/Transaction';
