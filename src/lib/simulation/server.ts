@@ -19,6 +19,7 @@ export const fetchSimulate = async (args: {
     });
 
     if (result.status === 200) {
+      // TODO: need TAS response model here on data
       const data = await result.json();
 
       if (result.status === 200) {
@@ -44,15 +45,15 @@ export const fetchSimulate = async (args: {
 export const fetchSignature = async (
   args: { id: string; chainId: string; signer: string } & (
     | {
-        domain: any;
-        message: any;
-      }
+      domain: any;
+      message: any;
+    }
     | {
-        hash: any;
-      }
+      hash: any;
+    }
     | {
-        signMessage: string;
-      }
+      signMessage: string;
+    }
   )
 ): Promise<Response> => {
   try {

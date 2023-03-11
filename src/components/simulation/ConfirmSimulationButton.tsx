@@ -10,8 +10,8 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
 
   if (simulationNeedsAction(state)) {
     return (
-      <div className="container">
-        <div className="row text-center pl-3 pr-3 pt-4">
+      <div className={`${styles['footer-container']}`}>
+        <div className="row px-3 pt-4">
           <div className="col-6 text-center">
             <button
               className={`${styles['reject-button']} btn`}
@@ -25,16 +25,18 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
             >
               <img
                 src="/images/popup/x.png"
-                alt=""
+                alt="x"
                 width={19}
-                className={`${styles['font-archivo-bold']} pr-2`}
+                className={`${styles['font-archivo-medium']} pr-2`}
                 style={{ marginTop: '-3px' }}
               />
               Reject
             </button>
           </div>
           <div className="col-6 text-center">
-            {state === StoredSimulationState.Success || state === StoredSimulationState.Revert ? (
+            {state === StoredSimulationState.Success ||
+            state === StoredSimulationState.Revert ||
+            state === StoredSimulationState.Error ? (
               <button
                 className={`${styles['confirm-button']} btn`}
                 onClick={() => {
@@ -48,9 +50,9 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
                 <div>
                   <img
                     src="/images/popup/circleCheck.png"
-                    alt=""
+                    alt="check"
                     width={23}
-                    className={`${styles['font-archivo-bold']} pr-2`}
+                    className={`${styles['font-archivo-medium']} pr-2`}
                     style={{ marginTop: '-2px' }}
                   />
                   Continue
@@ -75,9 +77,9 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
                 <div>
                   <img
                     src="/images/popup/circleCheck.png"
-                    alt=""
+                    alt="check"
                     width={23}
-                    className={`${styles['font-archivo-bold']} pr-2`}
+                    className={`${styles['font-archivo-medium']} pr-2`}
                     style={{ marginTop: '-2px' }}
                   />
                   Skip

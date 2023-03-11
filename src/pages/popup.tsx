@@ -13,6 +13,7 @@ import { StoredSimulationState } from '../lib/simulation/storage';
 import { SimulationWarningType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
+import { InsufficientFunds } from '../components/simulation/InsufficientFunds';
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
@@ -48,16 +49,32 @@ const Popup = () => {
       simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
   );
 
+  console.log(filteredSimulations);
+
   if (!filteredSimulations || filteredSimulations.length === 0) {
     return (
-      <div>
+      <>
         <NoSimulation />
-      </div>
+      </>
     );
   }
 
+  if (filteredSimulations[0].state === StoredSimulationState.Error) {
+    return (
+      <>
+        {/* todo: adding a errorType to the TAS response would be helpful to determine which UI to show, especially if multiple
+      warning screens could be shown here. (or base it on status code?)
+      type: insufficientFunds = this screen */}
+        <InsufficientFunds filteredSimulations={filteredSimulations} />
+      </>
+    );
+  }
+
+  if (!!filteredSimulations[0].error) {
+    return <>{/* TODO: Generalized error component */}</>;
+  }
   return (
-    <div>
+    <>
       <div style={{ backgroundColor: 'black' }}>
         <SimulationHeader />
       </div>
@@ -86,19 +103,9 @@ const Popup = () => {
       <div className="pb-4">
         <TransactionContent storedSimulation={filteredSimulations && filteredSimulations[0]} />
       </div>
-      <div style={{ clear: 'both', height: '100px' }} />
-      <div
-        className="text-center pb-4"
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          backgroundColor: '#232323',
-          width: '100%',
-        }}
-      >
-        <ConfirmSimulationButton storedSimulation={filteredSimulations && filteredSimulations[0]} />
-      </div>
-    </div>
+      <div style={{ height: '120px' }} />
+      <ConfirmSimulationButton storedSimulation={filteredSimulations && filteredSimulations[0]} />
+    </>
   );
 };
 
