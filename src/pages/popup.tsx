@@ -10,10 +10,10 @@ import { TransactionContent } from '../components/simulation/TransactionContent'
 import logger from '../lib/logger';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { StoredSimulationState } from '../lib/simulation/storage';
-import { ResponseType, SimulationWarningType } from '../models/simulation/Transaction';
+import { SimulationWarningType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
-import { InsufficientFunds } from '../components/simulation/InsufficientFunds';
+import { ErrorComponent } from '../components/simulation/Error';
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
@@ -49,8 +49,6 @@ const Popup = () => {
       simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
   );
 
-  console.log(filteredSimulations);
-
   if (!filteredSimulations || filteredSimulations.length === 0) {
     return (
       <>
@@ -59,21 +57,10 @@ const Popup = () => {
     );
   }
 
-  // TODO: I have no idea if we have a filtered simulation here or not. Does the 409 error code make it to here??
   if (!!filteredSimulations[0].error) {
-    return (
-      <>
-        {/* todo: adding a errorType to the TAS response would be helpful to determine which UI to show, especially if multiple
-      warning screens could be shown here. (or base it on status code?)
-      type: insufficientFunds = this screen */}
-        <InsufficientFunds filteredSimulations={filteredSimulations} />
-      </>
-    );
+    return <ErrorComponent filteredSimulations={filteredSimulations} type={filteredSimulations[0].error.type} />;
   }
 
-  if (!!filteredSimulations[0].error) {
-    return <>{/* TODO: Generalized error component */}</>;
-  }
   return (
     <>
       <div style={{ backgroundColor: 'black' }}>
