@@ -10,7 +10,7 @@ import { TransactionContent } from '../components/simulation/TransactionContent'
 import logger from '../lib/logger';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { StoredSimulationState } from '../lib/simulation/storage';
-import { SimulationWarningType } from '../models/simulation/Transaction';
+import { ResponseType, SimulationWarningType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { InsufficientFunds } from '../components/simulation/InsufficientFunds';
@@ -59,7 +59,8 @@ const Popup = () => {
     );
   }
 
-  if (filteredSimulations[0].state === StoredSimulationState.Error) {
+  // TODO: I have no idea if we have a filtered simulation here or not. Does the 409 error code make it to here??
+  if (filteredSimulations[0].state === ResponseType.InsufficientFunds) {
     return (
       <>
         {/* todo: adding a errorType to the TAS response would be helpful to determine which UI to show, especially if multiple

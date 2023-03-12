@@ -28,6 +28,12 @@ export const fetchSimulate = async (args: {
           simulation: data,
         };
       }
+      if (result.status === 409) {
+        return {
+          type: ResponseType.InsufficientFunds,
+          error: data.error,
+        };
+      }
       return {
         type: ResponseType.Revert,
         error: data.error,

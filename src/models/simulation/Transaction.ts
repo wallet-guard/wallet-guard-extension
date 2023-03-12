@@ -19,6 +19,7 @@ export enum ResponseType {
   Success = 'success',
   Revert = 'revert',
   Error = 'error',
+  InsufficientFunds = 'insufficient_funds',
 }
 
 export enum TokenType {
