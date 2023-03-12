@@ -1,4 +1,4 @@
-import type { SimulationResponse, Transaction } from '../../models/simulation/Transaction';
+import { ErrorType, SimulationErrorResponse, SimulationResponse, Transaction } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import { TAS_SERVER_URL_PROD } from '../environment';
 
@@ -21,28 +21,21 @@ export const fetchSimulate = async (args: {
     if (result.status === 200) {
       const data: SimulationResponse = await result.json();
 
-      if (data.error) {
+      if (data.error?.type === ErrorType.Revert) {
         return {
-          type: ResponseType.Error,
+          type: ResponseType.Revert,
           error: data.error,
         }
       }
 
-      if (result.status === 200) {
-        return {
-          type: ResponseType.Success,
-          simulation: data,
-        };
-      }
-
       return {
-        type: ResponseType.Revert,
-        error: data.error,
+        type: ResponseType.Success,
+        simulation: data,
       };
     }
 
-    const { error } = await result.json();
-    return { type: ResponseType.Error, error };
+    const data: SimulationErrorResponse = await result.json();
+    return { type: ResponseType.Error, error: data.error };
   } catch (e: any) {
     console.log('ERROR: ', e);
     return { error: e.message, type: ResponseType.Error };

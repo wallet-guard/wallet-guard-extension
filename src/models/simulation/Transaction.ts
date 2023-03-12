@@ -79,8 +79,12 @@ export type SimulationResponse = {
   addressDetails: SimulationAddressDetails;
   method: string;
   scanResult: PhishingResponse;
-  error?: SimulationError;
+  error: SimulationError | null;
 };
+
+export type SimulationErrorResponse = {
+  error: SimulationError;
+}
 
 export type SimulationError = {
   type: ErrorType;
@@ -89,8 +93,9 @@ export type SimulationError = {
 }
 
 export enum ErrorType {
-  InsufficientFunds = 'insufficient_funds',
-  MaxFee = 'max_block_gas_limit_reached',
+  InsufficientFunds = 'INSUFFICIENT_FUNDS',
+  MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
+  Revert = 'REVERT',
 }
 
 export enum SimulationWarningType {
