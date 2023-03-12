@@ -97,7 +97,7 @@ export const skipSimulation = async (id: string) => {
   return chrome.storage.local.set({ simulations });
 };
 
-const revertSimulation = async (id: string, error?: string) => {
+const revertSimulation = async (id: string, error?: SimulationError) => {
   const { simulations = [] } = await chrome.storage.local.get('simulations');
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
@@ -129,9 +129,9 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
   simulations = simulations.map((x: StoredSimulation) =>
     x.id === id
       ? {
-        ...x,
-        state,
-      }
+          ...x,
+          state,
+        }
       : x
   );
 
@@ -140,16 +140,16 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
 };
 
 // TODO(jqphu): dedup with above...
-const updateSimulatioWithErrorMsg = async (id: string, error?: string) => {
+const updateSimulatioWithErrorMsg = async (id: string, error?: SimulationError) => {
   let { simulations = [] } = await chrome.storage.local.get('simulations');
 
   simulations = simulations.map((x: StoredSimulation) =>
     x.id === id
       ? {
-        ...x,
-        error,
-        state: StoredSimulationState.Error,
-      }
+          ...x,
+          error,
+          state: StoredSimulationState.Error,
+        }
       : x
   );
 
@@ -215,7 +215,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
   }
 
   if (response.type === ResponseType.Error) {
-    if (response?.error === 'invalid chain id') {
+    if (response?.error?.message === 'invalid chain id') {
       // This will likely be a no-op but we want to handle it anyway.
       return skipSimulation(args.id);
     } else {
