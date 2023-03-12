@@ -127,8 +127,7 @@
     width: 100%;
     justify-content: center;
     margin-top: 1rem;
-    padding-left: 16rem;
-    padding-right: 16rem;
+
 
 
   }
@@ -137,8 +136,7 @@
     background: #070809;
     padding: 1.5rem;
     color: #ECECF1;
-    padding-left: 16rem;
-    padding-right: 16rem;
+
 
   }
   
@@ -167,9 +165,6 @@
     padding: 1.5rem;
     color: #ECECF1;
     animation: fadein 0.5s;
-    padding-left: 16rem;
-    padding-right: 16rem;
-
 
   }
   
@@ -180,8 +175,6 @@
   
   .apimessage, .usermessage, .usermessagewaiting {
     display: flex;
-    padding-left: 16rem;
-    padding-right: 16rem;
 
   }
   
