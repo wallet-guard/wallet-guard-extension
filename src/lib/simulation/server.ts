@@ -1,4 +1,4 @@
-import type { Transaction } from '../../models/simulation/Transaction';
+import type { SimulationResponse, Transaction } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import { TAS_SERVER_URL_PROD } from '../environment';
 
@@ -19,8 +19,14 @@ export const fetchSimulate = async (args: {
     });
 
     if (result.status === 200) {
-      // TODO: need TAS response model here on data
-      const data = await result.json();
+      const data: SimulationResponse = await result.json();
+
+      if (data.error) {
+        return {
+          type: ResponseType.Error,
+          error: data.error,
+        }
+      }
 
       if (result.status === 200) {
         return {
@@ -28,12 +34,7 @@ export const fetchSimulate = async (args: {
           simulation: data,
         };
       }
-      if (result.status === 409) {
-        return {
-          type: ResponseType.InsufficientFunds,
-          error: data.error,
-        };
-      }
+
       return {
         type: ResponseType.Revert,
         error: data.error,

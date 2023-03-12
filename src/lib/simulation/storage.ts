@@ -1,7 +1,7 @@
 // Storage wrapper for updating the storage.
 import logger from '../logger';
 import { fetchSimulate, fetchSignature } from './server';
-import type { RequestArgs, SimulationResponse } from '../../models/simulation/Transaction';
+import type { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 
 const log = logger.child({ component: 'Storage' });
@@ -51,7 +51,7 @@ export interface StoredSimulation {
   simulation?: SimulationResponse;
 
   /// Optional error message on Error
-  error?: string;
+  error?: SimulationError;
 }
 
 // Thank you Pocket Universe for leading the way in proxying transactions

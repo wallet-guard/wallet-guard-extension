@@ -60,7 +60,7 @@ const Popup = () => {
   }
 
   // TODO: I have no idea if we have a filtered simulation here or not. Does the 409 error code make it to here??
-  if (filteredSimulations[0].state === ResponseType.InsufficientFunds) {
+  if (!!filteredSimulations[0].error) {
     return (
       <>
         {/* todo: adding a errorType to the TAS response would be helpful to determine which UI to show, especially if multiple

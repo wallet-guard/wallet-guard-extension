@@ -24,7 +24,8 @@ export const InsufficientFunds = (props: InsufficientFundsProps) => {
           <h4 className={`${styles['font-archivo-medium']}`} style={{ color: 'white', marginBottom: '20px' }}>
             Insufficient funds
           </h4>
-          <div className="text-center">
+          {/* TODO: Circle back to this */}
+          {/* <div className="text-center">
             <p className={`${styles['font-archivo-medium']} text-muted`} style={{ marginBottom: 0 }}>
               Balance:
             </p>
@@ -38,7 +39,7 @@ export const InsufficientFunds = (props: InsufficientFundsProps) => {
             <p className={`${styles['font-archivo-medium']}`} style={{ color: 'white' }}>
               0.14 ETH + gas
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
       <ConfirmSimulationButton storedSimulation={filteredSimulations && filteredSimulations[0]} />
