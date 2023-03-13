@@ -12,7 +12,7 @@ export type Response = {
   // Only set on success.
   readonly simulation?: SimulationResponse;
   // Might be set on error.
-  readonly error?: string;
+  readonly error?: SimulationError;
 };
 
 export enum ResponseType {
@@ -79,8 +79,25 @@ export type SimulationResponse = {
   addressDetails: SimulationAddressDetails;
   method: string;
   scanResult: PhishingResponse;
-  error?: string;
+  error: SimulationError | null;
 };
+
+export type SimulationErrorResponse = {
+  error: SimulationError;
+}
+
+export type SimulationError = {
+  type: ErrorType;
+  message: string;
+  extraData: object | null;
+}
+
+export enum ErrorType {
+  InsufficientFunds = 'INSUFFICIENT_FUNDS',
+  MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
+  Revert = 'REVERT',
+  Error = 'ERROR',
+}
 
 export enum SimulationWarningType {
   None = 'NONE',

@@ -1,4 +1,4 @@
-import type { Transaction } from '../../models/simulation/Transaction';
+import { ErrorType, SimulationErrorResponse, SimulationResponse, Transaction } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import { TAS_SERVER_URL_PROD } from '../environment';
 
@@ -19,22 +19,23 @@ export const fetchSimulate = async (args: {
     });
 
     if (result.status === 200) {
-      const data = await result.json();
+      const data: SimulationResponse = await result.json();
 
-      if (result.status === 200) {
+      if (data.error?.type === ErrorType.Revert) {
         return {
-          type: ResponseType.Success,
-          simulation: data,
-        };
+          type: ResponseType.Revert,
+          error: data.error,
+        }
       }
+
       return {
-        type: ResponseType.Revert,
-        error: data.error,
+        type: ResponseType.Success,
+        simulation: data,
       };
     }
 
-    const { error } = await result.json();
-    return { type: ResponseType.Error, error };
+    const data: SimulationErrorResponse = await result.json();
+    return { type: ResponseType.Error, error: data.error };
   } catch (e: any) {
     console.log('ERROR: ', e);
     return { error: e.message, type: ResponseType.Error };
@@ -44,15 +45,15 @@ export const fetchSimulate = async (args: {
 export const fetchSignature = async (
   args: { id: string; chainId: string; signer: string } & (
     | {
-        domain: any;
-        message: any;
-      }
+      domain: any;
+      message: any;
+    }
     | {
-        hash: any;
-      }
+      hash: any;
+    }
     | {
-        signMessage: string;
-      }
+      signMessage: string;
+    }
   )
 ): Promise<Response> => {
   try {
@@ -66,24 +67,24 @@ export const fetchSignature = async (
     });
 
     if (result.status === 200) {
-      const data = await result.json();
+      const data: SimulationResponse = await result.json();
 
-      if (data) {
+      if (data.error?.type === ErrorType.Revert) {
         return {
-          type: ResponseType.Success,
-          simulation: data,
-        };
+          type: ResponseType.Revert,
+          error: data.error,
+        }
       }
 
       return {
-        type: ResponseType.Revert,
-        error: data.error,
+        type: ResponseType.Success,
+        simulation: data,
       };
     }
 
     try {
-      let { error } = await result.json();
-      return { type: ResponseType.Error, error };
+      const data: SimulationErrorResponse = await result.json();
+      return { type: ResponseType.Error, error: data.error };
     } catch (e) {
       return { type: ResponseType.Error };
     }

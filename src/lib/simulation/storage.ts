@@ -1,7 +1,7 @@
 // Storage wrapper for updating the storage.
 import logger from '../logger';
 import { fetchSimulate, fetchSignature } from './server';
-import type { RequestArgs, SimulationResponse } from '../../models/simulation/Transaction';
+import type { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 
 const log = logger.child({ component: 'Storage' });
@@ -15,6 +15,8 @@ export enum StoredSimulationState {
 
   // Error
   Error = 'Error',
+
+  InsufficientFunds = 'InsufficientFunds',
 
   // Successful simulation
   Success = 'Success',
@@ -49,7 +51,7 @@ export interface StoredSimulation {
   simulation?: SimulationResponse;
 
   /// Optional error message on Error
-  error?: string;
+  error?: SimulationError;
 }
 
 // Thank you Pocket Universe for leading the way in proxying transactions
@@ -95,7 +97,7 @@ export const skipSimulation = async (id: string) => {
   return chrome.storage.local.set({ simulations });
 };
 
-const revertSimulation = async (id: string, error?: string) => {
+const revertSimulation = async (id: string, error?: SimulationError) => {
   const { simulations = [] } = await chrome.storage.local.get('simulations');
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
@@ -127,9 +129,9 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
   simulations = simulations.map((x: StoredSimulation) =>
     x.id === id
       ? {
-          ...x,
-          state,
-        }
+        ...x,
+        state,
+      }
       : x
   );
 
@@ -138,16 +140,16 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
 };
 
 // TODO(jqphu): dedup with above...
-const updateSimulatioWithErrorMsg = async (id: string, error?: string) => {
+const updateSimulatioWithErrorMsg = async (id: string, error?: SimulationError) => {
   let { simulations = [] } = await chrome.storage.local.get('simulations');
 
   simulations = simulations.map((x: StoredSimulation) =>
     x.id === id
       ? {
-          ...x,
-          error,
-          state: StoredSimulationState.Error,
-        }
+        ...x,
+        error,
+        state: StoredSimulationState.Error,
+      }
       : x
   );
 
@@ -213,7 +215,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
   }
 
   if (response.type === ResponseType.Error) {
-    if (response?.error === 'invalid chain id') {
+    if (response?.error?.message === 'invalid chain id') {
       // This will likely be a no-op but we want to handle it anyway.
       return skipSimulation(args.id);
     } else {

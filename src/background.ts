@@ -1,6 +1,6 @@
 import logger from './lib/logger';
 import { REQUEST_COMMAND } from './lib/simulation/requests';
-import type { StoredSimulation } from './lib/simulation/storage';
+import { StoredSimulation, StoredSimulationState, updateSimulationState } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
 import { RequestArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
@@ -26,6 +26,7 @@ Sentry.init({
 
 // Open Dashboard on Extension click
 chrome.action.onClicked.addListener(function (tab) {
+  // TODO: Make this open the current popup if one exists
   openDashboard();
 });
 
@@ -138,6 +139,13 @@ chrome.runtime.onStartup.addListener(() => {
 chrome.windows.onRemoved.addListener((windowId: number) => {
   if (currentPopup && currentPopup === windowId) {
     currentPopup = undefined;
+    localStorageHelpers.get<StoredSimulation[]>(WgKeys.Simulations).then((res) => {
+      // Reject the simulation
+      if (res && res.length > 0) {
+        const id = res[0].id;
+        updateSimulationState(id, StoredSimulationState.Rejected);
+      }
+    });
   }
 });
 
