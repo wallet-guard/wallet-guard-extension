@@ -74,10 +74,10 @@ export type RequestArgs = {
 
 export type SimulationResponse = {
   warningType: SimulationWarningType;
-  message: string;
+  message: string[];
   stateChanges: SimulationStateChange[];
   addressDetails: SimulationAddressDetails;
-  method: string;
+  method: SimulationMethodType;
   scanResult: PhishingResponse;
   error: SimulationError | null;
 };
