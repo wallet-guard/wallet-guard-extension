@@ -50,11 +50,10 @@ Wallet Guard acts as an intermediary between your browser and wallet, analyzing 
       provider.isWalletGuard = true;
       console.log('Wallet Guard is running!');
     } catch (error) {
-      console.log('Wallet Guard could not start!');
+      // If we can't add ourselves to this provider, don't mess with other providers.
+      log.warn({ provider, error }, 'Could not attach to provider');
     }
   }
-};
-
 ```
 
 <br>

@@ -62,7 +62,6 @@ export function createDomainName(domainObj: ParseResultListed) {
 
   // Handle URLs like gov.uk, netlify.app, etc.
   if (!domain) {
-    console.log('domain is blank');
     return topLevelDomains.join('.');
   }
 

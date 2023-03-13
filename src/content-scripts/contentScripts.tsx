@@ -70,7 +70,6 @@ listenToRequest(async (request: RequestArgs) => {
 
         newSimulations.forEach((simulation: StoredSimulation) => {
           log.info('dispatching continue or reject');
-          console.log(simulation, 'simulationnnnnn');
           // Either dispatch the corresponding event, or push the item to new simulations.
           if (simulation.state === StoredSimulationState.Confirmed) {
             log.debug('Dispatch confirmed', simulation.id);
