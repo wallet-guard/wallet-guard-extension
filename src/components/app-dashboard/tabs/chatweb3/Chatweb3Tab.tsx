@@ -8,7 +8,7 @@ export const Chatweb3Tab = () => {
 
   //choose the screen size
   const handleResize = () => {
-    if (window.innerWidth < 1450) {
+    if (window.innerWidth < 1200) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
@@ -23,14 +23,14 @@ export const Chatweb3Tab = () => {
   return (
     <div>
       <div className="row">
-        <div className="col-10 " style={{ paddingLeft: '0px', marginLeft: '0px' }}>
+        <div
+          className="col-lg-12 col-xl-10 "
+          style={{ paddingLeft: '0px', marginLeft: '0px', paddingRight: '0px', marginRight: '0px' }}
+        >
           <Chatweb3Core message={userInput} />
         </div>
         {!isMobile && (
-          <div
-            className="col-2 text-center"
-            style={{ paddingTop: '4%', marginLeft: '-15px', boxShadow: '1px 0 0 #212121 inset' }}
-          >
+          <div className="col-2 text-center" style={{ paddingTop: '4%', boxShadow: '1px 0 0 #212121 inset' }}>
             <img src="/images/lightbulb.png" alt="" width={50} style={{ marginLeft: '80px', paddingBottom: '10px' }} />
 
             <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>Examples</h1>

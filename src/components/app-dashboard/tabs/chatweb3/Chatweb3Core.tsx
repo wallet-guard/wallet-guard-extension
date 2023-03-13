@@ -3,6 +3,8 @@ import styles from './chatweb3.module.css';
 import ReactMarkdown from 'react-markdown';
 import { v4 as uuidv4 } from 'uuid';
 import AIWriter from 'react-aiwriter';
+import { ChatWeb3UseCase } from './ChatWeb3UseCase';
+import { ChatWeb3Test } from './ChatWeb3Test';
 
 // type to define the message object
 type ChatWeb3Message = {
@@ -14,12 +16,23 @@ interface ChatWeb3CoreProps {
   message?: string;
 }
 
+const FADE_INTERVAL_MS = 1750;
+const WORD_CHANGE_INTERVAL_MS = FADE_INTERVAL_MS * 2;
+const WORDS_TO_ANIMATE = [
+  '"Explain the difference between ERC20 and ERC721"',
+  '"How should i store my seed phrase as secure as possible?"',
+  '"Explain to me what an NFT is as if I knew nothing"',
+];
+
 export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
   const [userInput, setUserInput] = useState('');
   const [history, setHistory] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [conversationID] = useState(uuidv4());
   const [messages, setMessages] = useState<ChatWeb3Message[]>([]);
+
+  const [fadeProp, setFadeProp] = useState<any>({ fade: styles.fadeIn });
+  const [wordOrder, setWordOrder] = useState(0);
 
   const messageListRef = useRef<any>(null);
   const textAreaRef = useRef<any>(null);
@@ -29,6 +42,22 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
     const messageList = messageListRef.current;
     messageList.scrollTop = messageList.scrollHeight;
   }, [messages]);
+
+  useEffect(() => {
+    const fadeTimeout = setInterval(() => {
+      fadeProp.fade === styles.fadeIn ? setFadeProp({ fade: styles.fadeOut }) : setFadeProp({ fade: styles.fadeIn });
+    }, FADE_INTERVAL_MS);
+
+    return () => clearInterval(fadeTimeout);
+  }, [fadeProp]);
+
+  useEffect(() => {
+    const wordTimeout = setInterval(() => {
+      setWordOrder((prevWordOrder) => (prevWordOrder + 1) % WORDS_TO_ANIMATE.length);
+    }, WORD_CHANGE_INTERVAL_MS);
+
+    return () => clearInterval(wordTimeout);
+  }, []);
 
   useEffect(() => {
     if (props.message) {
@@ -114,8 +143,11 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
   // Keep history in sync with messages
   useEffect(() => {
     if (messages.length >= 3) {
+      setHistory([messages[messages.length - 3], messages[messages.length - 2], messages[messages.length - 1]]);
+    } else if (messages.length >= 2) {
       setHistory([messages[messages.length - 2], messages[messages.length - 1]]);
     }
+    console.log(history, 'history');
   }, [messages]);
 
   return (
@@ -172,87 +204,68 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
         ) : (
           <div className={styles.nocloud}>
             <div ref={messageListRef}>
-              <h1 style={{ fontWeight: 'bold', fontSize: '2.5rem', paddingTop: '3%' }}>ChatWeb3</h1>
-              <div className="" style={{ paddingLeft: '7%' }}>
-                <div className="row col-md-offset-2" style={{ paddingTop: '10%' }}>
-                  <div className="col-4 box text-center">
-                    <img
-                      src="/images/lightbulb.png"
-                      alt=""
-                      width={50}
-                      style={{ marginLeft: '100px', paddingBottom: '10px' }}
-                    />
-
-                    <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginLeft: '-70px' }}>Examples</h1>
-                    <div
-                      className="card mt-4"
-                      style={{ backgroundColor: '#222222', maxWidth: '270px', borderRadius: '0.5rem' }}
-                    >
-                      <div className="card-body" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
-                        <h4>Use case #1</h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-4 box">
-                    <img
-                      src="/images/lightbulb.png"
-                      alt=""
-                      width={50}
-                      style={{ marginLeft: '100px', paddingBottom: '10px' }}
-                    />
-
-                    <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginLeft: '-70px' }}>Examples</h1>
-                    <div
-                      className="card mt-4"
-                      style={{ backgroundColor: '#222222', maxWidth: '270px', borderRadius: '0.5rem' }}
-                    >
-                      <div className="card-body" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
-                        <h4>Use case #1</h4>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-4 box">
-                    <img
-                      src="/images/lightbulb.png"
-                      alt=""
-                      width={50}
-                      style={{ marginLeft: '100px', paddingBottom: '10px' }}
-                    />
-
-                    <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginLeft: '-70px' }}>Examples</h1>
-                    <div
-                      className="card mt-4"
-                      style={{ backgroundColor: '#222222', maxWidth: '270px', borderRadius: '0.5rem' }}
-                    >
-                      <div className="card-body" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
-                        <h4>Use case #1</h4>
-                      </div>
-                    </div>
-                  </div>
+              <div className="container text-center">
+                <div className="row">
+                  <h1 style={{ fontWeight: 'bold', fontSize: '3.6rem' }}>
+                    Unleash the power of <span color="lime">Blockchain</span> AI
+                  </h1>
                 </div>
+
+                <h5 style={{ fontWeight: 'bold', fontSize: '1.6rem' }}>
+                  Your personal web3 security companion for all things web3 related.
+                </h5>
+
+                <div className="pt-2" style={{ position: 'relative', fontSize: '1.2rem' }}>
+                  <span className={fadeProp.fade}>{WORDS_TO_ANIMATE[wordOrder]}</span>
+                </div>
+
+                <ChatWeb3Test />
+
+                {/* <div className="row">
+                  <div className="col-lg-4 col-md-6 box">
+                    <ChatWeb3UseCase />
+                  </div>
+                  <div className="col-lg-4 col-md-6 box">
+                    <ChatWeb3UseCase />
+                  </div>
+                  <div className="col-lg-4 col-md-6 box">
+                    <ChatWeb3UseCase />
+                  </div>
+
+                  <div className="col-lg-4 col-md-6 box">
+                    <ChatWeb3UseCase />
+                  </div>
+                  <div className="col-lg-4 col-md-6 box">
+                    <ChatWeb3UseCase />
+                  </div>
+                  <div className="col-lg-4 col-md-6 box">
+                    <ChatWeb3UseCase />
+                  </div>
+                </div> */}
               </div>
             </div>
           </div>
         )}
-        <div className={styles.center}>
-          <div className={styles.cloudform}>
-            <form onSubmit={handleSubmit}>
-              <textarea
-                disabled={loading}
-                onKeyDown={handleEnter}
-                ref={textAreaRef}
-                autoFocus={false}
-                rows={1}
-                maxLength={512}
-                id="userInput"
-                name="userInput"
-                placeholder={loading ? 'Waiting for response...' : 'Type your question...'}
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                className={styles.textarea}
-              />
-              <button type="submit" disabled={loading} className={styles.generatebutton}>
-                {/* {loading ? (
+        <div className="container text-center" style={{ flex: 1, justifyContent: 'flex-end' }}>
+          <div className={styles.center}>
+            <div className={styles.cloudform}>
+              <form onSubmit={handleSubmit}>
+                <textarea
+                  disabled={loading}
+                  onKeyDown={handleEnter}
+                  ref={textAreaRef}
+                  autoFocus={false}
+                  rows={1}
+                  maxLength={512}
+                  id="userInput"
+                  name="userInput"
+                  placeholder={loading ? 'Waiting for response...' : 'Type your question...'}
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  className={styles.textarea}
+                />
+                <button type="submit" disabled={loading} className={styles.generatebutton}>
+                  {/* {loading ? (
                   <div className={styles.loadingwheel}>
                     <CircularProgress color="inherit" size={20} />{' '}
                   </div>
@@ -262,13 +275,14 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
                     <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
                   </svg>
                 )} */}
-              </button>
-            </form>
+                </button>
+              </form>
+            </div>
+            <p className="pt-2" style={{ color: '#909196', fontSize: '14px' }}>
+              ChatWeb3 Mar 13 Version. Our goal is to make web3, blockchain, and security more natural and safe to
+              interact with. Your feedback will help us improve.
+            </p>
           </div>
-          <p className="pt-2" style={{ color: '#909196', fontSize: '14px' }}>
-            ChatWeb3 Mar 13 Version. Our goal is to make web3, blockchain, and security more natural and safe to
-            interact with. Your feedback will help us improve.
-          </p>
         </div>
       </main>
     </div>

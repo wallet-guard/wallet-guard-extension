@@ -29,9 +29,9 @@ interface LinkItemProps {
 
 const GuestLinkItems: Array<LinkItemProps> = [
   { name: 'Dashboard', icon: FiHome, view: 'dashboard' },
-  { name: 'Alert History', icon: FiBell, view: 'alerts' },
   { name: 'Extensions', icon: FiFilePlus, view: 'extensions' },
   { name: 'ChatWeb3', icon: FiFilePlus, view: 'chatweb3' },
+  { name: 'Alert History', icon: FiBell, view: 'alerts' },
   { name: 'Settings', icon: FiSettings, view: 'settings' },
   { name: 'Support', icon: BsDiscord, view: '' as PageView, externalLink: 'https://discord.gg/mvbtaJzXDP' },
   { name: 'Academy', icon: BsBook, view: '' as PageView, externalLink: 'https://walletguard.app/academy' },

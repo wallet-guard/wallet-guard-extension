@@ -65,7 +65,7 @@
     resize: none;
     font-size: 1.1rem;
     padding: 1rem 2rem 1rem 2rem;
-    width: 55vw;
+    width: 50vw;
     border-radius: 0.5rem;
     border: 1px solid #30373d;
     background: #070809;
@@ -231,9 +231,10 @@
   }
 
   .nocloud {
+    display: flex;
     width: 100%;
     height: 700px;
-    text-align: center;
+    justify-content: center;
     padding-top: 10%;
   }
   
@@ -263,7 +264,7 @@
     opacity: 0.8;
   }
   
-  /* Mobile optimization */
+  /* Mobile optimization
   @media (max-width: 600px) {
   
     .main {
@@ -298,7 +299,7 @@
     width: 100%;
     text-align: center;
   }
-  }
+  } */
 
 
   .typewriter {
@@ -341,3 +342,43 @@
     justify-content: center;
     flex-wrap: wrap;
   }
+
+
+  .jsNametag{
+    position: absolute;
+  }
+  .jsNametag:nth-child(1){
+    animation-name: fade;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-duration: 5s;
+    animation-direction: alternate-reverse;  
+  }
+  
+  
+  .jsNametag:nth-child(2){
+    animation-name: fade;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-duration: 5s;
+    animation-direction: alternate;
+  }
+
+  
+  @keyframes fade{
+      0%,50% {
+        opacity: 0;
+  }
+      100%{
+        opacity: 1;
+    }
+  }
+
+
+  .fadeIn {
+    transition: opacity 1s ease;
+}
+.fadeOut {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
