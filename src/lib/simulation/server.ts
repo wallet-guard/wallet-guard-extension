@@ -67,25 +67,24 @@ export const fetchSignature = async (
     });
 
     if (result.status === 200) {
-      // TODO: Need types here as well
-      const data = await result.json();
+      const data: SimulationResponse = await result.json();
 
-      if (data) {
+      if (data.error?.type === ErrorType.Revert) {
         return {
-          type: ResponseType.Success,
-          simulation: data,
-        };
+          type: ResponseType.Revert,
+          error: data.error,
+        }
       }
 
       return {
-        type: ResponseType.Revert,
-        error: data.error,
+        type: ResponseType.Success,
+        simulation: data,
       };
     }
 
     try {
-      let { error } = await result.json();
-      return { type: ResponseType.Error, error };
+      const data: SimulationErrorResponse = await result.json();
+      return { type: ResponseType.Error, error: data.error };
     } catch (e) {
       return { type: ResponseType.Error };
     }
