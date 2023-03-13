@@ -59,7 +59,7 @@ const Popup = () => {
     );
   }
 
-  if (!!filteredSimulations[0].simulation?.error || !!filteredSimulations[0].error) {
+  if (filteredSimulations[0].simulation?.error || filteredSimulations[0].error) {
     return (
       <ErrorComponent
         filteredSimulations={filteredSimulations}

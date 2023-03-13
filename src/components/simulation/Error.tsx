@@ -25,10 +25,8 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
     switch (type) {
       case ErrorType.InsufficientFunds:
         return <InsufficientFundsComponent filteredSimulations={filteredSimulations} />;
-
       case ErrorType.Revert:
         return <RevertComponent filteredSimulations={filteredSimulations} />;
-
       default:
         return <GeneralErrorComponent filteredSimulations={filteredSimulations} />;
     }
@@ -55,7 +53,11 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
 
       <div className="row text-center" style={{ marginTop: '65px' }}>
         <div className="col-12">
-          <img src="/images/popup/simulation_error.png" alt="error" width={150} />
+          <img
+            src="/images/popup/simulation_error.png"
+            alt="A picture of a wallet UI with a red exclamation mark displayed in the center of the screen over an empty transaction screen representing an error"
+            width={150}
+          />
         </div>
       </div>
 

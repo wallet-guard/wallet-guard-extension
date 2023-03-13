@@ -25,7 +25,7 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
             >
               <img
                 src="/images/popup/x.png"
-                alt="x"
+                alt="An X icon in a circle, indicating cancel or close."
                 width={19}
                 className={`${styles['font-archivo-medium']} pr-2`}
                 style={{ marginTop: '-3px' }}
@@ -50,7 +50,7 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
                 <div>
                   <img
                     src="/images/popup/circleCheck.png"
-                    alt="check"
+                    alt="Circle with a checkmark in the center, indicating approval or continuation of the transaction."
                     width={23}
                     className={`${styles['font-archivo-medium']} pr-2`}
                     style={{ marginTop: '-2px' }}
@@ -77,7 +77,7 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
                 <div>
                   <img
                     src="/images/popup/circleCheck.png"
-                    alt="check"
+                    alt="Circle with a checkmark in the center, indicating approval or continuation of the transaction."
                     width={23}
                     className={`${styles['font-archivo-medium']} pr-2`}
                     style={{ marginTop: '-2px' }}
