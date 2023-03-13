@@ -44,6 +44,8 @@ const Popup = () => {
     });
   }, []);
 
+  // TODO: Consider the idea of filtering out anything that does not match the currentSite.
+  // Do not use currentSite service because someone could change tabs and get the data mismatched
   const filteredSimulations = storedSimulations?.filter(
     (simulation: StoredSimulation) =>
       simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
