@@ -235,7 +235,7 @@ export function DashboardTab() {
       </Modal>
       <div className="row" style={{ paddingTop: '5%' }}>
         <div className="col-12">
-          <div className="card" style={{ backgroundColor: '#121212' }}>
+          <div className="card" style={{ backgroundColor: '#222222' }}>
             <div className="card-body" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
               <div className="row align-items-center">
                 <div style={{ paddingLeft: '80px' }} className="col-md-12 col-lg-8">
@@ -266,7 +266,7 @@ export function DashboardTab() {
 
       <div className="row pt-5">
         <div className="col-12 pb-1">
-          <div className="card h-100" style={{ backgroundColor: '#121212' }}>
+          <div className="card h-100" style={{ backgroundColor: '#222222' }}>
             <div className="card-body">
               <div className="row pb-3 align-items-center" style={{ justifyContent: 'space-between' }}>
                 <div className="row align-items-center">
@@ -314,7 +314,7 @@ export function DashboardTab() {
 
       <div className="row pb-5 pt-5">
         <div className="col-12">
-          <div className="card" style={{ backgroundColor: '#121212' }}>
+          <div className="card" style={{ backgroundColor: '#222222' }}>
             <div className="card-body">
               <Heading as="h3" size="md" pb={4} paddingLeft={'10px'}>
                 Recent Alerts

@@ -103,9 +103,9 @@ export default function SimpleSidebar({ children }: any) {
   const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     return (
       <Box
-        bg={useColorModeValue('white', 'black')}
+        bg={useColorModeValue('white', '#111111')}
         borderRight="1px"
-        borderRightColor={'gray.900'}
+        borderRightColor={'#212121'}
         w={{ base: 'full', md: 60 }}
         pos="fixed"
         h="full"
@@ -155,7 +155,7 @@ export default function SimpleSidebar({ children }: any) {
   };
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'black')}>
+    <Box minH="100vh" bg={useColorModeValue('gray.100', '#111111')}>
       <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
       <Drawer
         autoFocus={false}

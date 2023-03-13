@@ -146,7 +146,7 @@ export default function ExtensionsTab() {
               sortByName(allExtensions).map((extension: Extension) => {
                 return (
                   <div className="col-xl-4 col-lg-6 col-sm-12 pt-3 pb-3" key={extension.id}>
-                    <div className="card h-100" style={{ backgroundColor: '#121212', minWidth: '260px' }}>
+                    <div className="card h-100" style={{ backgroundColor: '#222222', minWidth: '260px' }}>
                       <div className="card-body pb-5">
                         <div className="row" style={{ alignItems: 'center' }}>
                           <div className="col-3">

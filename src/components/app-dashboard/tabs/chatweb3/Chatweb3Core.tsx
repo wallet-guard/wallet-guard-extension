@@ -2,18 +2,24 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './chatweb3.module.css';
 import ReactMarkdown from 'react-markdown';
 import { v4 as uuidv4 } from 'uuid';
+import AIWriter from 'react-aiwriter';
 
-export const Chatweb3Core = () => {
+// type to define the message object
+type ChatWeb3Message = {
+  content: string;
+  role: string;
+};
+
+interface ChatWeb3CoreProps {
+  message?: string;
+}
+
+export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
   const [userInput, setUserInput] = useState('');
   const [history, setHistory] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [conversationID] = useState(uuidv4());
-  const [messages, setMessages] = useState([
-    {
-      content: 'Hi there! How can I help?',
-      role: 'assistant',
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatWeb3Message[]>([]);
 
   const messageListRef = useRef<any>(null);
   const textAreaRef = useRef<any>(null);
@@ -23,6 +29,15 @@ export const Chatweb3Core = () => {
     const messageList = messageListRef.current;
     messageList.scrollTop = messageList.scrollHeight;
   }, [messages]);
+
+  useEffect(() => {
+    if (props.message) {
+      setUserInput(props.message);
+    }
+    if (textAreaRef.current) {
+      textAreaRef.current.focus();
+    }
+  }, [props.message]);
 
   // Focus on text field on load
   useEffect(() => {
@@ -106,51 +121,119 @@ export const Chatweb3Core = () => {
   return (
     <div>
       <main className={styles.main}>
-        <div className={styles.cloud}>
-          <div ref={messageListRef} className={styles.messagelist}>
-            {messages.map((message, index) => {
-              return (
-                // The latest message sent by the user will be animated while waiting for a response
-                <div
-                  key={index}
-                  className={
-                    message.role === 'user' && loading && index === messages.length - 1
-                      ? styles.usermessagewaiting
-                      : message.role === 'assistant'
-                      ? styles.apimessage
-                      : styles.usermessage
-                  }
-                >
-                  {/* Display the correct icon depending on the message type */}
-                  <div className="pr-2">
-                    {message.role === 'user' ? (
-                      <img
-                        src="/images/wallets/metamask.png"
-                        alt="AI"
-                        width="30"
-                        height="30"
-                        className={styles.boticon}
-                      />
-                    ) : (
-                      <img
-                        src="/images/wallets/phantom.png"
-                        alt="Me"
-                        width="30"
-                        height="30"
-                        className={styles.usericon}
-                      />
-                    )}
-                  </div>
+        {messages.length !== 0 ? (
+          <div className={styles.cloud}>
+            <div ref={messageListRef} className={`${styles.messagelist}`}>
+              {messages.map((message, index) => {
+                return (
+                  // The latest message sent by the user will be animated while waiting for a response
+                  <div
+                    key={index}
+                    className={
+                      message.role === 'user' && loading && index === messages.length - 1
+                        ? styles.usermessagewaiting
+                        : message.role === 'assistant'
+                        ? styles.apimessage
+                        : styles.usermessage
+                    }
+                  >
+                    {/* Display the correct icon depending on the message type */}
+                    <div className="pr-2">
+                      {message.role === 'user' ? (
+                        <img
+                          src="/images/wallets/metamask.png"
+                          alt="AI"
+                          width="30"
+                          height="30"
+                          className={styles.boticon}
+                        />
+                      ) : (
+                        <img
+                          src="/images/wallets/phantom.png"
+                          alt="Me"
+                          width="30"
+                          height="30"
+                          className={styles.usericon}
+                        />
+                      )}
+                    </div>
 
-                  <div className={styles.markdownanswer}>
-                    {/* Messages are being rendered in Markdown format */}
-                    <ReactMarkdown linkTarget={'_blank'}>{message.content}</ReactMarkdown>
+                    <div className={`${styles.markdownanswer}`}>
+                      {/* Messages are being rendered in Markdown format */}
+                      {/* <AIWriter> */}
+                      <ReactMarkdown linkTarget={'_blank'}>{message.content}</ReactMarkdown>
+                      {/* </AIWriter> */}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div className={styles.nocloud}>
+            <div ref={messageListRef}>
+              <h1 style={{ fontWeight: 'bold', fontSize: '2.5rem', paddingTop: '3%' }}>ChatWeb3</h1>
+              <div className="" style={{ paddingLeft: '7%' }}>
+                <div className="row col-md-offset-2" style={{ paddingTop: '10%' }}>
+                  <div className="col-4 box text-center">
+                    <img
+                      src="/images/lightbulb.png"
+                      alt=""
+                      width={50}
+                      style={{ marginLeft: '100px', paddingBottom: '10px' }}
+                    />
+
+                    <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginLeft: '-70px' }}>Examples</h1>
+                    <div
+                      className="card mt-4"
+                      style={{ backgroundColor: '#222222', maxWidth: '270px', borderRadius: '0.5rem' }}
+                    >
+                      <div className="card-body" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
+                        <h4>Use case #1</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-4 box">
+                    <img
+                      src="/images/lightbulb.png"
+                      alt=""
+                      width={50}
+                      style={{ marginLeft: '100px', paddingBottom: '10px' }}
+                    />
+
+                    <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginLeft: '-70px' }}>Examples</h1>
+                    <div
+                      className="card mt-4"
+                      style={{ backgroundColor: '#222222', maxWidth: '270px', borderRadius: '0.5rem' }}
+                    >
+                      <div className="card-body" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
+                        <h4>Use case #1</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-4 box">
+                    <img
+                      src="/images/lightbulb.png"
+                      alt=""
+                      width={50}
+                      style={{ marginLeft: '100px', paddingBottom: '10px' }}
+                    />
+
+                    <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold', marginLeft: '-70px' }}>Examples</h1>
+                    <div
+                      className="card mt-4"
+                      style={{ backgroundColor: '#222222', maxWidth: '270px', borderRadius: '0.5rem' }}
+                    >
+                      <div className="card-body" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
+                        <h4>Use case #1</h4>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
         <div className={styles.center}>
           <div className={styles.cloudform}>
             <form onSubmit={handleSubmit}>
@@ -183,7 +266,7 @@ export const Chatweb3Core = () => {
             </form>
           </div>
           <p className="pt-2" style={{ color: '#909196', fontSize: '14px' }}>
-            ChatWeb3 Mar 13 Version. Free Research Preview. Our goal is to make AI systems more natural and safe to
+            ChatWeb3 Mar 13 Version. Our goal is to make web3, blockchain, and security more natural and safe to
             interact with. Your feedback will help us improve.
           </p>
         </div>
