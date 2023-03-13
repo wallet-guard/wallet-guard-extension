@@ -89,13 +89,14 @@ export type SimulationErrorResponse = {
 export type SimulationError = {
   type: ErrorType;
   message: string;
-  extraData: object;
+  extraData: object | null;
 }
 
 export enum ErrorType {
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
   Revert = 'REVERT',
+  Error = 'ERROR',
 }
 
 export enum SimulationWarningType {

@@ -67,6 +67,7 @@ export const fetchSignature = async (
     });
 
     if (result.status === 200) {
+      // TODO: Need types here as well
       const data = await result.json();
 
       if (data) {

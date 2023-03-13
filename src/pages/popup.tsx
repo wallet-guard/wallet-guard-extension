@@ -10,7 +10,7 @@ import { TransactionContent } from '../components/simulation/TransactionContent'
 import logger from '../lib/logger';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { StoredSimulationState } from '../lib/simulation/storage';
-import { SimulationWarningType } from '../models/simulation/Transaction';
+import { ErrorType, SimulationWarningType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
@@ -57,8 +57,13 @@ const Popup = () => {
     );
   }
 
-  if (!!filteredSimulations[0].error) {
-    return <ErrorComponent filteredSimulations={filteredSimulations} type={filteredSimulations[0].error.type} />;
+  if (!!filteredSimulations[0].simulation?.error || !!filteredSimulations[0].error) {
+    return (
+      <ErrorComponent
+        filteredSimulations={filteredSimulations}
+        type={filteredSimulations[0].simulation?.error?.type || filteredSimulations[0].error?.type || ErrorType.Error}
+      />
+    );
   }
 
   return (
