@@ -17,6 +17,8 @@ function convertObjectValuesToString(inputObj: any): any {
       output[x] = inputObj[x];
     } else if (typeof inputObj[x] === 'object') {
       output[x] = JSON.stringify(inputObj[x]);
+    } else if (typeof inputObj[x] === 'boolean') {
+      output[x] = inputObj[x];
     } else {
       output[x] = String(inputObj[x]);
     }
