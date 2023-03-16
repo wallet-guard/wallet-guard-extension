@@ -1,5 +1,4 @@
 import { ethErrors } from 'eth-rpc-errors';
-import { posthog } from 'posthog-js';
 import logger from '../lib/logger';
 import { RequestManager, Response } from '../lib/simulation/requests';
 
@@ -14,14 +13,10 @@ function convertObjectValuesToString(inputObj: any): any {
   const keys = Object.keys(inputObj);
   const output: any = {};
   for (let x of keys) {
-    if (Array.isArray(inputObj[x])) {
-      output[x] = inputObj[x];
-    } else if (typeof inputObj[x] === 'object') {
-      output[x] = JSON.stringify(inputObj[x]);
-    } else if (typeof inputObj[x] === 'boolean') {
-      output[x] = inputObj[x];
-    } else {
+    if (typeof inputObj[x] === 'number') {
       output[x] = String(inputObj[x]);
+    } else {
+      output[x] = inputObj[x];
     }
   }
 
@@ -105,7 +100,7 @@ const addWalletGuardProxy = (provider: any) => {
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
           signer: request.params[0].from,
-          transaction: request.params[0], // TODO: Check this convertObjectValuesToString
+          transaction: request.params[0], // this is type safe
           method: request.method,
         });
 
@@ -183,11 +178,14 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
+        const signer: string = request.params[1];
+        const signMessage: string = request.params[0];
+
         // Sending response.
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
-          signer: request.params[1],
-          signMessage: request.params[0], // TODO: Check if this needs convertObjectValuesToString
+          signer,
+          signMessage,
           method: request.method,
         });
 
@@ -245,7 +243,7 @@ const addWalletGuardProxy = (provider: any) => {
             return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[0].from,
-              transaction: request.params[0], // TODO: Check if this needs convertObjectValuesToString
+              transaction: request.params[0], // this is type safe
               method: request.method,
             });
           })
@@ -329,13 +327,16 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
+        const signer: string = request.params[0];
+        const hash: string = request.params[1];
+
         provider
           .request({ method: 'eth_chainId' })
           .then((chainId: any) => {
             return REQUEST_MANAGER.request({
               chainId,
-              signer: request.params[0],
-              hash: request.params[1], // TODO: Check if this needs convertObjectValuesToString
+              signer,
+              hash,
               method: request.method,
             });
           })
@@ -367,13 +368,16 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
+        const signer: string = request.params[1];
+        const signMessage: string = request.params[0];
+
         provider
           .request({ method: 'eth_chainId' })
           .then((chainId: any) => {
             return REQUEST_MANAGER.request({
               chainId,
-              signer: request.params[1],
-              signMessage: request.params[0], // TODO: check if this needs convertObjectValuesToString
+              signer,
+              signMessage,
               method: request.method,
             });
           })
