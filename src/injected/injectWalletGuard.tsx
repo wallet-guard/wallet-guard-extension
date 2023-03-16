@@ -1,4 +1,5 @@
 import { ethErrors } from 'eth-rpc-errors';
+import { posthog } from 'posthog-js';
 import logger from '../lib/logger';
 import { RequestManager, Response } from '../lib/simulation/requests';
 
@@ -104,7 +105,7 @@ const addWalletGuardProxy = (provider: any) => {
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
           signer: request.params[0].from,
-          transaction: request.params[0],
+          transaction: request.params[0], // TODO: Check this convertObjectValuesToString
           method: request.method,
         });
 
@@ -186,7 +187,7 @@ const addWalletGuardProxy = (provider: any) => {
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
           signer: request.params[1],
-          signMessage: request.params[0],
+          signMessage: request.params[0], // TODO: Check if this needs convertObjectValuesToString
           method: request.method,
         });
 
@@ -244,7 +245,7 @@ const addWalletGuardProxy = (provider: any) => {
             return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[0].from,
-              transaction: request.params[0],
+              transaction: request.params[0], // TODO: Check if this needs convertObjectValuesToString
               method: request.method,
             });
           })
@@ -334,7 +335,7 @@ const addWalletGuardProxy = (provider: any) => {
             return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[0],
-              hash: request.params[1],
+              hash: request.params[1], // TODO: Check if this needs convertObjectValuesToString
               method: request.method,
             });
           })
@@ -372,7 +373,7 @@ const addWalletGuardProxy = (provider: any) => {
             return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[1],
-              signMessage: request.params[0],
+              signMessage: request.params[0], // TODO: check if this needs convertObjectValuesToString
               method: request.method,
             });
           })
