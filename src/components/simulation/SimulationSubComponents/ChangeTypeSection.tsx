@@ -18,7 +18,7 @@ export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
           <div className="row">
             <div className="col-12">
               <h5
-                className={`${styles['font-archivo-bold']} card-title pb-1`}
+                className={`${styles['font-archivo-medium']} card-title pb-1`}
                 style={{ color: '#a8a8a8', fontSize: '20px', marginTop: '-4px' }}
               >
                 {props.title}

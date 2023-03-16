@@ -29,9 +29,7 @@ log.debug({ msg: 'Content Script Loaded' });
 let ids: string[] = [];
 
 const maybeRemoveId = (id: string) => {
-  log.debug('Maybe removing id', id);
   if (ids.includes(id)) {
-    log.debug('RemovingId', id);
     ids = ids.filter((thisId) => thisId !== id);
     removeSimulation(id);
   }
@@ -49,7 +47,6 @@ listenToRequest(async (request: RequestArgs) => {
 
   // Get User Settings
   localStorageHelpers.get<Settings>(WgKeys.Settings).then((settings) => {
-    log.info(settings, 'settings in contect scruot');
     if (!settings || !settings.simulationEnabled) {
       // Immediately respond continue.
       dispatchResponse({
@@ -63,14 +60,11 @@ listenToRequest(async (request: RequestArgs) => {
     // Page has sent an event, start listening to storage changes.
     // This ensures we don't listen to storage changes on every singel webpage.
     chrome.storage.onChanged.addListener((changes, area) => {
-      log.info('content scrupt on storage change');
       if (area === 'local' && changes['simulations']?.newValue) {
         const newSimulations = changes['simulations'].newValue;
-        log.info(newSimulations, 'Dispatching new values for simulation');
 
         newSimulations.forEach((simulation: StoredSimulation) => {
           log.info('dispatching continue or reject');
-          console.log(simulation, 'simulationnnnnn');
           // Either dispatch the corresponding event, or push the item to new simulations.
           if (simulation.state === StoredSimulationState.Confirmed) {
             log.debug('Dispatch confirmed', simulation.id);

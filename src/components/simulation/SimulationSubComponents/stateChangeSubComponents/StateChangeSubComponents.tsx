@@ -2,6 +2,21 @@ import React from 'react';
 import { SimulationStateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 
+function roundNumberIfNeccessary(num: string): string {
+  let result = Number(num).toFixed(4);
+
+  while (result.charAt(result.length - 1) === '0') {
+    result = result.substring(0, result.length - 1);
+  }
+
+  // If it is a whole number, remove the .
+  if (result.charAt(result.length - 1) === '.') {
+    result = result.substring(0, result.length - 1);
+  }
+
+  return result;
+}
+
 export const RevokeApprovalForAll = () => {
   return (
     <div style={{ display: 'flex' }}>
@@ -105,7 +120,7 @@ export const TransferToken = ({ stateChange }: { stateChange: SimulationStateCha
     <div>
       <h3 style={{ color: '#fb4b4b', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
         <b>
-          -{Number(stateChange.amount).toFixed(4)} {stateChange.symbol}
+          {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
         </b>
       </h3>
       <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
@@ -120,7 +135,7 @@ export const ReceiveToken = ({ stateChange }: { stateChange: SimulationStateChan
     <div>
       <h3 style={{ color: '#17FE00', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
         <b>
-          +{Number(stateChange.amount).toFixed(4)} {stateChange.symbol}
+          {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
         </b>
       </h3>
       <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
