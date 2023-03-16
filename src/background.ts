@@ -27,7 +27,7 @@ Sentry.init({
 // Open Dashboard on Extension click
 chrome.action.onClicked.addListener(function (tab) {
   // TODO: Make this open the current popup if one exists
-  openDashboard();
+  openDashboard('toolbar');
 });
 
 // MESSAGING
@@ -77,7 +77,7 @@ chrome.management.onInstalled.addListener(async (extensionInfo) => {
       key: `extension:${extensionInfo.id}`,
     } as AlertDetail;
     AlertHandler.create(activityInfo);
-    openDashboard();
+    openDashboard('malicious_extension');
   }
 });
 
@@ -124,8 +124,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   await checkAllWalletsAndCreateAlerts();
 
   if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
-    openDashboard();
-    chrome.runtime.setUninstallURL('https://forms.gle/KzGYKYFzUpYtTn9i8');
+    openDashboard('install');
   }
 });
 
