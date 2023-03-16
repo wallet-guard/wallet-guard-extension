@@ -1,3 +1,4 @@
+import { Tooltip } from '@chakra-ui/tooltip';
 import React from 'react';
 import { SimulationStateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
@@ -95,9 +96,19 @@ export const ReceiveNFT = ({ stateChange }: { stateChange: SimulationStateChange
       <h3 style={{ color: '#17FE00', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
         <b>+1 NFT</b>
       </h3>
-      <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
-        <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-      </p>
+      <Tooltip
+        hasArrow
+        label="OpenSea floor price"
+        placement="left"
+        bg="#212121"
+        color="white"
+        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+        style={{ borderRadius: '2em' }}
+      >
+        <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+        </p>
+      </Tooltip>
     </div>
   );
 };
@@ -108,9 +119,19 @@ export const TransferNFT = ({ stateChange }: { stateChange: SimulationStateChang
       <h3 style={{ color: '#fb4b4b', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
         <b>-1 NFT</b>
       </h3>
-      <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
-        <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-      </p>
+      <Tooltip
+        hasArrow
+        label="OpenSea floor price"
+        placement="left"
+        bg="#212121"
+        color="white"
+        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+        style={{ borderRadius: '2em' }}
+      >
+        <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+        </p>
+      </Tooltip>
     </div>
   );
 };
