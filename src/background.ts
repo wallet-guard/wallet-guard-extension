@@ -24,10 +24,16 @@ Sentry.init({
   dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
 });
 
-// Open Dashboard on Extension click
+// Open Dashboard or Simulation Popup on toolbar click
 chrome.action.onClicked.addListener(function (tab) {
-  // TODO: Make this open the current popup if one exists
-  openDashboard('toolbar');
+  // Open the current simulation popup if one exists
+  if (currentPopup && currentPopup !== -1) {
+    chrome.windows.update(currentPopup, {
+      focused: true,
+    });
+  } else {
+    openDashboard('toolbar');
+  }
 });
 
 // MESSAGING
