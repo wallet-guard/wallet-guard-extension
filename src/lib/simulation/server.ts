@@ -61,7 +61,6 @@ export const fetchSignature = async (
   args: RequestArgs
 ): Promise<Response> => {
   try {
-    console.log('ARGS:', args);
     const result: globalThis.Response = await fetch(`${TAS_SERVER_URL_PROD}/signature`, {
       method: 'POST',
       headers: {
