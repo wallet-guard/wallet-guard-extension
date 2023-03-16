@@ -13,7 +13,7 @@ function convertObjectValuesToString(inputObj: any): any {
   const keys = Object.keys(inputObj);
   const output: any = {};
   for (let x of keys) {
-    if (typeof inputObj[x] === 'number') {
+    if (typeof inputObj[x] === 'number' || typeof inputObj[x] === 'bigint') {
       output[x] = String(inputObj[x]);
     } else {
       output[x] = inputObj[x];
