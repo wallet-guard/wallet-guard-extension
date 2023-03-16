@@ -8,6 +8,7 @@ import { SimulationOverview } from './SimulationOverview';
 import GeneralErrorComponent from './SimulationSubComponents/errors/GeneralError';
 import InsufficientFundsComponent from './SimulationSubComponents/errors/InsufficientFundsError';
 import RevertComponent from './SimulationSubComponents/errors/RevertError';
+import UnauthorizedComponent from './SimulationSubComponents/errors/UnauthorizedError';
 
 interface ErrorComponentProps {
   filteredSimulations: StoredSimulation[];
@@ -23,6 +24,8 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
 
   function getErrorComponent() {
     switch (type) {
+      case ErrorType.Unauthorized:
+        return <UnauthorizedComponent filteredSimulations={filteredSimulations} />;
       case ErrorType.InsufficientFunds:
         return <InsufficientFundsComponent filteredSimulations={filteredSimulations} />;
       case ErrorType.Revert:

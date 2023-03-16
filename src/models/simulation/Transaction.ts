@@ -93,10 +93,11 @@ export type SimulationError = {
 }
 
 export enum ErrorType {
+  Unauthorized = 'UNAUTHORIZED',
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
   Revert = 'REVERT',
-  Error = 'ERROR',
+  GeneralError = 'ERROR',
 }
 
 export enum SimulationWarningType {
