@@ -118,7 +118,7 @@ export const ChatWeb3Test = () => {
             textAlign: 'center',
           }}
         >
-          <div className="pr-2"> {sun}</div>
+          <div className=""> {sun}</div>
 
           <p style={{ fontSize: '1.2rem', marginTop: '5px' }}>Use Cases</p>
           <div
@@ -178,7 +178,9 @@ export const ChatWeb3Test = () => {
             textAlign: 'center',
           }}
         >
-          <div style={{ display: 'flex' }}> {thunder}</div>
+          <div className="row">
+            <div className="col">{thunder}</div>
+          </div>
 
           <p style={{ fontSize: '1.2rem', marginTop: '5px' }}>Capabilities</p>
           <div
@@ -239,7 +241,7 @@ export const ChatWeb3Test = () => {
             textAlign: 'center',
           }}
         >
-          <div className="pr-2">{alert}</div>
+          <div className="">{alert}</div>
           <p style={{ fontSize: '1.2rem', marginTop: '5px' }}>Coming Soon...</p>
           <div
             className="hiderow"

@@ -17,7 +17,7 @@ interface ChatWeb3CoreProps {
 }
 
 const FADE_INTERVAL_MS = 1750;
-const WORD_CHANGE_INTERVAL_MS = FADE_INTERVAL_MS * 2;
+const WORD_CHANGE_INTERVAL_MS = FADE_INTERVAL_MS * 3;
 const WORDS_TO_ANIMATE = [
   '"Explain the difference between ERC20 and ERC721"',
   '"How should i store my seed phrase as secure as possible?"',
@@ -73,7 +73,7 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
     if (textAreaRef.current) {
       textAreaRef.current.focus();
     }
-  }, []);
+  }, [messages]);
 
   // Handle errors
   const handleError = () => {
@@ -96,10 +96,6 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
     setLoading(true);
     setMessages((prevMessages) => [...prevMessages, { content: userInput, role: 'user' }]);
 
-    console.log(history, 'history');
-
-    console.log({ content: userInput, role: 'user' }, 'userInput');
-
     // Send user question and history to API
     const response = await fetch('https://zz2dqmtmwz.us-east-2.awsapprunner.com/chatweb3/completion', {
       method: 'POST',
@@ -112,7 +108,6 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
         history: history,
       }),
     });
-    console.log(response, 'response');
     if (!response.ok) {
       handleError();
       return;
@@ -147,11 +142,10 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
     } else if (messages.length >= 2) {
       setHistory([messages[messages.length - 2], messages[messages.length - 1]]);
     }
-    console.log(history, 'history');
   }, [messages]);
 
   return (
-    <div>
+    <>
       <main className={styles.main}>
         {messages.length !== 0 ? (
           <div className={styles.cloud}>
@@ -163,38 +157,48 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
                     key={index}
                     className={
                       message.role === 'user' && loading && index === messages.length - 1
-                        ? styles.usermessagewaiting
+                        ? `${styles.usermessagewaiting}`
                         : message.role === 'assistant'
-                        ? styles.apimessage
-                        : styles.usermessage
+                        ? `${styles.apimessage}`
+                        : `${styles.usermessage}`
                     }
                   >
                     {/* Display the correct icon depending on the message type */}
-                    <div className="pr-2">
-                      {message.role === 'user' ? (
-                        <img
-                          src="/images/wallets/metamask.png"
-                          alt="AI"
-                          width="30"
-                          height="30"
-                          className={styles.boticon}
-                        />
-                      ) : (
-                        <img
-                          src="/images/wallets/phantom.png"
-                          alt="Me"
-                          width="30"
-                          height="30"
-                          className={styles.usericon}
-                        />
-                      )}
-                    </div>
+                    <div
+                      style={{
+                        width: 'min(100%, 800px)',
+                        margin: 'auto',
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                      }}
+                    >
+                      <div className="pr-2">
+                        {message.role === 'user' ? (
+                          <img
+                            src="/images/wallets/metamask.png"
+                            alt="AI"
+                            width="30"
+                            height="30"
+                            className={styles.boticon}
+                          />
+                        ) : (
+                          <img
+                            src="/images/wg_logos/Logo-Large-Transparent.png"
+                            alt="Me"
+                            width="30"
+                            height="30"
+                            className={styles.usericon}
+                            style={{ maxWidth: '30px', height: '30px' }}
+                          />
+                        )}
+                      </div>
 
-                    <div className={`${styles.markdownanswer}`}>
-                      {/* Messages are being rendered in Markdown format */}
-                      {/* <AIWriter> */}
-                      <ReactMarkdown linkTarget={'_blank'}>{message.content}</ReactMarkdown>
-                      {/* </AIWriter> */}
+                      <div className={`${styles.markdownanswer}`}>
+                        {/* Messages are being rendered in Markdown format */}
+                        {/* <AIWriter> */}
+                        <ReactMarkdown linkTarget={'_blank'}>{message.content}</ReactMarkdown>
+                        {/* </AIWriter> */}
+                      </div>
                     </div>
                   </div>
                 );
@@ -206,13 +210,11 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
             <div ref={messageListRef}>
               <div className="container text-center">
                 <div className="row">
-                  <h1 style={{ fontWeight: 'bold', fontSize: '3.6rem' }}>
-                    Unleash the power of <span color="lime">Blockchain</span> AI
-                  </h1>
+                  <h1 style={{ fontWeight: 'bold', fontSize: '4rem' }}>Leverage the power of ChatWeb3</h1>
                 </div>
 
-                <h5 style={{ fontWeight: 'bold', fontSize: '1.6rem' }}>
-                  Your personal web3 security companion for all things web3 related.
+                <h5 style={{ fontWeight: 'bold', fontSize: '1.5rem' }} className="pt-1">
+                  Your personal web3 security companion to help with all things blockchain.
                 </h5>
 
                 <div className="pt-2" style={{ position: 'relative', fontSize: '1.2rem' }}>
@@ -220,52 +222,31 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
                 </div>
 
                 <ChatWeb3Test />
-
-                {/* <div className="row">
-                  <div className="col-lg-4 col-md-6 box">
-                    <ChatWeb3UseCase />
-                  </div>
-                  <div className="col-lg-4 col-md-6 box">
-                    <ChatWeb3UseCase />
-                  </div>
-                  <div className="col-lg-4 col-md-6 box">
-                    <ChatWeb3UseCase />
-                  </div>
-
-                  <div className="col-lg-4 col-md-6 box">
-                    <ChatWeb3UseCase />
-                  </div>
-                  <div className="col-lg-4 col-md-6 box">
-                    <ChatWeb3UseCase />
-                  </div>
-                  <div className="col-lg-4 col-md-6 box">
-                    <ChatWeb3UseCase />
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
         )}
-        <div className="container text-center" style={{ flex: 1, justifyContent: 'flex-end' }}>
-          <div className={styles.center}>
-            <div className={styles.cloudform}>
-              <form onSubmit={handleSubmit}>
-                <textarea
-                  disabled={loading}
-                  onKeyDown={handleEnter}
-                  ref={textAreaRef}
-                  autoFocus={false}
-                  rows={1}
-                  maxLength={512}
-                  id="userInput"
-                  name="userInput"
-                  placeholder={loading ? 'Waiting for response...' : 'Type your question...'}
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                  className={styles.textarea}
-                />
-                <button type="submit" disabled={loading} className={styles.generatebutton}>
-                  {/* {loading ? (
+      </main>
+      <div className="container">
+        <div className={styles.center}>
+          <div className={`${styles.cloudform}`}>
+            <form onSubmit={handleSubmit}>
+              <textarea
+                disabled={loading}
+                onKeyDown={handleEnter}
+                ref={textAreaRef}
+                autoFocus={false}
+                rows={1}
+                maxLength={512}
+                id="userInput"
+                name="userInput"
+                placeholder={loading ? 'Waiting for response...' : 'Type your question...'}
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                className={styles.textarea}
+              />
+              <button type="submit" disabled={loading} className={styles.generatebutton}>
+                {/* {loading ? (
                   <div className={styles.loadingwheel}>
                     <CircularProgress color="inherit" size={20} />{' '}
                   </div>
@@ -275,16 +256,15 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
                     <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
                   </svg>
                 )} */}
-                </button>
-              </form>
-            </div>
-            <p className="pt-2" style={{ color: '#909196', fontSize: '14px' }}>
-              ChatWeb3 Mar 13 Version. Our goal is to make web3, blockchain, and security more natural and safe to
-              interact with. Your feedback will help us improve.
-            </p>
+              </button>
+            </form>
           </div>
+          <p className="pt-2 text-center" style={{ color: '#909196', fontSize: '14px' }}>
+            ChatWeb3 Mar 13 Version. Our goal is to make web3, blockchain, and security more natural and safe to
+            interact with. Your feedback will help us improve.
+          </p>
         </div>
-      </main>
-    </div>
+      </div>
+    </>
   );
 };

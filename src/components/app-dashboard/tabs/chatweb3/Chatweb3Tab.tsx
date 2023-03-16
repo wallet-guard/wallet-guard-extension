@@ -21,24 +21,37 @@ export const Chatweb3Tab = () => {
   });
 
   return (
-    <div>
+    <div style={{ paddingTop: '0px', marginTop: '0px' }}>
       <div className="row">
         <div
-          className="col-lg-12 col-xl-10 "
-          style={{ paddingLeft: '0px', marginLeft: '0px', paddingRight: '0px', marginRight: '0px' }}
+          className="col-lg-12 col-xl-10"
+          style={{
+            paddingLeft: '0px',
+            marginLeft: '0px',
+            paddingRight: '0px',
+            marginRight: '0px',
+          }}
         >
           <Chatweb3Core message={userInput} />
         </div>
         {!isMobile && (
-          <div className="col-2 text-center" style={{ paddingTop: '4%', boxShadow: '1px 0 0 #212121 inset' }}>
-            <img src="/images/lightbulb.png" alt="" width={50} style={{ marginLeft: '80px', paddingBottom: '10px' }} />
+          <div
+            className="col-2 text-center"
+            style={{ paddingTop: '4%', boxShadow: '1px 0 0 #212121 inset', alignItems: 'center' }}
+          >
+            <img
+              src="/images/lightbulb.png"
+              alt=""
+              width={50}
+              style={{ paddingBottom: '10px', alignItems: 'center', display: 'block', margin: 'auto' }}
+            />
 
             <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>Examples</h1>
             <button
               className={`mt-5 ${styles.links}`}
-              onClick={() => setUserInput('Explain the difference between ERC20 and ERC721')}
+              onClick={() => setUserInput('Which wallets have a strong reputation in bullet points?')}
             >
-              "Explain the difference between ERC20 and ERC721"{' '}
+              "Which wallets have a strong reputation?"{' '}
               <img src="/images/arrow.png" alt="" width={13} style={{ display: 'inline-block' }} />
             </button>
 

@@ -7,4 +7,4 @@ export const PDS_SERVER_URL_PROD = 'https://walletguard-phishing-detection-servi
 export const EDS_URL_PROD = 'https://bkep3tnrs3.us-east-2.awsapprunner.com';
 
 // TAS
-export const TAS_SERVER_URL_PROD = 'http://localhost:8081';
+export const TAS_SERVER_URL_PROD = 'https://walletguard-transaction-analysis-service-prod.com';
