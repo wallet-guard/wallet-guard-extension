@@ -11,7 +11,7 @@ const GoodStandingComponent = () => {
       </div>
       <div className="row">
         <div className="col-12" style={{ paddingLeft: '25px' }}>
-          <p style={{ paddingTop: '3%' }}>We'll let you know if we detect anything suspicous while you're browsing.</p>
+          <p style={{ paddingTop: '3%' }}>We'll let you know if we detect anything suspicious while you're browsing.</p>
         </div>
       </div>
     </>
