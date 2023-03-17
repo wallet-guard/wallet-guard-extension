@@ -1,6 +1,6 @@
 import logger from './lib/logger';
 import { REQUEST_COMMAND } from './lib/simulation/requests';
-import type { StoredSimulation } from './lib/simulation/storage';
+import { StoredSimulation, StoredSimulationState, updateSimulationState } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
 import { RequestArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
@@ -24,9 +24,16 @@ Sentry.init({
   dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
 });
 
-// Open Dashboard on Extension click
+// Open Dashboard or Simulation Popup on toolbar click
 chrome.action.onClicked.addListener(function (tab) {
-  openDashboard();
+  // Open the current simulation popup if one exists
+  if (currentPopup && currentPopup !== -1) {
+    chrome.windows.update(currentPopup, {
+      focused: true,
+    });
+  } else {
+    openDashboard('toolbar');
+  }
 });
 
 // MESSAGING
@@ -76,7 +83,7 @@ chrome.management.onInstalled.addListener(async (extensionInfo) => {
       key: `extension:${extensionInfo.id}`,
     } as AlertDetail;
     AlertHandler.create(activityInfo);
-    openDashboard();
+    openDashboard('malicious_extension');
   }
 });
 
@@ -108,6 +115,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   }
 
   localStorageHelpers.get<Settings>(WgKeys.Settings).then((res) => {
+    // if the user don't have any settings, set the default settings
     if (!res) {
       chrome.storage.local.set({ settings: WG_DEFAULT_SETTINGS });
     }
@@ -122,15 +130,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   await checkAllWalletsAndCreateAlerts();
 
   if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
-    openDashboard();
-    chrome.runtime.setUninstallURL('https://forms.gle/KzGYKYFzUpYtTn9i8');
-    // registerInstall();
-  }
-
-  if (details.reason === 'update') {
-    chrome.management.getSelf().then((res) => {
-      // register update
-    });
+    openDashboard('install');
   }
 });
 
@@ -144,6 +144,13 @@ chrome.runtime.onStartup.addListener(() => {
 chrome.windows.onRemoved.addListener((windowId: number) => {
   if (currentPopup && currentPopup === windowId) {
     currentPopup = undefined;
+    localStorageHelpers.get<StoredSimulation[]>(WgKeys.Simulations).then((res) => {
+      // Reject the simulation
+      if (res && res.length > 0) {
+        const id = res[0].id;
+        updateSimulationState(id, StoredSimulationState.Rejected);
+      }
+    });
   }
 });
 

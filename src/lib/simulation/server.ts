@@ -1,15 +1,11 @@
-import type { Transaction } from '../../models/simulation/Transaction';
+import { ErrorType, RequestArgs, SimulationErrorResponse, SimulationResponse, Transaction } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import { TAS_SERVER_URL_PROD } from '../environment';
 
-export const fetchSimulate = async (args: {
-  id: string;
-  signer: string;
-  chainId: string;
-  transaction: Transaction;
-}): Promise<Response> => {
+// TODO: add unit tests for these 2 functions
+export const fetchSimulate = async (args: RequestArgs): Promise<Response> => {
   try {
-    const result: any = await fetch(`${TAS_SERVER_URL_PROD}/simulate`, {
+    const result: globalThis.Response = await fetch(`${TAS_SERVER_URL_PROD}/simulate`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -19,44 +15,53 @@ export const fetchSimulate = async (args: {
     });
 
     if (result.status === 200) {
-      const data = await result.json();
+      const data: SimulationResponse = await result.json();
 
-      if (result.status === 200) {
+      if (data.error?.type === ErrorType.Revert) {
         return {
-          type: ResponseType.Success,
-          simulation: data,
-        };
+          type: ResponseType.Revert,
+          error: data.error,
+        }
       }
+
       return {
-        type: ResponseType.Revert,
-        error: data.error,
+        type: ResponseType.Success,
+        simulation: data,
       };
     }
 
-    const { error } = await result.json();
-    return { type: ResponseType.Error, error };
+    if (result.status === 403) {
+      return {
+        type: ResponseType.Error,
+        error: {
+          type: ErrorType.Unauthorized,
+          message: "Unauthorized",
+          extraData: null
+        }
+      };
+    }
+
+    const data: SimulationErrorResponse = await result.json();
+    return { type: ResponseType.Error, error: data.error };
   } catch (e: any) {
+    // if data.error is undefined it is most likely a network error
     console.log('ERROR: ', e);
-    return { error: e.message, type: ResponseType.Error };
+    return {
+      error: {
+        type: ErrorType.GeneralError,
+        message: 'An unknown error occurred',
+        extraData: null
+      },
+      type: ResponseType.Error
+    };
   }
 };
 
 export const fetchSignature = async (
-  args: { id: string; chainId: string; signer: string } & (
-    | {
-        domain: any;
-        message: any;
-      }
-    | {
-        hash: any;
-      }
-    | {
-        signMessage: string;
-      }
-  )
+  args: RequestArgs
 ): Promise<Response> => {
   try {
-    const result: any = await fetch(`${TAS_SERVER_URL_PROD}/signature`, {
+    const result: globalThis.Response = await fetch(`${TAS_SERVER_URL_PROD}/signature`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -66,29 +71,44 @@ export const fetchSignature = async (
     });
 
     if (result.status === 200) {
-      const data = await result.json();
+      const data: SimulationResponse = await result.json();
 
-      if (data) {
+      if (data.error?.type === ErrorType.Revert) {
         return {
-          type: ResponseType.Success,
-          simulation: data,
-        };
+          type: ResponseType.Revert,
+          error: data.error,
+        }
       }
 
       return {
-        type: ResponseType.Revert,
-        error: data.error,
+        type: ResponseType.Success,
+        simulation: data,
       };
     }
 
-    try {
-      let { error } = await result.json();
-      return { type: ResponseType.Error, error };
-    } catch (e) {
-      return { type: ResponseType.Error };
+    if (result.status === 403) {
+      return {
+        type: ResponseType.Error,
+        error: {
+          type: ErrorType.Unauthorized,
+          message: "Unauthorized",
+          extraData: null
+        }
+      };
     }
+
+    const data: SimulationErrorResponse = await result.json();
+    return { type: ResponseType.Error, error: data.error };
   } catch (e: any) {
+    // if data.error is undefined it is most likely a network error
     console.log('ERROR: ', e);
-    return { error: e.message, type: ResponseType.Error };
+    return {
+      error: {
+        type: ErrorType.GeneralError,
+        message: 'An unknown error occurred',
+        extraData: null
+      },
+      type: ResponseType.Error
+    };
   }
 };

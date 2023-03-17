@@ -39,6 +39,7 @@ import { OnboardingSimulation } from './onboarding/OnboardingSimulation';
 import { OnboardingCommunity } from './onboarding/OnboardingCommunity';
 import { OnboardingPhishing } from './onboarding/OnboardingPhishing';
 import { posthog } from 'posthog-js';
+import { openGuide } from '../../../../lib/helpers/linkHelper';
 
 export function DashboardTab() {
   const [walletInfo, setWalletInfo] = useState<WalletInfo[]>([]);
@@ -51,11 +52,6 @@ export function DashboardTab() {
   const [tutorialStep, setTutorialStep] = useState<number>(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const LAST_TUTORIAL_INDEX = 3;
-
-  function completeTutorial() {
-    setTutorialComplete(true);
-    chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
-  }
 
   useEffect(() => {
     getVersionFromLocalStorage();
@@ -70,6 +66,7 @@ export function DashboardTab() {
     });
     localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((res) => {
       if (res !== true) {
+        posthog.capture('startTutorial');
         setTutorialComplete(false);
       } else {
         setTutorialComplete(true);
@@ -89,13 +86,22 @@ export function DashboardTab() {
 
   function goToTutorialStep(index: number) {
     setTutorialStep(index);
+    posthog.capture('updateTutorialStep', { step: index });
   }
 
   function nextTutorialStep() {
     if (tutorialStep === LAST_TUTORIAL_INDEX) {
       completeTutorial();
+      return;
     }
     setTutorialStep((step) => step + 1);
+    posthog.capture('updateTutorialStep', { step: tutorialStep + 1 });
+  }
+
+  function completeTutorial() {
+    posthog.capture('completeTutorial');
+    setTutorialComplete(true);
+    chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
   }
 
   function getTutorialText() {
@@ -119,12 +125,6 @@ export function DashboardTab() {
 
     setSettings(newSettings);
     chrome.storage.local.set({ settings: newSettings });
-  }
-
-  function openGuide() {
-    chrome.tabs.create({
-      url: 'https://medium.com/@walletguardofficial/how-to-update-browser-extensions-e61b1138cf7e',
-    });
   }
 
   async function getVersionFromLocalStorage() {

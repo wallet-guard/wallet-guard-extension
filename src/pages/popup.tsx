@@ -10,9 +10,10 @@ import { TransactionContent } from '../components/simulation/TransactionContent'
 import logger from '../lib/logger';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { StoredSimulationState } from '../lib/simulation/storage';
-import { SimulationWarningType } from '../models/simulation/Transaction';
+import { ErrorType, SimulationWarningType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
+import { ErrorComponent } from '../components/simulation/Error';
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
@@ -30,6 +31,10 @@ const Popup = () => {
     integrations: [new BrowserTracing()],
   });
 
+  // SET THIS TEMPORARILY TO UPDATE CURRENT USERS - Remove after 0.7.5
+  const uid = posthog.get_distinct_id();
+  chrome.runtime.setUninstallURL('https://walletguard.app/uninstall?id=' + uid);
+
   useEffect(() => {
     chrome.storage.local.get('simulations').then(({ simulations }) => {
       setStoredSimulations(simulations);
@@ -43,6 +48,8 @@ const Popup = () => {
     });
   }, []);
 
+  // TODO: Consider the idea of filtering out anything that does not match the currentSite.
+  // Do not use currentSite service because someone could change tabs and get the data mismatched
   const filteredSimulations = storedSimulations?.filter(
     (simulation: StoredSimulation) =>
       simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
@@ -50,14 +57,25 @@ const Popup = () => {
 
   if (!filteredSimulations || filteredSimulations.length === 0) {
     return (
-      <div>
+      <>
         <NoSimulation />
-      </div>
+      </>
+    );
+  }
+
+  if (filteredSimulations[0].simulation?.error || filteredSimulations[0].error) {
+    return (
+      <ErrorComponent
+        filteredSimulations={filteredSimulations}
+        type={
+          filteredSimulations[0].simulation?.error?.type || filteredSimulations[0].error?.type || ErrorType.GeneralError
+        }
+      />
     );
   }
 
   return (
-    <div>
+    <>
       <div style={{ backgroundColor: 'black' }}>
         <SimulationHeader />
       </div>
@@ -86,19 +104,9 @@ const Popup = () => {
       <div className="pb-4">
         <TransactionContent storedSimulation={filteredSimulations && filteredSimulations[0]} />
       </div>
-      <div style={{ clear: 'both', height: '100px' }} />
-      <div
-        className="text-center pb-4"
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          backgroundColor: '#232323',
-          width: '100%',
-        }}
-      >
-        <ConfirmSimulationButton storedSimulation={filteredSimulations && filteredSimulations[0]} />
-      </div>
-    </div>
+      <div style={{ height: '120px' }} />
+      <ConfirmSimulationButton storedSimulation={filteredSimulations && filteredSimulations[0]} />
+    </>
   );
 };
 

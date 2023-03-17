@@ -30,7 +30,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
           <div className="row">
             <div className="col-12" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               <h5
-                className={`${styles['font-archivo-bold']} card-title`}
+                className={`${styles['font-archivo-medium']} card-title`}
                 style={{ color: '#ffffff', fontSize: '21px', marginTop: '-15px' }}
               >
                 {storedSimulation.simulation?.method === SimulationMethodType.EthSendTransaction
@@ -46,7 +46,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
             <div className="container">
               <div className="row pt-1">
                 <div className="col-12">
-                  <p className={`${styles['font-archivo-bold']}`} style={{ color: '#a8a8a8' }}>
+                  <p className={`${styles['font-archivo-medium']}`} style={{ color: '#a8a8a8' }}>
                     Website
                   </p>
                 </div>
@@ -66,7 +66,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
                       bg="#212121"
                       color="white"
                       placement="right"
-                      className={`${styles['font-archivo-bold']} pl-2 pr-2 pt-1 pb-1`}
+                      className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
                       style={{ borderRadius: '2em' }}
                     >
                       <img
@@ -85,7 +85,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
                       bg="#212121"
                       color="white"
                       placement="right"
-                      className={`${styles['font-archivo-bold']} pl-2 pr-2 pt-1 pb-1`}
+                      className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
                       style={{ borderRadius: '2em' }}
                     >
                       <img
@@ -104,7 +104,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
                         bg="#212121"
                         color="white"
                         placement="right"
-                        className={`${styles['font-archivo-bold']} pl-2 pr-2 pt-1 pb-1`}
+                        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
                         style={{ borderRadius: '2em' }}
                       >
                         <img
@@ -125,7 +125,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
               <div className="container">
                 <div className="row">
                   <div className="col-12">
-                    <p className={`${styles['font-archivo-bold']}`} style={{ color: '#a8a8a8' }}>
+                    <p className={`${styles['font-archivo-medium']}`} style={{ color: '#a8a8a8' }}>
                       {storedSimulation.simulation?.addressDetails.addressType === 'CONTRACT' ? 'Contract' : 'address'}
                     </p>
                   </div>
@@ -164,7 +164,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
                               color: 'white',
                             }}
                           >
-                            <b>{add3DotsMiddle(storedSimulation.simulation?.addressDetails.address, 6)}</b>
+                            <b>{add3DotsMiddle(storedSimulation.simulation?.addressDetails.address, 8)}</b>
                           </p>
                           {hasCopied ? (
                             <img
@@ -192,7 +192,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
                         bg="#212121"
                         color="white"
                         placement="right"
-                        className={`${styles['font-archivo-bold']} pl-2 pr-2 pb-1`}
+                        className="pl-2 pr-2 pb-1"
                         style={{ borderRadius: '2em' }}
                       >
                         <img

@@ -6,5 +6,6 @@ export enum WgKeys {
   CurrentSite = 'currentSite',
   Metamask = 'metamask', // Current version of metamask and wallets.. yes this was poorly named
   Phantom = 'phantom',
-  TutorialComplete = 'tutorialComplete'
+  TutorialComplete = 'tutorialComplete',
+  Simulations = 'simulations',
 }

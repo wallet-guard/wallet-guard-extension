@@ -36,13 +36,21 @@
   animation-delay: 0.4s;
 }
 
+.footer-container {
+  position: fixed;
+  bottom: 0;
+  background-color: #232323;
+  width: 100%;
+  padding-bottom: 1.5rem !important;
+}
+
 .confirm-button {
   min-width: 100px;
   border-radius: .5em;
   background-color: #ffffff;
   border-color: #7e7e7e;
   color: black;
-  font-weight: bold;
+  font-weight: 500;
   width: 90%;
   padding-bottom: 12px;
   padding-top: 12px;
@@ -53,7 +61,7 @@
   border-radius: .5em;
   background-color: #0e0e0e;
   border-color: white;
-  font-weight: bold;
+  font-weight: 500;
   color: white;
   width: 90%;
   padding-bottom: 12px;
@@ -82,15 +90,15 @@
      url("../../fonts/Archivo-Medium.ttf") format("truetype");
     }
 
-    .font-archivo-medium {
-      font-family: "ArchivoMedium";
-     }
+  .font-archivo-medium {
+    font-family: "ArchivoMedium";
+  }
 
   .font-archivo-bold {
     font-family: "ArchivoBold";
-   }
+  }
 
-   .links:hover {
+  .links:hover {
     text-decoration: underline solid #ffffff;
   }
 
