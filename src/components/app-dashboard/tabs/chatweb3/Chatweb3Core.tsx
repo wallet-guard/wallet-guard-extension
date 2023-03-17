@@ -19,7 +19,7 @@ interface ChatWeb3CoreProps {
 const FADE_INTERVAL_MS = 1750;
 const WORD_CHANGE_INTERVAL_MS = FADE_INTERVAL_MS * 2;
 const WORDS_TO_ANIMATE = [
-  '"How should i store my seed phrase as secure as possible?"',
+  '"How should I store my seed phrase as secure as possible?"',
   '"Explain to me what an NFT is as if I knew nothing"',
   '"What is the difference between a hardware wallet and a software wallet?"',
   '"Which wallets have a strong reputation in bullet points?"',
