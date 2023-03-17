@@ -94,11 +94,6 @@ export function ChecklistItem(props: ChecklistItemProps) {
           <Heading as="h6" fontSize={22}>
             {details.text}
             {icon}
-            {(name === 'binance' || name === 'trustwallet') && (
-              <Badge pl="1" fontSize="13px" colorScheme="green" marginLeft={'7px'}>
-                New
-              </Badge>
-            )}
             {localVersion && localVersion !== latestVersion && (
               <Badge className={styles.hover} pl="1" fontSize="13px" colorScheme="yellow" marginLeft={'7px'}>
                 Update

@@ -3,23 +3,23 @@ import { SimulationMethodType, SimulationWarningType } from '../../models/simula
 import styles from './simulation.module.css';
 
 export interface OverviewProps {
-  warningType: string;
-  message: string;
-  method?: string;
+  warningType: SimulationWarningType;
+  message: string[];
+  method?: SimulationMethodType;
 }
 
 export const SimulationOverview = (props: OverviewProps) => {
   return (
     <div
       style={
-        props.warningType === 'WARN'
+        props.warningType === SimulationWarningType.Warn
           ? { backgroundColor: '#fb4b4b', marginBottom: '-26px' }
           : { backgroundColor: '#484848', marginBottom: '-26px' }
       }
     >
       <div className="container pt-3">
         <div className="pl-3" style={{ display: 'flex' }}>
-          {props.warningType === 'WARN' && (
+          {props.warningType === SimulationWarningType.Warn && (
             <img
               src="/images/popup/white-danger.png"
               alt=""
@@ -53,7 +53,7 @@ export const SimulationOverview = (props: OverviewProps) => {
 
         <p className={`${styles['font-archivo-medium']} pl-3 pb-3 pr-2`} style={{ color: 'white', fontSize: '16px' }}>
           {props.message
-            ? props.message
+            ? props.message.join(' ')
             : 'We seem to be having some trouble simulating this transaction. Please continue with caution.'}
         </p>
       </div>

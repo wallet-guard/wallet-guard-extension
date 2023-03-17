@@ -67,7 +67,9 @@ const Popup = () => {
     return (
       <ErrorComponent
         filteredSimulations={filteredSimulations}
-        type={filteredSimulations[0].simulation?.error?.type || filteredSimulations[0].error?.type || ErrorType.Error}
+        type={
+          filteredSimulations[0].simulation?.error?.type || filteredSimulations[0].error?.type || ErrorType.GeneralError
+        }
       />
     );
   }

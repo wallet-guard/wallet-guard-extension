@@ -8,6 +8,21 @@ declare global {
   }
 }
 
+// this function standardizes all values sent to the API into strings to prevent type errors
+function convertObjectValuesToString(inputObj: any): any {
+  const keys = Object.keys(inputObj);
+  const output: any = {};
+  for (let x of keys) {
+    if (typeof inputObj[x] === 'number' || typeof inputObj[x] === 'bigint') {
+      output[x] = String(inputObj[x]);
+    } else {
+      output[x] = inputObj[x];
+    }
+  }
+
+  return output;
+}
+
 const log = logger.child({ component: 'Injected' });
 log.debug({ msg: 'Injected script loaded.' });
 
@@ -21,6 +36,7 @@ let timer: NodeJS.Timer | undefined = undefined;
 // https://github.com/RevokeCash/browser-extension
 // https://github.com/jqphu/PocketUniverse
 const addWalletGuardProxy = (provider: any) => {
+  console.log('added proxy');
   const sendHandler = {
     apply: (target: any, thisArg: any, args: any[]) => {
       const [payloadOrMethod, callbackOrParams] = args;
@@ -84,7 +100,7 @@ const addWalletGuardProxy = (provider: any) => {
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
           signer: request.params[0].from,
-          transaction: request.params[0],
+          transaction: request.params[0], // this is type safe
           method: request.method,
         });
 
@@ -105,18 +121,21 @@ const addWalletGuardProxy = (provider: any) => {
         const params = JSON.parse(request.params[1]);
         log.info({ params }, 'Request being sent');
 
-        let signer = params[0];
+        let signer: string = params[0];
 
         if (!signer) {
           signer = request.params[0];
         }
 
+        const domain = convertObjectValuesToString(params.domain);
+        const message = convertObjectValuesToString(params.message);
+
         // Sending response.
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
           signer: signer,
-          domain: params['domain'],
-          message: params['message'],
+          domain: domain,
+          message: message,
           primaryType: params['primaryType'],
           method: request.method,
         });
@@ -159,11 +178,14 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
+        const signer: string = request.params[1];
+        const signMessage: string = request.params[0];
+
         // Sending response.
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
-          signer: request.params[1],
-          signMessage: request.params[0],
+          signer,
+          signMessage,
           method: request.method,
         });
 
@@ -221,7 +243,7 @@ const addWalletGuardProxy = (provider: any) => {
             return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[0].from,
-              transaction: request.params[0],
+              transaction: request.params[0], // this is type safe
               method: request.method,
             });
           })
@@ -256,11 +278,14 @@ const addWalletGuardProxy = (provider: any) => {
         const params = JSON.parse(request.params[1]);
         log.info({ params }, 'Request being sent');
 
-        let signer = params[0];
+        let signer: string = params[0];
 
         if (!signer) {
           signer = request.params[0];
         }
+
+        const domain = convertObjectValuesToString(params.domain);
+        const message = convertObjectValuesToString(params.message);
 
         provider
           .request({ method: 'eth_chainId' })
@@ -268,8 +293,8 @@ const addWalletGuardProxy = (provider: any) => {
             return REQUEST_MANAGER.request({
               chainId,
               signer: signer,
-              domain: params['domain'],
-              message: params['message'],
+              domain: domain,
+              message: message,
               primaryType: params['primaryType'],
               method: request.method,
             });
@@ -302,13 +327,16 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
+        const signer: string = request.params[0];
+        const hash: string = request.params[1];
+
         provider
           .request({ method: 'eth_chainId' })
           .then((chainId: any) => {
             return REQUEST_MANAGER.request({
               chainId,
-              signer: request.params[0],
-              hash: request.params[1],
+              signer,
+              hash,
               method: request.method,
             });
           })
@@ -340,13 +368,16 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
+        const signer: string = request.params[1];
+        const signMessage: string = request.params[0];
+
         provider
           .request({ method: 'eth_chainId' })
           .then((chainId: any) => {
             return REQUEST_MANAGER.request({
               chainId,
-              signer: request.params[1],
-              signMessage: request.params[0],
+              signer,
+              signMessage,
               method: request.method,
             });
           })

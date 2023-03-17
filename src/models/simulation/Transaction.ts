@@ -74,10 +74,10 @@ export type RequestArgs = {
 
 export type SimulationResponse = {
   warningType: SimulationWarningType;
-  message: string;
+  message: string[];
   stateChanges: SimulationStateChange[];
   addressDetails: SimulationAddressDetails;
-  method: string;
+  method: SimulationMethodType;
   scanResult: PhishingResponse;
   error: SimulationError | null;
 };
@@ -93,10 +93,11 @@ export type SimulationError = {
 }
 
 export enum ErrorType {
+  Unauthorized = 'UNAUTHORIZED',
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
   Revert = 'REVERT',
-  Error = 'ERROR',
+  GeneralError = 'ERROR',
 }
 
 export enum SimulationWarningType {
