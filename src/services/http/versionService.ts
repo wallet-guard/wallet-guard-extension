@@ -71,7 +71,7 @@ export async function checkAllWalletsAndCreateAlerts() {
         name: `${capitalizeFirstLetter(wallet.name)} Version`,
         category: AlertCategory.WalletOutOfDate,
         details: 'View the update guide for more info',
-        link: 'https://medium.com/@walletguardofficial/how-to-update-browser-extensions-e61b1138cf7e',
+        link: 'https://www.walletguard.app/blog/how-to-update-browser-extensions',
         key: `${wallet.name}:${wallet.latestVersion}`
       } as AlertDetail);
     });
