@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './chatWeb3.module.css';
+import styles from './chatWeb3Styles.module.css';
 import ReactMarkdown from 'react-markdown';
 import { v4 as uuidv4 } from 'uuid';
 import AIWriter from 'react-aiwriter';

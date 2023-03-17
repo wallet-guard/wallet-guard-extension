@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ChatWeb3Core as ChatWeb3Core } from './Chatweb3Core';
-import styles from './chatweb3.module.css';
+import { ChatWeb3Core as ChatWeb3Core } from './ChatWeb3Core';
+import styles from './chatWeb3Styles.module.css';
 
 export const ChatWeb3Tab = () => {
   const [userInput, setUserInput] = useState('');

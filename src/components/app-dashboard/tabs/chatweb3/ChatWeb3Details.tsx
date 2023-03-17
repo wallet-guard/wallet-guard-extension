@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './chatweb3.module.css';
+import styles from './chatweb3Styles.module.css';
 import { sun, thunder, alert } from './icons';
 
 interface ChatWeb3DetailTextBoxProps {
