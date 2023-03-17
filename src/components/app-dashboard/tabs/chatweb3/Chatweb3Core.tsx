@@ -232,7 +232,7 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
                 ref={textAreaRef}
                 autoFocus={false}
                 rows={1}
-                maxLength={512}
+                maxLength={4000}
                 id="userInput"
                 name="userInput"
                 placeholder={loading ? 'Waiting for response...' : 'Type your question...'}

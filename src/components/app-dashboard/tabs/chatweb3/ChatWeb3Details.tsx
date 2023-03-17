@@ -158,8 +158,8 @@ export const ChatWeb3Details = () => {
 
           <p style={{ fontSize: '1.2rem', marginTop: '5px' }}>Limitations</p>
           <div className={`${styles.details} hiderow`}>May occasionally generate incorrect information</div>
-          <div className={`${styles.details} hiderow`}>May produce biased content</div>
-          <div className={`${styles.details} hiderow`}>Always do your own research</div>
+          <div className={`${styles.details} hiderow`}>May occasionally produce biased content</div>
+          <div className={`${styles.details} hiderow`}>Limited knowledge while in beta version</div>
         </div>
       </div>
     </div>
