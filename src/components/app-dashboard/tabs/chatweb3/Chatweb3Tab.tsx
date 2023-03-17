@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Chatweb3Core } from './Chatweb3Core';
+import { ChatWeb3Core as ChatWeb3Core } from './Chatweb3Core';
 import styles from './chatweb3.module.css';
 
-export const Chatweb3Tab = () => {
+export const ChatWeb3Tab = () => {
   const [userInput, setUserInput] = useState('');
   const [isMobile, setIsMobile] = useState(false);
 
@@ -32,7 +32,7 @@ export const Chatweb3Tab = () => {
             marginRight: '0px',
           }}
         >
-          <Chatweb3Core message={userInput} />
+          <ChatWeb3Core message={userInput} />
         </div>
         {!isMobile && (
           <div
@@ -52,9 +52,9 @@ export const Chatweb3Tab = () => {
             </p>
             <button
               className={`mt-5 ${styles.links}`}
-              onClick={() => setUserInput('Why should i use a password manager espically in web3')}
+              onClick={() => setUserInput('Why should i use a password manager especially in web3')}
             >
-              "Why should i use a password manager espically in web3?"{' '}
+              "Why should i use a password manager especially in web3?"{' '}
               <img src="/images/arrow.png" alt="" width={13} style={{ display: 'inline-block' }} />
             </button>
             <button
@@ -69,7 +69,7 @@ export const Chatweb3Tab = () => {
               className={`mt-5 ${styles.links}`}
               onClick={() => setUserInput('How should i store my seed phrase as secure as possible?')}
             >
-              "How should i store my seed phrase as secure as possible?"{' '}
+              "How should I store my seed phrase as secure as possible?"{' '}
               <img src="/images/arrow.png" alt="" width={13} style={{ display: 'inline-block' }} />
             </button>
 

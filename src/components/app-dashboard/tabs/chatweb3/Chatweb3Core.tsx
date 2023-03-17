@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './chatweb3.module.css';
+import styles from './chatWeb3.module.css';
 import ReactMarkdown from 'react-markdown';
 import { v4 as uuidv4 } from 'uuid';
 import AIWriter from 'react-aiwriter';
-import { ChatWeb3UseCase } from './ChatWeb3UseCase';
 import { ChatWeb3Details } from './ChatWeb3Details';
 
 // type to define the message object
@@ -25,7 +24,7 @@ const WORDS_TO_ANIMATE = [
   '"Which wallets have a strong reputation in bullet points?"',
 ];
 
-export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
+export const ChatWeb3Core = (props: ChatWeb3CoreProps) => {
   const [userInput, setUserInput] = useState('');
   const [history, setHistory] = useState<any>([]);
   const [loading, setLoading] = useState(false);
