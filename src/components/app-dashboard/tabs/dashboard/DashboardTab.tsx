@@ -39,6 +39,7 @@ import { OnboardingSimulation } from './onboarding/OnboardingSimulation';
 import { OnboardingCommunity } from './onboarding/OnboardingCommunity';
 import { OnboardingPhishing } from './onboarding/OnboardingPhishing';
 import { posthog } from 'posthog-js';
+import { openGuide } from '../../../../lib/helpers/linkHelper';
 
 export function DashboardTab() {
   const [walletInfo, setWalletInfo] = useState<WalletInfo[]>([]);
@@ -124,12 +125,6 @@ export function DashboardTab() {
 
     setSettings(newSettings);
     chrome.storage.local.set({ settings: newSettings });
-  }
-
-  function openGuide() {
-    chrome.tabs.create({
-      url: 'https://medium.com/@walletguardofficial/how-to-update-browser-extensions-e61b1138cf7e',
-    });
   }
 
   async function getVersionFromLocalStorage() {
