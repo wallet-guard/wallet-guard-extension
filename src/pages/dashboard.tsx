@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import SimpleSidebar from '../components/app-dashboard/layout/Sidebar';
 import AlertsTab from '../components/app-dashboard/tabs/alerts/AlertsTab';
@@ -16,16 +16,29 @@ import { BrowserTracing } from '@sentry/tracing';
 export function Dashboard() {
   const pageData = useNavigation();
 
-  posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
-    api_host: 'https://app.posthog.com',
-    persistence: 'localStorage',
-    autocapture: false,
-  });
+  useEffect(() => {
+    posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
+      api_host: 'https://app.posthog.com',
+      persistence: 'localStorage',
+      autocapture: false,
+    });
 
-  Sentry.init({
-    dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
-    integrations: [new BrowserTracing()],
-  });
+    Sentry.init({
+      dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
+      integrations: [new BrowserTracing()],
+    });
+
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const source = urlSearchParams.get('source');
+
+    if (process.env.NODE_ENV === 'production' && source === 'install') {
+      const uid = posthog.get_distinct_id();
+      posthog.capture('install');
+      chrome.runtime.setUninstallURL('https://walletguard.app/uninstall?id=' + uid);
+    }
+
+    posthog.capture('open dashboard', { source });
+  }, []);
 
   function getCurrentView() {
     switch (pageData.currentPage) {
