@@ -20,7 +20,7 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
 
   posthog.capture('show simulation error', {
     filteredSimulations,
-    type,
+    errorType: type,
   });
 
   function getErrorComponent() {
