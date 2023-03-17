@@ -6,6 +6,7 @@ import styles from '../../simulation.module.css';
 function roundNumberIfNeccessary(num: string): string {
   let result = Number(num).toFixed(4);
 
+  // Remove any trailing 0s
   while (result.charAt(result.length - 1) === '0') {
     result = result.substring(0, result.length - 1);
   }
