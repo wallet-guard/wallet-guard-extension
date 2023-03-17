@@ -1,6 +1,6 @@
 export function openGuide() {
   chrome.tabs.create({
-    url: 'https://medium.com/@walletguardofficial/how-to-update-browser-extensions-e61b1138cf7e'
+    url: 'https://www.walletguard.app/blog/how-to-update-browser-extensions'
   });
 }
 
