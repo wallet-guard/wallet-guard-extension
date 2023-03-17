@@ -36,7 +36,6 @@ let timer: NodeJS.Timer | undefined = undefined;
 // https://github.com/RevokeCash/browser-extension
 // https://github.com/jqphu/PocketUniverse
 const addWalletGuardProxy = (provider: any) => {
-  console.log('added proxy');
   const sendHandler = {
     apply: (target: any, thisArg: any, args: any[]) => {
       const [payloadOrMethod, callbackOrParams] = args;
