@@ -47,6 +47,16 @@ export const Chatweb3Tab = () => {
             />
 
             <h1 style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>Examples</h1>
+            <p style={{ fontSize: '14px' }} className="pt-1">
+              [ Click to get an answer ]
+            </p>
+            <button
+              className={`mt-5 ${styles.links}`}
+              onClick={() => setUserInput('Why should i use a password manager espically in web3')}
+            >
+              "Why should i use a password manager espically in web3?"{' '}
+              <img src="/images/arrow.png" alt="" width={13} style={{ display: 'inline-block' }} />
+            </button>
             <button
               className={`mt-5 ${styles.links}`}
               onClick={() => setUserInput('Which wallets have a strong reputation in bullet points?')}
@@ -65,9 +75,9 @@ export const Chatweb3Tab = () => {
 
             <button
               className={`mt-5 ${styles.links}`}
-              onClick={() => setUserInput('Explain to me what an NFT is as if I knew nothing')}
+              onClick={() => setUserInput('What is the difference between a hardware wallet and a software wallet?')}
             >
-              "Explain to me what an NFT is as if I knew nothing"{' '}
+              "What is the difference between a hardware wallet and a software wallet?"{' '}
               <img src="/images/arrow.png" alt="" width={13} style={{ display: 'inline-block' }} />
             </button>
 
@@ -76,14 +86,6 @@ export const Chatweb3Tab = () => {
               onClick={() => setUserInput('Explain the difference between ERC20 and ERC721')}
             >
               "Explain the difference between ERC20 and ERC721"{' '}
-              <img src="/images/arrow.png" alt="" width={13} style={{ display: 'inline-block' }} />
-            </button>
-
-            <button
-              className={`mt-5 ${styles.links}`}
-              onClick={() => setUserInput('How should i store my seed phrase as secure as possible?')}
-            >
-              "How should i store my seed phrase as secure as possible?"{' '}
               <img src="/images/arrow.png" alt="" width={13} style={{ display: 'inline-block' }} />
             </button>
           </div>

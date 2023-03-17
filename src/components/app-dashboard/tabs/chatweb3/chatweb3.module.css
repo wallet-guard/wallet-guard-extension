@@ -238,7 +238,6 @@
   }
 
   .nocloud {
-    display: flex;
     width: 100%;
     height: 700px;
     justify-content: center;
@@ -388,4 +387,29 @@
 .fadeOut {
     opacity: 0;
     transition: opacity 1s ease;
+}
+
+
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.details {
+  background-color: #222222;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px 12px;
+  margin-top: 18px;
+  font-size: 1.1rem;
+  line-height: 18px;
+  min-height: 71px;
+  min-width: 235px;
+
 }

@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import { v4 as uuidv4 } from 'uuid';
 import AIWriter from 'react-aiwriter';
 import { ChatWeb3UseCase } from './ChatWeb3UseCase';
-import { ChatWeb3Test } from './ChatWeb3Test';
+import { ChatWeb3Details } from './ChatWeb3Details';
 
 // type to define the message object
 type ChatWeb3Message = {
@@ -17,11 +17,12 @@ interface ChatWeb3CoreProps {
 }
 
 const FADE_INTERVAL_MS = 1750;
-const WORD_CHANGE_INTERVAL_MS = FADE_INTERVAL_MS * 3;
+const WORD_CHANGE_INTERVAL_MS = FADE_INTERVAL_MS * 2;
 const WORDS_TO_ANIMATE = [
-  '"Explain the difference between ERC20 and ERC721"',
   '"How should i store my seed phrase as secure as possible?"',
   '"Explain to me what an NFT is as if I knew nothing"',
+  '"What is the difference between a hardware wallet and a software wallet?"',
+  '"Which wallets have a strong reputation in bullet points?"',
 ];
 
 export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
@@ -206,24 +207,18 @@ export const Chatweb3Core = (props: ChatWeb3CoreProps) => {
             </div>
           </div>
         ) : (
-          <div className={styles.nocloud}>
-            <div ref={messageListRef}>
-              <div className="container text-center">
-                <div className="row">
-                  <h1 style={{ fontWeight: 'bold', fontSize: '4rem' }}>Leverage the power of ChatWeb3</h1>
-                </div>
+          <div className={`${styles.nocloud} container text-center`} ref={messageListRef}>
+            <h1 style={{ fontWeight: 'bold', fontSize: '4rem' }}>Leverage the power of ChatWeb3</h1>
 
-                <h5 style={{ fontWeight: 'bold', fontSize: '1.5rem' }} className="pt-1">
-                  Your personal web3 security companion to help with all things blockchain.
-                </h5>
+            <h5 style={{ fontWeight: 'bold', fontSize: '1.5rem' }} className="pt-1">
+              Your personal web3 security companion to help with all things blockchain.
+            </h5>
 
-                <div className="pt-2" style={{ position: 'relative', fontSize: '1.2rem' }}>
-                  <span className={fadeProp.fade}>{WORDS_TO_ANIMATE[wordOrder]}</span>
-                </div>
-
-                <ChatWeb3Test />
-              </div>
+            <div className="pt-2" style={{ position: 'relative', fontSize: '1.2rem' }}>
+              <span className={fadeProp.fade}>{WORDS_TO_ANIMATE[wordOrder]}</span>
             </div>
+
+            <ChatWeb3Details />
           </div>
         )}
       </main>

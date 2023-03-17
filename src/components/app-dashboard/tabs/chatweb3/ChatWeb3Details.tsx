@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './chatweb3.module.css';
 
 export const thunder = (
   <svg
@@ -96,7 +97,7 @@ export const logo = (
   </svg>
 );
 
-export const ChatWeb3Test = () => {
+export const ChatWeb3Details = () => {
   return (
     <div
       style={{
@@ -104,69 +105,27 @@ export const ChatWeb3Test = () => {
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
-        paddingTop: '50px',
+        paddingTop: '60px',
       }}
     >
-      <div className="cols" style={{ display: 'flex', flexDirection: 'row', gap: '58px' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', gap: '58px' }}>
         <div
           className="row"
           style={{
-            width: '225px',
-            height: '150px',
+            width: '240px',
+            height: '170px',
             alignItems: 'center',
             justifyContent: 'center',
             textAlign: 'center',
           }}
         >
-          <div className=""> {sun}</div>
+          <div style={{ position: 'absolute', marginTop: '-195px' }}>{sun}</div>
 
           <p style={{ fontSize: '1.2rem', marginTop: '5px' }}>Use Cases</p>
-          <div
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              lineHeight: '18px',
-              marginTop: '18px',
-              fontSize: '1rem',
-            }}
-          >
-            Ask how to stay secure while navigating web3
-          </div>
-          <div
-            className=""
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              marginTop: '18px',
-              lineHeight: '18px',
-              fontSize: '1rem',
-            }}
-          >
-            Get answers to any web3 related question
-          </div>
-          <div
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              marginTop: '18px',
-              lineHeight: '18px',
-              fontSize: '1rem',
-            }}
-          >
-            Get helpful security tips through web3
-          </div>
+
+          <div className={`${styles.details} hiderow `}>Get answers to any web3 related question</div>
+          <div className={`${styles.details} hiderow`}>Here to help protect you from scams</div>
+          <div className={`${styles.details} hiderow`}>Translate difficult web3 concepts into plain English</div>
         </div>
         <div
           className="row hiderow"
@@ -178,58 +137,12 @@ export const ChatWeb3Test = () => {
             textAlign: 'center',
           }}
         >
-          <div className="row">
-            <div className="col">{thunder}</div>
-          </div>
+          <div style={{ position: 'absolute', marginTop: '-175px' }}>{thunder}</div>
 
           <p style={{ fontSize: '1.2rem', marginTop: '5px' }}>Capabilities</p>
-          <div
-            className="hiderow"
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              marginTop: '18px',
-              fontSize: '1rem',
-              lineHeight: '18px',
-            }}
-          >
-            Onboard users through the web3 ecosystem
-          </div>
-          <div
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              marginTop: '18px',
-              fontSize: '1rem',
-              lineHeight: '18px',
-            }}
-          >
-            Get answers to any web3 related question
-          </div>
-          <div
-            className="hiderow"
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              marginTop: '18px',
-              fontSize: '1rem',
-              lineHeight: '18px',
-            }}
-          >
-            Get helpful security tips through web3
-          </div>
+          <div className={`${styles.details} hiderow`}>Knowledge & Guidance</div>
+          <div className={`${styles.details} hiderow`}>Security first approach</div>
+          <div className={`${styles.details} hiderow`}>Blockchain & transaction analytics</div>
         </div>
         <div
           className="row hiderow"
@@ -241,56 +154,12 @@ export const ChatWeb3Test = () => {
             textAlign: 'center',
           }}
         >
-          <div className="">{alert}</div>
-          <p style={{ fontSize: '1.2rem', marginTop: '5px' }}>Coming Soon...</p>
-          <div
-            className="hiderow"
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              marginTop: '18px',
-              fontSize: '1rem',
-              lineHeight: '18px',
-            }}
-          >
-            May occasionally generate incorrect information
-          </div>
-          <div
-            className="hiderow"
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              marginTop: '18px',
-              fontSize: '1rem',
-              lineHeight: '18px',
-            }}
-          >
-            May produce harmful instructions content
-          </div>
-          <div
-            className="hiderow"
-            style={{
-              backgroundColor: '#222222',
-              borderRadius: '0.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '14px 12px',
-              marginTop: '18px',
-              fontSize: '1rem',
-              lineHeight: '18px',
-            }}
-          >
-            Limited knowledge of world and events after 2021
-          </div>
+          <div style={{ position: 'absolute', marginTop: '-175px' }}>{alert}</div>
+
+          <p style={{ fontSize: '1.2rem', marginTop: '5px' }}>Limitations</p>
+          <div className={`${styles.details} hiderow`}>May occasionally generate incorrect information</div>
+          <div className={`${styles.details} hiderow`}>May produce biased content</div>
+          <div className={`${styles.details} hiderow`}>Always do your own research</div>
         </div>
       </div>
     </div>
