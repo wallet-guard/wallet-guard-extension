@@ -63,9 +63,9 @@ Wallet Guard acts as an intermediary between your browser and wallet, analyzing 
 
 💻 Open Source: We believe in product transparency. We encourage our users to audit our open-source codebase.
 
-📄 Privacy: Your data privacy is very important to us. Check out our privacy policy here. https://walletguard.app/privacy.html
+📄 Privacy: Your data privacy is very important to us. Check out our privacy policy here. https://walletguard.app/privacy
 
-📋 Terms of service: By using Wallet Guard you agree to our terms of use outlined here: https://walletguard.app/terms.html
+📋 Terms of service: By using Wallet Guard you agree to our terms of use outlined here: https://walletguard.app/terms
 
 <br>
 
