@@ -1,6 +1,5 @@
 import logger from './lib/logger';
-import { REQUEST_COMMAND } from './lib/simulation/requests';
-import { StoredSimulation, StoredSimulationState, updateSimulationState } from './lib/simulation/storage';
+import { addSimulation, StoredSimulation, StoredSimulationState, StoredType, updateSimulationState } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
 import { RequestArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
@@ -15,25 +14,8 @@ import { checkUrlForPhishing } from './services/phishing/phishingService';
 import { checkAllWalletsAndCreateAlerts } from './services/http/versionService';
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
-
-
-// Note that these messages will be periodically cleared due to the background service shutting down
-// after 5 minutes of inactivity (see Manifest v3 docs).
-const messagePorts: { [index: string]: chrome.runtime.Port } = {};
-const approvedMessages: string[] = [];
-
-export enum WarningType {
-  ALLOWANCE = 'allowance',
-  LISTING = 'listing',
-  HASH = 'hash',
-  SUSPECTED_SCAM = 'suspected_scam',
-}
-
-export const AllowList = {
-  ALLOWANCE: [] as string[],
-  NFT_LISTING: ['opensea.io', 'www.genie.xyz', 'www.gem.xyz', 'looksrare.org', 'x2y2.io', 'blur.io'],
-  HASH_SIGNATURE: ['opensea.io', 'www.genie.xyz', 'www.gem.xyz', 'looksrare.org', 'x2y2.io', 'unstoppabledomains.com'],
-};
+import Browser from 'webextension-polyfill';
+import { PortIdentifiers } from './content-scripts/bypassCheck';
 
 const log = logger.child({ component: 'Background' });
 
@@ -56,7 +38,8 @@ chrome.action.onClicked.addListener(function (tab) {
 });
 
 // MESSAGING
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+// TODO: MY old code did not use async. The RunSimulation function is async, so I need to make sure that this is working properly
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.type === MessageType.ProceedAnyway) {
     const { url, permanent } = message;
 
@@ -86,6 +69,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
     return true; // need to return true here for async message passing
     // https://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
+  } else if (message.type === MessageType.RunSimulation) {
+    const args: RequestArgs = message.data;
+    clearOldSimulations().then(() => fetchSimulationAndUpdate(args));
   }
 });
 
@@ -231,107 +217,34 @@ chrome.storage.onChanged.addListener((changes, area) => {
   }
 });
 
-chrome.runtime.onMessage.addListener(async (request) => {
-  if (request.command === REQUEST_COMMAND) {
-    const args: RequestArgs = request.data;
-    clearOldSimulations().then(() => fetchSimulationAndUpdate(args));
-  } else {
-    log.warn(request, 'Unknown command');
+export type BrowserMessage = {
+  requestId: string;
+  data: RequestArgs; // todo: extend this type when if/when we add more use cases to postMessage
+};
+
+
+Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) => {
+  if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {
+    remotePort.onMessage.addListener(contentScriptMessageHandler);
   }
 });
 
+const contentScriptMessageHandler = async (message: BrowserMessage, sourcePort: Browser.Runtime.Port) => {
+  if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
+  // const { data } = message;
+  // if ('transaction' in data) {
+  //   // todo let's not duplicate the logic from storage.ts here, simply add it to localstorage and let the onchange listener handle it
+  //   // TODO: bypass needs to be set in the result so that the popup knows not to show any buttons and notify the user
+  //   const result = await Promise.all([
+  //     addSimulation({
+  //       id: data.id,
+  //       signer: data.signer,
+  //       type: StoredType.Simulation,
+  //       state: StoredSimulationState.Simulating,
+  //     }),
+  //     fetchSimulate(data),
+  //   ]);
+  // }
 
-
-const setupRemoteConnection = async (remotePort: any) => {
-  remotePort.onMessage.addListener((message: any) => {
-    processMessage(message, remotePort);
-  });
-};
-
-chrome.runtime.onConnect.addListener(setupRemoteConnection);
-
-
-const processMessage = async (message: any, remotePort: any) => {
-  const popupCreated = await decodeMessageAndCreatePopupIfNeeded(message);
-
-  // For bypassed messages we have no response to return
-  if (message.data.bypassed) return;
-
-  // If no popup was created, we respond positively to indicate that the request should go through
-  if (!popupCreated) {
-    remotePort.postMessage({ requestId: message.requestId, data: true });
-    return;
-  }
-
-  // Store the remote port so the response can be sent back there
-  messagePorts[message.requestId] = remotePort;
-};
-
-// Boolean result indicates whether a popup was created
-const decodeMessageAndCreatePopupIfNeeded = async (message: any): Promise<boolean> => {
-  if (approvedMessages.includes(message.requestId)) return false;
-
-  const warningData = 'some warning'
-  if (!warningData) return false;
-
-  // const warningsTurnedOnForType = await getStorage('local', warningSettingKeys[warningData.type], true);
-  // if (!warningsTurnedOnForType) return false;
-
-  // const isAllowListed = AllowList[warningData.type].includes(warningData.hostname);
-  // if (isAllowListed) return false;
-
-  createWarningPopup(warningData);
-
-  return true;
-};
-
-const calculatePopupPositions = (window: chrome.windows.Window, warningData: any) => {
-  const width = 480;
-  const height = calculatePopupHeight(warningData);
-
-  const left = window.left! + Math.round((window.width! - width) * 0.5);
-  const top = window.top! + Math.round((window.height! - height) * 0.2);
-
-  return { width, height, left, top };
-};
-
-const calculatePopupHeight = (warningData: any) => {
-  const lineHeight = 24;
-  const baseHeight = 11 * lineHeight;
-  const bypassHeight = warningData.bypassed ? lineHeight : 0;
-
-  if (warningData.type === WarningType.ALLOWANCE) {
-    return baseHeight + bypassHeight + 3 * lineHeight + warningData.assets.length * lineHeight;
-  } else if (warningData.type === WarningType.LISTING) {
-    const offerLines = warningData.listing.offer.length + 1;
-    const considerationLines = warningData.listing.consideration.length + 1;
-    return baseHeight + bypassHeight + offerLines * lineHeight + considerationLines * lineHeight;
-  } else if (warningData.type === WarningType.SUSPECTED_SCAM) {
-    return baseHeight + bypassHeight + 2 * lineHeight;
-  }
-
-  return baseHeight + bypassHeight;
-};
-
-const createWarningPopup = async (warningData: any) => {
-  // Add a slight delay to prevent weird window positioning
-  const delayPromise = new Promise((resolve) => setTimeout(resolve, 200));
-  const [currentWindow] = await Promise.all([chrome.windows.getCurrent(), delayPromise]);
-  const positions = calculatePopupPositions(currentWindow, warningData);
-
-  const queryString = new URLSearchParams({ warningData: JSON.stringify(warningData) }).toString();
-  chrome.windows
-    .create({
-      url: 'popup.html',
-      type: 'popup',
-      width: 420,
-      height: 840,
-    })
-    .then((createdWindow) => {
-      currentPopup = createdWindow?.id;
-    });
-
-  // Specifying window position does not work on Firefox, so we have to reposition after creation (6 y/o bug -_-).
-  // Has no effect on Chrome, because the window position is already correct.
-  // await chrome.windows.update(popupWindow.id!, positions);
+  clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));
 };

@@ -70,6 +70,8 @@ export type RequestArgs = {
   origin: string;
   // Method type
   method: string;
+  // Whether this request is a bypassed request.
+  bypassed?: boolean;
 } & (SimulateRequestArgs | SignatureRequestArgs | SignatureHashSignArgs | PersonalSignArgs);
 
 export type SimulationResponse = {

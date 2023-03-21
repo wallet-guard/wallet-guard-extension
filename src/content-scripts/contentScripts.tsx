@@ -1,9 +1,10 @@
 import Browser from 'webextension-polyfill';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
+import { MessageType } from '../lib/helpers/chrome/messageHandler';
 import logger from '../lib/logger';
 import { Settings } from '../lib/settings';
-import { dispatchResponse, listenToRequest, REQUEST_COMMAND, Response } from '../lib/simulation/requests';
+import { dispatchResponse, listenToRequest, Response } from '../lib/simulation/requests';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { removeSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import { RequestArgs } from '../models/simulation/Transaction';
@@ -86,7 +87,7 @@ listenToRequest(async (request: RequestArgs) => {
     });
 
     chrome.runtime.sendMessage({
-      command: REQUEST_COMMAND,
+      type: MessageType.RunSimulation,
       data: request,
     });
   });

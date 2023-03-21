@@ -229,7 +229,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
     if (!response.simulation) {
       throw new Error('Invalid state');
     }
-    console.log('made it through');
     return completeSimulation(args.id, response.simulation);
   }
 };

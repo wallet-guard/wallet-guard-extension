@@ -2,8 +2,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { RequestArgs, Transaction } from '../../models/simulation/Transaction';
 
-// Command to simulate request between content script and service worker.
-export const REQUEST_COMMAND = 'request';
 
 /**
  * Map request to replies.
@@ -30,19 +28,19 @@ export class RequestManager {
   public request(
     args: { signer: string; chainId: string; method: string } & (
       | {
-          transaction: Transaction;
-        }
+        transaction: Transaction;
+      }
       | {
-          domain: any;
-          message: any;
-          primaryType: string;
-        }
+        domain: any;
+        message: any;
+        primaryType: string;
+      }
       | {
-          hash: string;
-        }
+        hash: string;
+      }
       | {
-          signMessage: string;
-        }
+        signMessage: string;
+      }
     )
   ): Promise<Response> {
     return new Promise((resolve) => {
