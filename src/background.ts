@@ -1,10 +1,10 @@
 import logger from './lib/logger';
-import { addSimulation, StoredSimulation, StoredSimulationState, StoredType, updateSimulationState } from './lib/simulation/storage';
+import { StoredSimulation, StoredSimulationState, updateSimulationState } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
 import { RequestArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
-import { MessageType } from './lib/helpers/chrome/messageHandler';
+import { MessageType, PortIdentifiers } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
 import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
@@ -15,7 +15,6 @@ import { checkAllWalletsAndCreateAlerts } from './services/http/versionService';
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
-import { PortIdentifiers } from './content-scripts/bypassCheck';
 
 const log = logger.child({ component: 'Background' });
 
@@ -231,20 +230,6 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 
 const contentScriptMessageHandler = async (message: BrowserMessage, sourcePort: Browser.Runtime.Port) => {
   if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
-  // const { data } = message;
-  // if ('transaction' in data) {
-  //   // todo let's not duplicate the logic from storage.ts here, simply add it to localstorage and let the onchange listener handle it
-  //   // TODO: bypass needs to be set in the result so that the popup knows not to show any buttons and notify the user
-  //   const result = await Promise.all([
-  //     addSimulation({
-  //       id: data.id,
-  //       signer: data.signer,
-  //       type: StoredType.Simulation,
-  //       state: StoredSimulationState.Simulating,
-  //     }),
-  //     fetchSimulate(data),
-  //   ]);
-  // }
 
   clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));
 };

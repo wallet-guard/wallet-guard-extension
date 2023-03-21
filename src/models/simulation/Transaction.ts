@@ -69,7 +69,7 @@ export type RequestArgs = {
   // Domain Origin
   origin: string;
   // Method type
-  method: string;
+  method: SimulationMethodType | string;
   // Whether this request is a bypassed request.
   bypassed?: boolean;
 } & (SimulateRequestArgs | SignatureRequestArgs | SignatureHashSignArgs | PersonalSignArgs);
@@ -79,7 +79,7 @@ export type SimulationResponse = {
   message: string[];
   stateChanges: SimulationStateChange[];
   addressDetails: SimulationAddressDetails;
-  method: SimulationMethodType;
+  method: SimulationMethodType | string;
   scanResult: PhishingResponse;
   error: SimulationError | null;
 };

@@ -3,32 +3,19 @@ import objectHash from 'object-hash';
 import { RequestArgs, Transaction } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
 import { BrowserMessage } from '../background';
+import { PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
 
 let metamaskChainId = 1;
 const bypassed = true;
 
-export interface MessageResponse {
-  requestId: string;
-  data: boolean;
-}
-
-export enum RequestType {
-  TRANSACTION = 'transaction',
-  TYPED_SIGNATURE = 'typed-signature',
-  UNTYPED_SIGNATURE = 'untyped-signature',
-}
-
-export const PortIdentifiers = {
-  WG_CONTENT_SCRIPT: 'wg-contentscript',
-  METAMASK_INPAGE: 'metamask-inpage',
-  METAMASK_CONTENT_SCRIPT: 'metamask-contentscript',
-  METAMASK_PROVIDER: 'metamask-provider',
-};
-
-const generateMessageId = (data: any) => {
-  if (data.type === RequestType.TRANSACTION) return objectHash(data.transaction);
-  if (data.type === RequestType.TYPED_SIGNATURE) return objectHash(data.typedData);
-  if (data.type === RequestType.UNTYPED_SIGNATURE) return objectHash(data.message);
+// TODO: Come back to this by matching these cases to the way we handle them below
+const generateMessageId = (data: RequestArgs) => {
+  // Transaction types
+  if ('transaction' in data) return objectHash(data.transaction);
+  // Signed signature types
+  if ('hash' in data) return objectHash(data.hash);
+  // Unsigned signature types
+  if ('signMessage' in data) return objectHash(data.signMessage);
   return objectHash(data);
 };
 

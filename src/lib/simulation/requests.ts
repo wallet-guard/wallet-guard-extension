@@ -1,6 +1,6 @@
 /// Simulate request/reply manager for the content script and injected script.
 import { v4 as uuidv4 } from 'uuid';
-import { RequestArgs, Transaction } from '../../models/simulation/Transaction';
+import { RequestArgs, SimulationMethodType, Transaction } from '../../models/simulation/Transaction';
 
 
 /**
@@ -26,7 +26,7 @@ export class RequestManager {
    * Add a request and store it in the request manager.
    */
   public request(
-    args: { signer: string; chainId: string; method: string } & (
+    args: { signer: string; chainId: string; method: SimulationMethodType | string } & (
       | {
         transaction: Transaction;
       }

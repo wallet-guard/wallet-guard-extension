@@ -5,7 +5,7 @@ import styles from './simulation.module.css';
 export interface OverviewProps {
   warningType: SimulationWarningType;
   message: string[];
-  method?: SimulationMethodType;
+  method?: SimulationMethodType | string;
 }
 
 export const SimulationOverview = (props: OverviewProps) => {
