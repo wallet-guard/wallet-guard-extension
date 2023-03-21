@@ -122,6 +122,27 @@ window.addEventListener('message', (message) => {
       const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
       sendMessageToPort(contentScriptPort, request);
     }
+    // else if (data.method === 'eth_signTypedData_v3' || data.method === 'eth_signTypedData_v4') {
+    //   console.log(data);
+    //   const [address, typedDataStr] = data.params ?? [];
+    //   const typedData = JSON.parse(typedDataStr);
+    //   const type = RequestType.TYPED_SIGNATURE;
+
+    //   // Forward received messages to background.js
+    //   const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+    //   sendMessageToPort(contentScriptPort, { type, bypassed, hostname, address, typedData, chainId });
+    // } else if (data.method === 'eth_sign' || data.method === 'personal_sign') {
+    //   console.log(data);
+
+    //   // if the first parameter is the address, the second is the message, otherwise the first is the message
+    //   const [first, second] = data.params ?? [];
+    //   const message = String(first).replace(/0x/, '').length === 40 ? second : first;
+    //   const type = RequestType.UNTYPED_SIGNATURE;
+
+    //   // Forward received messages to background.js
+    //   const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+    //   sendMessageToPort(contentScriptPort, { type, bypassed, message, hostname });
+    // }
   }
 
   if (target === PortIdentifiers.METAMASK_INPAGE && data?.method?.includes('chainChanged')) {
