@@ -62,24 +62,6 @@ const Popup = () => {
 
   const currentSimulation = filteredSimulations[0];
 
-  if (currentSimulation.bypassed) {
-    // TODO: Implement a component that warns the user
-    // and does not have the normal buttons. Only button
-    // neccessary here is 'Dismiss'
-    // make sure we cover the two major cases here
-    // 1. handle simulation errors (TAS down or insufficient funds)
-    // 2. if it's coming from opensea/isVerified. Revoke's implementation does not show in this case I think
-    // ========
-    // The approach here should either be:
-    //1. code this directly into the existing components,
-    //2. split out into new component but you'd have to bring in the ErrorComponent + the return statement below
-    // ========
-    // maybe just implement override components on top of the 2-3 components that need changed. for ex
-    // on line 121 maybe check: if bypass, display Bypass Confirmation Component, otherwise show current
-    // yeah, this is probs the best solution
-    // but again how do we display errors?
-  }
-
   if (currentSimulation.simulation?.error || currentSimulation.error) {
     return (
       <ErrorComponent
@@ -95,6 +77,13 @@ const Popup = () => {
         <SimulationHeader />
       </div>
 
+      {currentSimulation.bypassed && (
+        <SimulationOverview
+          warningType={SimulationWarningType.Warn}
+          message={['This transaction attempted to bypass our simulation. Please proceed with caution']}
+        />
+      )}
+
       <div>
         {((currentSimulation.state === StoredSimulationState.Success &&
           currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
@@ -102,8 +91,8 @@ const Popup = () => {
           currentSimulation.simulation?.error) && (
           <div>
             <SimulationOverview
-              warningType={currentSimulation.simulation?.warningType}
-              message={currentSimulation.simulation?.message}
+              warningType={currentSimulation.simulation.warningType}
+              message={currentSimulation.simulation.message}
               method={currentSimulation.simulation.method}
             />
           </div>
