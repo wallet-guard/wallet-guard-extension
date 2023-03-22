@@ -8,14 +8,14 @@ import { convertObjectValuesToString } from '../injected/injectWalletGuard';
 let metamaskChainId = 1;
 const bypassed = true;
 
-// TODO: Come back to this by matching these cases to the way we handle them below
 const generateMessageId = (data: RequestArgs) => {
   // Transaction types
   if ('transaction' in data) return objectHash(data.transaction);
   // Signed signature types
-  if ('hash' in data) return objectHash(data.hash);
+  if ('message' in data) return objectHash(data.message);
   // Unsigned signature types
   if ('signMessage' in data) return objectHash(data.signMessage);
+  if ('hash' in data) return objectHash(data.hash);
   return objectHash(data);
 };
 
