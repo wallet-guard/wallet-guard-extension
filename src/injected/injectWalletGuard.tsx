@@ -9,7 +9,7 @@ declare global {
 }
 
 // this function standardizes all values sent to the API into strings to prevent type errors
-function convertObjectValuesToString(inputObj: any): any {
+export function convertObjectValuesToString(inputObj: any): any {
   const keys = Object.keys(inputObj);
   const output: any = {};
   for (let x of keys) {

@@ -3,6 +3,7 @@ import objectHash from 'object-hash';
 import { RequestArgs, Transaction } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
 import { BrowserMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
+import { convertObjectValuesToString } from '../injected/injectWalletGuard';
 
 let metamaskChainId = 1;
 const bypassed = true;
@@ -53,24 +54,84 @@ window.addEventListener('message', (message) => {
       const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
       sendMessageToPort(contentScriptPort, request);
     } else if (data.method === 'eth_signTypedData_v3' || data.method === 'eth_signTypedData_v4') {
-      // const [address, typedDataStr] = data.params ?? [];
-      // const typedData = JSON.parse(typedDataStr);
-      // // Forward received messages to background.js
-      // const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-      // sendMessageToPort(contentScriptPort, { type, bypassed, hostname, address, typedData, chainId });
+      if (data.params.length !== 2) {
+        //TODO
+        console.warn('Unexpected argument length.');
+        return;
+      }
+
+      const params = JSON.parse(data.params[1]);
+      let signer: string = params[0];
+
+      if (!signer) {
+        signer = data.params[0];
+      }
+
+      const domain = convertObjectValuesToString(params.domain);
+      const message = convertObjectValuesToString(params.message);
+
+      const request: RequestArgs = {
+        id: uuid4(),
+        chainId: String(chainId),
+        signer,
+        domain: domain,
+        message: message,
+        primaryType: params['primaryType'],
+        method: data.method,
+        origin: hostname,
+        bypassed,
+      };
+
+      // Forward received messages to background.js
+      const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+      sendMessageToPort(contentScriptPort, request);
+    } else if (data.method === 'personal_sign') {
+      if (data.params.length < 2) {
+        //TODO
+        console.warn('Unexpected argument length.');
+        return;
+      }
+
+      const signer: string = data.params[1];
+      const signMessage: string = data.params[0];
+
+      const request: RequestArgs = {
+        id: uuid4(),
+        chainId: String(chainId),
+        origin: hostname,
+        bypassed,
+        method: data.method,
+        signer,
+        signMessage,
+      };
+
+      // Forward received messages to background.js
+      const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+      sendMessageToPort(contentScriptPort, request);
+    } else if (data.method === 'eth_sign') {
+      if (data.params.length < 2) {
+        //TODO
+        console.warn('Unexpected argument length.');
+        return;
+      }
+
+      const signer: string = data.params[0];
+      const hash: string = data.params[1];
+
+      const request: RequestArgs = {
+        id: uuid4(),
+        chainId: String(chainId),
+        origin: hostname,
+        bypassed,
+        method: data.method,
+        signer,
+        hash,
+      };
+
+      // Forward received messages to background.js
+      const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+      sendMessageToPort(contentScriptPort, request);
     }
-    //  else if (data.method === 'eth_sign' || data.method === 'personal_sign') {
-    //   console.log(data);
-
-    //   // if the first parameter is the address, the second is the message, otherwise the first is the message
-    //   const [first, second] = data.params ?? [];
-    //   const message = String(first).replace(/0x/, '').length === 40 ? second : first;
-    //   const type = RequestType.UNTYPED_SIGNATURE;
-
-    //   // Forward received messages to background.js
-    //   const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-    //   sendMessageToPort(contentScriptPort, { type, bypassed, message, hostname });
-    // }
   }
 
   if (target === PortIdentifiers.METAMASK_INPAGE && data?.method?.includes('chainChanged')) {
