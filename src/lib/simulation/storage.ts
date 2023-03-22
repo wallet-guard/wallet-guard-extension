@@ -52,6 +52,9 @@ export interface StoredSimulation {
 
   /// Optional error message on Error
   error?: SimulationError;
+
+  // Notifies the user that this simulation was attempted to be bypassed.
+  bypassed?: boolean;
 }
 
 // Thank you Pocket Universe for leading the way in proxying transactions
@@ -174,6 +177,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.Simulation,
         state,
+        bypassed: args.bypassed,
       }),
       fetchSimulate(args),
     ]);
@@ -185,6 +189,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.SignatureHash,
         state,
+        bypassed: args.bypassed,
       }),
       fetchSignature(args),
     ]);
@@ -196,6 +201,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.PersonalSign,
         state,
+        bypassed: args.bypassed,
       }),
       fetchSignature(args),
     ]);
@@ -208,6 +214,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.Signature,
         state,
+        bypassed: args.bypassed,
       }),
       fetchSignature(args),
     ]);

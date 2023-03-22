@@ -2,8 +2,7 @@ import Browser from 'webextension-polyfill';
 import objectHash from 'object-hash';
 import { RequestArgs, Transaction } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
-import { BrowserMessage } from '../background';
-import { PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
+import { BrowserMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
 
 let metamaskChainId = 1;
 const bypassed = true;
@@ -53,17 +52,14 @@ window.addEventListener('message', (message) => {
       // Forward received messages to background.js
       const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
       sendMessageToPort(contentScriptPort, request);
+    } else if (data.method === 'eth_signTypedData_v3' || data.method === 'eth_signTypedData_v4') {
+      // const [address, typedDataStr] = data.params ?? [];
+      // const typedData = JSON.parse(typedDataStr);
+      // // Forward received messages to background.js
+      // const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+      // sendMessageToPort(contentScriptPort, { type, bypassed, hostname, address, typedData, chainId });
     }
-    // else if (data.method === 'eth_signTypedData_v3' || data.method === 'eth_signTypedData_v4') {
-    //   console.log(data);
-    //   const [address, typedDataStr] = data.params ?? [];
-    //   const typedData = JSON.parse(typedDataStr);
-    //   const type = RequestType.TYPED_SIGNATURE;
-
-    //   // Forward received messages to background.js
-    //   const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-    //   sendMessageToPort(contentScriptPort, { type, bypassed, hostname, address, typedData, chainId });
-    // } else if (data.method === 'eth_sign' || data.method === 'personal_sign') {
+    //  else if (data.method === 'eth_sign' || data.method === 'personal_sign') {
     //   console.log(data);
 
     //   // if the first parameter is the address, the second is the message, otherwise the first is the message

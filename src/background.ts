@@ -4,7 +4,7 @@ import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } 
 import { RequestArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
-import { MessageType, PortIdentifiers } from './lib/helpers/chrome/messageHandler';
+import { BrowserMessage, MessageType, PortIdentifiers } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
 import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
@@ -215,12 +215,6 @@ chrome.storage.onChanged.addListener((changes, area) => {
     }
   }
 });
-
-export type BrowserMessage = {
-  requestId: string;
-  data: RequestArgs; // todo: extend this type when if/when we add more use cases to postMessage
-};
-
 
 Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) => {
   if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {

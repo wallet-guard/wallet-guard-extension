@@ -4,7 +4,7 @@ import styles from '../../simulation.module.css';
 import ErrorTextComponent from './ErrorText';
 
 export interface ErrorComponentProps {
-  filteredSimulations: StoredSimulation[];
+  currentSimulation: StoredSimulation;
 }
 
 export default function GeneralErrorComponent(props: ErrorComponentProps) {
@@ -15,7 +15,7 @@ export default function GeneralErrorComponent(props: ErrorComponentProps) {
           Oops... Something went wrong
         </h4>
       </div>
-      <ErrorTextComponent filteredSimulations={props.filteredSimulations} />
+      <ErrorTextComponent currentSimulation={props.currentSimulation} />
     </div>
   );
 }

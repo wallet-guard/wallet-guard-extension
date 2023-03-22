@@ -14,6 +14,7 @@ import { ErrorType, SimulationWarningType } from '../models/simulation/Transacti
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
+import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
@@ -56,20 +57,34 @@ const Popup = () => {
   );
 
   if (!filteredSimulations || filteredSimulations.length === 0) {
-    return (
-      <>
-        <NoSimulation />
-      </>
-    );
+    return <NoSimulation />;
   }
 
-  if (filteredSimulations[0].simulation?.error || filteredSimulations[0].error) {
+  const currentSimulation = filteredSimulations[0];
+
+  if (currentSimulation.bypassed) {
+    // TODO: Implement a component that warns the user
+    // and does not have the normal buttons. Only button
+    // neccessary here is 'Dismiss'
+    // make sure we cover the two major cases here
+    // 1. handle simulation errors (TAS down or insufficient funds)
+    // 2. if it's coming from opensea/isVerified. Revoke's implementation does not show in this case I think
+    // ========
+    // The approach here should either be:
+    //1. code this directly into the existing components,
+    //2. split out into new component but you'd have to bring in the ErrorComponent + the return statement below
+    // ========
+    // maybe just implement override components on top of the 2-3 components that need changed. for ex
+    // on line 121 maybe check: if bypass, display Bypass Confirmation Component, otherwise show current
+    // yeah, this is probs the best solution
+    // but again how do we display errors?
+  }
+
+  if (currentSimulation.simulation?.error || currentSimulation.error) {
     return (
       <ErrorComponent
-        filteredSimulations={filteredSimulations}
-        type={
-          filteredSimulations[0].simulation?.error?.type || filteredSimulations[0].error?.type || ErrorType.GeneralError
-        }
+        currentSimulation={currentSimulation}
+        type={currentSimulation.simulation?.error?.type || currentSimulation.error?.type || ErrorType.GeneralError}
       />
     );
   }
@@ -81,31 +96,35 @@ const Popup = () => {
       </div>
 
       <div>
-        {((filteredSimulations[0].state === StoredSimulationState.Success &&
-          filteredSimulations[0].simulation?.warningType === SimulationWarningType.Warn) ||
-          filteredSimulations[0].simulation?.warningType === SimulationWarningType.Info ||
-          filteredSimulations[0].simulation?.error) && (
+        {((currentSimulation.state === StoredSimulationState.Success &&
+          currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
+          currentSimulation.simulation?.warningType === SimulationWarningType.Info ||
+          currentSimulation.simulation?.error) && (
           <div>
             <SimulationOverview
-              warningType={filteredSimulations[0].simulation?.warningType}
-              message={filteredSimulations[0].simulation?.message}
-              method={filteredSimulations[0].simulation.method}
+              warningType={currentSimulation.simulation?.warningType}
+              message={currentSimulation.simulation?.message}
+              method={currentSimulation.simulation.method}
             />
           </div>
         )}
       </div>
 
-      {filteredSimulations[0].state === StoredSimulationState.Success && (
+      {currentSimulation.state === StoredSimulationState.Success && (
         <div className="pt-4">
-          <ContractDetails storedSimulation={filteredSimulations && filteredSimulations[0]} />
+          <ContractDetails storedSimulation={currentSimulation} />
         </div>
       )}
 
       <div className="pb-4">
-        <TransactionContent storedSimulation={filteredSimulations && filteredSimulations[0]} />
+        <TransactionContent storedSimulation={currentSimulation} />
       </div>
       <div style={{ height: '120px' }} />
-      <ConfirmSimulationButton storedSimulation={filteredSimulations && filteredSimulations[0]} />
+      {currentSimulation.bypassed ? (
+        <BypassedSimulationButton storedSimulation={currentSimulation} />
+      ) : (
+        <ConfirmSimulationButton storedSimulation={currentSimulation} />
+      )}
     </>
   );
 };
