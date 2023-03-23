@@ -2,13 +2,13 @@ import Browser from 'webextension-polyfill';
 import objectHash from 'object-hash';
 import { RequestArgs, Transaction } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
-import { BrowserMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
+import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
 import { convertObjectValuesToString } from '../injected/injectWalletGuard';
 
 let metamaskChainId = 1;
 const bypassed = true;
 
-const generateMessageId = (data: RequestArgs) => {
+export const generateMessageId = (data: RequestArgs) => {
   // Transaction types
   if ('transaction' in data) return objectHash(data.transaction);
   // Signed signature types
@@ -21,7 +21,8 @@ const generateMessageId = (data: RequestArgs) => {
 
 export const sendMessageToPort = (stream: Browser.Runtime.Port, data: RequestArgs): void => {
   const requestId = generateMessageId(data);
-  const message: BrowserMessage = {
+  console.log(requestId);
+  const message: PortMessage = {
     requestId,
     data,
   };
@@ -34,6 +35,10 @@ window.addEventListener('message', (message) => {
   const { name, data } = message?.data?.data ?? {};
   const { hostname } = location;
   const chainId = metamaskChainId;
+
+  // todo: add check here if we've already seen this request
+  // const simulations: StoredSimulation = (await chrome.storage.local.get('simulations')).simulations;
+  // console.log(simulations);
 
   if (name !== PortIdentifiers.METAMASK_PROVIDER || !data) return;
 

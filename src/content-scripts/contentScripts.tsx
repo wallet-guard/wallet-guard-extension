@@ -1,7 +1,7 @@
 import Browser from 'webextension-polyfill';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
-import { MessageType } from '../lib/helpers/chrome/messageHandler';
+import { BrowserMessageType, RunSimulationMessageType } from '../lib/helpers/chrome/messageHandler';
 import logger from '../lib/logger';
 import { Settings } from '../lib/settings';
 import { dispatchResponse, listenToRequest, Response } from '../lib/simulation/requests';
@@ -87,8 +87,8 @@ listenToRequest(async (request: RequestArgs) => {
     });
 
     chrome.runtime.sendMessage({
-      type: MessageType.RunSimulation,
+      type: BrowserMessageType.RunSimulation,
       data: request,
-    });
+    } as RunSimulationMessageType);
   });
 });

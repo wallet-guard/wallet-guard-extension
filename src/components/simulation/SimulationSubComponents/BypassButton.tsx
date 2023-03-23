@@ -11,6 +11,10 @@ import styles from '../simulation.module.css';
 export const BypassedSimulationButton = ({ storedSimulation }: { storedSimulation: StoredSimulation }) => {
   const { id, state } = storedSimulation;
 
+  posthog.capture('simulation bypass attempt', {
+    storedSimulation,
+  });
+
   if (simulationNeedsAction(state)) {
     return (
       <div className={`${styles['footer-container']}`}>

@@ -4,7 +4,7 @@ import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } 
 import { RequestArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
-import { BrowserMessage, MessageType, PortIdentifiers } from './lib/helpers/chrome/messageHandler';
+import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
 import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
@@ -17,6 +17,7 @@ import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 
 const log = logger.child({ component: 'Background' });
+const approvedTxnIds: string[] = [];
 
 let currentPopup: undefined | number;
 
@@ -38,8 +39,8 @@ chrome.action.onClicked.addListener(function (tab) {
 
 // MESSAGING
 // TODO: MY old code did not use async. The RunSimulation function is async, so I need to make sure that this is working properly
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-  if (message.type === MessageType.ProceedAnyway) {
+chrome.runtime.onMessage.addListener(async (message: BrowserMessage, sender, sendResponse) => {
+  if (message.type === BrowserMessageType.ProceedAnyway && 'url' in message) {
     const { url, permanent } = message;
 
     if (permanent) {
@@ -68,7 +69,11 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     }
     return true; // need to return true here for async message passing
     // https://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
-  } else if (message.type === MessageType.RunSimulation) {
+  } else if (message.type === BrowserMessageType.ApprovedTxn && 'id' in message) {
+    // TODO: verify it is from our extension or else it might be possible to bypass this
+    console.log(message.id);
+    approvedTxnIds.push(message.id);
+  } else if (message.type === BrowserMessageType.RunSimulation && 'data' in message) {
     const args: RequestArgs = message.data;
     clearOldSimulations().then(() => fetchSimulationAndUpdate(args));
   }
@@ -222,8 +227,11 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
   }
 });
 
-const contentScriptMessageHandler = async (message: BrowserMessage, sourcePort: Browser.Runtime.Port) => {
+const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
 
+  if (approvedTxnIds.includes(message.requestId)) return;
+
+  // TODO: check if there's anything else neccessary to do here
   clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));
 };

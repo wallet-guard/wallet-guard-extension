@@ -20,7 +20,7 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BsQuestionCircleFill } from 'react-icons/bs';
 import { TwitterShareButton } from 'react-share';
-import { MessageType } from '../lib/helpers/chrome/messageHandler';
+import { BrowserMessageType, ProceedAnywayMessageType } from '../lib/helpers/chrome/messageHandler';
 import { openDashboard } from '../lib/helpers/linkHelper';
 import { standardizeUrl } from '../lib/helpers/util';
 import theme from '../lib/theme';
@@ -69,10 +69,10 @@ export function PhishingWarning() {
   function openProceedAnyway() {
     posthog.capture('proceed anyway', { proceedAnywayUrl });
     chrome.runtime.sendMessage({
-      type: MessageType.ProceedAnyway,
+      type: BrowserMessageType.ProceedAnyway,
       url: proceedAnywayUrl,
       permanent: true,
-    });
+    } as ProceedAnywayMessageType);
   }
 
   function getLabel(): React.ReactNode {

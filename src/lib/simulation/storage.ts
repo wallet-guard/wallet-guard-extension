@@ -3,6 +3,9 @@ import logger from '../logger';
 import { fetchSimulate, fetchSignature } from './server';
 import type { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
+import Browser from 'webextension-polyfill';
+import { BrowserMessage, BrowserMessageType, PortMessage } from '../helpers/chrome/messageHandler';
+import { generateMessageId } from '../../content-scripts/bypassCheck';
 
 const log = logger.child({ component: 'Storage' });
 
@@ -137,6 +140,15 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
       }
       : x
   );
+
+  const requestId = generateMessageId(simulations && simulations[0]);
+
+  const message: BrowserMessage = {
+    type: BrowserMessageType.ApprovedTxn,
+    id: requestId,
+  };
+
+  Browser.runtime.sendMessage(undefined, message);
 
   console.log('update simulation state', state, id, simulations);
   return chrome.storage.local.set({ simulations });
