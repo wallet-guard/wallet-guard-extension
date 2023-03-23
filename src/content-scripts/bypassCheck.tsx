@@ -28,6 +28,10 @@ window.addEventListener('message', (message) => {
   const { hostname } = location;
   const chainId = metamaskChainId;
 
+  // todo: add check here if we've already seen this request
+  // const simulations: StoredSimulation = (await chrome.storage.local.get('simulations')).simulations;
+  // console.log(simulations);
+
   if (name !== PortIdentifiers.METAMASK_PROVIDER || !data) return;
 
   if (target === PortIdentifiers.METAMASK_CONTENT_SCRIPT) {
