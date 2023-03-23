@@ -4,6 +4,11 @@ import ReactMarkdown from 'react-markdown';
 import { v4 as uuidv4 } from 'uuid';
 import AIWriter from 'react-aiwriter';
 import { ChatWeb3Details } from './ChatWeb3Details';
+import { ChatMessage } from './ChatMessage';
+import { CodeBlock } from './CodeBlock';
+import { FC } from 'react';
+import remarkGfm from 'remark-gfm';
+import Home from './temp/pages';
 
 // type to define the message object
 type ChatWeb3Message = {
@@ -29,6 +34,8 @@ export const ChatWeb3Core = (props: ChatWeb3CoreProps) => {
   const [history, setHistory] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [conversationID] = useState(uuidv4());
+  const [isMobile, setIsMobile] = useState(false);
+
   const [messages, setMessages] = useState<ChatWeb3Message[]>([]);
 
   const [fadeProp, setFadeProp] = useState<any>({ fade: styles.fadeIn });
@@ -36,6 +43,22 @@ export const ChatWeb3Core = (props: ChatWeb3CoreProps) => {
 
   const messageListRef = useRef<any>(null);
   const textAreaRef = useRef<any>(null);
+
+  //choose the screen size
+  const handleResize = () => {
+    if (window.innerWidth < 1200) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  // create an event listener
+  useEffect(() => {
+    // set is mobile on load
+    handleResize();
+    window.addEventListener('resize', handleResize);
+  });
 
   // Auto scroll chat to bottom
   useEffect(() => {
@@ -196,7 +219,51 @@ export const ChatWeb3Core = (props: ChatWeb3CoreProps) => {
                       <div className={`${styles.markdownanswer}`}>
                         {/* Messages are being rendered in Markdown format */}
                         {/* <AIWriter> */}
-                        <ReactMarkdown linkTarget={'_blank'}>{message.content}</ReactMarkdown>
+                        <ReactMarkdown
+                          linkTarget={'_blank'}
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            code({ node, inline, className, children, ...props }) {
+                              const match = /language-(\w+)/.exec(className || '');
+                              return !inline && match ? (
+                                <CodeBlock
+                                  key={Math.random()}
+                                  language={match[1]}
+                                  value={String(children).replace(/\n$/, '')}
+                                  lightMode={'dark'}
+                                  {...props}
+                                />
+                              ) : (
+                                <code className={className} {...props}>
+                                  {children}
+                                </code>
+                              );
+                            },
+                            table({ children }) {
+                              return (
+                                <table className="border-collapse border border-black dark:border-white py-1 px-3">
+                                  {children}
+                                </table>
+                              );
+                            },
+                            th({ children }) {
+                              return (
+                                <th className="border border-black dark:border-white break-words py-1 px-3 bg-gray-500 text-white">
+                                  {children}
+                                </th>
+                              );
+                            },
+                            td({ children }) {
+                              return (
+                                <td className="border border-black dark:border-white break-words py-1 px-3">
+                                  {children}
+                                </td>
+                              );
+                            },
+                          }}
+                        >
+                          {message.content}
+                        </ReactMarkdown>
                         {/* </AIWriter> */}
                       </div>
                     </div>
@@ -205,7 +272,7 @@ export const ChatWeb3Core = (props: ChatWeb3CoreProps) => {
               })}
             </div>
           </div>
-        ) : (
+        ) : !isMobile ? (
           <div className={`${styles.nocloud} container text-center`} ref={messageListRef}>
             <h1 style={{ fontWeight: 'bold', fontSize: '4rem' }}>Leverage the power of ChatWeb3</h1>
 
@@ -218,6 +285,12 @@ export const ChatWeb3Core = (props: ChatWeb3CoreProps) => {
             </div>
 
             <ChatWeb3Details />
+          </div>
+        ) : (
+          <div ref={messageListRef}>
+            <h1 className="pt-5" style={{ color: 'white' }}>
+              ChatWeb3
+            </h1>
           </div>
         )}
       </main>
@@ -254,8 +327,8 @@ export const ChatWeb3Core = (props: ChatWeb3CoreProps) => {
             </form>
           </div>
           <p className="pt-2 text-center" style={{ color: '#909196', fontSize: '14px' }}>
-            ChatWeb3 Mar 13 Version. Our goal is to make web3, blockchain, and security more natural and safe to
-            interact with. Your feedback will help us improve.
+            Our goal is to make web3, blockchain, and security more natural and safe to interact with. Your feedback
+            will help us improve.
           </p>
         </div>
       </div>

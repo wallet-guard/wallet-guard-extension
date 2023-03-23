@@ -171,9 +171,7 @@ export default function SimpleSidebar({ children }: any) {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box>
+      <Box ml={{ base: 0, md: 60 }}>{children}</Box>
     </Box>
   );
 }

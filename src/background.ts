@@ -19,6 +19,7 @@ import * as Sentry from '@sentry/react';
 const log = logger.child({ component: 'Background' });
 
 let currentPopup: undefined | number;
+let currentChatWeb3Popup: undefined | number;
 
 Sentry.init({
   dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
@@ -218,5 +219,94 @@ chrome.runtime.onMessage.addListener(async (request) => {
     clearOldSimulations().then(() => fetchSimulationAndUpdate(args));
   } else {
     log.warn(request, 'Unknown command');
+  }
+});
+
+// Create a context menu item
+chrome.contextMenus.create({
+  id: 'ask-chatgpt',
+  title: 'Ask ChatWeb3',
+  contexts: ['all'],
+});
+
+// Listen for when the user clicks on the context menu item
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === 'ask-chatgpt') {
+    // Send a message to the content script
+
+    if (!currentChatWeb3Popup) {
+      // Indicate we're creating a popup so we don't have many.
+      currentChatWeb3Popup = -1;
+
+      chrome.windows
+        .create({
+          url: 'chatweb3.html',
+          type: 'popup',
+          width: 420,
+          height: 780,
+        })
+        .then((createdWindow) => {
+          currentChatWeb3Popup = createdWindow?.id;
+        });
+
+      return;
+    }
+
+    if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
+      const closeId = currentChatWeb3Popup;
+      currentChatWeb3Popup = undefined;
+      chrome.windows.remove(closeId);
+
+      return;
+    }
+
+    // Let's send it to the front if it already exists
+    if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
+      chrome.windows.update(currentChatWeb3Popup, {
+        focused: true,
+      });
+    }
+  }
+});
+
+// Remove Simulation Popup
+chrome.windows.onRemoved.addListener((windowId: number) => {
+  if (currentChatWeb3Popup && currentChatWeb3Popup === windowId) {
+    currentChatWeb3Popup = undefined;
+  }
+});
+
+chrome.commands.onCommand.addListener((command) => {
+  if (!currentChatWeb3Popup) {
+    // Indicate we're creating a popup so we don't have many.
+    currentChatWeb3Popup = -1;
+
+    chrome.windows
+      .create({
+        url: 'chatweb3.html',
+        type: 'popup',
+        width: 420,
+        height: 780,
+      })
+      .then((createdWindow) => {
+        currentChatWeb3Popup = createdWindow?.id;
+      });
+
+    return;
+  }
+
+  if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
+    const closeId = currentChatWeb3Popup;
+    currentChatWeb3Popup = undefined;
+    chrome.windows.remove(closeId);
+
+    return;
+  }
+
+  // Let's send it to the front if it already exists
+  if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
+    chrome.windows.update(currentChatWeb3Popup, {
+      focused: true,
+    });
   }
 });
