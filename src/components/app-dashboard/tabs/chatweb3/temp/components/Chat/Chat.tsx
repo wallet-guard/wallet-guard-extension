@@ -47,7 +47,7 @@ export const Chat: FC<Props> = ({
   }, [conversation.messages]);
 
   return (
-    <div className="relative flex-1 overflow-none dark:bg-[#343541] bg-white">
+    <div className="relative flex-1 overflow-none dark:bg-[#343541]">
       {modelError ? (
         <div className="flex flex-col justify-center mx-auto h-full w-[300px] sm:w-[500px] space-y-6">
           <div className="text-center text-red-500">Error fetching models.</div>
@@ -94,7 +94,7 @@ export const Chat: FC<Props> = ({
               </>
             ) : (
               <>
-                <div className="flex justify-center py-2 text-neutral-500 bg-neutral-100 dark:bg-[#444654] dark:text-neutral-200 text-sm border border-b-neutral-300 dark:border-none">
+                <div className="flex justify-center py-2 text-neutral-500 bg-neutral-100 dark:bg-[#444654] dark:text-neutral-200 text-sm  dark:border-none">
                   Model: {conversation.model.name}
                 </div>
 
@@ -104,7 +104,7 @@ export const Chat: FC<Props> = ({
 
                 {loading && <ChatLoader />}
 
-                <div className="bg-white dark:bg-[#343541] h-[162px]" ref={messagesEndRef} />
+                <div className=" dark:bg-[#343541] h-[162px]" ref={messagesEndRef} />
               </>
             )}
           </div>

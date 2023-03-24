@@ -17,8 +17,8 @@ export const ChatMessage: FC<Props> = ({ message, lightMode }) => {
     <div
       className={`group ${
         message.role === 'assistant'
-          ? 'text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]'
-          : 'text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-white dark:bg-[#343541]'
+          ? 'text-gray-100 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]'
+          : 'text-gray-100 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 dark:bg-[#343541]'
       }`}
       style={{ overflowWrap: 'anywhere' }}
     >
@@ -38,7 +38,7 @@ export const ChatMessage: FC<Props> = ({ message, lightMode }) => {
           )}
         </div>
 
-        <div className="prose dark:prose-invert mt-[-2px]" style={{ color: 'black' }}>
+        <div className="prose dark:prose-invert mt-[-2px]">
           {message.role === 'user' ? (
             <div className="prose dark:prose-invert whitespace-pre-wrap">{message.content}</div>
           ) : (

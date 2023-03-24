@@ -175,7 +175,7 @@ export default function Home() {
   useEffect(() => {
     const theme = localStorage.getItem('theme');
     if (theme) {
-      setLightMode(theme as 'dark' | 'light');
+      setLightMode('dark');
     }
 
     const apiKey = localStorage.getItem('apiKey') || '';
@@ -217,10 +217,8 @@ export default function Home() {
   return (
     <>
       {selectedConversation && (
-        <div className={`flex flex-col h-screen text-white dark:text-white text-sm`}>
-          <div className="sm:hidden w-full fixed top-0"></div>
-
-          <div className="flex h-full w-full pt-[48px] sm:pt-0">
+        <div className={`flex flex-col h-screen text-white dark:text-white text-sm ${lightMode}`}>
+          <div className="flex h-full w-full  sm:pt-0">
             <Chat
               conversation={selectedConversation}
               messageIsStreaming={messageIsStreaming}
