@@ -8,7 +8,7 @@ import {
   TransactionArgs,
 } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
-import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
+import { PortMessage, PortIdentifiers, generateMessageId } from '../lib/helpers/chrome/messageHandler';
 import { convertObjectValuesToString } from '../injected/injectWalletGuard';
 
 let metamaskChainId = 1;
