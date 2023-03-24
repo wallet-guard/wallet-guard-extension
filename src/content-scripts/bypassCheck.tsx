@@ -1,25 +1,13 @@
 import Browser from 'webextension-polyfill';
-import objectHash from 'object-hash';
 import { RequestArgs, Transaction } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
-import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
+import { PortMessage, PortIdentifiers, generateMessageId } from '../lib/helpers/chrome/messageHandler';
 import { convertObjectValuesToString } from '../injected/injectWalletGuard';
 
 let metamaskChainId = 1;
 const bypassed = true;
 
-export const generateMessageId = (data: RequestArgs) => {
-  // Transaction types
-  if ('transaction' in data) return objectHash(data.transaction);
-  // Signed signature types
-  if ('message' in data) return objectHash(data.message);
-  // Unsigned signature types
-  if ('signMessage' in data) return objectHash(data.signMessage);
-  if ('hash' in data) return objectHash(data.hash);
-  return objectHash(data);
-};
-
-export const sendMessageToPort = (stream: Browser.Runtime.Port, data: RequestArgs): void => {
+const sendMessageToPort = (stream: Browser.Runtime.Port, data: RequestArgs): void => {
   const requestId = generateMessageId(data);
   console.log(requestId);
   const message: PortMessage = {

@@ -1,11 +1,10 @@
 // Storage wrapper for updating the storage.
 import logger from '../logger';
 import { fetchSimulate, fetchSignature } from './server';
-import type { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
+import type { RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
-import { BrowserMessage, BrowserMessageType, PortMessage } from '../helpers/chrome/messageHandler';
-import { generateMessageId } from '../../content-scripts/bypassCheck';
+import { BrowserMessage, BrowserMessageType, generateMessageId, PortMessage } from '../helpers/chrome/messageHandler';
 
 const log = logger.child({ component: 'Storage' });
 
@@ -141,14 +140,16 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
       : x
   );
 
-  const requestId = generateMessageId(simulations && simulations[0]);
+  // const requestId = generateMessageId(simulations && simulations[0]);
 
-  const message: BrowserMessage = {
-    type: BrowserMessageType.ApprovedTxn,
-    id: requestId,
-  };
+  // todo: potential solution- only sendMessage if bypassed?
 
-  Browser.runtime.sendMessage(undefined, message);
+  // const message: BrowserMessage = {
+  //   type: BrowserMessageType.ApprovedTxn,
+  //   id: requestId,
+  // };
+
+  // Browser.runtime.sendMessage(undefined, message);
 
   console.log('update simulation state', state, id, simulations);
   return chrome.storage.local.set({ simulations });

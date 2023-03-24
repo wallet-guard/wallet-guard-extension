@@ -1,3 +1,4 @@
+import objectHash from 'object-hash';
 import { RequestArgs } from '../../../models/simulation/Transaction';
 
 export enum BrowserMessageType {
@@ -33,4 +34,15 @@ export const PortIdentifiers = {
 export type PortMessage = {
   requestId: string;
   data: RequestArgs; // todo: extend this type when if/when we add more use cases to postMessage
+};
+
+export const generateMessageId = (data: RequestArgs) => {
+  // Transaction types
+  if ('transaction' in data) return objectHash(data.transaction);
+  // Signed signature types
+  if ('message' in data) return objectHash(data.message);
+  // Unsigned signature types
+  if ('signMessage' in data) return objectHash(data.signMessage);
+  if ('hash' in data) return objectHash(data.hash);
+  return objectHash(data);
 };
