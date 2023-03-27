@@ -8,6 +8,8 @@ import { Regenerate } from './Regenerate';
 import { SystemPrompt } from './SystemPrompt';
 import React from 'react';
 import '../../styles/globals.css';
+import { ChatWeb3Details, Navbar } from '../../../ChatWeb3Details';
+import { ChatInputDashboard } from './ChatInputDashboard';
 
 interface Props {
   conversation: Conversation;
@@ -49,7 +51,7 @@ export const Chat: FC<Props> = ({
   }, [conversation.messages]);
 
   return (
-    <div className="relative flex-1 overflow-none dark:bg-[#343541]">
+    <div className="relative flex-1 overflow-none dark:bg-[#161616]">
       {modelError ? (
         <div className="flex flex-col justify-center mx-auto h-full w-[300px] sm:w-[500px] space-y-6">
           <div className="text-center text-red-500">Error fetching models.</div>
@@ -63,40 +65,15 @@ export const Chat: FC<Props> = ({
           <div className="overflow-scroll max-h-full">
             {conversation.messages.length === 0 ? (
               <>
-                <div className="flex flex-col mx-auto pt-12 space-y-10 w-[350px] sm:w-[600px]">
-                  <div className="text-4xl font-semibold text-center text-gray-800 dark:text-gray-100">
-                    {'ChatWeb3'}
-                  </div>
+                <Navbar />
 
-                  {models.length > 0 && (
-                    <div className="flex flex-col h-full space-y-4 border p-4 rounded border-neutral-500">
-                      <ModelSelect
-                        model={conversation.model}
-                        models={models}
-                        onModelChange={(model) =>
-                          onUpdateConversation(conversation, {
-                            key: 'model',
-                            value: model,
-                          })
-                        }
-                      />
-
-                      <SystemPrompt
-                        conversation={conversation}
-                        onChangePrompt={(prompt) =>
-                          onUpdateConversation(conversation, {
-                            key: 'prompt',
-                            value: prompt,
-                          })
-                        }
-                      />
-                    </div>
-                  )}
+                <div className="flex flex-col mx-auto space-y-10 sm:w-[600px]">
+                  <ChatWeb3Details />
                 </div>
               </>
             ) : (
               <>
-                <div className="flex justify-center py-2 text-neutral-500 bg-neutral-100 dark:bg-[#444654] dark:text-neutral-200 text-sm  dark:border-none">
+                <div className="flex justify-center py-2 text-neutral-500 bg-neutral-100 dark:bg-[#161616] dark:text-neutral-200 text-sm  dark:border-none">
                   Model: {conversation.model.name}
                 </div>
 
@@ -106,7 +83,7 @@ export const Chat: FC<Props> = ({
 
                 {loading && <ChatLoader />}
 
-                <div className=" dark:bg-[#343541] h-[162px]" ref={messagesEndRef} />
+                <div className=" dark:bg-[#161616] h-[162px]" ref={messagesEndRef} />
               </>
             )}
           </div>

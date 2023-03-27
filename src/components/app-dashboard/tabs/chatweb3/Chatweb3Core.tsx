@@ -4,7 +4,6 @@ import ReactMarkdown from 'react-markdown';
 import { v4 as uuidv4 } from 'uuid';
 import AIWriter from 'react-aiwriter';
 import { ChatWeb3Details } from './ChatWeb3Details';
-import { ChatMessage } from './ChatMessage';
 import { CodeBlock } from './CodeBlock';
 import { FC } from 'react';
 import remarkGfm from 'remark-gfm';
