@@ -37,6 +37,7 @@ export const Chat: FC<Props> = ({
   const [currentMessage, setCurrentMessage] = useState<Message>();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
@@ -44,6 +45,7 @@ export const Chat: FC<Props> = ({
 
   useEffect(() => {
     scrollToBottom();
+    textareaRef.current?.focus();
   }, [conversation.messages]);
 
   return (
@@ -121,6 +123,7 @@ export const Chat: FC<Props> = ({
             <ChatInput
               stopConversationRef={stopConversationRef}
               messageIsStreaming={messageIsStreaming}
+              textareaRef={textareaRef}
               onSend={(message) => {
                 setCurrentMessage(message);
                 onSend(message, false);

@@ -9,13 +9,12 @@ interface Props {
   onSend: (message: Message) => void;
   model: OpenAIModel;
   stopConversationRef: MutableRefObject<boolean>;
+  textareaRef: MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopConversationRef }) => {
+export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopConversationRef, textareaRef }) => {
   const [content, setContent] = useState<string>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;

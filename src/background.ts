@@ -222,11 +222,13 @@ chrome.runtime.onMessage.addListener(async (request) => {
   }
 });
 
-// Create a context menu item
-chrome.contextMenus.create({
-  id: 'ask-chatgpt',
-  title: 'Ask ChatWeb3',
-  contexts: ['all'],
+chrome.runtime.onInstalled.addListener(() => {
+  // Create a context menu item
+  chrome.contextMenus.create({
+    id: 'ask-chatgpt',
+    title: 'Ask ChatWeb3',
+    contexts: ['all'],
+  });
 });
 
 // Listen for when the user clicks on the context menu item
