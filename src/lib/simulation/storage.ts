@@ -247,26 +247,33 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
     return skipSimulation(args.id);
   }
 
-  // TODO : Remove this once I figure out why not running the above code prevents Metamask from opening
-  return skipSimulation(args.id);
+  // Just in case the bypass check triggers, skip the simulation on verified websites
+  if (response.simulation?.scanResult.verified && args.bypassed) {
+    return skipSimulation(args.id);
+  }
 
-  // if (response.type === ResponseType.Error) {
-  //   // if (response?.error?.message === 'invalid chain id') {
-  //   //   // This will likely be a no-op but we want to handle it anyway.
-  //   //   return skipSimulation(args.id);
-  //   // } else {
-  //   return updateSimulatioWithErrorMsg(args.id, response.error);
-  //   // }
-  // }
-  // if (response.type === ResponseType.Revert) {
-  //   return revertSimulation(args.id, response.error);
-  // }
-  // if (response.type === ResponseType.Success) {
-  //   if (!response.simulation) {
-  //     throw new Error('Invalid state');
-  //   }
-  //   return completeSimulation(args.id, response.simulation);
-  // }
+  // Just in case the bypass check triggers, skip the simulation on verified websites
+  if (response.simulation?.scanResult.verified && args.bypassed) {
+    return skipSimulation(args.id);
+  }
+
+  if (response.type === ResponseType.Error) {
+    if (response?.error?.message === 'invalid chain id') {
+      // This will likely be a no-op but we want to handle it anyway.
+      return skipSimulation(args.id);
+    } else {
+      return updateSimulatioWithErrorMsg(args.id, response.error);
+    }
+  }
+  if (response.type === ResponseType.Revert) {
+    return revertSimulation(args.id, response.error);
+  }
+  if (response.type === ResponseType.Success) {
+    if (!response.simulation) {
+      throw new Error('Invalid state');
+    }
+    return completeSimulation(args.id, response.simulation);
+  }
 };
 
 export const clearOldSimulations = async () => {
