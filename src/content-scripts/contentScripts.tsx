@@ -65,17 +65,14 @@ listenToRequest(async (request: RequestArgs) => {
         const newSimulations = changes['simulations'].newValue;
 
         newSimulations.forEach((simulation: StoredSimulation) => {
-          log.info('dispatching continue or reject');
           // Either dispatch the corresponding event, or push the item to new simulations.
           if (simulation.state === StoredSimulationState.Confirmed) {
-            log.debug('Dispatch confirmed', simulation.id);
             dispatchResponse({
               id: simulation.id,
               type: Response.Continue,
             });
             maybeRemoveId(simulation.id);
           } else if (simulation.state === StoredSimulationState.Rejected) {
-            log.debug('Dispatch rejected', simulation.id);
             dispatchResponse({
               id: simulation.id,
               type: Response.Reject,

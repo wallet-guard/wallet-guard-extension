@@ -1,12 +1,9 @@
 // Storage wrapper for updating the storage.
-import logger from '../logger';
 import { fetchSimulate, fetchSignature } from './server';
 import { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType, generateMessageId, PortMessage } from '../helpers/chrome/messageHandler';
-
-const log = logger.child({ component: 'Storage' });
 
 export enum StoredSimulationState {
   // Currently in the process of simulating.
@@ -67,7 +64,6 @@ export const addSimulation = async (simulation: StoredSimulation) => {
   // Add new simulation to the front.
   simulations.push({ ...simulation });
 
-  console.log('add simulation', simulation);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -76,14 +72,11 @@ const completeSimulation = async (id: string, simulation: SimulationResponse) =>
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
     if (storedSimulation.id === id) {
-      console.log('simulation found id', id);
-      log.debug('Simulation found id', id);
       storedSimulation.state = StoredSimulationState.Success;
       storedSimulation.simulation = simulation;
     }
   });
 
-  console.log('completeSimulation', simulation);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -93,12 +86,10 @@ export const skipSimulation = async (id: string) => {
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
     if (storedSimulation.id === id) {
-      log.debug('Simulation found id', id);
       storedSimulation.state = StoredSimulationState.Confirmed;
     }
   });
 
-  console.log('skipSimulation', id);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -107,13 +98,11 @@ const revertSimulation = async (id: string, error?: SimulationError) => {
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
     if (storedSimulation.id === id) {
-      log.debug('Simulation found id', id);
       storedSimulation.state = StoredSimulationState.Revert;
       storedSimulation.error = error;
     }
   });
 
-  console.log('revertSimulation', id, error);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -124,7 +113,6 @@ export const removeSimulation = async (id: string) => {
     return storedSimulation.id !== id;
   });
 
-  console.log('removesimulation', id, simulations);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -143,6 +131,8 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
   if (simulations) {
     const currentSimulation: StoredSimulation = simulations[0] || [];
     const requestId = generateMessageId(currentSimulation);
+
+    console.log('sending message', requestId, currentSimulation);
 
     const message: BrowserMessage = {
       type: BrowserMessageType.ApprovedTxn,
@@ -170,7 +160,6 @@ const updateSimulatioWithErrorMsg = async (id: string, error?: SimulationError) 
       : x
   );
 
-  console.log('update simulation with error msg', id, error, simulations);
   return chrome.storage.local.set({ simulations });
 };
 

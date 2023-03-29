@@ -9,7 +9,7 @@ const bypassed = true;
 
 const sendMessageToPort = (stream: Browser.Runtime.Port, data: RequestArgs): void => {
   const requestId = generateMessageId(data);
-  console.log(requestId);
+  console.log('requestid', requestId, data);
   const message: PortMessage = {
     requestId,
     data,
