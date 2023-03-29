@@ -67,11 +67,8 @@ chrome.runtime.onMessage.addListener(async (message: BrowserMessage, sender, sen
         }
       });
     }
-    return true; // need to return true here for async message passing
-    // https://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
   } else if (message.type === BrowserMessageType.ApprovedTxn && 'id' in message) {
     // TODO: verify it is from our extension or else it might be possible to bypass this
-    console.log(message.id);
     approvedTxnIds.push(message.id);
   } else if (message.type === BrowserMessageType.RunSimulation && 'data' in message) {
     const args: RequestArgs = message.data;
@@ -230,6 +227,7 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
 
+  console.log(approvedTxnIds, message.requestId);
   if (approvedTxnIds.includes(message.requestId)) return;
 
   // TODO: check if there's anything else neccessary to do here

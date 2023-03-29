@@ -1,10 +1,11 @@
 // Storage wrapper for updating the storage.
 import logger from '../logger';
 import { fetchSimulate, fetchSignature } from './server';
-import type { RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
+import { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType, generateMessageId, PortMessage } from '../helpers/chrome/messageHandler';
+import objectHash from 'object-hash';
 
 const log = logger.child({ component: 'Storage' });
 
@@ -140,16 +141,17 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
       : x
   );
 
-  // const requestId = generateMessageId(simulations && simulations[0]);
+  if (simulations) {
+    const currentSimulation: StoredSimulation = simulations[0] || [];
+    const requestId = generateMessageId(currentSimulation);
 
-  // todo: potential solution- only sendMessage if bypassed?
+    const message: BrowserMessage = {
+      type: BrowserMessageType.ApprovedTxn,
+      id: requestId,
+    };
 
-  // const message: BrowserMessage = {
-  //   type: BrowserMessageType.ApprovedTxn,
-  //   id: requestId,
-  // };
-
-  // Browser.runtime.sendMessage(undefined, message);
+    await Browser.runtime.sendMessage(undefined, message);
+  }
 
   console.log('update simulation state', state, id, simulations);
   return chrome.storage.local.set({ simulations });
@@ -180,6 +182,10 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
   if (args.chainId !== '0x1' && args.chainId !== '1') {
     // Automatically confirm if chain id is incorrect. This prevents the popup.
     state = StoredSimulationState.Confirmed;
+
+    // TODO: This is breaking Metamask when using Arbitrum as chain id
+    // return skipSimulation(args.id);
+    // return revertSimulation(args.id, { type: ErrorType.GeneralError, message: 'Incorrect chain id', extraData: null });
   }
 
   console.log('args', args);
@@ -234,23 +240,26 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
     response = result[1];
   }
 
-  if (response.type === ResponseType.Error) {
-    if (response?.error?.message === 'invalid chain id') {
-      // This will likely be a no-op but we want to handle it anyway.
-      return skipSimulation(args.id);
-    } else {
-      return updateSimulatioWithErrorMsg(args.id, response.error);
-    }
-  }
-  if (response.type === ResponseType.Revert) {
-    return revertSimulation(args.id, response.error);
-  }
-  if (response.type === ResponseType.Success) {
-    if (!response.simulation) {
-      throw new Error('Invalid state');
-    }
-    return completeSimulation(args.id, response.simulation);
-  }
+  // TODO : Remove this once I figure out why not running the above code prevents Metamask from opening
+  return skipSimulation(args.id);
+
+  // if (response.type === ResponseType.Error) {
+  //   // if (response?.error?.message === 'invalid chain id') {
+  //   //   // This will likely be a no-op but we want to handle it anyway.
+  //   //   return skipSimulation(args.id);
+  //   // } else {
+  //   return updateSimulatioWithErrorMsg(args.id, response.error);
+  //   // }
+  // }
+  // if (response.type === ResponseType.Revert) {
+  //   return revertSimulation(args.id, response.error);
+  // }
+  // if (response.type === ResponseType.Success) {
+  //   if (!response.simulation) {
+  //     throw new Error('Invalid state');
+  //   }
+  //   return completeSimulation(args.id, response.simulation);
+  // }
 };
 
 export const clearOldSimulations = async () => {
