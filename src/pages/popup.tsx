@@ -31,10 +31,6 @@ const Popup = () => {
     integrations: [new BrowserTracing()],
   });
 
-  // SET THIS TEMPORARILY TO UPDATE CURRENT USERS - Remove after 0.7.5
-  const uid = posthog.get_distinct_id();
-  chrome.runtime.setUninstallURL('https://walletguard.app/uninstall?id=' + uid);
-
   useEffect(() => {
     chrome.storage.local.get('simulations').then(({ simulations }) => {
       setStoredSimulations(simulations);
