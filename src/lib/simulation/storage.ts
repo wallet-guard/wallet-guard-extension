@@ -5,7 +5,6 @@ import { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType, generateMessageId, PortMessage } from '../helpers/chrome/messageHandler';
-import objectHash from 'object-hash';
 
 const log = logger.child({ component: 'Storage' });
 
@@ -183,9 +182,13 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
     // Automatically confirm if chain id is incorrect. This prevents the popup.
     state = StoredSimulationState.Confirmed;
 
-    // TODO: This is breaking Metamask when using Arbitrum as chain id
-    // return skipSimulation(args.id);
-    // return revertSimulation(args.id, { type: ErrorType.GeneralError, message: 'Incorrect chain id', extraData: null });
+    return addSimulation({
+      id: args.id,
+      signer: args.signer,
+      type: StoredType.Simulation,
+      state,
+      bypassed: args.bypassed,
+    });
   }
 
   console.log('args', args);
@@ -240,26 +243,23 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
     response = result[1];
   }
 
-  // TODO : Remove this once I figure out why not running the above code prevents Metamask from opening
-  return skipSimulation(args.id);
-
-  // if (response.type === ResponseType.Error) {
-  //   // if (response?.error?.message === 'invalid chain id') {
-  //   //   // This will likely be a no-op but we want to handle it anyway.
-  //   //   return skipSimulation(args.id);
-  //   // } else {
-  //   return updateSimulatioWithErrorMsg(args.id, response.error);
-  //   // }
-  // }
-  // if (response.type === ResponseType.Revert) {
-  //   return revertSimulation(args.id, response.error);
-  // }
-  // if (response.type === ResponseType.Success) {
-  //   if (!response.simulation) {
-  //     throw new Error('Invalid state');
-  //   }
-  //   return completeSimulation(args.id, response.simulation);
-  // }
+  if (response.type === ResponseType.Error) {
+    if (response?.error?.message === 'invalid chain id') {
+      // This will likely be a no-op but we want to handle it anyway.
+      return skipSimulation(args.id);
+    } else {
+      return updateSimulatioWithErrorMsg(args.id, response.error);
+    }
+  }
+  if (response.type === ResponseType.Revert) {
+    return revertSimulation(args.id, response.error);
+  }
+  if (response.type === ResponseType.Success) {
+    if (!response.simulation) {
+      throw new Error('Invalid state');
+    }
+    return completeSimulation(args.id, response.simulation);
+  }
 };
 
 export const clearOldSimulations = async () => {
