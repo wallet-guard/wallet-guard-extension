@@ -41,13 +41,6 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
     <div>
       <SimulationHeader />
 
-      {currentSimulation.bypassed && (
-        <SimulationOverview
-          warningType={SimulationWarningType.Warn}
-          message={['This transaction attempted to bypass our simulation. Please proceed with caution.']}
-        />
-      )}
-
       <div>
         {((currentSimulation.state === StoredSimulationState.Success &&
           currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
