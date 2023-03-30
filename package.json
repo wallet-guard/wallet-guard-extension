@@ -20,7 +20,6 @@
     "@sentry/tracing": "^7.37.1",
     "deep-equal": "^2.2.0",
     "eth-rpc-errors": "^4.0.3",
-    "object-hash": "^3.0.0",
     "parse-domain": "^7.0.0",
     "pino": "^8.11.0",
     "posthog-js": "^1.53.4",

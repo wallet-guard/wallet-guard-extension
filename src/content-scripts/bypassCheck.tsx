@@ -8,7 +8,7 @@ import {
   TransactionArgs,
 } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
-import { PortMessage, PortIdentifiers, generateMessageId } from '../lib/helpers/chrome/messageHandler';
+import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
 import { convertObjectValuesToString } from '../injected/injectWalletGuard';
 
 let metamaskChainId = 1;
@@ -27,10 +27,6 @@ window.addEventListener('message', (message) => {
   const { name, data } = message?.data?.data ?? {};
   const { hostname } = location;
   const chainId = metamaskChainId;
-
-  // todo: add check here if we've already seen this request
-  // const simulations: StoredSimulation = (await chrome.storage.local.get('simulations')).simulations;
-  // console.log(simulations);
 
   if (name !== PortIdentifiers.METAMASK_PROVIDER || !data) return;
 
