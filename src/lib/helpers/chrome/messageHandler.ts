@@ -36,6 +36,15 @@ export type PortMessage = {
 
 export function findTransaction(approvedTxns: RequestArgs[], txn: RequestArgs) {
   if ('transaction' in txn) {
-    return approvedTxns.find((x: any) => x.transaction.from === txn.transaction.from);
+    return approvedTxns.find((x: any) => x.transaction.from === txn.transaction.from
+      && x.transaction.to === txn.transaction.to
+      && x.transaction.value === txn.transaction.value
+      && x.transaction.data === txn.transaction.data);
+  } else if ('message' in txn) {
+    return approvedTxns.find((x: any) => x.message === txn.message);
+  } else if ('signMessage' in txn) {
+    return approvedTxns.find((x: any) => x.signMessage === txn.signMessage);
+  } else if ('hash' in txn) {
+    return approvedTxns.find((x: any) => x.hash === txn.hash);
   }
 }

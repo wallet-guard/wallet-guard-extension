@@ -220,7 +220,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
       fetchSignature(args),
     ]);
     response = result[1];
-    console.log(response, 'sign message response');
   } else {
     const result = await Promise.all([
       addSimulation({

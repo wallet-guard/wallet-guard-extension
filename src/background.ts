@@ -226,9 +226,13 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
 
+  // Check if the transaction was already simulated and confirmed
   const isApproved = findTransaction(approvedTxns, message.data);
-
   if (isApproved) return;
 
+  // Wait for Metamask to popup first because otherwise Chrome will create both popups in the same coordinates
+  await new Promise(resolve => setTimeout(resolve, 200));
+
+  // Run the simulation
   clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));
 };
