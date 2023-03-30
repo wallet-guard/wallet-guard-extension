@@ -1,4 +1,5 @@
 import { RequestArgs } from '../../../models/simulation/Transaction';
+var equal = require('deep-equal');
 
 export enum BrowserMessageType {
   ProceedAnyway = 'proceedAnyway',
@@ -34,15 +35,11 @@ export type PortMessage = {
   data: RequestArgs; // todo: extend this type when if/when we add more use cases to postMessage
 };
 
-export function findTransaction(approvedTxns: RequestArgs[], txn: RequestArgs) {
+export function findApprovedTransaction(approvedTxns: RequestArgs[], txn: RequestArgs) {
   if ('transaction' in txn) {
-    return approvedTxns.find((x: any) =>
-      x.transaction?.from === txn.transaction.from
-      && x.transaction?.to === txn.transaction.to
-      && x.transaction?.value === txn.transaction.value
-      && x.transaction?.data === txn.transaction.data);
+    return approvedTxns.find((x: any) => equal(x.transaction, txn.transaction));
   } else if ('message' in txn) {
-    return approvedTxns.find((x: any) => x.message === txn.message);
+    return approvedTxns.find((x: any) => equal(x.message, txn.message));
   } else if ('signMessage' in txn) {
     return approvedTxns.find((x: any) => x.signMessage === txn.signMessage);
   } else if ('hash' in txn) {

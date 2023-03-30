@@ -4,7 +4,7 @@ import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } 
 import { RequestArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
-import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage, findTransaction } from './lib/helpers/chrome/messageHandler';
+import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage, findApprovedTransaction } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
 import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
@@ -227,7 +227,7 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
 
   // Check if the transaction was already simulated and confirmed
-  const isApproved = findTransaction(approvedTxns, message.data);
+  const isApproved = findApprovedTransaction(approvedTxns, message.data);
   if (isApproved) return;
 
   // Wait for Metamask to popup first because otherwise Chrome will create both popups in the same coordinates

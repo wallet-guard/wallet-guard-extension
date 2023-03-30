@@ -80,7 +80,7 @@ const completeSimulation = async (id: string, simulation: SimulationResponse) =>
     }
   });
 
-  return chrome.storage.local.set({ simulations });
+  return await chrome.storage.local.set({ simulations });
 };
 
 // Skip the popup, this is used for incorrect chain id.
@@ -142,7 +142,7 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
     await Browser.runtime.sendMessage(undefined, message);
   }
 
-  return chrome.storage.local.set({ simulations });
+  return await chrome.storage.local.set({ simulations });
 };
 
 // TODO(jqphu): dedup with above...
@@ -159,7 +159,7 @@ const updateSimulatioWithErrorMsg = async (id: string, error?: SimulationError) 
       : x
   );
 
-  return chrome.storage.local.set({ simulations });
+  return await chrome.storage.local.set({ simulations });
 };
 
 export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
