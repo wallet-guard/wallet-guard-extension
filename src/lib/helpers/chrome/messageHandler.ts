@@ -1,6 +1,4 @@
-import objectHash from 'object-hash';
 import { RequestArgs } from '../../../models/simulation/Transaction';
-import { StoredSimulation } from '../../simulation/storage';
 
 export enum BrowserMessageType {
   ProceedAnyway = 'proceedAnyway',
@@ -14,7 +12,7 @@ export type ProceedAnywayMessageType = {
 };
 
 export type ApprovedTxnMessageType = {
-  id: string;
+  data: RequestArgs;
 }
 
 export type RunSimulationMessageType = {
@@ -33,17 +31,11 @@ export const PortIdentifiers = {
 };
 
 export type PortMessage = {
-  requestId: string;
   data: RequestArgs; // todo: extend this type when if/when we add more use cases to postMessage
 };
 
-export const generateMessageId = (data: RequestArgs | StoredSimulation) => {
-  // Transaction types
-  if ('transaction' in data) return objectHash(data.transaction);
-  // Signed signature types
-  if ('message' in data) return objectHash(data.message);
-  // Unsigned signature types
-  if ('signMessage' in data) return objectHash(data.signMessage);
-  if ('hash' in data) return objectHash(data.hash);
-  return objectHash(data);
-};
+export function findTransaction(approvedTxns: RequestArgs[], txn: RequestArgs) {
+  if ('transaction' in txn) {
+    return approvedTxns.find((x: any) => x.transaction.from === txn.transaction.from);
+  }
+}

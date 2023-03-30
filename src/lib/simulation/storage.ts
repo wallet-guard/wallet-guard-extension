@@ -1,9 +1,9 @@
 // Storage wrapper for updating the storage.
 import { fetchSimulate, fetchSignature } from './server';
-import { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
+import { RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
-import { BrowserMessage, BrowserMessageType, generateMessageId, PortMessage } from '../helpers/chrome/messageHandler';
+import { BrowserMessage, BrowserMessageType } from '../helpers/chrome/messageHandler';
 
 export enum StoredSimulationState {
   // Currently in the process of simulating.
@@ -48,6 +48,9 @@ export interface StoredSimulation {
 
   /// Simulation set on success.
   simulation?: SimulationResponse;
+
+  // The params that were used to simulate this transaction.
+  args: RequestArgs;
 
   /// Optional error message on Error
   error?: SimulationError;
@@ -128,21 +131,17 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
       : x
   );
 
-  if (simulations) {
+  if (simulations && !simulations[0].bypassed) {
     const currentSimulation: StoredSimulation = simulations[0] || [];
-    const requestId = generateMessageId(currentSimulation);
-
-    console.log('sending message', requestId, currentSimulation);
 
     const message: BrowserMessage = {
       type: BrowserMessageType.ApprovedTxn,
-      id: requestId,
+      data: currentSimulation.args,
     };
 
     await Browser.runtime.sendMessage(undefined, message);
   }
 
-  console.log('update simulation state', state, id, simulations);
   return chrome.storage.local.set({ simulations });
 };
 
@@ -175,6 +174,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
       id: args.id,
       signer: args.signer,
       type: StoredType.Simulation,
+      args,
       state,
       bypassed: args.bypassed,
     });
@@ -188,6 +188,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.Simulation,
         state,
+        args,
         bypassed: args.bypassed,
       }),
       fetchSimulate(args),
@@ -200,6 +201,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.SignatureHash,
         state,
+        args,
         bypassed: args.bypassed,
       }),
       fetchSignature(args),
@@ -212,6 +214,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.PersonalSign,
         state,
+        args,
         bypassed: args.bypassed,
       }),
       fetchSignature(args),
@@ -225,6 +228,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.Signature,
         state,
+        args,
         bypassed: args.bypassed,
       }),
       fetchSignature(args),

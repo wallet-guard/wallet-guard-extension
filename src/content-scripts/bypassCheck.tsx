@@ -1,17 +1,14 @@
 import Browser from 'webextension-polyfill';
 import { RequestArgs, Transaction } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
-import { PortMessage, PortIdentifiers, generateMessageId } from '../lib/helpers/chrome/messageHandler';
+import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
 import { convertObjectValuesToString } from '../injected/injectWalletGuard';
 
 let metamaskChainId = 1;
 const bypassed = true;
 
 const sendMessageToPort = (stream: Browser.Runtime.Port, data: RequestArgs): void => {
-  const requestId = generateMessageId(data);
-  console.log('requestid', requestId, data);
   const message: PortMessage = {
-    requestId,
     data,
   };
   stream.postMessage(message);
@@ -23,10 +20,6 @@ window.addEventListener('message', (message) => {
   const { name, data } = message?.data?.data ?? {};
   const { hostname } = location;
   const chainId = metamaskChainId;
-
-  // todo: add check here if we've already seen this request
-  // const simulations: StoredSimulation = (await chrome.storage.local.get('simulations')).simulations;
-  // console.log(simulations);
 
   if (name !== PortIdentifiers.METAMASK_PROVIDER || !data) return;
 

@@ -4,7 +4,7 @@ import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } 
 import { RequestArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
-import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage } from './lib/helpers/chrome/messageHandler';
+import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage, findTransaction } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
 import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
@@ -17,7 +17,7 @@ import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 
 const log = logger.child({ component: 'Background' });
-const approvedTxnIds: string[] = [];
+const approvedTxns: RequestArgs[] = [];
 
 let currentPopup: undefined | number;
 
@@ -67,9 +67,8 @@ chrome.runtime.onMessage.addListener(async (message: BrowserMessage, sender, sen
         }
       });
     }
-  } else if (message.type === BrowserMessageType.ApprovedTxn && 'id' in message) {
-    // TODO: verify it is from our extension or else it might be possible to bypass this
-    approvedTxnIds.push(message.id);
+  } else if (message.type === BrowserMessageType.ApprovedTxn && 'data' in message) {
+    approvedTxns.push(message.data);
   } else if (message.type === BrowserMessageType.RunSimulation && 'data' in message) {
     const args: RequestArgs = message.data;
     clearOldSimulations().then(() => fetchSimulationAndUpdate(args));
@@ -227,9 +226,9 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
 
-  console.log(approvedTxnIds, message.requestId);
-  if (approvedTxnIds.includes(message.requestId)) return;
+  const isApproved = findTransaction(approvedTxns, message.data);
 
-  // TODO: check if there's anything else neccessary to do here
+  if (isApproved) return;
+
   clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));
 };
