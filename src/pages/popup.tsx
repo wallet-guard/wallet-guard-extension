@@ -7,7 +7,6 @@ import { NoSimulation } from '../components/simulation/NoSimulation';
 import { SimulationHeader } from '../components/simulation/SimulationHeader';
 import { SimulationOverview } from '../components/simulation/SimulationOverview';
 import { TransactionContent } from '../components/simulation/TransactionContent';
-import logger from '../lib/logger';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { StoredSimulationState } from '../lib/simulation/storage';
 import { ErrorType, SimulationWarningType } from '../models/simulation/Transaction';
@@ -18,8 +17,7 @@ import { BypassedSimulationButton } from '../components/simulation/SimulationSub
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
-
-  const log = logger.child({ component: 'Popup' });
+  const [currentSimulation, setCurrentSimulation] = useState<StoredSimulation>();
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
     api_host: 'https://app.posthog.com',
@@ -46,18 +44,37 @@ const Popup = () => {
     });
   }, []);
 
-  // TODO: Consider the idea of filtering out anything that does not match the currentSite.
-  // Do not use currentSite service because someone could change tabs and get the data mismatched
-  const filteredSimulations = storedSimulations?.filter(
-    (simulation: StoredSimulation) =>
-      simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
-  );
+  useEffect(() => {
+    const filteredSimulations = storedSimulations?.filter(
+      (simulation: StoredSimulation) =>
+        simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
+    );
 
-  if (!filteredSimulations || filteredSimulations.length === 0) {
+    let current;
+
+    if (filteredSimulations && filteredSimulations[0]) {
+      current = filteredSimulations[0];
+      setCurrentSimulation(current);
+    } else {
+      setCurrentSimulation(undefined);
+    }
+
+    if (current?.bypassed) {
+      if (current.simulation) {
+        current.simulation.warningType = SimulationWarningType.Warn;
+        current.simulation.message = [
+          `This transaction attempted to bypass Wallet Guard's simulation. Please proceed with caution.`,
+          ...(current.simulation.message || ''),
+        ];
+
+        setCurrentSimulation(current);
+      }
+    }
+  }, [storedSimulations]);
+
+  if (!currentSimulation) {
     return <NoSimulation />;
   }
-
-  const currentSimulation = filteredSimulations[0];
 
   if (currentSimulation.simulation?.error || currentSimulation.error) {
     return (
@@ -74,13 +91,6 @@ const Popup = () => {
         <SimulationHeader />
       </div>
 
-      {currentSimulation.bypassed && (
-        <SimulationOverview
-          warningType={SimulationWarningType.Warn}
-          message={['This transaction attempted to bypass our simulation. Please proceed with caution']}
-        />
-      )}
-
       <div>
         {((currentSimulation.state === StoredSimulationState.Success &&
           currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
@@ -89,7 +99,7 @@ const Popup = () => {
           <div>
             <SimulationOverview
               warningType={currentSimulation.simulation.warningType}
-              message={currentSimulation.simulation.message}
+              message={currentSimulation.simulation.message || []}
               method={currentSimulation.simulation.method}
             />
           </div>

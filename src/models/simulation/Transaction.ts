@@ -76,7 +76,7 @@ export type RequestArgs = {
 
 export type SimulationResponse = {
   warningType: SimulationWarningType;
-  message: string[];
+  message?: string[];
   stateChanges: SimulationStateChange[];
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
