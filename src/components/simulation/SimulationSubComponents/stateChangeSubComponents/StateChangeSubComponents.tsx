@@ -62,6 +62,7 @@ export const SetApprovalForAll = () => {
         style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
         className={`${styles['font-archivo-bold']}`}
       >
+        {/* todo: make this white if isVerified */}
         <b>
           Permission to <br /> withdraw ALL
         </b>

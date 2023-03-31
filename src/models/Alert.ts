@@ -9,6 +9,7 @@ export interface AlertDetail {
   details: string;
   link?: string;
   createdAt: string | number;
+  data?: any;
 }
 
 export enum AlertCategory {
