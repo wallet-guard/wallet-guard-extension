@@ -77,7 +77,7 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
   }
 
   return (
-    <div className="absolute bottom-0 left-0 w-full dark:border-white/20 border-transparent dark:bg-[##161616] dark:bg-gradient-to-t from-[#161616] via-[#161616] to-[#161616]/0 dark:!bg-transparent dark:bg-vert-dark-gradient pt-6 md:pt-2">
+    <div className="absolute bottom-0 left-0 w-full dark:border-white/20 border-transparent dark:bg-[#161616] dark:bg-gradient-to-t from-[#161616] via-[#161616] to-[#161616]/0 dark:!bg-transparent dark:bg-vert-dark-gradient pt-6 md:pt-2">
       <div className="stretch md:mt-[52px] mt-4 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-3xl">
         {messageIsStreaming && (
           <button

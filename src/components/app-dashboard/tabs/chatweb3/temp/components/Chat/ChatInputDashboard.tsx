@@ -13,6 +13,24 @@ interface Props {
   textareaRef: MutableRefObject<HTMLTextAreaElement | null>;
 }
 
+const ExampleComponent = () => {
+  let questions = ['What is your name?', 'What is your favorite color?', 'What is your favorite food?'];
+  return (
+    <div className="flex items-center">
+      <div className="mr-4">Examples:</div>
+      <div className="flex justify-end">
+        {questions.map((question, index) => (
+          <div key={index} className="bg-[#000000] rounded-lg px-4 py-2 ml-4 first:ml-0">
+            {question}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ExampleComponent;
+
 export const ChatInputDashboard: FC<Props> = ({
   onSend,
   messageIsStreaming,
@@ -89,71 +107,74 @@ export const ChatInputDashboard: FC<Props> = ({
   }
 
   return (
-    <div className="bg-white">
-      <div className="absolute bottom-0 left-0 w-full dark:border-white/20 border-transparent dark:bg-[#111111] dark:bg-gradient-to-t from-[#111111] via-[#111111] to-[#111111]/0 dark:!bg-transparent dark:bg-vert-dark-gradient pt-6 md:pt-2">
-        <div className="stretch md:mt-[52px] mt-4 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-5xl">
-          {messageIsStreaming && (
-            <button
-              className="absolute -top-2 md:top-0 left-0 right-0 mx-auto dark:bg-[#161616] border w-fit border-gray-500 py-2 px-4 rounded text-black dark:text-white hover:opacity-50 md:mt-[-1%] lg:mt-[-2%]"
-              onClick={handleStopConversation}
+    <div className="absolute bottom-0 left-0 w-full dark:border-white/20 border-transparent dark:bg-[#232323] pt-6 md:pt-2">
+      <div
+        className="stretch md:mt-[52px] mt-4 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto  "
+        style={{ marginLeft: '200px', marginRight: '200px' }}
+      >
+        {messageIsStreaming && (
+          <button
+            className="absolute -top-2 md:top-0 left-0 right-0 mx-auto dark:bg-[#161616] border w-fit border-gray-500 py-2 px-4 rounded text-black dark:text-white hover:opacity-50 md:mt-[-1%] lg:mt-[-2%]"
+            onClick={handleStopConversation}
+          >
+            <IconPlayerStop size={16} className="inline-block mb-[2px]" /> Stop Generating
+          </button>
+        )}
+        <div
+          style={{ maxWidth: '250px' }}
+          className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-gray-[#373B3E] dark:text-white dark:bg-[#000000] rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] mx-3 md:mx-0 flex items-center"
+        >
+          <div className="flex items-center space-x-2">
+            <label htmlFor="userType" className="text-sm">
+              Type of user:
+            </label>
+            <select
+              id="userType"
+              value={userType}
+              onChange={handleUserTypeChange}
+              className="text-black dark:text-white border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0 p-1 outline-none"
             >
-              <IconPlayerStop size={16} className="inline-block mb-[2px]" /> Stop Generating
-            </button>
-          )}
-
-          <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-gray-[#373B3E] dark:text-white dark:bg-[#000000] rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] mx-3 md:mx-0">
-            <div className="flex items-center space-x-2">
-              <label htmlFor="userType" className="text-sm">
-                Type of user:
-              </label>
-              <select
-                id="userType"
-                value={userType}
-                onChange={handleUserTypeChange}
-                className=" text-black dark:text-white border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0 p-1 outline-none"
-              >
-                <option value="beginner">Beginner</option>
-                <option value="intermediate">Intermediate</option>
-                <option value="advanced">Advanced</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-gray-[#373B3E] dark:text-white dark:bg-[#000000] rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] mx-3 md:mx-0">
-            <textarea
-              ref={textareaRef}
-              className="text-black dark:text-white m-0 w-full resize-none outline-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0 p-1"
-              style={{
-                resize: 'none',
-                bottom: `${textareaRef?.current?.scrollHeight}px`,
-                maxHeight: '400px',
-                overflow: `${textareaRef.current && textareaRef.current.scrollHeight > 400 ? 'auto' : 'hidden'}`,
-              }}
-              placeholder="Type a message..."
-              value={content}
-              rows={1}
-              onCompositionStart={() => setIsTyping(true)}
-              onCompositionEnd={() => setIsTyping(false)}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-            />
-
-            <button
-              className="absolute right-5 focus:outline-none text-neutral-800 hover:text-neutral-900 dark:text-neutral-100 dark:hover:text-neutral-200 dark:bg-opacity-50 hover:bg-neutral-200 p-2 rounded-sm"
-              onClick={handleSend}
-            >
-              <IconSend size={16} className="opacity-60" />
-            </button>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
           </div>
         </div>
-        <div className="px-3 pt-2 pb-3 text-center text-xs text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
-          <a href="https://www.walletguard.app/chatweb3" target="_blank" rel="noreferrer" className="underline">
-            ChatWeb3
-          </a>
-          . Our goal is to make web3, blockchain, and security more natural and safe to interact with. Your feedback
-          will help us improve.
+        <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-gray-[#373B3E] dark:text-white dark:bg-[#000000] rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] mx-3 md:mx-0">
+          <textarea
+            ref={textareaRef}
+            className="text-black dark:text-white m-0 w-full resize-none outline-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0 p-1"
+            style={{
+              resize: 'none',
+              bottom: `${textareaRef?.current?.scrollHeight}px`,
+              maxHeight: '400px',
+              overflow: `${textareaRef.current && textareaRef.current.scrollHeight > 400 ? 'auto' : 'hidden'}`,
+            }}
+            placeholder="Type a message..."
+            value={content}
+            rows={1}
+            onCompositionStart={() => setIsTyping(true)}
+            onCompositionEnd={() => setIsTyping(false)}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+          />
+
+          <button
+            className="absolute right-5 focus:outline-none text-neutral-800 hover:text-neutral-900 dark:text-neutral-100 dark:hover:text-neutral-200 dark:bg-opacity-50 hover:bg-neutral-200 p-2 rounded-sm"
+            onClick={handleSend}
+          >
+            <IconSend size={16} className="opacity-60" />
+          </button>
         </div>
       </div>
+      {/* <div className="px-3 pt-2 pb-3 text-center text-xs text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
+        <a href="https://www.walletguard.app/chatweb3" target="_blank" rel="noreferrer" className="underline">
+          ChatWeb3
+        </a>
+        . Our goal is to make web3, blockchain, and security more natural and safe to interact with. Your feedback will
+        help us improve.
+      </div> */}
+      <ExampleComponent />
     </div>
   );
 };
