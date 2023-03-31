@@ -72,6 +72,7 @@ export function PhishingWarning() {
       type: MessageType.ProceedAnyway,
       url: proceedAnywayUrl,
       permanent: true,
+      reason,
     });
   }
 
