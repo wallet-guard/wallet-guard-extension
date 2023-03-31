@@ -49,24 +49,52 @@ export const SetTokenApproval = ({ stateChange }: { stateChange: SimulationState
   );
 };
 
-export const SetApprovalForAll = () => {
+interface SetApprovalForAllProps {
+  verified?: boolean;
+}
+
+export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
   return (
     <div style={{ display: 'flex' }}>
-      <img
-        src="/images/popup/orange-danger.png"
-        alt=""
-        width={33}
-        style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
-      />
-      <h3
-        style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
-        className={`${styles['font-archivo-bold']}`}
-      >
-        {/* todo: make this white if isVerified */}
-        <b>
-          Permission to <br /> withdraw ALL
-        </b>
-      </h3>
+      {props.verified ? (
+        <>
+          <Tooltip
+            hasArrow
+            placement="top"
+            bg="#212121"
+            color="white"
+            className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+            style={{ borderRadius: '2em' }}
+            label="Marketplaces need this approval to list your asset."
+          >
+            <h3
+              style={{ color: 'white', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
+              className={`${styles['font-archivo-bold']}`}
+            >
+              <b>
+                Permission to <br /> withdraw ALL
+              </b>
+            </h3>
+          </Tooltip>
+        </>
+      ) : (
+        <>
+          <img
+            src="/images/popup/orange-danger.png"
+            alt=""
+            width={33}
+            style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
+          />
+          <h3
+            style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
+            className={`${styles['font-archivo-bold']}`}
+          >
+            <b>
+              Permission to <br /> withdraw ALL
+            </b>
+          </h3>
+        </>
+      )}
     </div>
   );
 };
