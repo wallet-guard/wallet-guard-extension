@@ -58,24 +58,14 @@ export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
     <div style={{ display: 'flex' }}>
       {props.verified ? (
         <>
-          <Tooltip
-            hasArrow
-            placement="top"
-            bg="#212121"
-            color="white"
-            className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-            style={{ borderRadius: '2em' }}
-            label="Marketplaces need this approval to list your asset."
+          <h3
+            style={{ color: 'white', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
+            className={`${styles['font-archivo-bold']}`}
           >
-            <h3
-              style={{ color: 'white', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
-              className={`${styles['font-archivo-bold']}`}
-            >
-              <b>
-                Permission to <br /> withdraw ALL
-              </b>
-            </h3>
-          </Tooltip>
+            <b>
+              Permission to <br /> withdraw ALL
+            </b>
+          </h3>
         </>
       ) : (
         <>
