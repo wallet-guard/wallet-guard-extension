@@ -16,7 +16,7 @@ export default function Home() {
   const [models, setModels] = useState<OpenAIModel[]>([]);
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
   const [messageIsStreaming, setMessageIsStreaming] = useState<boolean>(false);
-  const [apiKey, setApiKey] = useState<string>('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');
+  const [apiKey, setApiKey] = useState<string>('');
   const [messageError, setMessageError] = useState<boolean>(false);
   const [modelError, setModelError] = useState<boolean>(false);
   const stopConversationRef = useRef<boolean>(false);
