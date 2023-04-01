@@ -26,3 +26,6 @@ jobs:
 
       - name: Run tests
         run: npm run test
+
+      - name: Build step
+        run: npm run build:chrome
