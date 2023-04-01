@@ -33,7 +33,7 @@ jobs:
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
           publish: false
       - name: Build Extension Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: wallet-guard-${{ github.sha }}
           path: dist/chrome.zip
