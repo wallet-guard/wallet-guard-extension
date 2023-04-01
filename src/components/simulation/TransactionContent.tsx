@@ -5,10 +5,9 @@ import {
   SimulationStateChange,
   SimulationWarningType,
 } from '../../models/simulation/Transaction';
-import { ChangeTypeSection } from './simulationSubComponents/ChangeTypeSection';
-import { NoTransactionChanges } from './simulationSubComponents/NoTransactionChanges';
-import { SimulationLoading } from './simulationSubComponents/SimulationLoading';
-import styles from './simulation.module.css';
+import { ChangeTypeSection } from './SimulationSubComponents/ChangeTypeSection';
+import { NoTransactionChanges } from './SimulationSubComponents/NoTransactionChanges';
+import { SimulationLoading } from './SimulationSubComponents/SimulationLoading';
 
 export const TransactionContent = ({ storedSimulation }: { storedSimulation: StoredSimulation }) => {
   if (storedSimulation.state === StoredSimulationState.Simulating) {
