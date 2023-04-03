@@ -41,7 +41,6 @@ window.addEventListener('message', (message) => {
       sendMessageToPort(contentScriptPort, request);
     } else if (data.method === 'eth_signTypedData_v3' || data.method === 'eth_signTypedData_v4') {
       if (data.params.length !== 2) {
-        //TODO
         console.warn('Unexpected argument length.');
         return;
       }
@@ -73,7 +72,6 @@ window.addEventListener('message', (message) => {
       sendMessageToPort(contentScriptPort, request);
     } else if (data.method === 'personal_sign') {
       if (data.params.length < 2) {
-        //TODO
         console.warn('Unexpected argument length.');
         return;
       }
@@ -96,7 +94,6 @@ window.addEventListener('message', (message) => {
       sendMessageToPort(contentScriptPort, request);
     } else if (data.method === 'eth_sign') {
       if (data.params.length < 2) {
-        //TODO
         console.warn('Unexpected argument length.');
         return;
       }

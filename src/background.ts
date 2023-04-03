@@ -38,8 +38,7 @@ chrome.action.onClicked.addListener(function (tab) {
 });
 
 // MESSAGING
-// TODO: MY old code did not use async. The RunSimulation function is async, so I need to make sure that this is working properly
-chrome.runtime.onMessage.addListener(async (message: BrowserMessage, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendResponse) => {
   if (message.type === BrowserMessageType.ProceedAnyway && 'url' in message) {
     const { url, permanent } = message;
 
