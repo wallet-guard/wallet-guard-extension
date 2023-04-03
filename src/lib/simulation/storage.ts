@@ -55,9 +55,6 @@ export interface StoredSimulation {
 
   /// Optional error message on Error
   error?: SimulationError;
-
-  // Notifies the user that this simulation was attempted to be bypassed.
-  bypassed?: boolean;
 }
 
 // Thank you Pocket Universe for leading the way in proxying transactions
