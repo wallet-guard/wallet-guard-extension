@@ -1,0 +1,39 @@
+name: Update Chrome Extension
+
+# Docs: https://github.com/marketplace/actions/chrome-extension-upload-action
+# Similar tutorial: https://jam.dev/blog/automating-chrome-extension-publishing/
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  build:
+    name: Publish extension to Chrome
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Build & zip
+        run: |
+          npm ci
+          npm run build:chrome
+          npm run zip:chrome
+      - name: Upload & release
+        uses: mnao305/chrome-extension-upload@v4.0.1
+        with:
+          file-path: dist/chrome.zip
+          extension-id: pdgbckgdncnhihllonhnjbdoighgpimk
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          publish: false
+      - name: Build Extension Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: wallet-guard-${{ github.sha }}
+          path: dist/chrome.zip

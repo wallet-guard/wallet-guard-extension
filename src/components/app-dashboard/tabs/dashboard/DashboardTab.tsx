@@ -24,7 +24,7 @@ import { AlertHandler } from '../../../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../../../lib/helpers/chrome/localStorageKeys';
 import { Settings, WG_DEFAULT_SETTINGS } from '../../../../lib/settings';
-import { AlertDetail } from '../../../../models/Alert';
+import { AlertCategory, AlertDetail } from '../../../../models/Alert';
 import { WalletInfo } from '../../../../models/VersionChecker';
 import { checkAllWalletsAndCreateAlerts } from '../../../../services/http/versionService';
 import { Feedback } from '../../../common/Feedback';
@@ -62,6 +62,15 @@ export function DashboardTab() {
       chrome.action.getUserSettings().then((settings) => {
         setUnreadAlerts(alerts);
         posthog.capture('visit dashboard', { alertsCount: alerts.length, isPinned: settings.isOnToolbar });
+
+        const hasMaliciousExtensions = alerts.filter((alert) => alert.category === AlertCategory.MaliciousExtension);
+        for (let ext of hasMaliciousExtensions) {
+          posthog.capture('malicious extension disabled', {
+            extensionId: ext.key,
+            name: ext.details,
+            data: ext.data,
+          });
+        }
       });
     });
     localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((res) => {

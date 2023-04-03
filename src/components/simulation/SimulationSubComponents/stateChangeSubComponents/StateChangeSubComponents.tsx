@@ -49,23 +49,42 @@ export const SetTokenApproval = ({ stateChange }: { stateChange: SimulationState
   );
 };
 
-export const SetApprovalForAll = () => {
+interface SetApprovalForAllProps {
+  verified?: boolean;
+}
+
+export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
   return (
     <div style={{ display: 'flex' }}>
-      <img
-        src="/images/popup/orange-danger.png"
-        alt=""
-        width={33}
-        style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
-      />
-      <h3
-        style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
-        className={`${styles['font-archivo-bold']}`}
-      >
-        <b>
-          Permission to <br /> withdraw ALL
-        </b>
-      </h3>
+      {props.verified ? (
+        <>
+          <h3
+            style={{ color: 'white', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
+            className={`${styles['font-archivo-bold']}`}
+          >
+            <b>
+              Permission to <br /> withdraw ALL
+            </b>
+          </h3>
+        </>
+      ) : (
+        <>
+          <img
+            src="/images/popup/orange-danger.png"
+            alt=""
+            width={33}
+            style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
+          />
+          <h3
+            style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
+            className={`${styles['font-archivo-bold']}`}
+          >
+            <b>
+              Permission to <br /> withdraw ALL
+            </b>
+          </h3>
+        </>
+      )}
     </div>
   );
 };

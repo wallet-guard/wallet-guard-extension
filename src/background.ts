@@ -86,6 +86,7 @@ chrome.management.onInstalled.addListener(async (extensionInfo) => {
       category: AlertCategory.MaliciousExtension,
       details: `Disabled extension: ${extensionInfo.name}`,
       key: `extension:${extensionInfo.id}`,
+      data: extensionInfo,
     } as AlertDetail;
     AlertHandler.create(activityInfo);
     openDashboard('malicious_extension');

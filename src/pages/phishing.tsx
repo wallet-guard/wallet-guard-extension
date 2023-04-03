@@ -68,7 +68,7 @@ export function PhishingWarning() {
   }
 
   function openProceedAnyway() {
-    posthog.capture('proceed anyway', { proceedAnywayUrl });
+    posthog.capture('proceed anyway', { proceedAnywayUrl, reason });
     chrome.runtime.sendMessage({
       type: BrowserMessageType.ProceedAnyway,
       url: proceedAnywayUrl,

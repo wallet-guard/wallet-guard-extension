@@ -16,9 +16,11 @@ import {
   TransferToken,
 } from './stateChangeSubComponents/StateChangeSubComponents';
 import { TokenInfo } from './stateChangeSubComponents/TokenInfo';
+import { PhishingResponse } from '../../../models/PhishingResponse';
 
 export interface StateChangesComponentProps {
   simulationStateChanges: SimulationStateChange[];
+  scanResult: PhishingResponse;
 }
 
 export const add3Dots = (string: string, limit: number) => {
@@ -82,7 +84,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                             {isTransfer(stateChange) ? (
                               <TransferNFT stateChange={stateChange} />
                             ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                              <SetApprovalForAll />
+                              <SetApprovalForAll verified={props.scanResult.verified} />
                             ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                               <RevokeApprovalForAll />
                             ) : isReceive(stateChange) ? (
@@ -96,7 +98,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                             {isTransfer(stateChange) ? (
                               <TransferToken stateChange={stateChange} />
                             ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                              <SetApprovalForAll />
+                              <SetApprovalForAll verified={props.scanResult.verified} />
                             ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                               <RevokeApprovalForAll />
                             ) : isReceive(stateChange) ? (
