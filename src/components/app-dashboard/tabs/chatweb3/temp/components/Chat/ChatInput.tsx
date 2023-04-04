@@ -97,7 +97,7 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
               maxHeight: '400px',
               overflow: `${textareaRef.current && textareaRef.current.scrollHeight > 400 ? 'auto' : 'hidden'}`,
             }}
-            placeholder="Type a message..."
+            placeholder='Type a message or type "/" to select a prompt'
             value={content}
             rows={1}
             onCompositionStart={() => setIsTyping(true)}

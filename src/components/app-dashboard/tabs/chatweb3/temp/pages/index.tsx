@@ -16,7 +16,7 @@ export default function Home() {
   const [models, setModels] = useState<OpenAIModel[]>([]);
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
   const [messageIsStreaming, setMessageIsStreaming] = useState<boolean>(false);
-  const [apiKey, setApiKey] = useState<string>('');
+  const [apiKey, setApiKey] = useState<string>('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');
   const [messageError, setMessageError] = useState<boolean>(false);
   const [modelError, setModelError] = useState<boolean>(false);
   const stopConversationRef = useRef<boolean>(false);
@@ -45,6 +45,14 @@ export default function Home() {
       setMessageIsStreaming(true);
       setMessageError(false);
 
+      // const chatBody: any = {
+      //   conversationID: '12345',
+      //   // model: updatedConversation.model,
+      //   messages: updatedConversation.messages,
+      //   // key: apiKey,
+      //   // prompt: updatedConversation.prompt,
+      // };
+
       const chatBody: ChatBody = {
         model: updatedConversation.model,
         messages: updatedConversation.messages,
@@ -55,12 +63,11 @@ export default function Home() {
       console.log(chatBody);
 
       const controller = new AbortController();
-      const response = await fetch('http://localhost:3000/api/chat', {
+      const response = await fetch('http://localhost:8080/chatweb3/stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        signal: controller.signal,
         body: JSON.stringify(chatBody),
       });
 
