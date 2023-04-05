@@ -7,7 +7,6 @@ import { ChatWeb3Details } from './ChatWeb3Details';
 import { CodeBlock } from './CodeBlock';
 import { FC } from 'react';
 import remarkGfm from 'remark-gfm';
-import Home from './temp/pages';
 
 // type to define the message object
 type ChatWeb3Message = {

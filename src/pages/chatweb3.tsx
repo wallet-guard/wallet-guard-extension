@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { ChatWeb3Core } from '../components/app-dashboard/tabs/chatweb3/Chatweb3Core';
-import Home from '../components/app-dashboard/tabs/chatweb3/temp/pages';
+import { Home } from '../components/app-dashboard/tabs/chatweb3/temp/pages';
 
 const ChatWeb3Page = () => {
   return (
