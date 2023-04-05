@@ -107,10 +107,14 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
           />
 
           <button
-            className="absolute right-5 focus:outline-none text-neutral-800 hover:text-neutral-900 dark:text-neutral-100 dark:hover:text-neutral-200 dark:bg-opacity-50 hover:bg-neutral-200 p-2 rounded-sm"
+            className="absolute right-2 top-2 rounded-sm p-1 text-neutral-800 opacity-60 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200"
             onClick={handleSend}
           >
-            <IconSend size={16} className="opacity-60" />
+            {messageIsStreaming ? (
+              <div className="h-4 w-4 animate-spin rounded-full border-t-2 border-neutral-800 opacity-60 dark:border-neutral-100"></div>
+            ) : (
+              <IconSend size={18} />
+            )}
           </button>
         </div>
       </div>
