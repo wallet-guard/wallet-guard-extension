@@ -3,6 +3,7 @@ import { saveConversation, saveConversations, updateConversation } from '../util
 import { DEFAULT_SYSTEM_PROMPT } from '../utils/app/const';
 import { ChatBody, Conversation, KeyValuePair, Message, OpenAIModel, OpenAIModelID, OpenAIModels } from '../types';
 import { v4 as uuidv4 } from 'uuid';
+import { CHATWEB3_SERVER_URL_PROD } from '../../../../../../lib/environment';
 
 export const useChat = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -47,7 +48,7 @@ export const useChat = () => {
       };
 
       const controller = new AbortController();
-      const response = await fetch('http://localhost:8080/chatweb3/stream', {
+      const response = await fetch(`${CHATWEB3_SERVER_URL_PROD}/chatweb3/stream`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
