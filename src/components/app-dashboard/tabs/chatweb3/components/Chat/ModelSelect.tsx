@@ -1,4 +1,4 @@
-import { OpenAIModel } from '../../types';
+import { OpenAIModel } from '../../../../../../models/chatweb3/chatweb3';
 import { FC } from 'react';
 import React from 'react';
 import '../../styles/globals.css';

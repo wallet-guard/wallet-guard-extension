@@ -1,8 +1,8 @@
-import { Conversation } from '../../types';
+import { Conversation } from '../../../../../../models/chatweb3/chatweb3';
 import { FC, useEffect, useRef, useState } from 'react';
 import React from 'react';
-import { DEFAULT_SYSTEM_PROMPT } from '../../utils/app/const';
 import '../../styles/globals.css';
+import { DEFAULT_SYSTEM_PROMPT } from '../../../../../../lib/helpers/chatweb3/const';
 
 interface Props {
   conversation: Conversation;

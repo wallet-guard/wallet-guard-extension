@@ -1,4 +1,4 @@
-import { Conversation } from '../../types';
+import { Conversation } from '../../../models/chatweb3/chatweb3';
 
 export const updateConversation = (updatedConversation: Conversation, allConversations: Conversation[]) => {
   const updatedConversations = allConversations.map((c) => {

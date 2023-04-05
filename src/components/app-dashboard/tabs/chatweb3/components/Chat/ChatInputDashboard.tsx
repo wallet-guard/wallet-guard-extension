@@ -1,7 +1,7 @@
 import { IconPlayerStop, IconSend } from '@tabler/icons-react';
 import { FC, KeyboardEvent, MutableRefObject, useEffect, useRef, useState } from 'react';
 import React from 'react';
-import { Message, OpenAIModel, OpenAIModelID } from '../../types';
+import { Message, OpenAIModel, OpenAIModelID } from '../../../../../../models/chatweb3/chatweb3';
 import '../../styles/globals.css';
 import { ChangeEvent } from 'react';
 

@@ -1,4 +1,4 @@
-import { Conversation, KeyValuePair, Message, OpenAIModel } from '../../types';
+import { Conversation, KeyValuePair, Message, OpenAIModel } from '../../../../../../models/chatweb3/chatweb3';
 import { FC, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { ChatInput } from './ChatInput';
 import { ChatLoader } from './ChatLoader';
