@@ -2,7 +2,6 @@ import { IconDots } from '@tabler/icons-react';
 import { FC } from 'react';
 import React from 'react';
 import '../../styles/globals.css';
-import styles from '../../../../chatweb3/chatweb3Styles.module.css';
 
 interface Props {}
 
@@ -19,7 +18,7 @@ export const ChatLoader: FC<Props> = () => {
             alt="Me"
             width="30"
             height="30"
-            className={styles.usericon}
+            className="mr-4 rounded-sm"
             style={{ maxWidth: '30px', height: '30px' }}
           />
         </div>

@@ -1,9 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
-import { saveConversation, saveConversations, updateConversation } from '../utils/app/conversation';
-import { DEFAULT_SYSTEM_PROMPT } from '../utils/app/const';
-import { ChatBody, Conversation, KeyValuePair, Message, OpenAIModel, OpenAIModelID, OpenAIModels } from '../types';
+import {
+  saveConversation,
+  saveConversations,
+  updateConversation,
+} from '../../components/app-dashboard/tabs/chatweb3/utils/app/conversation';
+import { DEFAULT_SYSTEM_PROMPT } from '../../components/app-dashboard/tabs/chatweb3/utils/app/const';
+import {
+  ChatBody,
+  Conversation,
+  KeyValuePair,
+  Message,
+  OpenAIModel,
+  OpenAIModelID,
+  OpenAIModels,
+} from '../../components/app-dashboard/tabs/chatweb3/types';
 import { v4 as uuidv4 } from 'uuid';
-import { CHATWEB3_SERVER_URL_PROD } from '../../../../../../lib/environment';
+import { CHATWEB3_SERVER_URL_PROD } from '../environment';
 
 export const useChat = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);

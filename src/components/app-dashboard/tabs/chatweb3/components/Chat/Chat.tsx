@@ -8,8 +8,9 @@ import { Regenerate } from './Regenerate';
 import { SystemPrompt } from './SystemPrompt';
 import React from 'react';
 import '../../styles/globals.css';
-import { ChatWeb3Details, Navbar } from '../../../ChatWeb3Details';
 import { ChatInputDashboard } from './ChatInputDashboard';
+import { Navbar } from './ChatWeb3Navbar';
+import { ChatWeb3Landing } from './ChatWeb3Landing';
 
 interface Props {
   conversation: Conversation;
@@ -68,7 +69,7 @@ export const Chat: FC<Props> = ({
                 <Navbar />
 
                 <div className="flex flex-col mx-auto space-y-10 sm:w-[600px]">
-                  <ChatWeb3Details />
+                  <ChatWeb3Landing />
                 </div>
               </>
             ) : (

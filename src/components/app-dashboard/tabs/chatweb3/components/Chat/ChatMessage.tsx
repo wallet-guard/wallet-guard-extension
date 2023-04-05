@@ -5,7 +5,6 @@ import remarkGfm from 'remark-gfm';
 import { CodeBlock } from '../Markdown/CodeBlock';
 import React from 'react';
 import '../../styles/globals.css';
-import styles from '../../../../chatweb3/chatweb3Styles.module.css';
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 import remarkMath from 'remark-math';
 import rehypeMathjax from 'rehype-mathjax';
@@ -33,11 +32,11 @@ export const ChatMessage: FC<Props> = ({ message, lightMode }) => {
               alt="Me"
               width="30"
               height="30"
-              className={styles.usericon}
+              className="mr-4 rounded-sm"
               style={{ maxWidth: '30px', height: '30px' }}
             />
           ) : (
-            <img src="/images/wallets/metamask.png" alt="AI" width="30" height="30" className={styles.boticon} />
+            <img src="/images/wallets/metamask.png" alt="AI" width="30" height="30" className="mr-4 rounded-sm" />
           )}
         </div>
 

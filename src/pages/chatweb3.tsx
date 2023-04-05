@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ChatWeb3Core } from '../components/app-dashboard/tabs/chatweb3/Chatweb3Core';
-import { Home } from '../components/app-dashboard/tabs/chatweb3/temp/pages';
+import { ChatWeb3Tab } from '../components/app-dashboard/tabs/chatweb3/components/Chat/ChatWeb3Tab';
 
 const ChatWeb3Page = () => {
   return (
-    <div>
-      <Home />
-    </div>
+    <>
+      <ChatWeb3Tab />
+    </>
   );
 };
 

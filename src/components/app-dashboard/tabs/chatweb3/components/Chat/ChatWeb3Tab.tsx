@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
-import React from 'react';
-import { useChat } from '../hooks/useChat';
-import { Chat } from '../components/Chat/Chat';
+import React, { useEffect, useState } from 'react';
+import { useChat } from '../../../../../../lib/hooks/useChat';
+import { Chat } from './Chat';
 
-export const Home = () => {
+export const ChatWeb3Tab = () => {
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
   const {
     selectedConversation,
