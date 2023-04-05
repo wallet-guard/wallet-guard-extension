@@ -30,6 +30,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
 
       if (recentlyCreatedWarning.level === WarningLevel.Critical) {
         chrome.tabs.update({
+          tabId: tab.id,
           url:
             chrome.runtime.getURL('phish.html') +
             '?safe=' +
@@ -57,6 +58,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
       const safeURL = similarityWarning?.value || homoglyphWarning?.value || mlWarning?.value || 'null';
       const reason = similarityWarning?.type || homoglyphWarning?.type || mlWarning?.type || blocklistWarning?.type || 'null';
       chrome.tabs.update({
+        tabId: tab.id,
         url:
           chrome.runtime.getURL('phish.html') +
           '?safe=' +
