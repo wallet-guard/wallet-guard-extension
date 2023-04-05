@@ -97,30 +97,6 @@ export const Navbar = () => {
                   )}
                   Default (GPT-3.5)
                 </button>
-
-                <div style={{ borderBottom: '1px solid #4F4F4F' }} />
-                <button
-                  className={`block w-full text-left px-4 py-2 text-sm relative ${
-                    selectedModel === 'Legacy (GPT-3.5)' ? 'text-[#19FF00]' : 'text-white'
-                  }`}
-                  onClick={() => handleDropdownSelect('Legacy (GPT-3.5)')}
-                  role="menuitem"
-                  style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.2)' }}
-                >
-                  {selectedModel === 'Legacy (GPT-3.5)' && (
-                    <span className="absolute right-4 text-[#19FF00] text-sm">
-                      <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path
-                          fillRule="evenodd"
-                          d="M15.293 5.293a1 1 0 0 1 1.414 1.414l-7 7a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414L8 11.586l6.293-6.293z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </span>
-                  )}
-                  Legacy (GPT-3.5)
-                </button>
-
                 <div style={{ borderBottom: '1px solid #4F4F4F' }} />
 
                 <button

@@ -1,13 +1,11 @@
 import { ChatBody, Conversation, KeyValuePair, Message, OpenAIModel, OpenAIModelID, OpenAIModels } from '../types';
-import { IconArrowBarLeft, IconArrowBarRight } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { saveConversation, saveConversations, updateConversation } from '../utils/app/conversation';
-import { exportConversations, importConversations } from '../utils/app/data';
 import { DEFAULT_SYSTEM_PROMPT } from '../utils/app/const';
-import { cleanConversationHistory, cleanSelectedConversation } from '../utils/app/clean';
 import React from 'react';
 import { Chat } from '../components/Chat/Chat';
 import '../styles/globals.css';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Home() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -16,10 +14,10 @@ export default function Home() {
   const [models, setModels] = useState<OpenAIModel[]>([]);
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
   const [messageIsStreaming, setMessageIsStreaming] = useState<boolean>(false);
-  const [apiKey, setApiKey] = useState<string>('');
   const [messageError, setMessageError] = useState<boolean>(false);
   const [modelError, setModelError] = useState<boolean>(false);
   const stopConversationRef = useRef<boolean>(false);
+  const [conversationID] = useState(uuidv4());
 
   const handleSend = async (message: Message, isResend: boolean) => {
     if (selectedConversation) {
@@ -45,22 +43,12 @@ export default function Home() {
       setMessageIsStreaming(true);
       setMessageError(false);
 
-      // const chatBody: any = {
-      //   conversationID: '12345',
-      //   // model: updatedConversation.model,
-      //   messages: updatedConversation.messages,
-      //   // key: apiKey,
-      //   // prompt: updatedConversation.prompt,
-      // };
-
       const chatBody: ChatBody = {
         model: updatedConversation.model,
         messages: updatedConversation.messages,
-        key: apiKey,
         prompt: updatedConversation.prompt,
+        conversationID: conversationID,
       };
-
-      console.log(chatBody);
 
       const controller = new AbortController();
       const response = await fetch('http://localhost:8080/chatweb3/stream', {
@@ -176,25 +164,11 @@ export default function Home() {
     setConversations(all);
   };
 
-  useEffect(() => {}, [apiKey]);
-
   useEffect(() => {
     const theme = localStorage.getItem('theme');
     if (theme) {
       setLightMode('dark');
     }
-
-    const apiKey = localStorage.getItem('apiKey') || '';
-    if (apiKey) {
-      setApiKey(apiKey);
-    }
-
-    // const conversationHistory = localStorage.getItem('conversationHistory');
-    // if (conversationHistory) {
-    //   const parsedConversationHistory: Conversation[] = JSON.parse(conversationHistory);
-    //   const cleanedConversationHistory = cleanConversationHistory(parsedConversationHistory);
-    //   setConversations(cleanedConversationHistory);
-    // }
 
     setSelectedConversation({
       id: 1,
@@ -203,21 +177,6 @@ export default function Home() {
       model: OpenAIModels[OpenAIModelID.GPT_3_5],
       prompt: DEFAULT_SYSTEM_PROMPT,
     });
-
-    // const selectedConversation = localStorage.getItem('selectedConversation');
-    // if (selectedConversation) {
-    //   const parsedSelectedConversation: Conversation = JSON.parse(selectedConversation);
-    //   const cleanedSelectedConversation = cleanSelectedConversation(parsedSelectedConversation);
-    //   setSelectedConversation(cleanedSelectedConversation);
-    // } else {
-    //   setSelectedConversation({
-    //     id: 1,
-    //     name: 'New conversation',
-    //     messages: [],
-    //     model: OpenAIModels[OpenAIModelID.GPT_3_5],
-    //     prompt: DEFAULT_SYSTEM_PROMPT,
-    //   });
-    // }
   }, []);
 
   return (

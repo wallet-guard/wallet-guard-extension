@@ -4,6 +4,7 @@ import { oneDark, oneLight } from 'react-syntax-highlighter/dist/cjs/styles/pris
 import { IconCheck, IconClipboard, IconDownload } from '@tabler/icons-react';
 import { generateRandomString, programmingLanguages } from '../../utils/app/codeblock';
 import React from 'react';
+import '../../styles/globals.css';
 
 interface Props {
   language: string;
