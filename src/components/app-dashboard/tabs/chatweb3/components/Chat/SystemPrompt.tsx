@@ -39,9 +39,9 @@ export const SystemPrompt: FC<Props> = ({ conversation, onChangePrompt }) => {
 
   useEffect(() => {
     if (conversation.prompt) {
-      setValue(conversation.prompt);
+      setValue('');
     } else {
-      setValue(DEFAULT_SYSTEM_PROMPT);
+      setValue('');
     }
   }, [conversation]);
 

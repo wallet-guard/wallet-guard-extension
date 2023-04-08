@@ -14,6 +14,7 @@ import { ErrorType, SimulationWarningType } from '../models/simulation/Transacti
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);

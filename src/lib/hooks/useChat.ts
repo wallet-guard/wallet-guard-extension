@@ -174,8 +174,8 @@ export const useChat = () => {
       id: 1,
       name: 'New conversation',
       messages: [],
-      model: OpenAIModels[OpenAIModelID.GPT_3_5],
-      prompt: DEFAULT_SYSTEM_PROMPT,
+      model: OpenAIModels[OpenAIModelID.GPT_4],
+      prompt: 'TRANSACTION',
     });
   }, []);
 
