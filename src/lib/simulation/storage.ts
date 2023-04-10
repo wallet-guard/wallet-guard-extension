@@ -1,6 +1,6 @@
 // Storage wrapper for updating the storage.
 import { fetchSimulate, fetchSignature } from './server';
-import { RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
+import { SimulationError, SimulationResponse, TransactionArgs } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType } from '../helpers/chrome/messageHandler';
@@ -50,7 +50,7 @@ export interface StoredSimulation {
   simulation?: SimulationResponse;
 
   // The params that were used to simulate this transaction.
-  args: RequestArgs;
+  args: TransactionArgs;
 
   /// Optional error message on Error
   error?: SimulationError;
@@ -159,7 +159,7 @@ const updateSimulatioWithErrorMsg = async (id: string, error?: SimulationError) 
   return await chrome.storage.local.set({ simulations });
 };
 
-export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
+export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
   let response: Response;
 
   let state = StoredSimulationState.Simulating;

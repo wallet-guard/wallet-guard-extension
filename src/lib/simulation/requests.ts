@@ -1,6 +1,6 @@
 /// Simulate request/reply manager for the content script and injected script.
 import { v4 as uuidv4 } from 'uuid';
-import { RequestArgs, SimulationMethodType, Transaction } from '../../models/simulation/Transaction';
+import { TransactionArgs, SimulationMethodType, Transaction } from '../../models/simulation/Transaction';
 
 
 /**
@@ -44,7 +44,7 @@ export class RequestManager {
     )
   ): Promise<Response> {
     return new Promise((resolve) => {
-      let request: RequestArgs | undefined;
+      let request: TransactionArgs | undefined;
       const id = uuidv4();
       const chainId = args.chainId;
       const signer = args.signer;
@@ -102,7 +102,7 @@ export class RequestManager {
   /**
    * Dispatch a request.
    */
-  private _dispatchRequest = (request: RequestArgs) => {
+  private _dispatchRequest = (request: TransactionArgs) => {
     document.dispatchEvent(
       new CustomEvent(DISPATCH_REQUEST, {
         detail: request,
@@ -133,7 +133,7 @@ const DISPATCH_REQUEST = 'WALLET_GUARD_DISPATCH_REQUEST';
 /**
  * Listen to request
  */
-export const listenToRequest = (callback: (request: RequestArgs) => void) => {
+export const listenToRequest = (callback: (request: TransactionArgs) => void) => {
   document.addEventListener(DISPATCH_REQUEST, async (event: any) => {
     callback(event.detail);
   });

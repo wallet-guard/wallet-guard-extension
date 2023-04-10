@@ -1,7 +1,7 @@
 import logger from './lib/logger';
 import { StoredSimulation, StoredSimulationState, updateSimulationState } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
-import { RequestArgs } from './models/simulation/Transaction';
+import { TransactionArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
 import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage, findApprovedTransaction } from './lib/helpers/chrome/messageHandler';
@@ -17,7 +17,7 @@ import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 
 const log = logger.child({ component: 'Background' });
-const approvedTxns: RequestArgs[] = [];
+const approvedTxns: TransactionArgs[] = [];
 
 let currentPopup: undefined | number;
 
@@ -69,7 +69,7 @@ chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendRespo
   } else if (message.type === BrowserMessageType.ApprovedTxn && 'data' in message) {
     approvedTxns.push(message.data);
   } else if (message.type === BrowserMessageType.RunSimulation && 'data' in message) {
-    const args: RequestArgs = message.data;
+    const args: TransactionArgs = message.data;
     clearOldSimulations().then(() => fetchSimulationAndUpdate(args));
   }
 });

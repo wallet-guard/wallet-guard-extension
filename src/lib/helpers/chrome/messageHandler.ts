@@ -1,4 +1,4 @@
-import { RequestArgs } from '../../../models/simulation/Transaction';
+import { TransactionArgs } from '../../../models/simulation/Transaction';
 var equal = require('deep-equal');
 
 export enum BrowserMessageType {
@@ -13,11 +13,11 @@ export type ProceedAnywayMessageType = {
 };
 
 export type ApprovedTxnMessageType = {
-  data: RequestArgs;
+  data: TransactionArgs;
 }
 
 export type RunSimulationMessageType = {
-  data: RequestArgs;
+  data: TransactionArgs;
 }
 
 export type BrowserMessage = {
@@ -32,10 +32,10 @@ export const PortIdentifiers = {
 };
 
 export type PortMessage = {
-  data: RequestArgs; // todo: extend this type when if/when we add more use cases to postMessage
+  data: TransactionArgs; // todo: extend this type when if/when we add more use cases to postMessage
 };
 
-export function findApprovedTransaction(approvedTxns: RequestArgs[], txn: RequestArgs) {
+export function findApprovedTransaction(approvedTxns: TransactionArgs[], txn: TransactionArgs) {
   if ('transaction' in txn) {
     return approvedTxns.find((x: any) => equal(x.transaction, txn.transaction));
   } else if ('message' in txn) {

@@ -7,7 +7,7 @@ import { Settings } from '../lib/settings';
 import { dispatchResponse, listenToRequest, Response } from '../lib/simulation/requests';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { removeSimulation, StoredSimulationState } from '../lib/simulation/storage';
-import { RequestArgs } from '../models/simulation/Transaction';
+import { TransactionArgs } from '../models/simulation/Transaction';
 
 // Function to inject scripts into browser
 const addScript = (url: string) => {
@@ -37,7 +37,7 @@ const maybeRemoveId = (id: string) => {
 };
 
 // Listen to Request from injected script
-listenToRequest(async (request: RequestArgs) => {
+listenToRequest(async (request: TransactionArgs) => {
   log.info({ request }, 'Request');
   ids.push(request.id);
 
