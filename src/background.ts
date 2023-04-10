@@ -4,7 +4,7 @@ import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } 
 import { TransactionArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
-import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage, findApprovedTransaction } from './lib/helpers/chrome/messageHandler';
+import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage, findApprovedTransaction, ProceedAnywayMessageType, ApprovedTxnMessageType, RunSimulationMessageType } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
 import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
@@ -39,8 +39,8 @@ chrome.action.onClicked.addListener(function (tab) {
 
 // MESSAGING
 chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendResponse) => {
-  if (message.type === BrowserMessageType.ProceedAnyway && 'url' in message) {
-    const { url, permanent } = message;
+  if (message.type === BrowserMessageType.ProceedAnyway) {
+    const { url, permanent } = message as ProceedAnywayMessageType;
 
     if (permanent) {
       const domainName = getDomainNameFromURL(url);
@@ -66,11 +66,12 @@ chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendRespo
         }
       });
     }
-  } else if (message.type === BrowserMessageType.ApprovedTxn && 'data' in message) {
-    approvedTxns.push(message.data);
-  } else if (message.type === BrowserMessageType.RunSimulation && 'data' in message) {
-    const args: TransactionArgs = message.data;
-    clearOldSimulations().then(() => fetchSimulationAndUpdate(args));
+  } else if (message.type === BrowserMessageType.ApprovedTxn) {
+    const { data } = message as ApprovedTxnMessageType;
+    approvedTxns.push(data);
+  } else if (message.type === BrowserMessageType.RunSimulation) {
+    const { data } = message as RunSimulationMessageType;
+    clearOldSimulations().then(() => fetchSimulationAndUpdate(data));
   }
 });
 

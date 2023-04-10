@@ -7,22 +7,23 @@ export enum BrowserMessageType {
   ApprovedTxn = 'approvedTxn',
 }
 
-export type ProceedAnywayMessageType = {
+interface BaseBrowserMessage {
+  type: BrowserMessageType;
+}
+export interface ProceedAnywayMessageType extends BaseBrowserMessage {
   url: string;
   permanent: boolean;
 };
 
-export type ApprovedTxnMessageType = {
+export interface ApprovedTxnMessageType extends BaseBrowserMessage {
   data: TransactionArgs;
 }
 
-export type RunSimulationMessageType = {
+export interface RunSimulationMessageType extends BaseBrowserMessage {
   data: TransactionArgs;
 }
 
-export type BrowserMessage = {
-  type: BrowserMessageType;
-} & (ProceedAnywayMessageType | ApprovedTxnMessageType | RunSimulationMessageType);
+export type BrowserMessage = ProceedAnywayMessageType | ApprovedTxnMessageType | RunSimulationMessageType;
 
 export const PortIdentifiers = {
   WG_CONTENT_SCRIPT: 'wg-contentscript',
