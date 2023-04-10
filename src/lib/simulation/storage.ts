@@ -173,7 +173,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
       type: StoredType.Simulation,
       args,
       state,
-      // bypassed: args.bypassed,
     });
   }
 
@@ -186,7 +185,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         type: StoredType.Simulation,
         state,
         args,
-        // bypassed: args.bypassed,
       }),
       fetchSimulate(args),
     ]);
@@ -199,7 +197,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         type: StoredType.SignatureHash,
         state,
         args,
-        // bypassed: args.bypassed,
       }),
       fetchSignature(args),
     ]);
@@ -212,7 +209,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         type: StoredType.PersonalSign,
         state,
         args,
-        // bypassed: args.bypassed,
       }),
       fetchSignature(args),
     ]);
@@ -225,7 +221,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         type: StoredType.Signature,
         state,
         args,
-        // bypassed: args.bypassed,
       }),
       fetchSignature(args),
     ]);
