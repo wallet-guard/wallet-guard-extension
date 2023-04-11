@@ -29,7 +29,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
       const daysSinceCreated = Math.round(parseFloat(recentlyCreatedWarning.value) / 24);
 
       if (recentlyCreatedWarning.level === WarningLevel.Critical) {
-        chrome.tabs.update({
+        chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
           url:
             chrome.runtime.getURL('phish.html') +
             '?safe=' +
@@ -56,7 +56,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
     if (similarityWarning || homoglyphWarning || mlWarning || blocklistWarning) {
       const safeURL = similarityWarning?.value || homoglyphWarning?.value || mlWarning?.value || 'null';
       const reason = similarityWarning?.type || homoglyphWarning?.type || mlWarning?.type || blocklistWarning?.type || 'null';
-      chrome.tabs.update({
+      chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
         url:
           chrome.runtime.getURL('phish.html') +
           '?safe=' +
