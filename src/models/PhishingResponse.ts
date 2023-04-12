@@ -18,7 +18,8 @@ export enum WarningType {
   Malware = "MALWARE",
   Homoglpyh = "HOMOGLYPH",
   Blocklisted = "BLOCKLISTED",
-  MLInference = "ML_INFERENCE"
+  MLInference = "ML_INFERENCE",
+  Drainer = "DRAINER"
 }
 
 export enum WarningLevel {

@@ -88,11 +88,22 @@ export function PhishingWarning() {
   function getWarningText() {
     if (isConfirmedPhishing) {
       return (
-        <Text variant={'muted'} fontSize={'lg'}>
-          The website ({proceedAnywayUrl}) you're trying to visit is on our{' '}
-          <strong>confirmed phishing blocklist</strong>
-        </Text>
+        <>
+          <Text variant={'muted'} fontSize={'lg'}>
+            The website ({proceedAnywayUrl}) you're trying to visit is on our{' '}
+            <strong>confirmed phishing blocklist</strong>
+          </Text>
+        </>
       );
+    } else if (reason === WarningType.Drainer) {
+      <>
+        <Text variant={'muted'} fontSize={'lg'}>
+          The website ({proceedAnywayUrl}) you're trying to visit is a suspected wallet drainer.
+        </Text>
+        <Text variant={'muted'} fontSize={'lg'}>
+          If you proceed, please use caution.
+        </Text>
+      </>;
     } else if (reason === WarningType.RecentlyCreated) {
       return (
         <>

@@ -49,13 +49,14 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
       }
     }
 
+    const drainerWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Drainer);
     const similarityWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Similarity);
     const homoglyphWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Homoglpyh);
     const mlWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.MLInference);
     const blocklistWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Blocklisted);
-    if (similarityWarning || homoglyphWarning || mlWarning || blocklistWarning) {
+    if (drainerWarning || similarityWarning || homoglyphWarning || mlWarning || blocklistWarning) {
       const safeURL = similarityWarning?.value || homoglyphWarning?.value || mlWarning?.value || 'null';
-      const reason = similarityWarning?.type || homoglyphWarning?.type || mlWarning?.type || blocklistWarning?.type || 'null';
+      const reason = drainerWarning?.type || similarityWarning?.type || homoglyphWarning?.type || mlWarning?.type || blocklistWarning?.type || 'null';
       chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
         url:
           chrome.runtime.getURL('phish.html') +
