@@ -1,4 +1,4 @@
-import { ErrorType, SimulationErrorResponse, SimulationResponse, Transaction, TransactionArgs } from '../../models/simulation/Transaction';
+import { ErrorType, SimulationErrorResponse, SimulationResponse, TransactionArgs } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import { TAS_SERVER_URL_PROD } from '../environment';
 
