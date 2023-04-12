@@ -1,4 +1,4 @@
-import { RequestArgs } from '../../../models/simulation/Transaction';
+import { TransactionArgs } from '../../../models/simulation/Transaction';
 var equal = require('deep-equal');
 
 export enum BrowserMessageType {
@@ -7,22 +7,23 @@ export enum BrowserMessageType {
   ApprovedTxn = 'approvedTxn',
 }
 
-export type ProceedAnywayMessageType = {
+interface BaseBrowserMessage {
+  type: BrowserMessageType;
+}
+export interface ProceedAnywayMessageType extends BaseBrowserMessage {
   url: string;
   permanent: boolean;
 };
 
-export type ApprovedTxnMessageType = {
-  data: RequestArgs;
+export interface ApprovedTxnMessageType extends BaseBrowserMessage {
+  data: TransactionArgs;
 }
 
-export type RunSimulationMessageType = {
-  data: RequestArgs;
+export interface RunSimulationMessageType extends BaseBrowserMessage {
+  data: TransactionArgs;
 }
 
-export type BrowserMessage = {
-  type: BrowserMessageType;
-} & (ProceedAnywayMessageType | ApprovedTxnMessageType | RunSimulationMessageType);
+export type BrowserMessage = ProceedAnywayMessageType | ApprovedTxnMessageType | RunSimulationMessageType;
 
 export const PortIdentifiers = {
   WG_CONTENT_SCRIPT: 'wg-contentscript',
@@ -32,10 +33,10 @@ export const PortIdentifiers = {
 };
 
 export type PortMessage = {
-  data: RequestArgs; // todo: extend this type when if/when we add more use cases to postMessage
+  data: TransactionArgs; // todo: extend this type when if/when we add more use cases to postMessage
 };
 
-export function findApprovedTransaction(approvedTxns: RequestArgs[], txn: RequestArgs) {
+export function findApprovedTransaction(approvedTxns: TransactionArgs[], txn: TransactionArgs) {
   if ('transaction' in txn) {
     return approvedTxns.find((x: any) => equal(x.transaction, txn.transaction));
   } else if ('message' in txn) {

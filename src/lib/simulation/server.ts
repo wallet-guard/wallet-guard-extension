@@ -1,9 +1,9 @@
-import { ErrorType, RequestArgs, SimulationErrorResponse, SimulationResponse, Transaction } from '../../models/simulation/Transaction';
+import { ErrorType, SimulationErrorResponse, SimulationResponse, TransactionArgs } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import { TAS_SERVER_URL_PROD } from '../environment';
 
 // TODO: add unit tests for these 2 functions
-export const fetchSimulate = async (args: RequestArgs): Promise<Response> => {
+export const fetchSimulate = async (args: TransactionArgs): Promise<Response> => {
   try {
     const result: globalThis.Response = await fetch(`${TAS_SERVER_URL_PROD}/simulate`, {
       method: 'POST',
@@ -58,7 +58,7 @@ export const fetchSimulate = async (args: RequestArgs): Promise<Response> => {
 };
 
 export const fetchSignature = async (
-  args: RequestArgs
+  args: TransactionArgs
 ): Promise<Response> => {
   try {
     const result: globalThis.Response = await fetch(`${TAS_SERVER_URL_PROD}/signature`, {

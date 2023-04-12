@@ -1,5 +1,12 @@
 import Browser from 'webextension-polyfill';
-import { RequestArgs, Transaction } from '../models/simulation/Transaction';
+import {
+  PersonalSignArgs,
+  SignatureHashSignArgs,
+  SignatureRequestArgs,
+  SimulateRequestArgs,
+  Transaction,
+  TransactionArgs,
+} from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
 import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
 import { convertObjectValuesToString } from '../injected/injectWalletGuard';
@@ -7,7 +14,7 @@ import { convertObjectValuesToString } from '../injected/injectWalletGuard';
 let metamaskChainId = 1;
 const bypassed = true;
 
-const sendMessageToPort = (stream: Browser.Runtime.Port, data: RequestArgs): void => {
+const sendMessageToPort = (stream: Browser.Runtime.Port, data: TransactionArgs): void => {
   const message: PortMessage = {
     data,
   };
@@ -26,7 +33,7 @@ window.addEventListener('message', (message) => {
   if (target === PortIdentifiers.METAMASK_CONTENT_SCRIPT) {
     if (data.method === 'eth_sendTransaction') {
       const transaction: Transaction = data.params[0];
-      const request: RequestArgs = {
+      const request: SimulateRequestArgs = {
         id: uuid4(),
         chainId: String(chainId),
         signer: transaction.from,
@@ -55,7 +62,7 @@ window.addEventListener('message', (message) => {
       const domain = convertObjectValuesToString(params.domain);
       const message = convertObjectValuesToString(params.message);
 
-      const request: RequestArgs = {
+      const request: SignatureRequestArgs = {
         id: uuid4(),
         chainId: String(chainId),
         signer,
@@ -79,7 +86,7 @@ window.addEventListener('message', (message) => {
       const signer: string = data.params[1];
       const signMessage: string = data.params[0];
 
-      const request: RequestArgs = {
+      const request: PersonalSignArgs = {
         id: uuid4(),
         chainId: String(chainId),
         origin: hostname,
@@ -101,7 +108,7 @@ window.addEventListener('message', (message) => {
       const signer: string = data.params[0];
       const hash: string = data.params[1];
 
-      const request: RequestArgs = {
+      const request: SignatureHashSignArgs = {
         id: uuid4(),
         chainId: String(chainId),
         origin: hostname,
