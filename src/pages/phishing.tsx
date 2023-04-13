@@ -96,14 +96,13 @@ export function PhishingWarning() {
         </>
       );
     } else if (reason === WarningType.Drainer) {
-      <>
-        <Text variant={'muted'} fontSize={'lg'}>
-          The website ({proceedAnywayUrl}) you're trying to visit is a suspected wallet drainer.
-        </Text>
-        <Text variant={'muted'} fontSize={'lg'}>
-          If you proceed, please use caution.
-        </Text>
-      </>;
+      return (
+        <>
+          <Text variant={'muted'} fontSize={'lg'}>
+            The website ({proceedAnywayUrl}) you're trying to visit is a <strong>suspected wallet drainer.</strong>
+          </Text>
+        </>
+      );
     } else if (reason === WarningType.RecentlyCreated) {
       return (
         <>
@@ -115,7 +114,7 @@ export function PhishingWarning() {
           </Text>
         </>
       );
-    } else if (reason === WarningType.Homoglpyh) {
+    } else if (reason === WarningType.Homoglyph) {
       return (
         <>
           <Text style={{ whiteSpace: 'nowrap' }} variant={'muted'} fontSize={'lg'}>
