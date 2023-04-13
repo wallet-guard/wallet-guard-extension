@@ -31,8 +31,6 @@ chrome.action.onClicked.addListener(function (tab) {
     chrome.windows.update(currentPopup, {
       focused: true,
     });
-  } else {
-    openDashboard('toolbar');
   }
 });
 
@@ -129,9 +127,14 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   });
 
   await checkAllWalletsAndCreateAlerts();
+  await chrome.action.setPopup({ popup: '../actionPopup.html' });
+  chrome.action.openPopup();
 
-  if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
-    openDashboard('install');
+  if (
+    // process.env.NODE_ENV === 'production' &&
+    details.reason === 'install') {
+    // await chrome.action.setPopup({ popup: '../actionPopup.html' });
+    // chrome.action.openPopup();
   }
 });
 

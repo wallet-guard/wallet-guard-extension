@@ -12,6 +12,7 @@ module.exports = {
     manifest: path.join(srcDir, 'manifest.json'),
     background: path.join(srcDir, 'background.ts'),
     popup: path.join(srcDir, 'pages/popup.tsx'),
+    actionPopup: path.join(srcDir, 'pages/actionPopup.tsx'),
     dashboard: path.join(srcDir, 'pages/dashboard.tsx'),
     phishing: path.join(srcDir, 'pages/phishing.tsx'),
     'content-scripts/contentScripts': path.join(srcDir, 'content-scripts', 'contentScripts.tsx'),
@@ -40,7 +41,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test:/\.(css|scss)$/,
+        test: /\.(css|scss)$/,
         include: path.resolve(srcDir),
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
@@ -70,9 +71,7 @@ module.exports = {
   plugins: [
     new WextManifestWebpackPlugin(),
     new CopyPlugin({
-      patterns: [
-        { from: '.', to: '.', context: 'public' },
-      ],
+      patterns: [{ from: '.', to: '.', context: 'public' }],
       options: {},
     }),
     new webpack.ProvidePlugin({

@@ -13,7 +13,8 @@
     "open_in_tab": true
   },
   "action": {
-    "default_icon": "images/wg_logos/logo_16x16.png"
+    "default_icon": "images/wg_logos/logo_16x16.png",
+    "default_popup": "actionPopup.html"
   },
   "content_scripts": [
     {

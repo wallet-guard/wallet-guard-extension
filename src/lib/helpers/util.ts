@@ -1,4 +1,5 @@
 import { ParseResultListed } from 'parse-domain';
+import { PhishingResult } from '../../models/PhishingResponse';
 
 export function standardizeUrl(url: string): string {
   url = url.replace('https://', '');
@@ -33,15 +34,14 @@ export function mapSubdomains(subdomains: string[] | undefined): string {
   return mapped;
 }
 
-export function setIcon(phishing: boolean): void {
-
-  if (phishing === false) {
+export function setIcon(phishing: PhishingResult): void {
+  if (phishing === PhishingResult.NotPhishing) {
     chrome.action.setIcon({
       path: {
         '16': '../images/favicon/shield-green-16.png'
       }
     });
-  } else if (phishing === true) {
+  } else if (phishing === PhishingResult.Phishing) {
     chrome.action.setIcon({
       path: {
         '16': '../images/favicon/shield-red-16.png'
