@@ -14,6 +14,7 @@ import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
 import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
+import { SimulationSurvey } from '../components/simulation/SimulationSurvey';
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
@@ -71,6 +72,10 @@ const Popup = () => {
     }
   }, [storedSimulations]);
 
+  posthog.onFeatureFlags(() => {
+    console.log(posthog.isFeatureEnabled('user-survey-4-14'));
+  });
+
   if (!currentSimulation) {
     return <NoSimulation />;
   }
@@ -89,6 +94,8 @@ const Popup = () => {
       <div style={{ backgroundColor: 'black' }}>
         <SimulationHeader />
       </div>
+      {posthog.isFeatureEnabled('user-survey-4-14') && <SimulationSurvey />}
+      {/* todo: intergrate this w/ posthog feature flags */}
 
       <div>
         {((currentSimulation.state === StoredSimulationState.Success &&
