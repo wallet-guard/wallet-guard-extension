@@ -23,7 +23,7 @@ export default function UnauthorizedComponent(props: ErrorComponentProps) {
           any inconvenience.
         </p>
       </div>
-      <ErrorTextComponent filteredSimulations={props.filteredSimulations} />
+      <ErrorTextComponent currentSimulation={props.currentSimulation} />
     </div>
   );
 }

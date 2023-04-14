@@ -1,10 +1,10 @@
 // Storage wrapper for updating the storage.
-import logger from '../logger';
 import { fetchSimulate, fetchSignature } from './server';
-import type { ErrorType, RequestArgs, SimulationError, SimulationResponse } from '../../models/simulation/Transaction';
+import { SimulationError, SimulationResponse, TransactionArgs } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
-
-const log = logger.child({ component: 'Storage' });
+import Browser from 'webextension-polyfill';
+import { BrowserMessage, BrowserMessageType } from '../helpers/chrome/messageHandler';
+import { StateChangesComponent } from '../../components/simulation/SimulationSubComponents/StateChangesComponent';
 
 export enum StoredSimulationState {
   // Currently in the process of simulating.
@@ -50,6 +50,9 @@ export interface StoredSimulation {
   /// Simulation set on success.
   simulation?: SimulationResponse;
 
+  // The params that were used to simulate this transaction.
+  args: TransactionArgs;
+
   /// Optional error message on Error
   error?: SimulationError;
 }
@@ -57,74 +60,71 @@ export interface StoredSimulation {
 // Thank you Pocket Universe for leading the way in proxying transactions
 // https://github.com/jqphu/PocketUniverse
 export const addSimulation = async (simulation: StoredSimulation) => {
-  const { simulations = [] } = await chrome.storage.local.get('simulations');
+  const data = await chrome.storage.local.get('simulations');
+  const simulations: StoredSimulation[] = data.simulations || [];
 
   // Add new simulation to the front.
   simulations.push({ ...simulation });
 
-  console.log('add simulation', simulation);
   return chrome.storage.local.set({ simulations });
 };
 
 const completeSimulation = async (id: string, simulation: SimulationResponse) => {
-  const { simulations = [] } = await chrome.storage.local.get('simulations');
+  const data = await chrome.storage.local.get('simulations');
+  const simulations: StoredSimulation[] = data.simulations || [];
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
     if (storedSimulation.id === id) {
-      console.log('simulation found id', id);
-      log.debug('Simulation found id', id);
       storedSimulation.state = StoredSimulationState.Success;
       storedSimulation.simulation = simulation;
     }
   });
 
-  console.log('completeSimulation', simulation);
-  return chrome.storage.local.set({ simulations });
+  return await chrome.storage.local.set({ simulations });
 };
 
 // Skip the popup, this is used for incorrect chain id.
 export const skipSimulation = async (id: string) => {
-  const { simulations = [] } = await chrome.storage.local.get('simulations');
+  const data = await chrome.storage.local.get('simulations');
+  const simulations: StoredSimulation[] = data.simulations || [];
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
     if (storedSimulation.id === id) {
-      log.debug('Simulation found id', id);
       storedSimulation.state = StoredSimulationState.Confirmed;
     }
   });
 
-  console.log('skipSimulation', id);
   return chrome.storage.local.set({ simulations });
 };
 
 const revertSimulation = async (id: string, error?: SimulationError) => {
-  const { simulations = [] } = await chrome.storage.local.get('simulations');
+  const data = await chrome.storage.local.get('simulations');
+  const simulations: StoredSimulation[] = data.simulations || [];
 
   simulations.forEach((storedSimulation: StoredSimulation) => {
     if (storedSimulation.id === id) {
-      log.debug('Simulation found id', id);
       storedSimulation.state = StoredSimulationState.Revert;
       storedSimulation.error = error;
     }
   });
 
-  console.log('revertSimulation', id, error);
   return chrome.storage.local.set({ simulations });
 };
 
 export const removeSimulation = async (id: string) => {
-  let { simulations = [] } = await chrome.storage.local.get('simulations');
+  const data = await chrome.storage.local.get('simulations');
+  let simulations: StoredSimulation[] = data.simulations || [];
 
   simulations = simulations.filter((storedSimulation: StoredSimulation) => {
     return storedSimulation.id !== id;
   });
 
-  console.log('removesimulation', id, simulations);
   return chrome.storage.local.set({ simulations });
 };
 
 export const updateSimulationState = async (id: string, state: StoredSimulationState) => {
-  let { simulations = [] } = await chrome.storage.local.get('simulations');
+  const data = await chrome.storage.local.get('simulations');
+  let simulations: StoredSimulation[] = data.simulations || [];
 
   simulations = simulations.map((x: StoredSimulation) =>
     x.id === id
@@ -135,13 +135,23 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
       : x
   );
 
-  console.log('update simulation state', state, id, simulations);
-  return chrome.storage.local.set({ simulations });
+  if (simulations && simulations.length > 0 && !simulations[0].args.bypassed && state === StoredSimulationState.Confirmed) {
+    const currentSimulation: StoredSimulation = simulations[0] || [];
+
+    const message: BrowserMessage = {
+      type: BrowserMessageType.ApprovedTxn,
+      data: currentSimulation.args,
+    };
+
+    await Browser.runtime.sendMessage(undefined, message);
+  }
+
+  return await chrome.storage.local.set({ simulations });
 };
 
-// TODO(jqphu): dedup with above...
 const updateSimulatioWithErrorMsg = async (id: string, error?: SimulationError) => {
-  let { simulations = [] } = await chrome.storage.local.get('simulations');
+  const data = await chrome.storage.local.get('simulations');
+  let simulations: StoredSimulation[] = data.simulations || [];
 
   simulations = simulations.map((x: StoredSimulation) =>
     x.id === id
@@ -153,17 +163,24 @@ const updateSimulatioWithErrorMsg = async (id: string, error?: SimulationError) 
       : x
   );
 
-  console.log('update simulation with error msg', id, error, simulations);
-  return chrome.storage.local.set({ simulations });
+  return await chrome.storage.local.set({ simulations });
 };
 
-export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
+export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
   let response: Response;
 
   let state = StoredSimulationState.Simulating;
   if (args.chainId !== '0x1' && args.chainId !== '1') {
     // Automatically confirm if chain id is incorrect. This prevents the popup.
     state = StoredSimulationState.Confirmed;
+
+    return addSimulation({
+      id: args.id,
+      signer: args.signer,
+      type: StoredType.Simulation,
+      args,
+      state,
+    });
   }
 
   console.log('args', args);
@@ -174,6 +191,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.Simulation,
         state,
+        args,
       }),
       fetchSimulate(args),
     ]);
@@ -185,6 +203,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.SignatureHash,
         state,
+        args,
       }),
       fetchSignature(args),
     ]);
@@ -196,11 +215,11 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.PersonalSign,
         state,
+        args,
       }),
       fetchSignature(args),
     ]);
     response = result[1];
-    console.log(response, 'sign message response');
   } else {
     const result = await Promise.all([
       addSimulation({
@@ -208,6 +227,7 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
         signer: args.signer,
         type: StoredType.Signature,
         state,
+        args,
       }),
       fetchSignature(args),
     ]);
@@ -229,7 +249,6 @@ export const fetchSimulationAndUpdate = async (args: RequestArgs) => {
     if (!response.simulation) {
       throw new Error('Invalid state');
     }
-    console.log('made it through');
     return completeSimulation(args.id, response.simulation);
   }
 };
