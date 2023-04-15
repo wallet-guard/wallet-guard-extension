@@ -82,6 +82,7 @@ export type SimulationResponse = {
   stateChanges: SimulationStateChange[];
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
+  decodedMessage?: string;
   scanResult: PhishingResponse;
   error: SimulationError | null;
 };
