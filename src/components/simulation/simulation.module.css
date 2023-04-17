@@ -68,6 +68,23 @@
   padding-top: 12px;
 }
 
+.close {
+  opacity: 50%;
+  top: 85px;
+  right: 15px;
+  opacity: 50%;
+  position: absolute;
+}
+
+.close:hover {
+  cursor: pointer;
+  opacity: 80%;
+}
+
+.hover:hover {
+  cursor: pointer;
+  background-color: #212121 !important;
+}
 
 .copy:hover {
   background-color: #3E3E3E;
