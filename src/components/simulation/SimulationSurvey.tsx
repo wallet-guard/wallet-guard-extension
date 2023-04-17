@@ -31,12 +31,12 @@ export const SimulationSurvey = () => {
 
   return (
     <>
-      <div onClick={openSurvey} className={styles.hover} style={{ backgroundColor: '#343a40' }}>
+      <div className={styles.hover} style={{ backgroundColor: '#343a40' }}>
         <div className="container">
-          <div className={styles.close}>
-            <img src="/images/popup/x.png" alt="x" width={12} onClick={() => closeSurvey(true)} />
+          <div className={styles.close} onClick={() => closeSurvey(true)}>
+            <img src="/images/popup/x.png" alt="x" width={12} />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <div onClick={openSurvey} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <FaPoll color="white" fontSize={'75px'} />
             <p
               className={`${styles['font-archivo-medium']} px-3`}
