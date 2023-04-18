@@ -225,7 +225,9 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 });
 
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
-  if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
+  if (message.data.chainId !== '0x1' && message.data.chainId !== '1' // ETH Mainnet
+    && message.data.chainId !== '42161' && message.data.chainId !== "0xa4b1" // Arbitrum One
+    && message.data.chainId !== '42170' && message.data.chainId !== "0xA4BA") return; // Arbitrum Nova
 
   // Check if the transaction was already simulated and confirmed
   console.log(approvedTxns);

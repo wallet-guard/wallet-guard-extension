@@ -195,6 +195,7 @@ const addWalletGuardProxy = (provider: any) => {
       }
 
       // For error, we just continue, to make sure we don't block the user!
+      // we should also implement auto continue on errors (server response isn't mapped properly)
       if (response === Response.Continue || response === Response.Error) {
         return Reflect.apply(target, thisArg, args);
       }

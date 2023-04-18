@@ -78,6 +78,13 @@ listenToRequest(async (request: TransactionArgs) => {
               type: Response.Reject,
             });
             maybeRemoveId(simulation.id);
+            // testing auto proceed on errors
+            // } else if (simulation.state === StoredSimulationState.Error) {
+            //   dispatchResponse({
+            //     id: simulation.id,
+            //     type: Response.Continue,
+            //   });
+            //   maybeRemoveId(simulation.id);
           }
         });
       }
