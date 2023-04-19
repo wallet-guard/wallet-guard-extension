@@ -4,6 +4,7 @@ import { SimulationError, SimulationResponse, TransactionArgs } from '../../mode
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType } from '../helpers/chrome/messageHandler';
+import { SUPPORTED_CHAINS } from '../config/features';
 
 export enum StoredSimulationState {
   // Currently in the process of simulating.
@@ -169,9 +170,7 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
   let response: Response;
 
   let state = StoredSimulationState.Simulating;
-  if (args.chainId !== '0x1' && args.chainId !== '1' &&
-    args.chainId !== "0xa4b1" && args.chainId !== '42161' &&
-    args.chainId !== '0xA4BA' && args.chainId !== "42170") {
+  if (!SUPPORTED_CHAINS.includes(args.chainId)) {
     // Automatically confirm if chain id is incorrect. This prevents the popup.
     state = StoredSimulationState.Confirmed;
 

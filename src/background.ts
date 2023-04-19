@@ -15,6 +15,7 @@ import { checkAllWalletsAndCreateAlerts } from './services/http/versionService';
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
+import { SUPPORTED_CHAINS } from './lib/config/features';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -228,9 +229,7 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 });
 
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
-  if (message.data.chainId !== '0x1' && message.data.chainId !== '1' // ETH Mainnet
-    && message.data.chainId !== '42161' && message.data.chainId !== "0xa4b1" // Arbitrum One
-    && message.data.chainId !== '42170' && message.data.chainId !== "0xA4BA") return; // Arbitrum Nova
+  if (!SUPPORTED_CHAINS.includes(message.data.chainId)) return;
 
   // Check if the transaction was already simulated and confirmed
   console.log(approvedTxns);

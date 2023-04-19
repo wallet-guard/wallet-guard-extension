@@ -7,3 +7,8 @@ export const supportedWallets = {
   trustwallet: 'egjidjbpglichdcondbcbdnbeeppgdph',
   binance: 'fhbohimaelbohpjbbldcngcnapndodjp'
 } as const;
+
+export const SUPPORTED_CHAINS = [
+  '1', '0x1', // ETH Mainnet
+  '42161', '0xa4b1', // Arbitrum One
+];

@@ -5,20 +5,7 @@ import { TAS_SERVER_URL_PROD } from '../environment';
 // TODO: add unit tests for these 2 functions
 export const fetchSimulate = async (args: TransactionArgs): Promise<Response> => {
   try {
-    let simulationURL = '';
-
-    switch (args.chainId) {
-      case '0x1':
-      case '1':
-        simulationURL = `${TAS_SERVER_URL_PROD}/simulate`;
-        break;
-      case "0xa4b1":
-      case "0xA4BA":
-      case '42161':
-      case '42170':
-        simulationURL = `${TAS_SERVER_URL_PROD}/v1/arbitrum/transaction`;
-        break;
-    }
+    const simulationURL = getSimulationEndpoint(args.chainId);
 
     const result: globalThis.Response = await fetch(simulationURL, {
       method: 'POST',
@@ -129,3 +116,16 @@ export const fetchSignature = async (
     };
   }
 };
+
+function getSimulationEndpoint(chainId: string): string {
+  switch (chainId) {
+    case '0x1':
+    case '1':
+      return `${TAS_SERVER_URL_PROD}/simulate`;
+    case "0xa4b1":
+    case '42161':
+      return `${TAS_SERVER_URL_PROD}/v1/arbitrum/transaction`;
+    default:
+      return `${TAS_SERVER_URL_PROD}/simulate`;
+  }
+}
