@@ -161,6 +161,7 @@ chrome.windows.onRemoved.addListener((windowId: number) => {
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
+  console.log('found localStorage changes');
   if (area === 'local' && changes['simulations']?.newValue) {
     const oldSimulations = changes['simulations'].oldValue;
     const newSimulations = changes['simulations'].newValue;
@@ -171,6 +172,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
     const newFiltered = newSimulations.filter((storedSimulation: StoredSimulation) => {
       return simulationNeedsAction(storedSimulation.state);
     });
+
+    console.log('preparing to open popup');
 
     log.debug(
       {
