@@ -193,12 +193,7 @@ export function DashboardTab() {
                   <b>Phishing Protection</b>
                 </Tab>
                 <Tab>
-                  <b>
-                    Transaction Simulation{' '}
-                    <Badge pl="1" fontSize="13px" colorScheme="green">
-                      New
-                    </Badge>
-                  </b>
+                  <b>Transaction Simulation</b>
                 </Tab>
                 <Tab>
                   <b>Community</b>
