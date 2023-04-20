@@ -17,7 +17,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@sentry/react": "^7.37.1",
-    "@sentry/tracing": "^7.37.1",
+    "@sentry/tracing": "^7.45.0",
     "deep-equal": "^2.2.0",
     "eth-rpc-errors": "^4.0.3",
     "parse-domain": "^7.0.0",
