@@ -230,9 +230,10 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (!SUPPORTED_CHAINS.includes(message.data.chainId)) return;
+  const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
+  if (!settings?.simulationEnabled) return;
 
   // Check if the transaction was already simulated and confirmed
-  console.log(approvedTxns);
   const isApproved = findApprovedTransaction(approvedTxns, message.data);
   if (isApproved) return;
 

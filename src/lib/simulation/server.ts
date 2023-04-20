@@ -52,7 +52,7 @@ export const fetchSimulate = async (args: TransactionArgs): Promise<Response> =>
       error: {
         type: ErrorType.UnknownError,
         message: 'An unknown error occurred',
-        extraData: null
+        extraData: e
       },
       type: ResponseType.Error
     };
@@ -108,7 +108,7 @@ export const fetchSignature = async (
       error: {
         type: ErrorType.UnknownError,
         message: 'An unknown error occurred',
-        extraData: null
+        extraData: e
       },
       type: ResponseType.Error
     };
