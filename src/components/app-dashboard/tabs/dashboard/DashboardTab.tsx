@@ -37,7 +37,7 @@ import { OnboardingWelcome } from './onboarding/OnboardingWelcome';
 import { OnboardingSimulation } from './onboarding/OnboardingSimulation';
 import { OnboardingCommunity } from './onboarding/OnboardingCommunity';
 import { OnboardingPhishing } from './onboarding/OnboardingPhishing';
-import { posthog } from 'posthog-js';
+import { PostHog, posthog } from 'posthog-js';
 import { openGuide } from '../../../../lib/helpers/linkHelper';
 
 export function DashboardTab() {
@@ -72,14 +72,25 @@ export function DashboardTab() {
         }
       });
     });
-    localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((res) => {
-      if (res !== true) {
-        posthog.capture('startTutorial');
-        setTutorialComplete(false);
-        chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
-      } else {
+
+    localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((tutorialIsComplete) => {
+      if (tutorialIsComplete) {
         setTutorialComplete(true);
+        return;
       }
+
+      chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
+
+      posthog.onFeatureFlags(() => {
+        const onboardingFeatureEnabled = posthog.getFeatureFlagPayload('show-onboarding') as boolean;
+
+        if (onboardingFeatureEnabled) {
+          posthog.capture('startTutorial');
+          setTutorialComplete(false);
+        } else {
+          setTutorialComplete(true);
+        }
+      });
     });
   }, []);
 
