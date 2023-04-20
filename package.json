@@ -14,7 +14,7 @@
     "@chakra-ui/icons": "^2.0.16",
     "@chakra-ui/react": "^2.4.8",
     "@emotion/styled": "^11.10.5",
-    "@fortawesome/free-brands-svg-icons": "^6.2.1",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@sentry/react": "^7.37.1",
     "@sentry/tracing": "^7.37.1",
