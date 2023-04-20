@@ -50,7 +50,6 @@ export const fetchSimulate = async (args: TransactionArgs): Promise<Response> =>
     console.log('ERROR: ', e);
     return {
       error: {
-        // TODO: Verify this w/ posthog
         type: ErrorType.UnknownError,
         message: 'An unknown error occurred',
         extraData: null
@@ -107,7 +106,6 @@ export const fetchSignature = async (
     console.log('ERROR: ', e);
     return {
       error: {
-        // TODO: Verify this w/ posthog
         type: ErrorType.UnknownError,
         message: 'An unknown error occurred',
         extraData: null
