@@ -37,7 +37,7 @@ import { OnboardingWelcome } from './onboarding/OnboardingWelcome';
 import { OnboardingSimulation } from './onboarding/OnboardingSimulation';
 import { OnboardingCommunity } from './onboarding/OnboardingCommunity';
 import { OnboardingPhishing } from './onboarding/OnboardingPhishing';
-import { PostHog, posthog } from 'posthog-js';
+import { posthog } from 'posthog-js';
 import { openGuide } from '../../../../lib/helpers/linkHelper';
 
 export function DashboardTab() {
