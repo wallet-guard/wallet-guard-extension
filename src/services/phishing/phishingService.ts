@@ -1,3 +1,4 @@
+// import { PostHog } from 'posthog-node'
 import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
@@ -6,6 +7,7 @@ import { urlIsPhishingWarning } from '../../lib/helpers/util';
 import { AlertDetail } from '../../models/Alert';
 import { PhishingResult, WarningLevel, WarningType } from '../../models/PhishingResponse';
 import { domainScan } from '../http/domainScan';
+import { posthog } from 'posthog-js';
 
 export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const url: string = tab.url || '';
@@ -49,13 +51,14 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
       }
     }
 
+    const drainerWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Drainer);
     const similarityWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Similarity);
-    const homoglyphWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Homoglpyh);
+    const homoglyphWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Homoglyph);
     const mlWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.MLInference);
     const blocklistWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Blocklisted);
-    if (similarityWarning || homoglyphWarning || mlWarning || blocklistWarning) {
+    if (drainerWarning || similarityWarning || homoglyphWarning || mlWarning || blocklistWarning) {
       const safeURL = similarityWarning?.value || homoglyphWarning?.value || mlWarning?.value || 'null';
-      const reason = similarityWarning?.type || homoglyphWarning?.type || mlWarning?.type || blocklistWarning?.type || 'null';
+      const reason = drainerWarning?.type || similarityWarning?.type || homoglyphWarning?.type || mlWarning?.type || blocklistWarning?.type || 'null';
       chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
         url:
           chrome.runtime.getURL('phish.html') +

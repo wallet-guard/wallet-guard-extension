@@ -24,7 +24,7 @@ export default function AlertsTable(props: Props) {
         return 'yellow';
       case WarningType.Blocklisted:
       case WarningType.Similarity:
-      case WarningType.Homoglpyh:
+      case WarningType.Homoglyph:
       case WarningType.MLInference:
       case WarningType.RecentlyCreated: // todo: make this yellow/red depending on WarningLevel
       case WarningType.Malware:
@@ -67,7 +67,7 @@ export default function AlertsTable(props: Props) {
         return 'Potentially Malicious Extension';
       case WarningType.MLInference:
         return 'Suspicious website';
-      case WarningType.Homoglpyh:
+      case WarningType.Homoglyph:
       case 'UNICODE_SIMILARITY':
         return 'Homoglyph attack';
       case AlertCategory.News:
