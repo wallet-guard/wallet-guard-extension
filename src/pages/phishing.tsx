@@ -89,10 +89,20 @@ export function PhishingWarning() {
   function getWarningText() {
     if (isConfirmedPhishing) {
       return (
-        <Text variant={'muted'} fontSize={'lg'}>
-          The website ({proceedAnywayUrl}) you're trying to visit is on our{' '}
-          <strong>confirmed phishing blocklist</strong>
-        </Text>
+        <>
+          <Text variant={'muted'} fontSize={'lg'}>
+            The website ({proceedAnywayUrl}) you're trying to visit is on our{' '}
+            <strong>confirmed phishing blocklist</strong>
+          </Text>
+        </>
+      );
+    } else if (reason === WarningType.Drainer) {
+      return (
+        <>
+          <Text variant={'muted'} fontSize={'lg'}>
+            The website ({proceedAnywayUrl}) you're trying to visit is a <strong>suspected wallet drainer.</strong>
+          </Text>
+        </>
       );
     } else if (reason === WarningType.RecentlyCreated) {
       return (
@@ -105,7 +115,7 @@ export function PhishingWarning() {
           </Text>
         </>
       );
-    } else if (reason === WarningType.Homoglpyh) {
+    } else if (reason === WarningType.Homoglyph) {
       return (
         <>
           <Text style={{ whiteSpace: 'nowrap' }} variant={'muted'} fontSize={'lg'}>
