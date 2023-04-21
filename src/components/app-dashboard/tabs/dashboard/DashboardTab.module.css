@@ -95,7 +95,7 @@
 .continue {
   opacity: 0;
   animation: fadeIn ease 2s forwards 1.2s;
-  animation-delay: 2s;
+  animation-delay: 1s;
 }
 
 .tutorialContainer {

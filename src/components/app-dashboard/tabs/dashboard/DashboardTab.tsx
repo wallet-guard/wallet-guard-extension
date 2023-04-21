@@ -1,6 +1,5 @@
 import { RepeatIcon } from '@chakra-ui/icons';
 import {
-  Badge,
   Button,
   Heading,
   Modal,
@@ -17,7 +16,7 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiBell, FiBellOff } from 'react-icons/fi';
 import { supportedWallets, WalletType } from '../../../../lib/config/supportedWallets';
 import { AlertHandler } from '../../../../lib/helpers/chrome/alertHandler';
@@ -73,18 +72,31 @@ export function DashboardTab() {
         }
       });
     });
-    localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((res) => {
-      if (res !== true) {
-        posthog.capture('startTutorial');
-        setTutorialComplete(false);
-      } else {
+
+    localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((tutorialIsComplete) => {
+      if (tutorialIsComplete) {
         setTutorialComplete(true);
+        return;
       }
+
+      chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
+
+      posthog.onFeatureFlags(() => {
+        const onboardingFeatureEnabled = posthog.getFeatureFlagPayload('show-onboarding') as boolean;
+
+        if (onboardingFeatureEnabled) {
+          posthog.capture('startTutorial');
+          setTutorialComplete(false);
+        } else {
+          setTutorialComplete(true);
+        }
+      });
     });
   }, []);
 
   useEffect(() => {
     getSettingsFromLocalstorage();
+
     async function getSettingsFromLocalstorage() {
       const data = await localStorageHelpers.get<Settings>(WgKeys.Settings);
       if (data) {
@@ -96,6 +108,16 @@ export function DashboardTab() {
   function goToTutorialStep(index: number) {
     setTutorialStep(index);
     posthog.capture('updateTutorialStep', { step: index });
+  }
+
+  function previousTutorialStep() {
+    if (tutorialStep === 0) {
+      posthog.capture('skipTutorial');
+      setTutorialComplete(true);
+      return;
+    }
+
+    setTutorialStep((step) => step - 1);
   }
 
   function nextTutorialStep() {
@@ -110,7 +132,6 @@ export function DashboardTab() {
   function completeTutorial() {
     posthog.capture('completeTutorial');
     setTutorialComplete(true);
-    chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
   }
 
   function getTutorialText() {
@@ -193,12 +214,7 @@ export function DashboardTab() {
                   <b>Phishing Protection</b>
                 </Tab>
                 <Tab>
-                  <b>
-                    Transaction Simulation{' '}
-                    <Badge pl="1" fontSize="13px" colorScheme="green">
-                      New
-                    </Badge>
-                  </b>
+                  <b>Transaction Simulation</b>
                 </Tab>
                 <Tab>
                   <b>Community</b>
@@ -223,11 +239,11 @@ export function DashboardTab() {
           <ModalFooter justifyContent={'space-between'}>
             <Button
               size="sm"
-              onClick={() => goToTutorialStep(tutorialStep - 1)}
+              onClick={previousTutorialStep}
               style={{ backgroundColor: 'blackAlpha', color: 'white' }}
-              visibility={tutorialStep === 0 ? 'hidden' : 'visible'}
+              className={tutorialStyles.continue}
             >
-              Previous
+              {tutorialStep === 0 ? 'Skip' : 'Previous'}
             </Button>
 
             <Button

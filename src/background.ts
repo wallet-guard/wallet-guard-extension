@@ -1,11 +1,10 @@
 import logger from './lib/logger';
-import { REQUEST_COMMAND } from './lib/simulation/requests';
 import { StoredSimulation, StoredSimulationState, updateSimulationState } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
-import { RequestArgs } from './models/simulation/Transaction';
+import { TransactionArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
-import { MessageType } from './lib/helpers/chrome/messageHandler';
+import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage, findApprovedTransaction, ProceedAnywayMessageType, ApprovedTxnMessageType, RunSimulationMessageType } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
 import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
@@ -15,8 +14,10 @@ import { checkUrlForPhishing } from './services/phishing/phishingService';
 import { checkAllWalletsAndCreateAlerts } from './services/http/versionService';
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
+import Browser from 'webextension-polyfill';
 
 const log = logger.child({ component: 'Background' });
+const approvedTxns: TransactionArgs[] = [];
 
 let currentPopup: undefined | number;
 
@@ -37,9 +38,9 @@ chrome.action.onClicked.addListener(function (tab) {
 });
 
 // MESSAGING
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === MessageType.ProceedAnyway) {
-    const { url, permanent } = message;
+chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendResponse) => {
+  if (message.type === BrowserMessageType.ProceedAnyway) {
+    const { url, permanent } = message as ProceedAnywayMessageType;
 
     if (permanent) {
       const domainName = getDomainNameFromURL(url);
@@ -65,8 +66,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
       });
     }
-    return true; // need to return true here for async message passing
-    // https://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
+  } else if (message.type === BrowserMessageType.ApprovedTxn) {
+    const { data } = message as ApprovedTxnMessageType;
+    approvedTxns.push(data);
+  } else if (message.type === BrowserMessageType.RunSimulation) {
+    const { data } = message as RunSimulationMessageType;
+    clearOldSimulations().then(() => fetchSimulationAndUpdate(data));
   }
 });
 
@@ -213,11 +218,23 @@ chrome.storage.onChanged.addListener((changes, area) => {
   }
 });
 
-chrome.runtime.onMessage.addListener(async (request) => {
-  if (request.command === REQUEST_COMMAND) {
-    const args: RequestArgs = request.data;
-    clearOldSimulations().then(() => fetchSimulationAndUpdate(args));
-  } else {
-    log.warn(request, 'Unknown command');
+Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) => {
+  if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {
+    remotePort.onMessage.addListener(contentScriptMessageHandler);
   }
 });
+
+const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
+  if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
+
+  // Check if the transaction was already simulated and confirmed
+  console.log(approvedTxns);
+  const isApproved = findApprovedTransaction(approvedTxns, message.data);
+  if (isApproved) return;
+
+  // Wait for Metamask to popup first because otherwise Chrome will create both popups in the same coordinates
+  await new Promise(resolve => setTimeout(resolve, 200));
+
+  // Run the simulation
+  clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));
+};
