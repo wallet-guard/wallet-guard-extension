@@ -73,14 +73,14 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
               {stateChange.tokenURI ? <NFTInfo stateChange={stateChange} /> : <TokenInfo stateChange={stateChange} />}
 
               {stateChange && (
-                <div
-                  className="col-6"
-                  style={{ display: 'flex', justifyContent: 'right', alignItems: 'center', textAlign: 'right' }}
-                >
+                <>
                   {/* IF NFT ELSE TOKEN */}
                   {stateChange.assetType !== SimulationAssetTypes.Native &&
                   stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
-                    <div>
+                    <div
+                      className="col-4"
+                      style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', textAlign: 'right' }}
+                    >
                       {isTransfer(stateChange) ? (
                         <TransferNFT stateChange={stateChange} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
@@ -94,7 +94,10 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       )}
                     </div>
                   ) : (
-                    <div>
+                    <div
+                      className="col-8"
+                      style={{ display: 'flex', justifyContent: 'center', textAlign: 'right', flexDirection: 'column' }}
+                    >
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
@@ -110,7 +113,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       )}
                     </div>
                   )}
-                </div>
+                </>
               )}
             </div>
           );

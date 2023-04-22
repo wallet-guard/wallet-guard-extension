@@ -10,12 +10,12 @@ export interface StateChangesComponentProps {
 
 export const NFTInfo = (props: StateChangesComponentProps) => {
   return (
-    <div className="col-6" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <div className="col-8" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <img
         src={props.stateChange.tokenURI ? props.stateChange.tokenURI : '/images/popup/unknown.png'}
         alt=""
         width={50}
-        style={{ borderRadius: '20%', alignSelf: 'center', marginTop: '-16px', maxHeight: '50px' }}
+        style={{ borderRadius: '20%', alignSelf: 'center', maxHeight: '50px' }}
       />
       <div>
         {props.stateChange.openSeaLink ? (
@@ -55,7 +55,7 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
 
         <div style={{ display: 'flex' }}>
           <p
-            style={{ color: 'darkgray', fontSize: '16px', marginTop: '-17px' }}
+            style={{ color: 'darkgray', fontSize: '16px', marginBottom: 0 }}
             className={`${styles['font-archivo-bold']} pl-3`}
           >
             <b>{props.stateChange.name ? add3Dots(props.stateChange.name, 11) : 'Unknown'}</b>
@@ -70,13 +70,7 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
               className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
               style={{ borderRadius: '2em' }}
             >
-              <img
-                src="/images/popup/twitter-verified-badge.svg"
-                alt=""
-                width={25}
-                className="pl-2"
-                style={{ marginTop: '-30px' }}
-              />
+              <img src="/images/popup/twitter-verified-badge.svg" alt="" width={25} className="pl-2" />
             </Tooltip>
           )}
         </div>

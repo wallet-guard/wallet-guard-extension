@@ -21,7 +21,7 @@ function roundNumberIfNeccessary(num: string): string {
 
 export const RevokeApprovalForAll = () => {
   return (
-    <div style={{ display: 'flex' }}>
+    <>
       <h3
         style={{ color: '#17FE00', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
         className={`${styles['font-archivo-bold']}`}
@@ -30,13 +30,13 @@ export const RevokeApprovalForAll = () => {
           Revoking permission <br /> to withdraw ALL
         </b>
       </h3>
-    </div>
+    </>
   );
 };
 
 export const SetTokenApproval = ({ stateChange }: { stateChange: SimulationStateChange }) => {
   return (
-    <div style={{ display: 'flex' }}>
+    <>
       <h3
         style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
         className={`${styles['font-archivo-bold']}`}
@@ -45,7 +45,7 @@ export const SetTokenApproval = ({ stateChange }: { stateChange: SimulationState
           Permission to <br /> withdraw {stateChange.symbol}
         </b>
       </h3>
-    </div>
+    </>
   );
 };
 
@@ -55,7 +55,7 @@ interface SetApprovalForAllProps {
 
 export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
   return (
-    <div style={{ display: 'flex' }}>
+    <>
       {props.verified ? (
         <>
           <h3
@@ -85,13 +85,13 @@ export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
           </h3>
         </>
       )}
-    </div>
+    </>
   );
 };
 
 export const SetApproval = () => {
   return (
-    <div style={{ display: 'flex' }}>
+    <>
       <img
         src="/images/popup/orange-danger.png"
         alt=""
@@ -106,7 +106,7 @@ export const SetApproval = () => {
           Permission to <br /> withdraw NFT
         </b>
       </h3>
-    </div>
+    </>
   );
 };
 
@@ -151,10 +151,7 @@ export const TransferNFT = ({ stateChange }: { stateChange: SimulationStateChang
           className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
           style={{ borderRadius: '2em' }}
         >
-          <p
-            style={{ color: '#fb4b4b', float: 'right', marginBottom: 0 }}
-            className={`${styles['font-archivo-medium']}`}
-          >
+          <p style={{ color: '#fb4b4b', marginBottom: 0 }} className={`${styles['font-archivo-medium']}`}>
             <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
           </p>
         </Tooltip>
