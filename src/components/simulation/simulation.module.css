@@ -122,3 +122,11 @@
   ::-webkit-scrollbar {
     display: none;
   }
+
+  .assetChangeRow {
+    margin-bottom: 20px;
+  }
+
+  .assetChangeRow:last-child {
+    margin-bottom: 0px;
+  }

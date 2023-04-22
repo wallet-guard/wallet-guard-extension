@@ -1,5 +1,4 @@
 import React from 'react';
-import { SimulationStateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 
 export interface RiskFactorComponents {
@@ -8,7 +7,7 @@ export interface RiskFactorComponents {
 
 export const RiskFactors = (props: RiskFactorComponents) => {
   return (
-    <div>
+    <>
       {props.warnings &&
         props.warnings.map((warning: any) => {
           return (
@@ -46,6 +45,6 @@ export const RiskFactors = (props: RiskFactorComponents) => {
             </div>
           );
         })}
-    </div>
+    </>
   );
 };

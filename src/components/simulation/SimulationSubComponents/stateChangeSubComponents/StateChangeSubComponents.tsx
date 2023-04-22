@@ -99,7 +99,7 @@ export const SetApproval = () => {
         style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
       />
       <h3
-        style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px', float: 'right' }}
+        style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
         className={`${styles['font-archivo-bold']}`}
       >
         <b>
@@ -112,8 +112,8 @@ export const SetApproval = () => {
 
 export const ReceiveNFT = ({ stateChange }: { stateChange: SimulationStateChange }) => {
   return (
-    <div>
-      <h3 style={{ color: '#17FE00', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
+    <>
+      <h3 style={{ color: '#17FE00', fontSize: '18px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
         <b>+1 NFT</b>
       </h3>
       {stateChange.fiatValue !== '' && (
@@ -126,19 +126,19 @@ export const ReceiveNFT = ({ stateChange }: { stateChange: SimulationStateChange
           className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
           style={{ borderRadius: '2em' }}
         >
-          <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+          <p style={{ color: '#17FE00', marginBottom: 0 }} className={`${styles['font-archivo-medium']}`}>
             <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
           </p>
         </Tooltip>
       )}
-    </div>
+    </>
   );
 };
 
 export const TransferNFT = ({ stateChange }: { stateChange: SimulationStateChange }) => {
   return (
-    <div>
-      <h3 style={{ color: '#fb4b4b', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
+    <>
+      <h3 style={{ color: '#fb4b4b', fontSize: '18px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
         <b>-1 NFT</b>
       </h3>
       {stateChange.fiatValue !== '' && (
@@ -151,45 +151,48 @@ export const TransferNFT = ({ stateChange }: { stateChange: SimulationStateChang
           className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
           style={{ borderRadius: '2em' }}
         >
-          <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+          <p
+            style={{ color: '#fb4b4b', float: 'right', marginBottom: 0 }}
+            className={`${styles['font-archivo-medium']}`}
+          >
             <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
           </p>
         </Tooltip>
       )}
-    </div>
+    </>
   );
 };
 
 export const TransferToken = ({ stateChange }: { stateChange: SimulationStateChange }) => {
   return (
-    <div>
-      <h3 style={{ color: '#fb4b4b', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
+    <>
+      <h3 style={{ color: '#fb4b4b', fontSize: '18px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
         <b>
           {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
         </b>
       </h3>
       {stateChange.fiatValue !== '' && (
-        <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+        <p style={{ color: '#fb4b4b', marginBottom: 0 }} className={`${styles['font-archivo-medium']}`}>
           <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
         </p>
       )}
-    </div>
+    </>
   );
 };
 
 export const ReceiveToken = ({ stateChange }: { stateChange: SimulationStateChange }) => {
   return (
-    <div>
-      <h3 style={{ color: '#17FE00', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
+    <>
+      <h3 style={{ color: '#17FE00', fontSize: '18px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
         <b>
           {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
         </b>
       </h3>
       {stateChange.fiatValue !== '' && (
-        <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+        <p style={{ color: '#17FE00', marginBottom: 0 }} className={`${styles['font-archivo-medium']}`}>
           <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
         </p>
       )}
-    </div>
+    </>
   );
 };

@@ -17,6 +17,7 @@ import {
 } from './stateChangeSubComponents/StateChangeSubComponents';
 import { TokenInfo } from './stateChangeSubComponents/TokenInfo';
 import { PhishingResponse } from '../../../models/PhishingResponse';
+import styles from '../simulation.module.css';
 
 export interface StateChangesComponentProps {
   simulationStateChanges: SimulationStateChange[];
@@ -60,64 +61,60 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
   };
 
   return (
-    <div>
+    <>
       {props.simulationStateChanges &&
         props.simulationStateChanges.map((stateChange: SimulationStateChange) => {
           return (
-            <div key={stateChange.name + stateChange.tokenID + stateChange.fiatValue}>
-              <div className="pt-2">
-                <div className="row justify-content-between">
-                  {/* TODO: FIX check opensea if its is an NFT */}
-                  {stateChange.tokenURI ? (
-                    <NFTInfo stateChange={stateChange} />
-                  ) : (
-                    <TokenInfo stateChange={stateChange} />
-                  )}
+            <div
+              className={`${styles.assetChangeRow} row justify-content-between`}
+              key={stateChange.name + stateChange.tokenID + stateChange.fiatValue}
+            >
+              {/* TODO: FIX check opensea if its is an NFT */}
+              {stateChange.tokenURI ? <NFTInfo stateChange={stateChange} /> : <TokenInfo stateChange={stateChange} />}
 
-                  {stateChange && (
-                    <div style={{ marginLeft: '-5px', display: 'flex', alignItems: 'center' }}>
-                      <div className="col">
-                        {/* IF NFT ELSE TOKEN */}
-                        {stateChange.assetType !== SimulationAssetTypes.Native &&
-                        stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
-                          <div>
-                            {isTransfer(stateChange) ? (
-                              <TransferNFT stateChange={stateChange} />
-                            ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                              <SetApprovalForAll verified={props.scanResult.verified} />
-                            ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
-                              <RevokeApprovalForAll />
-                            ) : isReceive(stateChange) ? (
-                              <ReceiveNFT stateChange={stateChange} />
-                            ) : (
-                              stateChange.changeType === SimulationChangeType.ChangeTypeApprove && <SetApproval />
-                            )}
-                          </div>
-                        ) : (
-                          <div>
-                            {isTransfer(stateChange) ? (
-                              <TransferToken stateChange={stateChange} />
-                            ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                              <SetApprovalForAll verified={props.scanResult.verified} />
-                            ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
-                              <RevokeApprovalForAll />
-                            ) : isReceive(stateChange) ? (
-                              <ReceiveToken stateChange={stateChange} />
-                            ) : (
-                              stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
-                                <SetTokenApproval stateChange={stateChange} />
-                              )
-                            )}
-                          </div>
-                        )}
-                      </div>
+              {stateChange && (
+                <div
+                  className="col-6"
+                  style={{ display: 'flex', justifyContent: 'right', alignItems: 'center', textAlign: 'right' }}
+                >
+                  {/* IF NFT ELSE TOKEN */}
+                  {stateChange.assetType !== SimulationAssetTypes.Native &&
+                  stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
+                    <div>
+                      {isTransfer(stateChange) ? (
+                        <TransferNFT stateChange={stateChange} />
+                      ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
+                        <SetApprovalForAll verified={props.scanResult.verified} />
+                      ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
+                        <RevokeApprovalForAll />
+                      ) : isReceive(stateChange) ? (
+                        <ReceiveNFT stateChange={stateChange} />
+                      ) : (
+                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && <SetApproval />
+                      )}
+                    </div>
+                  ) : (
+                    <div>
+                      {isTransfer(stateChange) ? (
+                        <TransferToken stateChange={stateChange} />
+                      ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
+                        <SetApprovalForAll verified={props.scanResult.verified} />
+                      ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
+                        <RevokeApprovalForAll />
+                      ) : isReceive(stateChange) ? (
+                        <ReceiveToken stateChange={stateChange} />
+                      ) : (
+                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
+                          <SetTokenApproval stateChange={stateChange} />
+                        )
+                      )}
                     </div>
                   )}
                 </div>
-              </div>
+              )}
             </div>
           );
         })}
-    </div>
+    </>
   );
 };
