@@ -131,6 +131,7 @@
     margin-bottom: 0px;
   }
 
+  /* Takes up the remaining space left by assetChangeRightColumn */
   .assetChangeLeftColumn {
     display: flex;
     flex-direction: row;
@@ -142,6 +143,7 @@
     padding-right: 15px;
   }
 
+  /* Takes up 100% of width depending on the content, up to 40% of the row */
   .assetChangeRightColumn {
     display: flex;
     justify-content: center;
