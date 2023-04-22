@@ -10,18 +10,7 @@ export interface StateChangesComponentProps {
 
 export const NFTInfo = (props: StateChangesComponentProps) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        flexBasis: 0,
-        flexGrow: 1,
-        flexShrink: 1,
-        paddingLeft: '15px',
-        paddingRight: '15px',
-      }}
-    >
+    <div className={styles.assetChangeLeftColumn}>
       <img
         src={props.stateChange.tokenURI ? props.stateChange.tokenURI : '/images/popup/unknown.png'}
         alt=""

@@ -75,20 +75,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                   {/* IF NFT ELSE TOKEN */}
                   {stateChange.assetType !== SimulationAssetTypes.Native &&
                   stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexDirection: 'column',
-                        textAlign: 'right',
-                        flexBasis: 'auto',
-                        flexGrow: 0,
-                        flexShrink: 1,
-                        paddingLeft: '15px',
-                        paddingRight: '15px',
-                        maxWidth: '40%',
-                      }}
-                    >
+                    <div className={styles.assetChangeRightColumn}>
                       {isTransfer(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
@@ -102,20 +89,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       )}
                     </div>
                   ) : (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexDirection: 'column',
-                        textAlign: 'right',
-                        flexBasis: 'auto',
-                        flexGrow: 0,
-                        flexShrink: 1,
-                        paddingLeft: '15px',
-                        paddingRight: '15px',
-                        maxWidth: '40%',
-                      }}
-                    >
+                    <div className={styles.assetChangeRightColumn}>
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (

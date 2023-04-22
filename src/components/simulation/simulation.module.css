@@ -130,3 +130,27 @@
   .assetChangeRow:last-child {
     margin-bottom: 0px;
   }
+
+  .assetChangeLeftColumn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .assetChangeRightColumn {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: right;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 1;
+    padding-left: 15px;
+    padding-right: 15px;
+    max-width: 40%;
+  }

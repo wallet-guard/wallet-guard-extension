@@ -9,22 +9,8 @@ export interface StateChangesComponentProps {
 }
 
 export const TokenInfo = (props: StateChangesComponentProps) => {
-  {
-    /* ONLY DO THIS ON NFTS */
-  }
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        flexBasis: 0,
-        flexGrow: 1,
-        flexShrink: 1,
-        paddingLeft: '15px',
-        paddingRight: '15px',
-      }}
-    >
+    <div className={styles.assetChangeLeftColumn}>
       <img
         src={props.stateChange.logo ? props.stateChange.logo : '/images/popup/unknown.png'}
         alt=""
