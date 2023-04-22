@@ -13,7 +13,7 @@ export const TokenInfo = (props: StateChangesComponentProps) => {
     /* ONLY DO THIS ON NFTS */
   }
   return (
-    <div className="col-4" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <div className="col-6" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <img
         src={props.stateChange.logo ? props.stateChange.logo : '/images/popup/unknown.png'}
         alt=""

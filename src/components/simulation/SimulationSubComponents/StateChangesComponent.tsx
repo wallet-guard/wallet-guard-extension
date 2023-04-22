@@ -78,7 +78,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                   {stateChange.assetType !== SimulationAssetTypes.Native &&
                   stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
                     <div
-                      className="col-4"
+                      className="col-6"
                       style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', textAlign: 'right' }}
                     >
                       {isTransfer(stateChange) ? (
@@ -95,7 +95,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                     </div>
                   ) : (
                     <div
-                      className="col-8"
+                      className="col-6"
                       style={{ display: 'flex', justifyContent: 'center', textAlign: 'right', flexDirection: 'column' }}
                     >
                       {isTransfer(stateChange) ? (
