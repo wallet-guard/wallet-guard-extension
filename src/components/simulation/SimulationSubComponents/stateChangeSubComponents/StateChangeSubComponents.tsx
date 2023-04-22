@@ -52,10 +52,7 @@ export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
     <>
       {props.verified ? (
         <>
-          <h3
-            style={{ color: 'white', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
-            className={`${styles['font-archivo-bold']}`}
-          >
+          <h3 style={{ color: 'white', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
             <b>
               Permission to <br /> withdraw ALL
             </b>
@@ -69,10 +66,7 @@ export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
             width={33}
             style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
           />
-          <h3
-            style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
-            className={`${styles['font-archivo-bold']}`}
-          >
+          <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
             <b>
               Permission to <br /> withdraw ALL
             </b>
