@@ -76,8 +76,18 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                   {stateChange.assetType !== SimulationAssetTypes.Native &&
                   stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
                     <div
-                      className="col-6"
-                      style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', textAlign: 'right' }}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        textAlign: 'right',
+                        flexBasis: 'auto',
+                        flexGrow: 0,
+                        flexShrink: 1,
+                        paddingLeft: '15px',
+                        paddingRight: '15px',
+                        maxWidth: '40%',
+                      }}
                     >
                       {isTransfer(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="send" />
@@ -93,8 +103,18 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                     </div>
                   ) : (
                     <div
-                      className="col-6"
-                      style={{ display: 'flex', justifyContent: 'center', textAlign: 'right', flexDirection: 'column' }}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        flexDirection: 'column',
+                        textAlign: 'right',
+                        flexBasis: 'auto',
+                        flexGrow: 0,
+                        flexShrink: 1,
+                        paddingLeft: '15px',
+                        paddingRight: '15px',
+                        maxWidth: '40%',
+                      }}
                     >
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="send" />

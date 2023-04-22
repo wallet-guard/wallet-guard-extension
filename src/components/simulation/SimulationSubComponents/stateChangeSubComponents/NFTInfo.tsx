@@ -10,7 +10,18 @@ export interface StateChangesComponentProps {
 
 export const NFTInfo = (props: StateChangesComponentProps) => {
   return (
-    <div className="col-6" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexBasis: 0,
+        flexGrow: 1,
+        flexShrink: 1,
+        paddingLeft: '15px',
+        paddingRight: '15px',
+      }}
+    >
       <img
         src={props.stateChange.tokenURI ? props.stateChange.tokenURI : '/images/popup/unknown.png'}
         alt=""
@@ -31,7 +42,7 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
             >
               <b>
                 {props.stateChange.tokenName
-                  ? add3Dots(props.stateChange.tokenName, 11)
+                  ? add3Dots(props.stateChange.tokenName, 14)
                   : props.stateChange.tokenID
                   ? props.stateChange.tokenID
                   : 'Unknown'}
@@ -45,7 +56,7 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
           >
             <b>
               {props.stateChange.tokenName
-                ? add3Dots(props.stateChange.tokenName, 11)
+                ? add3Dots(props.stateChange.tokenName, 14)
                 : props.stateChange.tokenID
                 ? props.stateChange.tokenID
                 : 'Unknown'}
@@ -58,7 +69,7 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
             style={{ color: 'darkgray', fontSize: '16px', marginBottom: 0 }}
             className={`${styles['font-archivo-bold']} pl-3`}
           >
-            <b>{props.stateChange.name ? add3Dots(props.stateChange.name, 11) : 'Unknown'}</b>
+            <b>{props.stateChange.name ? add3Dots(props.stateChange.name, 14) : 'Unknown'}</b>
           </p>
           {props.stateChange.openSeaVerified && (
             <Tooltip

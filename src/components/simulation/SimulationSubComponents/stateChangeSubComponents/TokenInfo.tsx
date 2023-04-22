@@ -13,7 +13,18 @@ export const TokenInfo = (props: StateChangesComponentProps) => {
     /* ONLY DO THIS ON NFTS */
   }
   return (
-    <div className="col-6" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexBasis: 0,
+        flexGrow: 1,
+        flexShrink: 1,
+        paddingLeft: '15px',
+        paddingRight: '15px',
+      }}
+    >
       <img
         src={props.stateChange.logo ? props.stateChange.logo : '/images/popup/unknown.png'}
         alt=""
@@ -31,7 +42,7 @@ export const TokenInfo = (props: StateChangesComponentProps) => {
             style={{ color: 'white', fontSize: '18px', marginBottom: 0 }}
             className={`${styles['font-archivo-bold']} pl-3`}
           >
-            <b>{props.stateChange.symbol ? add3Dots(props.stateChange.symbol, 11) : 'Unknown'}</b>
+            <b>{props.stateChange.symbol ? add3Dots(props.stateChange.symbol, 14) : 'Unknown'}</b>
           </h3>
         </a>
       ) : (
@@ -39,7 +50,7 @@ export const TokenInfo = (props: StateChangesComponentProps) => {
           style={{ color: 'white', fontSize: '18px', marginBottom: 0 }}
           className={`${styles['font-archivo-bold']} pl-3`}
         >
-          <b>{props.stateChange.symbol ? add3Dots(props.stateChange.symbol, 11) : 'Unknown'}</b>
+          <b>{props.stateChange.symbol ? add3Dots(props.stateChange.symbol, 14) : 'Unknown'}</b>
         </h3>
       )}
 
