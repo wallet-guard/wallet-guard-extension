@@ -6,8 +6,6 @@ import {
 } from '../../../models/simulation/Transaction';
 import { NFTInfo } from './stateChangeSubComponents/NFTInfo';
 import {
-  ReceiveNFT,
-  ReceiveToken,
   RevokeApprovalForAll,
   SetApproval,
   SetApprovalForAll,
@@ -82,13 +80,13 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', textAlign: 'right' }}
                     >
                       {isTransfer(stateChange) ? (
-                        <TransferNFT stateChange={stateChange} />
+                        <TransferNFT stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
                         <SetApprovalForAll verified={props.scanResult.verified} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
-                        <ReceiveNFT stateChange={stateChange} />
+                        <TransferNFT stateChange={stateChange} type="receive" />
                       ) : (
                         stateChange.changeType === SimulationChangeType.ChangeTypeApprove && <SetApproval />
                       )}
@@ -99,13 +97,13 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       style={{ display: 'flex', justifyContent: 'center', textAlign: 'right', flexDirection: 'column' }}
                     >
                       {isTransfer(stateChange) ? (
-                        <TransferToken stateChange={stateChange} />
+                        <TransferToken stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
                         <SetApprovalForAll verified={props.scanResult.verified} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
-                        <ReceiveToken stateChange={stateChange} />
+                        <TransferToken stateChange={stateChange} type="receive" />
                       ) : (
                         stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
                           <SetTokenApproval stateChange={stateChange} />

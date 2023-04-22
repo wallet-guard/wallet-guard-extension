@@ -50,29 +50,23 @@ interface SetApprovalForAllProps {
 export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
   return (
     <>
-      {props.verified ? (
-        <>
-          <h3 style={{ color: 'white', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-            <b>
-              Permission to <br /> withdraw ALL
-            </b>
-          </h3>
-        </>
-      ) : (
-        <>
-          <img
-            src="/images/popup/orange-danger.png"
-            alt=""
-            width={33}
-            style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
-          />
-          <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-            <b>
-              Permission to <br /> withdraw ALL
-            </b>
-          </h3>
-        </>
+      {!props.verified && (
+        <img
+          src="/images/popup/orange-danger.png"
+          alt=""
+          width={33}
+          style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
+        />
       )}
+
+      <h3
+        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px' }}
+        className={`${styles['font-archivo-bold']}`}
+      >
+        <b>
+          Permission to <br /> withdraw ALL
+        </b>
+      </h3>
     </>
   );
 };
@@ -86,10 +80,7 @@ export const SetApproval = () => {
         width={33}
         style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
       />
-      <h3
-        style={{ color: '#fb4b4b', fontSize: '16px', marginTop: '4px', paddingBottom: '6px' }}
-        className={`${styles['font-archivo-bold']}`}
-      >
+      <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
         <b>
           Permission to <br /> withdraw NFT
         </b>
@@ -98,13 +89,21 @@ export const SetApproval = () => {
   );
 };
 
-export const ReceiveNFT = ({ stateChange }: { stateChange: SimulationStateChange }) => {
+interface TransferAssetProps {
+  type: 'send' | 'receive';
+  stateChange: SimulationStateChange;
+}
+
+export const TransferNFT = (props: TransferAssetProps) => {
   return (
     <>
-      <h3 style={{ color: '#17FE00', fontSize: '18px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
-        <b>+1 NFT</b>
+      <h3
+        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
+        className={`${styles['font-archivo-bold']}`}
+      >
+        <b>{props.type === 'send' ? '+1 NFT' : '-1 NFT'}</b>
       </h3>
-      {stateChange.fiatValue !== '' && (
+      {props.stateChange.fiatValue !== '' && (
         <Tooltip
           hasArrow
           label="OpenSea floor price"
@@ -114,8 +113,11 @@ export const ReceiveNFT = ({ stateChange }: { stateChange: SimulationStateChange
           className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
           style={{ borderRadius: '2em' }}
         >
-          <p style={{ color: '#17FE00', marginBottom: 0 }} className={`${styles['font-archivo-medium']}`}>
-            <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+          <p
+            style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0 }}
+            className={`${styles['font-archivo-medium']}`}
+          >
+            <b>${Number(props.stateChange.fiatValue).toFixed(2)}</b>
           </p>
         </Tooltip>
       )}
@@ -123,59 +125,23 @@ export const ReceiveNFT = ({ stateChange }: { stateChange: SimulationStateChange
   );
 };
 
-export const TransferNFT = ({ stateChange }: { stateChange: SimulationStateChange }) => {
+export const TransferToken = (props: TransferAssetProps) => {
   return (
     <>
-      <h3 style={{ color: '#fb4b4b', fontSize: '18px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
-        <b>-1 NFT</b>
+      <h3
+        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
+        className={`${styles['font-archivo-bold']}`}
+      >
+        <b>
+          {roundNumberIfNeccessary(props.stateChange.amount)} {props.stateChange.symbol}
+        </b>
       </h3>
-      {stateChange.fiatValue !== '' && (
-        <Tooltip
-          hasArrow
-          label="OpenSea floor price"
-          placement="left"
-          bg="#212121"
-          color="white"
-          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-          style={{ borderRadius: '2em' }}
+      {props.stateChange.fiatValue !== '' && (
+        <p
+          style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0 }}
+          className={`${styles['font-archivo-medium']}`}
         >
-          <p style={{ color: '#fb4b4b', marginBottom: 0 }} className={`${styles['font-archivo-medium']}`}>
-            <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-          </p>
-        </Tooltip>
-      )}
-    </>
-  );
-};
-
-export const TransferToken = ({ stateChange }: { stateChange: SimulationStateChange }) => {
-  return (
-    <>
-      <h3 style={{ color: '#fb4b4b', fontSize: '18px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
-        <b>
-          {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
-        </b>
-      </h3>
-      {stateChange.fiatValue !== '' && (
-        <p style={{ color: '#fb4b4b', marginBottom: 0 }} className={`${styles['font-archivo-medium']}`}>
-          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-        </p>
-      )}
-    </>
-  );
-};
-
-export const ReceiveToken = ({ stateChange }: { stateChange: SimulationStateChange }) => {
-  return (
-    <>
-      <h3 style={{ color: '#17FE00', fontSize: '18px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
-        <b>
-          {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
-        </b>
-      </h3>
-      {stateChange.fiatValue !== '' && (
-        <p style={{ color: '#17FE00', marginBottom: 0 }} className={`${styles['font-archivo-medium']}`}>
-          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+          <b>${Number(props.stateChange.fiatValue).toFixed(2)}</b>
         </p>
       )}
     </>
