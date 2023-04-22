@@ -1,4 +1,4 @@
-import { WalletType, supportedWallets } from '../../lib/config/supportedWallets';
+import { WalletType, supportedWallets } from '../../lib/config/features';
 import { EDS_URL_PROD } from '../../lib/environment';
 import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';

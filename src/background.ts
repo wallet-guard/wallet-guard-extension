@@ -15,6 +15,7 @@ import { checkAllWalletsAndCreateAlerts } from './services/http/versionService';
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
+import { SUPPORTED_CHAINS } from './lib/config/features';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -161,6 +162,7 @@ chrome.windows.onRemoved.addListener((windowId: number) => {
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
+  console.log('found localStorage changes');
   if (area === 'local' && changes['simulations']?.newValue) {
     const oldSimulations = changes['simulations'].oldValue;
     const newSimulations = changes['simulations'].newValue;
@@ -171,6 +173,8 @@ chrome.storage.onChanged.addListener((changes, area) => {
     const newFiltered = newSimulations.filter((storedSimulation: StoredSimulation) => {
       return simulationNeedsAction(storedSimulation.state);
     });
+
+    console.log('preparing to open popup');
 
     log.debug(
       {
@@ -225,10 +229,11 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 });
 
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
-  if (message.data.chainId !== '0x1' && message.data.chainId !== '1') return;
+  if (!SUPPORTED_CHAINS.includes(message.data.chainId)) return;
+  const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
+  if (!settings?.simulationEnabled) return;
 
   // Check if the transaction was already simulated and confirmed
-  console.log(approvedTxns);
   const isApproved = findApprovedTransaction(approvedTxns, message.data);
   if (isApproved) return;
 
