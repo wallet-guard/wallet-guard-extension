@@ -22,7 +22,7 @@ const UnreadAlertComponent = (props: Warning) => {
       case 'MALWARE':
         return "We've identified a malicious website. Remember to always stay security conscious while browsing web3.";
       case WarningType.Similarity:
-      case WarningType.Homoglpyh:
+      case WarningType.Homoglyph:
       case WarningType.MLInference:
       case 'CHECK_WHITELIST':
       case 'UNICODE_SIMILARITY':

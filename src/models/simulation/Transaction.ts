@@ -102,6 +102,7 @@ export enum ErrorType {
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
   Revert = 'REVERT',
   GeneralError = 'ERROR',
+  UnknownError = "UNKNOWN_ERROR"
 }
 
 export enum SimulationWarningType {

@@ -1,4 +1,4 @@
-import { WalletType } from '../lib/config/supportedWallets';
+import { WalletType } from '../lib/config/features';
 
 export interface WalletInfo {
   name: WalletType;

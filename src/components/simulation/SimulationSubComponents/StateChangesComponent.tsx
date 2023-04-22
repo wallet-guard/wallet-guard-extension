@@ -75,7 +75,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                   )}
 
                   {stateChange && (
-                    <div style={{ marginLeft: '-5px' }}>
+                    <div style={{ marginLeft: '-5px', display: 'flex', alignItems: 'center' }}>
                       <div className="col">
                         {/* IF NFT ELSE TOKEN */}
                         {stateChange.assetType !== SimulationAssetTypes.Native &&

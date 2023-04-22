@@ -5,7 +5,9 @@ import { TAS_SERVER_URL_PROD } from '../environment';
 // TODO: add unit tests for these 2 functions
 export const fetchSimulate = async (args: TransactionArgs): Promise<Response> => {
   try {
-    const result: globalThis.Response = await fetch(`${TAS_SERVER_URL_PROD}/simulate`, {
+    const simulationURL = getSimulationEndpoint(args.chainId);
+
+    const result: globalThis.Response = await fetch(simulationURL, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -48,9 +50,9 @@ export const fetchSimulate = async (args: TransactionArgs): Promise<Response> =>
     console.log('ERROR: ', e);
     return {
       error: {
-        type: ErrorType.GeneralError,
+        type: ErrorType.UnknownError,
         message: 'An unknown error occurred',
-        extraData: null
+        extraData: e
       },
       type: ResponseType.Error
     };
@@ -61,7 +63,9 @@ export const fetchSignature = async (
   args: TransactionArgs
 ): Promise<Response> => {
   try {
-    const result: globalThis.Response = await fetch(`${TAS_SERVER_URL_PROD}/signature`, {
+    const signatureURL = getSignatureEndpoint(args.chainId);
+
+    const result: globalThis.Response = await fetch(signatureURL, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -104,11 +108,37 @@ export const fetchSignature = async (
     console.log('ERROR: ', e);
     return {
       error: {
-        type: ErrorType.GeneralError,
+        type: ErrorType.UnknownError,
         message: 'An unknown error occurred',
-        extraData: null
+        extraData: e
       },
       type: ResponseType.Error
     };
   }
 };
+
+function getSimulationEndpoint(chainId: string): string {
+  switch (chainId) {
+    case '0x1':
+    case '1':
+      return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
+    case "0xa4b1":
+    case '42161':
+      return `${TAS_SERVER_URL_PROD}/v0/arb/mainnet/transaction`;
+    default:
+      return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
+  }
+}
+
+function getSignatureEndpoint(chainId: string): string {
+  switch (chainId) {
+    case '0x1':
+    case '1':
+      return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/signature`;
+    case "0xa4b1":
+    case '42161':
+      return `${TAS_SERVER_URL_PROD}/v0/arb/mainnet/signature`;
+    default:
+      return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/signature`;
+  }
+}

@@ -116,19 +116,21 @@ export const ReceiveNFT = ({ stateChange }: { stateChange: SimulationStateChange
       <h3 style={{ color: '#17FE00', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
         <b>+1 NFT</b>
       </h3>
-      <Tooltip
-        hasArrow
-        label="OpenSea floor price"
-        placement="left"
-        bg="#212121"
-        color="white"
-        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-        style={{ borderRadius: '2em' }}
-      >
-        <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
-          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-        </p>
-      </Tooltip>
+      {stateChange.fiatValue !== '' && (
+        <Tooltip
+          hasArrow
+          label="OpenSea floor price"
+          placement="left"
+          bg="#212121"
+          color="white"
+          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+          style={{ borderRadius: '2em' }}
+        >
+          <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+            <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+          </p>
+        </Tooltip>
+      )}
     </div>
   );
 };
@@ -139,19 +141,21 @@ export const TransferNFT = ({ stateChange }: { stateChange: SimulationStateChang
       <h3 style={{ color: '#fb4b4b', fontSize: '18px' }} className={`${styles['font-archivo-bold']}`}>
         <b>-1 NFT</b>
       </h3>
-      <Tooltip
-        hasArrow
-        label="OpenSea floor price"
-        placement="left"
-        bg="#212121"
-        color="white"
-        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-        style={{ borderRadius: '2em' }}
-      >
-        <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
-          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-        </p>
-      </Tooltip>
+      {stateChange.fiatValue !== '' && (
+        <Tooltip
+          hasArrow
+          label="OpenSea floor price"
+          placement="left"
+          bg="#212121"
+          color="white"
+          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+          style={{ borderRadius: '2em' }}
+        >
+          <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+            <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+          </p>
+        </Tooltip>
+      )}
     </div>
   );
 };
@@ -164,9 +168,11 @@ export const TransferToken = ({ stateChange }: { stateChange: SimulationStateCha
           {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
         </b>
       </h3>
-      <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
-        <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-      </p>
+      {stateChange.fiatValue !== '' && (
+        <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+        </p>
+      )}
     </div>
   );
 };
@@ -179,9 +185,11 @@ export const ReceiveToken = ({ stateChange }: { stateChange: SimulationStateChan
           {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
         </b>
       </h3>
-      <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
-        <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-      </p>
+      {stateChange.fiatValue !== '' && (
+        <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+        </p>
+      )}
     </div>
   );
 };
