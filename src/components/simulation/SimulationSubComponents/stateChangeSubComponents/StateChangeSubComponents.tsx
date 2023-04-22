@@ -168,9 +168,11 @@ export const TransferToken = ({ stateChange }: { stateChange: SimulationStateCha
           {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
         </b>
       </h3>
-      <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
-        <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-      </p>
+      {stateChange.fiatValue !== '' && (
+        <p style={{ color: '#fb4b4b', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+        </p>
+      )}
     </div>
   );
 };
@@ -183,9 +185,11 @@ export const ReceiveToken = ({ stateChange }: { stateChange: SimulationStateChan
           {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
         </b>
       </h3>
-      <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
-        <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
-      </p>
+      {stateChange.fiatValue !== '' && (
+        <p style={{ color: '#17FE00', float: 'right' }} className={`${styles['font-archivo-medium']}`}>
+          <b>${Number(stateChange.fiatValue).toFixed(2)}</b>
+        </p>
+      )}
     </div>
   );
 };
