@@ -33,6 +33,7 @@ export function ChecklistItem(props: ChecklistItemProps) {
   const { name, localVersion, latestVersion, lastCheckedAt } = props.walletInfo;
   const details: ChecklistDetails = mapInfo();
   const icon = mapIcon(details.icon);
+  const bothVersionsExist = localVersion && latestVersion;
 
   function mapInfo(): ChecklistDetails {
     if (!localVersion) {
@@ -86,15 +87,15 @@ export function ChecklistItem(props: ChecklistItemProps) {
     >
       <img src={`/images/wallets/${name}.png`} height={50} width={50} />
       <div
-        className={`${styles.col} ${localVersion && localVersion !== latestVersion ? styles.hover : ''}`}
+        className={`${styles.col} ${bothVersionsExist && localVersion !== latestVersion ? styles.hover : ''}`}
         style={{ marginLeft: '25px' }}
-        onClick={localVersion && localVersion !== latestVersion ? goToExtensions : () => {}}
+        onClick={bothVersionsExist && localVersion !== latestVersion ? goToExtensions : () => {}}
       >
         <div className={styles.row}>
           <Heading as="h6" fontSize={22}>
             {details.text}
             {icon}
-            {localVersion && localVersion !== latestVersion && (
+            {bothVersionsExist && localVersion !== latestVersion && (
               <Badge className={styles.hover} pl="1" fontSize="13px" colorScheme="yellow" marginLeft={'7px'}>
                 Update
               </Badge>
@@ -102,12 +103,17 @@ export function ChecklistItem(props: ChecklistItemProps) {
           </Heading>
         </div>
         <div className={styles.row}>
-          {localVersion && localVersion !== latestVersion && (
+          {localVersion && !latestVersion && (
+            <Text fontSize={18} color={'gray.300'}>
+              We ran into an issue. Please try again later.
+            </Text>
+          )}
+          {bothVersionsExist && localVersion !== latestVersion && (
             <Text fontSize={18} color={'orange'}>
               Update Now
             </Text>
           )}
-          {localVersion === latestVersion && (
+          {bothVersionsExist && localVersion === latestVersion && (
             <Text fontSize={18} color={'gray.300'}>
               Last Checked: {details.lastCheckedAt}
             </Text>
