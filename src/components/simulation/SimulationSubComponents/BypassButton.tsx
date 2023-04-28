@@ -23,7 +23,7 @@ export const BypassedSimulationButton = ({ storedSimulation }: { storedSimulatio
             <button
               className={`${styles['reject-button']} btn`}
               onClick={() => {
-                posthog.capture('simulation rejected', {
+                posthog.capture('bypassed simulation rejected', {
                   warningType: storedSimulation.simulation?.warningType,
                   storedSimulation: storedSimulation,
                 });
