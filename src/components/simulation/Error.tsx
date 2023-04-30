@@ -67,7 +67,7 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
       </div>
 
       {getErrorComponent()}
-      {currentSimulation.args.bypassed ? (
+      {currentSimulation.args?.bypassed ? (
         <BypassedSimulationButton storedSimulation={currentSimulation} />
       ) : (
         <ConfirmSimulationButton storedSimulation={currentSimulation && currentSimulation} />

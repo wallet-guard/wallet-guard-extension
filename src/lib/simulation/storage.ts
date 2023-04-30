@@ -135,7 +135,7 @@ export const updateSimulationState = async (id: string, state: StoredSimulationS
       : x
   );
 
-  if (simulations && simulations.length > 0 && !simulations[0].args.bypassed && state === StoredSimulationState.Confirmed) {
+  if (simulations && simulations.length > 0 && !simulations[0].args?.bypassed && state === StoredSimulationState.Confirmed) {
     const currentSimulation: StoredSimulation = simulations[0] || [];
 
     const message: BrowserMessage = {
