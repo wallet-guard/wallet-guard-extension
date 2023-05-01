@@ -73,7 +73,7 @@ const Popup = () => {
       setCurrentSimulation(undefined);
     }
 
-    if (current?.args.bypassed) {
+    if (current?.args?.bypassed) {
       if (current.simulation) {
         current.simulation.warningType = SimulationWarningType.Warn;
         current.simulation.message = [
@@ -130,7 +130,7 @@ const Popup = () => {
         <TransactionContent storedSimulation={currentSimulation} />
       </div>
       <div style={{ height: '120px' }} />
-      {currentSimulation.args.bypassed ? (
+      {currentSimulation.args?.bypassed ? (
         <BypassedSimulationButton storedSimulation={currentSimulation} />
       ) : (
         <ConfirmSimulationButton storedSimulation={currentSimulation} />
