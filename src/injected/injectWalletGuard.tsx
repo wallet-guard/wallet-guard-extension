@@ -9,7 +9,7 @@ declare global {
 }
 
 // this function standardizes all values sent to the API into strings to prevent type errors
-function convertObjectValuesToString(inputObj: any): any {
+export function convertObjectValuesToString(inputObj: any): any {
   const keys = Object.keys(inputObj);
   const output: any = {};
   for (let x of keys) {
@@ -24,7 +24,6 @@ function convertObjectValuesToString(inputObj: any): any {
 }
 
 const log = logger.child({ component: 'Injected' });
-log.debug({ msg: 'Injected script loaded.' });
 
 // Handling all the request communication.
 const REQUEST_MANAGER = new RequestManager();
@@ -85,8 +84,6 @@ const addWalletGuardProxy = (provider: any) => {
       let response;
 
       if (request.method === 'eth_sendTransaction') {
-        log.info('Transaction Request');
-
         if (request.params.length !== 1) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
@@ -110,7 +107,6 @@ const addWalletGuardProxy = (provider: any) => {
           throw ethErrors.provider.userRejectedRequest('Wallet Guard Tx Signature: User denied transaction signature.');
         }
       } else if (request.method === 'eth_signTypedData_v3' || request.method === 'eth_signTypedData_v4') {
-        log.info('Signature Request');
         if (request.params.length !== 2) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
@@ -170,7 +166,6 @@ const addWalletGuardProxy = (provider: any) => {
           );
         }
       } else if (request.method === 'personal_sign') {
-        log.info('Presonal Sign Request');
         if (request.params.length < 2) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
@@ -200,8 +195,8 @@ const addWalletGuardProxy = (provider: any) => {
       }
 
       // For error, we just continue, to make sure we don't block the user!
+      // we should also implement auto continue on errors (server response isn't mapped properly)
       if (response === Response.Continue || response === Response.Error) {
-        log.info(response, 'Continue | Error');
         return Reflect.apply(target, thisArg, args);
       }
     },
@@ -224,11 +219,7 @@ const addWalletGuardProxy = (provider: any) => {
         return Reflect.apply(target, thisArg, args);
       }
 
-      log.info({ args }, 'Request Type Async Handler');
-
       if (request.method === 'eth_sendTransaction') {
-        log.info('Transaction Request');
-
         if (request.params.length !== 1) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
@@ -267,7 +258,6 @@ const addWalletGuardProxy = (provider: any) => {
             }
           });
       } else if (request.method === 'eth_signTypedData_v3' || request.method === 'eth_signTypedData_v4') {
-        log.info('Signature Request');
         if (request.params.length !== 2) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
@@ -314,7 +304,6 @@ const addWalletGuardProxy = (provider: any) => {
               callback(error, response);
               // For error, we just continue, to make sure we don't block the user!
             } else if (response === Response.Continue || response === Response.Error) {
-              log.info(response, 'Continue | Error');
               return Reflect.apply(target, thisArg, args);
             }
           });
@@ -396,7 +385,6 @@ const addWalletGuardProxy = (provider: any) => {
               callback(error, response);
               // For error, we just continue, to make sure we don't block the user!
             } else if (response === Response.Continue || response === Response.Error) {
-              log.info(response, 'Continue | Error');
               return Reflect.apply(target, thisArg, args);
             }
           });
@@ -406,8 +394,6 @@ const addWalletGuardProxy = (provider: any) => {
 
   // if provider and wallet guard is not in provider
   if (provider && !provider?.isWalletGuard) {
-    log.debug({ provider }, 'Added proxy');
-
     try {
       Object.defineProperty(provider, 'request', {
         value: new Proxy(provider.request, requestHandler),

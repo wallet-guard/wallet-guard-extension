@@ -35,12 +35,14 @@ export enum SimulationMethodType {
   PersonalSign = 'personal_sign',
 }
 
+export type TransactionArgs = SimulateRequestArgs | SignatureRequestArgs | SignatureHashSignArgs | PersonalSignArgs;
+
 // Transaction we want to forward.
-export type SimulateRequestArgs = {
+export interface SimulateRequestArgs extends RequestArgs {
   transaction: Transaction;
 };
 
-export type SignatureRequestArgs = {
+export interface SignatureRequestArgs extends RequestArgs {
   // Domain for this signature request.
   domain: any;
   // Message to be signed for this signature request.
@@ -50,16 +52,16 @@ export type SignatureRequestArgs = {
 };
 
 // Hash being signed.
-export type SignatureHashSignArgs = {
+export interface SignatureHashSignArgs extends RequestArgs {
   hash: string;
 };
 
 // Message to be signed.
-export type PersonalSignArgs = {
+export interface PersonalSignArgs extends RequestArgs {
   signMessage: string;
 };
 
-export type RequestArgs = {
+interface RequestArgs {
   // UUID for this request.
   id: string;
   // Chain ID for this request in hex.
@@ -69,15 +71,17 @@ export type RequestArgs = {
   // Domain Origin
   origin: string;
   // Method type
-  method: string;
-} & (SimulateRequestArgs | SignatureRequestArgs | SignatureHashSignArgs | PersonalSignArgs);
+  method: SimulationMethodType | string;
+  // Whether this request is a bypassed request.
+  bypassed?: boolean;
+}
 
 export type SimulationResponse = {
   warningType: SimulationWarningType;
-  message: string[];
+  message?: string[];
   stateChanges: SimulationStateChange[];
   addressDetails: SimulationAddressDetails;
-  method: SimulationMethodType;
+  method: SimulationMethodType | string;
   scanResult: PhishingResponse;
   error: SimulationError | null;
 };
@@ -98,6 +102,7 @@ export enum ErrorType {
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
   Revert = 'REVERT',
   GeneralError = 'ERROR',
+  UnknownError = "UNKNOWN_ERROR"
 }
 
 export enum SimulationWarningType {

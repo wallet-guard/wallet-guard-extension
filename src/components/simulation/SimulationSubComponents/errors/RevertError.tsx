@@ -11,7 +11,7 @@ export default function RevertComponent(props: ErrorComponentProps) {
           The transaction will be reverted
         </h4>
       </div>
-      <ErrorTextComponent filteredSimulations={props.filteredSimulations} />
+      <ErrorTextComponent currentSimulation={props.currentSimulation} />
     </div>
   );
 }

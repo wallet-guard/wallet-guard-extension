@@ -16,6 +16,7 @@ module.exports = {
     dashboard: path.join(srcDir, 'pages/dashboard.tsx'),
     phishing: path.join(srcDir, 'pages/phishing.tsx'),
     'content-scripts/contentScripts': path.join(srcDir, 'content-scripts', 'contentScripts.tsx'),
+    'content-scripts/bypassCheck': path.join(srcDir, 'content-scripts', 'bypassCheck.tsx'),
     'injected/injectWalletGuard': path.join(srcDir, 'injected', 'injectWalletGuard.tsx'),
   },
 
