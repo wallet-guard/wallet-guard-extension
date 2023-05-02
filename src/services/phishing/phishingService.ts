@@ -1,4 +1,3 @@
-// import { PostHog } from 'posthog-node'
 import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
@@ -7,7 +6,6 @@ import { setIcon, urlIsPhishingWarning } from '../../lib/helpers/util';
 import { AlertDetail } from '../../models/Alert';
 import { PhishingResult, WarningLevel, WarningType } from '../../models/PhishingResponse';
 import { domainScan } from '../http/domainScan';
-import { posthog } from 'posthog-js';
 
 export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const url: string = tab.url || '';

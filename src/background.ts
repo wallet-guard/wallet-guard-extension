@@ -133,8 +133,8 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   });
 
   await checkAllWalletsAndCreateAlerts();
-  await chrome.action.setPopup({ popup: '../actionPopup.html' });
-  chrome.action.openPopup();
+  // await chrome.action.setPopup({ popup: '../actionPopup.html' });
+  // chrome.action.openPopup();
 
   if (
     // process.env.NODE_ENV === 'production' &&
