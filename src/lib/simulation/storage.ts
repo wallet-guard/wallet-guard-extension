@@ -239,21 +239,6 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
     return skipSimulation(args.id);
   }
 
-  // Just in case the bypass check triggers, skip the simulation on verified websites
-  if (response.simulation?.scanResult.verified && args.bypassed) {
-    return skipSimulation(args.id);
-  }
-
-  // Just in case the bypass check triggers, skip the simulation on verified websites
-  if (response.simulation?.scanResult.verified && args.bypassed) {
-    return skipSimulation(args.id);
-  }
-
-  // Just in case the bypass check triggers, skip the simulation on verified websites
-  if (response.simulation?.scanResult.verified && args.bypassed) {
-    return skipSimulation(args.id);
-  }
-
   if (response.type === ResponseType.Error) {
     if (response?.error?.message === 'invalid chain id') {
       // This will likely be a no-op but we want to handle it anyway.

@@ -234,7 +234,6 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   if (!settings?.simulationEnabled) return;
 
   // Check if the transaction was already simulated and confirmed
-  console.log(approvedTxns);
   const isApproved = findApprovedTransaction(approvedTxns, message.data);
   if (isApproved) return;
 
