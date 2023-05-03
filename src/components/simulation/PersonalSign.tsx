@@ -40,6 +40,15 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
     fetchData();
   }, []);
 
+  // Set the chain logo path
+  useEffect(() => {
+    switch (simulation.args.chainId) {
+      case '42161':
+        setChainLogoPath('/images/asset_logos/arbitrum-one.png');
+        break;
+    }
+  }, []);
+
   return (
     <div className={styles['parent']}>
       <DappLogoWithChain
