@@ -2,6 +2,7 @@ import React, {useEffect, useState } from 'react';
 import { StoredSimulation } from '../../lib/simulation/storage';
 import { DappLogoWithChain } from './DappLogoWithChain';
 import styles from '../../styles/simulation/PersonalSign/PersonalSign.module.css';
+import { S3_URL_PROD } from '../../lib/environment';
 
 interface PersonalSignProps {
   simulation: StoredSimulation;
@@ -33,7 +34,8 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   // Fetch the metadata json
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('https://walletguard-public-prod.s3.us-east-2.amazonaws.com/url/metadata/'+ simulation.args.origin + '.json');
+      console.log("simulation.args.origin", simulation.args.origin)
+      const response = await fetch(S3_URL_PROD + simulation.args.origin + '.json');
       const data = await response.json();
       setMetadata(data);
     };
@@ -44,6 +46,9 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   // Set the chain logo path
   useEffect(() => {
     switch (simulation.args.chainId) {
+      case '1':
+        setChainLogoPath('/images/asset_logos/eth-mainnet.png');
+        break;
       case '42161':
         setChainLogoPath('/images/asset_logos/arbitrum-one.png');
         break;
@@ -55,7 +60,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
       <DappLogoWithChain
         name={metadata.name}
         logoPath={metadata.logo}
-        chainLogoPath="/images/asset_logos/eth-mainnet.png"
+        chainLogoPath={chainLogoPath}
         color={metadata.color}
       />
       <div className={styles['row']} style={{ textAlign: 'right' }}>
