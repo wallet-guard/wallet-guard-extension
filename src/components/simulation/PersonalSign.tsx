@@ -22,6 +22,7 @@ const defaultMetadata: Metadata = {
 
 export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   const [metadata, setMetadata] = useState<Metadata>(defaultMetadata);
+  const [chainLogoPath, setChainLogoPath] = useState<string>('/images/asset_logos/eth-mainnet.png');
 
   const formatEthereumAddress = (address: string): string => {
     const prefix = address.substring(0, 8);
@@ -32,7 +33,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   // Fetch the metadata json
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('https://walletguard-public-prod.s3.us-east-2.amazonaws.com/url/metadata/'+ simulation.simulation?.scanResult.domainName + '.json');
+      const response = await fetch('https://walletguard-public-prod.s3.us-east-2.amazonaws.com/url/metadata/'+ simulation.args.origin + '.json');
       const data = await response.json();
       setMetadata(data);
     };
@@ -71,7 +72,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
           <div style={{ display: 'flex', height: '15px', width: '15px', borderRadius: '50%' }}>
             <img src={metadata.logo}/>
           </div>
-          <p>{simulation.simulation?.scanResult.domainName}</p>
+          <p>{simulation.args.origin}</p>
         </div>
       </div>
 
