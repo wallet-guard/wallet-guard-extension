@@ -15,7 +15,7 @@ export const DappLogoWithChain: React.FC<DappLogoWithChainProps> = ({ name, logo
     switch (color) {
       case 'pink':
         setBackgroundGradient1(
-          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 0, 122, 0.2) 0%, rgba(255, 0, 122, 0) 100%)'
+          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 0, 122, 0.5) 0%, rgba(255, 0, 122, 0) 100%)'
         );
         setBackgroundGradient2(
           'radial-gradient(88.3% 88.3% at 50% 100%, #FF007A 0%, rgba(255, 0, 122, 0) 100%)'
@@ -23,7 +23,7 @@ export const DappLogoWithChain: React.FC<DappLogoWithChainProps> = ({ name, logo
         break;
       case 'blue':
         setBackgroundGradient1(
-          'radial-gradient(88.3% 88.3% at 50% 95%, rgb(26, 106, 185) 0%, rgba(122, 0, 255, 0) 100%)'
+          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(26, 106, 185, 0.5) 0%, rgba(122, 0, 255, 0) 100%)'
         );
         setBackgroundGradient2(
           'radial-gradient(88.3% 88.3% at 50% 100%, rgb(26, 106, 185) 0%, rgba(122, 0, 255, 0) 100%)'
@@ -31,7 +31,7 @@ export const DappLogoWithChain: React.FC<DappLogoWithChainProps> = ({ name, logo
         break;
       case 'orange':
         setBackgroundGradient1(
-          'radial-gradient(88.3% 88.3% at 50% 95%, rgb(255, 122, 0) 0%, rgba(255, 122, 0, 0) 100%)'
+          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 122, 0, 0.5) 0%, rgba(255, 122, 0, 0) 100%)'
         );
         setBackgroundGradient2(
           'radial-gradient(88.3% 88.3% at 50% 100%, rgb(255, 122, 0) 0%, rgba(255, 122, 0, 0) 100%)'
@@ -39,7 +39,7 @@ export const DappLogoWithChain: React.FC<DappLogoWithChainProps> = ({ name, logo
         break;
       case 'white':
         setBackgroundGradient1(
-          'radial-gradient(88.3% 88.3% at 50% 95%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%)'
+          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%)'
         );
         setBackgroundGradient2(
           'radial-gradient(88.3% 88.3% at 50% 100%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%)'
@@ -47,12 +47,37 @@ export const DappLogoWithChain: React.FC<DappLogoWithChainProps> = ({ name, logo
         break;
       case 'purple':
         setBackgroundGradient1(
-          'radial-gradient(88.3% 88.3% at 50% 95%, rgb(122, 0, 255) 0%, rgba(122, 0, 255, 0) 100%)'
+          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(122, 0, 255, 0.5) 0%, rgba(122, 0, 255, 0) 100%)'
         );
         setBackgroundGradient2(
           'radial-gradient(88.3% 88.3% at 50% 100%, rgb(122, 0, 255) 0%, rgba(122, 0, 255, 0) 100%)'
         );
         break;
+      case 'green':
+        setBackgroundGradient1(
+          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(0, 255, 122, 0.5) 0%, rgba(0, 255, 122, 0) 100%)'
+        );
+        setBackgroundGradient2(
+          'radial-gradient(88.3% 88.3% at 50% 100%, rgb(0, 255, 122) 0%, rgba(0, 255, 122, 0) 100%)'
+        );             
+        break;
+      case 'lime-green':
+        setBackgroundGradient1(
+          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(144, 255, 0, 0.5) 0%, rgba(0, 255, 122, 0) 100%)'
+        );
+        setBackgroundGradient2(
+          'radial-gradient(88.3% 88.3% at 50% 100%, rgb(144, 255, 0) 0%, rgba(0, 255, 122, 0) 100%)'
+        );
+        break;
+      case 'yellow':
+        setBackgroundGradient1(
+          'radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 255, 0, 0.5) 0%, rgba(255, 255, 0, 0) 100%)'
+        );
+        setBackgroundGradient2(
+          'radial-gradient(88.3% 88.3% at 50% 100%, rgb(255, 255, 0) 0%, rgba(255, 255, 0, 0) 100%)'
+        );
+        break;
+
       default:
     }
   }, [color]);
