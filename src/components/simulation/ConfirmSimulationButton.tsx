@@ -52,7 +52,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
         <RejectSignInButton
           backgroundColor="#424242"
           imgSrc="/images/popup/x.png"
-          imgWidth={19}
+          imgWidth={13}
           color="white"
           buttonText="REJECT"
           onClick={() => {
