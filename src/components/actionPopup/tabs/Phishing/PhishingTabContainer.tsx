@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PhishingResponse, PhishingResult, Warning } from '../../../../models/PhishingResponse';
 
 interface PhishingTabContainerProps {
