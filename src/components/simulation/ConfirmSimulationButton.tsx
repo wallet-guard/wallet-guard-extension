@@ -42,7 +42,7 @@ interface ConfirmSimulationButtonProps {
 
 export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = ({
   storedSimulation,
-  confirmText = 'Continue',
+  confirmText = 'CONTINUE',
 }) => {
   const { id, signer, state } = storedSimulation;
 
@@ -85,10 +85,9 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
           <div></div>
         ) : (
           <RejectSignInButton
-            backgroundColor="#424242"
+            backgroundColor="white"
             imgSrc="/images/popup/circleCheck.png"
             imgWidth={19}
-            color="white"
             buttonText="SKIP"
             onClick={() => {
               posthog.alias(signer);
