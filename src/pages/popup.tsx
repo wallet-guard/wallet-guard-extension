@@ -16,6 +16,7 @@ import { ErrorComponent } from '../components/simulation/Error';
 import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
 import { SimulationSurvey } from '../components/simulation/SimulationSurvey';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
+import { PersonalSign } from '../components/simulation/PersonalSign';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 
 const Popup = () => {
