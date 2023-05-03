@@ -10,7 +10,7 @@ import { useTab } from '../../lib/hooks/useNavigation';
 export const ActionPopupContainer = () => {
   const tabData = useTab();
 
-  // todo: add UseContext so that TabSelector can update state here
+  // todo: figure out how to get settings working
   // todo: add check for simulation that needs action to swap to TAS tab
 
   function renderSelectedTab() {
@@ -27,12 +27,14 @@ export const ActionPopupContainer = () => {
   }
 
   return (
-    <PopupTabContext.Provider value={tabData}>
-      <div className={styles.container}>
-        <PopupHeader />
-        <TabSelector />
-        {renderSelectedTab()}
+    <div className={styles.popup}>
+      <div className="container">
+        <PopupTabContext.Provider value={tabData}>
+          <PopupHeader />
+          <TabSelector />
+          {renderSelectedTab()}
+        </PopupTabContext.Provider>
       </div>
-    </PopupTabContext.Provider>
+    </div>
   );
 };

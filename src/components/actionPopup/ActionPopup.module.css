@@ -1,8 +1,31 @@
-.container {
+.popup {
   width: 400px;
   height: 600px;
 }
 
 .footer {
-  background: #101010;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background: #171717;
+}
+
+.tabButton {
+  font-size: 12px;
+  color: white;
+  background: #232323;
+  border: 1px solid #313131;
+  border-radius: 6px;
+  width: 30%;
+  height: 70px;
+}
+
+.tabButtonActive {
+  font-size: 12px;
+  color: black;
+  background: white;
+  border: 1px solid #313131;
+  border-radius: 6px;
+  width: 30%;
+  height: 70px;
 }

@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { ActionPopupContainer } from '../components/actionPopup/ActionPopupContainer';
+import { ChakraProvider, theme } from '@chakra-ui/react';
 
 const ActionPopup = () => {
-  return (
-    <>
-      <ActionPopupContainer />
-    </>
-  );
+  return <ActionPopupContainer />;
 };
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
-    <ActionPopup />
+    <ChakraProvider theme={theme}>
+      <ActionPopup />
+    </ChakraProvider>
   </React.StrictMode>
 );
 
