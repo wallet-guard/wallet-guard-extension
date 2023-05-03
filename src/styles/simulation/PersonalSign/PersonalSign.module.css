@@ -1,7 +1,3 @@
-p {
-    margin-bottom: 0;
-}
-
 @font-face {
     font-family: "ArchivoLight";
     src: url("../../../fonts/Archivo-Light.ttf") format("truetype");
@@ -10,6 +6,10 @@ p {
 .parent {
     margin: auto;
     font-family: 'ArchivoLight';
+}
+
+.parent p {
+    margin-bottom: 0;
 }
 
 .row {
