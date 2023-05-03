@@ -17,9 +17,12 @@
     padding: 1rem 0;
     justify-content: space-between;
     color: #ffffff;
-    min-width: 380px;
-    max-width: 500px;
+    width: max(380px, 50vw);
     border-bottom: 0.5px solid #3F3F3F;
+}
+
+.c-grey {
+    color: #636363;
 }
 
 .df-ac-g5 {
@@ -28,22 +31,24 @@
     gap: 5px;
 }
 
-.c-grey {
-    color: #636363;
-}
-
 .scrollable {
     overflow: scroll;
-    overflow-x: hidden;
+    overflow-x: scroll;
     white-space: pre-wrap;
     max-height: 16vh;
 }
 
 /* Style the scrollbar */
 .scrollable::-webkit-scrollbar {
+    display: block;
     width: 3px;
+    height: 3px;
 }
 
 .scrollable::-webkit-scrollbar-thumb {
-    background: #606060;
+    background: #636363;
+}
+
+.scrollable::-webkit-scrollbar-corner{
+    background: none;
 }
