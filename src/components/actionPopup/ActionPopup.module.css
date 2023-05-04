@@ -3,10 +3,16 @@
   src: local("ArchivoMedium"), url("../../fonts/Archivo-Medium.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "ArchivoSemiBold";
+  src: local("ArchivoSemiBold"), url("../../fonts/Archivo-SemiBold.ttf") format("truetype");
+}
+
 .popup {
   font-family: "ArchivoMedium";
   width: 420px;
-  height: 940px;
+  /* 600px is the hard limit on popups by Chrome */
+  height: 600px; 
 }
 
 .footer {
@@ -21,6 +27,7 @@
 }
 
 .tabButton {
+  font-family: "ArchivoSemiBold";
   font-size: 12px;
   color: white;
   background: #232323;
@@ -31,6 +38,7 @@
 }
 
 .tabButtonActive {
+  font-family: "ArchivoSemiBold";
   font-size: 12px;
   color: black;
   background: white;
@@ -60,4 +68,10 @@
   background: #161616;
   width: 108px;
   height: 37px;
+}
+
+.phishingResultHeader {
+  font-family: "ArchivoSemiBold";
+  font-size: 44px;
+  text-align: center;
 }

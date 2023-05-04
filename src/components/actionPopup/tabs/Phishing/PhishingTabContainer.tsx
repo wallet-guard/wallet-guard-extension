@@ -1,5 +1,6 @@
 import React from 'react';
 import { PhishingResponse, PhishingResult, Warning } from '../../../../models/PhishingResponse';
+import styles from '../../ActionPopup.module.css';
 
 interface PhishingTabContainerProps {
   scanResult: PhishingResponse;
@@ -26,8 +27,8 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%',
         flexDirection: 'column',
+        height: '340px',
       }}
     >
       <div
@@ -36,11 +37,12 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
           filter: 'blur(50px)',
           width: '200px',
           height: '200px',
+          zIndex: '-1',
           position: 'absolute',
         }}
       ></div>
       <img width="100px" src={logoPath} />
-      <h4>This is a Verified Website</h4>
+      <p className={styles.phishingResultHeader}>This is a Verified Website</p>
     </div>
   );
 };
