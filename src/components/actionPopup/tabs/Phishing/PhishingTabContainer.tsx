@@ -34,8 +34,11 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
             position: 'absolute',
           }}
         ></div> */}
-      <img width="100px" src={logoPath} />
-      <p className={styles.phishingResultHeader}>This is a Verified Website</p>
+      <div className={styles.popupContent}>
+        <img width="100px" src={logoPath} />
+        <p className={styles.phishingResultHeader}>This is a Verified Website</p>
+      </div>
+
       <URLCheckerInput />
     </div>
   );
