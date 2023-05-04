@@ -14,12 +14,13 @@
 }
 
 .footer-container {
-    display: flex;
-    position: fixed;
+    position: absolute;
+    width: 100vw;
     bottom: 0;
-    width: 100%;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px;
 }
 
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px max(1rem, 20px);
+}

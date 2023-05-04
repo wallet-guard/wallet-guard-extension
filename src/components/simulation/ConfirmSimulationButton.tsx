@@ -5,22 +5,22 @@ import { simulationNeedsAction, StoredSimulationState, updateSimulationState } f
 import { SimulationMethodType, SimulationWarningType } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/ConfirmSimulationButton.module.css';
 
-interface ActionIconButton {
+interface RejectSignInButton {
   color?: string;
   backgroundColor?: string;
-  iconSrc?: string;
-  iconAlt?: string;
-  iconSize: number;
-  label: string;
+  imgSrc?: string;
+  imgAlt?: string;
+  imgWidth: number;
+  buttonText: string;
   onClick: () => void;
 }
 
-const ActionIconButton: React.FC<ActionIconButton> = ({
+const RejectSignInButton: React.FC<RejectSignInButton> = ({
   color = 'black',
   backgroundColor,
-  iconSrc,
-  iconSize,
-  label,
+  imgSrc,
+  imgWidth,
+  buttonText,
   onClick,
 }) => {
   return (
@@ -29,8 +29,8 @@ const ActionIconButton: React.FC<ActionIconButton> = ({
       style={{ color: color, backgroundColor: backgroundColor, border: backgroundColor }}
       onClick={onClick}
     >
-      <img src={iconSrc} width={iconSize} height={iconSize}/>
-      {label}
+      <img src={imgSrc} width={imgWidth} height={imgWidth} />
+      {buttonText}
     </button>
   );
 };
@@ -49,56 +49,58 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
   if (simulationNeedsAction(state)) {
     return (
       <div className={`${styles['footer-container']}`}>
-        <ActionIconButton
-          backgroundColor="#424242"
-          iconSrc="/images/popup/x.png"
-          iconSize={13}
-          color="white"
-          label="REJECT"
-          onClick={() => {
-            posthog.capture('simulation rejected', {
-              warningType: storedSimulation.simulation?.warningType,
-              storedSimulation: storedSimulation,
-            });
-            updateSimulationState(id, StoredSimulationState.Rejected);
-          }}
-        />
-        {state === StoredSimulationState.Success ||
-        state === StoredSimulationState.Revert ||
-        state === StoredSimulationState.Error ? (
-          <ActionIconButton
-            backgroundColor="white"
-            iconSrc="/images/popup/ArrowRight.png"
-            iconSize={19}
-            label={confirmText}
+        <div className={styles['button-container']}>
+          <RejectSignInButton
+            backgroundColor="#424242"
+            imgSrc="/images/popup/x.png"
+            imgWidth={13}
+            color="white"
+            buttonText="REJECT"
             onClick={() => {
-              posthog.capture('simulation confirmed', {
+              posthog.capture('simulation rejected', {
                 warningType: storedSimulation.simulation?.warningType,
                 storedSimulation: storedSimulation,
               });
-              updateSimulationState(id, StoredSimulationState.Confirmed);
+              updateSimulationState(id, StoredSimulationState.Rejected);
             }}
           />
-        ) : storedSimulation.simulation &&
-          storedSimulation.simulation.method === SimulationMethodType.EthSign &&
-          storedSimulation.simulation.warningType === SimulationWarningType.Warn ? (
-          <div></div>
-        ) : (
-          <ActionIconButton
-            backgroundColor="white"
-            iconSrc="/images/popup/circleCheck.png"
-            iconSize={19}
-            label="SKIP"
-            onClick={() => {
-              posthog.alias(signer);
-              posthog.capture('simulation confirmed', {
-                warningType: storedSimulation.simulation?.warningType,
-                storedSimulation: storedSimulation,
-              });
-              updateSimulationState(id, StoredSimulationState.Confirmed);
-            }}
-          />
-        )}
+          {state === StoredSimulationState.Success ||
+          state === StoredSimulationState.Revert ||
+          state === StoredSimulationState.Error ? (
+            <RejectSignInButton
+              backgroundColor="white"
+              imgSrc="/images/popup/ArrowRight.png"
+              imgWidth={19}
+              buttonText={confirmText}
+              onClick={() => {
+                posthog.capture('simulation confirmed', {
+                  warningType: storedSimulation.simulation?.warningType,
+                  storedSimulation: storedSimulation,
+                });
+                updateSimulationState(id, StoredSimulationState.Confirmed);
+              }}
+            />
+          ) : storedSimulation.simulation &&
+            storedSimulation.simulation.method === SimulationMethodType.EthSign &&
+            storedSimulation.simulation.warningType === SimulationWarningType.Warn ? (
+            <div></div>
+          ) : (
+            <RejectSignInButton
+              backgroundColor="white"
+              imgSrc="/images/popup/circleCheck.png"
+              imgWidth={19}
+              buttonText="SKIP"
+              onClick={() => {
+                posthog.alias(signer);
+                posthog.capture('simulation confirmed', {
+                  warningType: storedSimulation.simulation?.warningType,
+                  storedSimulation: storedSimulation,
+                });
+                updateSimulationState(id, StoredSimulationState.Confirmed);
+              }}
+            />
+          )}
+        </div>
       </div>
     );
   }
