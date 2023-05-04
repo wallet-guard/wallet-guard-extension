@@ -5,7 +5,7 @@ import { simulationNeedsAction, StoredSimulationState, updateSimulationState } f
 import { SimulationMethodType, SimulationWarningType } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/ConfirmSimulationButton.module.css';
 
-interface RejectSignInButton {
+interface ActionIconButton {
   color?: string;
   backgroundColor?: string;
   imgSrc?: string;
@@ -15,7 +15,7 @@ interface RejectSignInButton {
   onClick: () => void;
 }
 
-const RejectSignInButton: React.FC<RejectSignInButton> = ({
+const ActionIconButton: React.FC<ActionIconButton> = ({
   color = 'black',
   backgroundColor,
   imgSrc,
@@ -49,7 +49,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
   if (simulationNeedsAction(state)) {
     return (
       <div className={`${styles['footer-container']}`}>
-        <RejectSignInButton
+        <ActionIconButton
           backgroundColor="#424242"
           imgSrc="/images/popup/x.png"
           imgWidth={13}
@@ -66,7 +66,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
         {state === StoredSimulationState.Success ||
         state === StoredSimulationState.Revert ||
         state === StoredSimulationState.Error ? (
-          <RejectSignInButton
+          <ActionIconButton
             backgroundColor="white"
             imgSrc="/images/popup/ArrowRight.png"
             imgWidth={19}
@@ -84,7 +84,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
           storedSimulation.simulation.warningType === SimulationWarningType.Warn ? (
           <div></div>
         ) : (
-          <RejectSignInButton
+          <ActionIconButton
             backgroundColor="white"
             imgSrc="/images/popup/circleCheck.png"
             imgWidth={19}
