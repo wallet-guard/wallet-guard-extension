@@ -14,7 +14,7 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
   function getLogoPath(): string {
     switch (phishing) {
       case PhishingResult.NotPhishing:
-        return '/images/wg_logos/Logo-Large-Transparent.png';
+        return '/images/popup/actionPopup/secure.png';
       case PhishingResult.Phishing:
         return '/images/wg_logos/Logo-Large-Transparent-Alert.png';
       case PhishingResult.Unknown:
@@ -36,8 +36,8 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
         src="images/popup/GreenGlow.png"
       />
       <div className={styles.popupContent}>
-        <img width="100px" style={{ marginTop: '50px' }} src={logoPath} />
-        <div className={styles.popupContent} style={{ marginTop: '30px' }}>
+        <img width="200px" src={logoPath} />
+        <div className={styles.popupContent} style={{ marginTop: '-50px' }}>
           <p className={styles.currentURL}>
             {/* todo: pass in current URL as full url here, not just domainName for better ux */}
             Current URL: <span className={styles['text-green']}>{domainName}</span>
