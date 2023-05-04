@@ -11,7 +11,8 @@
 .popup {
   font-family: "ArchivoMedium";
   width: 420px;
-  height: 600px; /* 600px is the hard limit on popups by Chrome */
+  height: 600px; /* 600px is the limit on popups by Chrome */
+
   /* styles from container */
   padding-left: 15px;
   padding-right: 15px;
@@ -23,9 +24,7 @@
   display: flex;
   align-items: center;
   width: 100vw;
-  min-height: 114px;
-  /* position: fixed;
-  bottom: 0; */
+  min-height: 100px;
   background: #171717;
 }
 
@@ -37,7 +36,7 @@
   border: 1px solid #313131;
   border-radius: 6px;
   width: 30%;
-  height: 70px;
+  height: 60px;
 }
 
 .tabButtonActive {
@@ -48,7 +47,7 @@
   border: 1px solid #313131;
   border-radius: 6px;
   width: 30%;
-  height: 70px;
+  height: 60px;
 }
 
 .urlCheckInput {
@@ -75,9 +74,23 @@
 
 .phishingResultHeader {
   font-family: "ArchivoSemiBold";
-  font-size: 44px;
+  font-size: 40px;
   text-align: center;
   margin-bottom: 0;
+}
+
+.currentURL {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.text-green {
+  color: #19FF00;
+}
+
+.text-red {
+  color: #FF0000;
 }
 
 .popupContent {

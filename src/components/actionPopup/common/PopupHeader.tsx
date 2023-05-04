@@ -13,7 +13,7 @@ export const PopupHeader = () => {
           <img src="/images/wg_logos/Wallpaper-Transparent.png" alt="" width={'150px'} />
         </div>
 
-        <div style={{ float: 'right', paddingTop: '20px', paddingRight: '20px' }}>
+        <div style={{ float: 'right', paddingTop: '20px' }}>
           <TwitterShareButton
             url={'https://walletguard.app'}
             title={'Join myself and 10,000+ others who are protecting our assets with Wallet Guard'}

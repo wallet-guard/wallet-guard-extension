@@ -8,7 +8,7 @@ interface PhishingTabContainerProps {
 }
 
 export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
-  const { phishing } = props.scanResult;
+  const { phishing, domainName } = props.scanResult;
   const logoPath = getLogoPath();
 
   function getLogoPath(): string {
@@ -24,22 +24,32 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
 
   return (
     <div className={styles.popupContent}>
-      {/* <div
-          style={{
-            background: 'radial-gradient(88.3% 88.3% at 50% 95%, rgba(144, 255, 0, 0.5) 0%, rgba(0, 255, 122, 0) 100%)',
-            filter: 'blur(50px)',
-            width: '200px',
-            height: '200px',
-            zIndex: '-1',
-            position: 'absolute',
-          }}
-        ></div> */}
+      <img
+        style={{
+          zIndex: '-1',
+          position: 'absolute',
+          maxHeight: '600px',
+          marginBottom: '150px',
+          width: '100vw',
+          opacity: '80%',
+        }}
+        src="images/popup/GreenGlow.png"
+      />
       <div className={styles.popupContent}>
-        <img width="100px" src={logoPath} />
-        <p className={styles.phishingResultHeader}>This is a Verified Website</p>
+        <img width="100px" style={{ marginTop: '50px' }} src={logoPath} />
+        <div className={styles.popupContent} style={{ marginTop: '30px' }}>
+          <p className={styles.currentURL}>
+            {/* todo: pass in current URL as full url here, not just domainName for better ux */}
+            Current URL: <span className={styles['text-green']}>{domainName}</span>
+          </p>
+          <img src="images/popup/divider.png" />
+          <p className={styles.phishingResultHeader}>
+            This is a <span className={styles['text-green']}>Verified</span> Website
+          </p>
+        </div>
       </div>
 
-      <URLCheckerInput />
+      <URLCheckerInput defaultURL={domainName} />
     </div>
   );
 };

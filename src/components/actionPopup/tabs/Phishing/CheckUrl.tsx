@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import styles from '../../ActionPopup.module.css';
-import { Button, Input } from '@chakra-ui/react';
 
-export const URLCheckerInput = () => {
-  const [inputValue, setInputValue] = useState('');
+interface URLCheckProps {
+  defaultURL: string;
+}
+
+export const URLCheckerInput = (props: URLCheckProps) => {
+  const [inputValue, setInputValue] = useState(props.defaultURL);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setInputValue(event.target.value);
 
   return (
     <div className={styles.footer}>
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-          <p className="text-muted" style={{ fontSize: '16px' }}>
+          <p className="text-muted" style={{ fontSize: '16px', marginBottom: '10px' }}>
             Input any URL to lookup
           </p>
           <div className="row" style={{ width: '372px' }}>
@@ -21,10 +24,6 @@ export const URLCheckerInput = () => {
               value={inputValue}
             />
             <button className={styles.urlCheckButton}>CHECK</button>
-            {/* <Input value={inputValue} onChange={handleChange} placeholder="coinbase.com" size="sm" />
-            <Button disabled={inputValue === ''} size="md" color="green.200" variant="solid">
-              Check
-            </Button> */}
           </div>
         </div>
       </div>
