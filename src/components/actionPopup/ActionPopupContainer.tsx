@@ -6,6 +6,7 @@ import { TabSelector } from './common/TabSelector';
 import { PhishingTab } from './tabs/Phishing/PhishingTab';
 import { PopupTabContext } from '../../lib/context/context';
 import { useTab } from '../../lib/hooks/useNavigation';
+import { SimulationTab } from './tabs/Simulation/SimulationTab';
 
 export const ActionPopupContainer = () => {
   const tabData = useTab();
@@ -18,7 +19,7 @@ export const ActionPopupContainer = () => {
       case ActionPopupTab.PhishingTab:
         return <PhishingTab />;
       case ActionPopupTab.SimulationTab:
-        return <></>;
+        return <SimulationTab />;
       case ActionPopupTab.ChatWeb3Tab:
         return <></>;
       default:
@@ -26,9 +27,11 @@ export const ActionPopupContainer = () => {
     }
   }
 
+  // todo: popup header + tab selector should take up X room, and the other tab should take up 100% of remaining space
+
   return (
     <div className={styles.popup}>
-      <div className="container">
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <PopupTabContext.Provider value={tabData}>
           <PopupHeader />
           <TabSelector />
