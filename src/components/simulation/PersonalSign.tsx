@@ -47,9 +47,12 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   useEffect(() => {
     switch (simulation.args.chainId) {
       case '1':
+      case '0x1':
         setChainLogoPath('/images/asset_logos/eth-mainnet.png');
         break;
       case '42161':
+      case '0xa4b1':
+      case '0xA4B1':
         setChainLogoPath('/images/asset_logos/arbitrum-one.png');
         break;
     }
