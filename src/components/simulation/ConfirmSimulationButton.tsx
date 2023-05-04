@@ -8,19 +8,19 @@ import styles from '../../styles/simulation/ConfirmSimulationButton.module.css';
 interface ActionIconButton {
   color?: string;
   backgroundColor?: string;
-  imgSrc?: string;
-  imgAlt?: string;
-  imgWidth: number;
-  buttonText: string;
+  iconSrc?: string;
+  iconAlt?: string;
+  iconSize: number;
+  label: string;
   onClick: () => void;
 }
 
 const ActionIconButton: React.FC<ActionIconButton> = ({
   color = 'black',
   backgroundColor,
-  imgSrc,
-  imgWidth,
-  buttonText,
+  iconSrc,
+  iconSize,
+  label,
   onClick,
 }) => {
   return (
@@ -29,8 +29,8 @@ const ActionIconButton: React.FC<ActionIconButton> = ({
       style={{ color: color, backgroundColor: backgroundColor, border: backgroundColor }}
       onClick={onClick}
     >
-      <img src={imgSrc} width={imgWidth} height={imgWidth}/>
-      {buttonText}
+      <img src={iconSrc} width={iconSize} height={iconSize}/>
+      {label}
     </button>
   );
 };
@@ -51,10 +51,10 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
       <div className={`${styles['footer-container']}`}>
         <ActionIconButton
           backgroundColor="#424242"
-          imgSrc="/images/popup/x.png"
-          imgWidth={13}
+          iconSrc="/images/popup/x.png"
+          iconSize={13}
           color="white"
-          buttonText="REJECT"
+          label="REJECT"
           onClick={() => {
             posthog.capture('simulation rejected', {
               warningType: storedSimulation.simulation?.warningType,
@@ -68,9 +68,9 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
         state === StoredSimulationState.Error ? (
           <ActionIconButton
             backgroundColor="white"
-            imgSrc="/images/popup/ArrowRight.png"
-            imgWidth={19}
-            buttonText={confirmText}
+            iconSrc="/images/popup/ArrowRight.png"
+            iconSize={19}
+            label={confirmText}
             onClick={() => {
               posthog.capture('simulation confirmed', {
                 warningType: storedSimulation.simulation?.warningType,
@@ -86,9 +86,9 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
         ) : (
           <ActionIconButton
             backgroundColor="white"
-            imgSrc="/images/popup/circleCheck.png"
-            imgWidth={19}
-            buttonText="SKIP"
+            iconSrc="/images/popup/circleCheck.png"
+            iconSize={19}
+            label="SKIP"
             onClick={() => {
               posthog.alias(signer);
               posthog.capture('simulation confirmed', {
