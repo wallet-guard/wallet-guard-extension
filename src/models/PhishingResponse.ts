@@ -3,6 +3,7 @@ export interface PhishingResponse {
   phishing: PhishingResult;
   warnings: Warning[] | null;
   verified: boolean;
+  complete: boolean;
 }
 
 

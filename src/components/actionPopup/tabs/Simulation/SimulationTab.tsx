@@ -4,7 +4,7 @@ import styles from '../../ActionPopup.module.css';
 
 export const SimulationTab = () => {
   return (
-    <div className={styles.popupContent}>
+    <div className={styles.centeredContainer}>
       <NoSimulationPopup />
     </div>
   );

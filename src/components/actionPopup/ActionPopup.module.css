@@ -10,7 +10,7 @@
 
 .popup {
   font-family: "ArchivoMedium";
-  width: 420px;
+  width: 400px;
   height: 600px; /* 600px is the limit on popups by Chrome */
 
   /* styles from container */
@@ -93,7 +93,7 @@
   color: #FF0000;
 }
 
-.popupContent {
+.centeredContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
