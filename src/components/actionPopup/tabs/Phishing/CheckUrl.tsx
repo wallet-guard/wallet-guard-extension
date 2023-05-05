@@ -16,7 +16,6 @@ export const URLCheckerInput = (props: URLCheckProps) => {
   const [showError, setShowError] = useState(false);
 
   async function checkURL() {
-    console.log('hit');
     setLoading(true);
     const response = await domainScan(inputValue);
 
@@ -28,6 +27,12 @@ export const URLCheckerInput = (props: URLCheckProps) => {
     }
 
     updateURLCallback(response);
+  }
+
+  function onPressEnter(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') {
+      checkURL();
+    }
   }
 
   return (
@@ -43,6 +48,7 @@ export const URLCheckerInput = (props: URLCheckProps) => {
               placeholder="https://coinbase.com"
               onChange={handleChange}
               value={inputValue}
+              onKeyDown={onPressEnter}
             />
             <button onClick={checkURL} className={styles.urlCheckButton}>
               {loading ? 'LOADING' : 'CHECK'}

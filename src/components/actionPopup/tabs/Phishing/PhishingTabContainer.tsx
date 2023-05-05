@@ -39,13 +39,13 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
         return {
           color: 'red',
           title: 'malicious',
-          logoPath: '/images/popup/actionPopup/secure.png',
+          logoPath: '/images/popup/actionPopup/malicious.png',
         } as PhishingTabTheme;
       case PhishingResult.Unknown:
         return {
           color: 'gray',
           title: 'unknown',
-          logoPath: '/images/popup/actionPopup/secure.png',
+          logoPath: '/images/popup/actionPopup/unknown.png',
         } as PhishingTabTheme;
     }
   }
@@ -76,7 +76,7 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
           </p>
           <img src="images/popup/actionPopup/divider.png" />
           <p className={styles.phishingResultHeader}>
-            This is a <span className={styles[`text-${theme.color}`]}>{theme.title}</span> Website
+            This is a <span className={styles[`text-${theme.color}`]}>{theme.title}</span> website
           </p>
         </div>
       </div>
