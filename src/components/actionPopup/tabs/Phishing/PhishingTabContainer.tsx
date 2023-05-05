@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PhishingResponse, PhishingResult, Warning } from '../../../../models/PhishingResponse';
 import styles from '../../ActionPopup.module.css';
 import { URLCheckerInput } from './CheckUrl';
@@ -7,20 +7,46 @@ interface PhishingTabContainerProps {
   scanResult: PhishingResponse;
 }
 
-// TODO: Figure out if we should generate the props / colors from the above component? or just pass in scanResult
+interface PhishingTabTheme {
+  color: 'green' | 'red' | 'orange' | 'gray';
+  title: string;
+  logoPath: string;
+}
+
+const defaultTheme: PhishingTabTheme = {
+  color: 'green',
+  title: 'verified',
+  logoPath: '/images/popup/actionPopup/secure.png',
+};
+
 export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
   const [scanResult, setScanResult] = useState(props.scanResult);
-  const { phishing, domainName } = props.scanResult;
-  const logoPath = getLogoPath();
+  const [theme, setTheme] = useState<PhishingTabTheme>(defaultTheme);
 
-  function getLogoPath(): string {
-    switch (phishing) {
+  useEffect(() => {
+    setTheme(getTheme());
+  }, [scanResult]);
+
+  function getTheme() {
+    switch (scanResult.phishing) {
       case PhishingResult.NotPhishing:
-        return '/images/popup/actionPopup/secure.png';
+        return {
+          color: 'green',
+          title: 'verified',
+          logoPath: '/images/popup/actionPopup/secure.png',
+        } as PhishingTabTheme;
       case PhishingResult.Phishing:
-        return '/images/wg_logos/Logo-Large-Transparent-Alert.png';
+        return {
+          color: 'red',
+          title: 'malicious',
+          logoPath: '/images/popup/actionPopup/secure.png',
+        } as PhishingTabTheme;
       case PhishingResult.Unknown:
-        return '/images/wg_logos/Logo-Large-Transparent.png'; // todo
+        return {
+          color: 'gray',
+          title: 'unknown',
+          logoPath: '/images/popup/actionPopup/secure.png',
+        } as PhishingTabTheme;
     }
   }
 
@@ -39,23 +65,23 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
           width: '100vw',
           opacity: '80%',
         }}
-        src="images/popup/actionPopup/green-glow.png"
+        src={`images/popup/actionPopup/${theme.color}-glow.png`}
       />
       <div className={styles.centeredContainer}>
-        <img width="200px" src={logoPath} />
+        <img width="200px" src={theme.logoPath} />
         <div className={styles.centeredContainer} style={{ marginTop: '-50px' }}>
           <p className={styles.currentURL}>
             {/* todo: pass in current URL as full url here, not just domainName for better ux */}
-            Current URL: <span className={styles['text-green']}>{scanResult.domainName}</span>
+            Current URL: <span className={styles[`text-${theme.color}`]}>{scanResult.domainName}</span>
           </p>
           <img src="images/popup/actionPopup/divider.png" />
           <p className={styles.phishingResultHeader}>
-            This is a <span className={styles['text-green']}>Verified</span> Website
+            This is a <span className={styles[`text-${theme.color}`]}>{theme.title}</span> Website
           </p>
         </div>
       </div>
 
-      <URLCheckerInput defaultURL={domainName} updateURLCallback={updateScanResult} />
+      <URLCheckerInput defaultURL={scanResult.domainName} updateURLCallback={updateScanResult} />
     </div>
   );
 };

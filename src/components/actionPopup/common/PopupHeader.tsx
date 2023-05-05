@@ -4,6 +4,7 @@ import React from 'react';
 import { TwitterShareButton } from 'react-share';
 import styles from '../../simulation/simulation.module.css';
 import { SettingsIcon } from '@chakra-ui/icons';
+import { openDashboard } from '../../../lib/helpers/linkHelper';
 
 export const PopupHeader = () => {
   return (
@@ -14,7 +15,10 @@ export const PopupHeader = () => {
         </div>
 
         <div style={{ float: 'right', paddingTop: '20px' }}>
-          <TwitterShareButton
+          <span className={styles.hover} onClick={() => openDashboard('popup', false)}>
+            My Dashboard
+          </span>
+          {/* <TwitterShareButton
             url={'https://walletguard.app'}
             title={'Join myself and 10,000+ others who are protecting our assets with Wallet Guard'}
             via={'wallet_guard'}
@@ -25,7 +29,7 @@ export const PopupHeader = () => {
                 <FontAwesomeIcon icon={faTwitter} size="sm" />
               </div>
             </a>
-          </TwitterShareButton>
+          </TwitterShareButton> */}
           <SettingsIcon />
         </div>
       </div>
