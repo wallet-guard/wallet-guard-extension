@@ -33,19 +33,19 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
         return {
           color: 'green',
           title: 'verified',
-          logoPath: '/images/popup/actionPopup/secure.png',
+          logoPath: '/images/popup/actionPopup/app_icons/secure.png',
         } as PhishingTabTheme;
       case PhishingResult.Phishing:
         return {
           color: 'red',
           title: 'malicious',
-          logoPath: '/images/popup/actionPopup/malicious.png',
+          logoPath: '/images/popup/actionPopup/app_icons/malicious.png',
         } as PhishingTabTheme;
       case PhishingResult.Unknown:
         return {
           color: 'gray',
           title: 'unknown',
-          logoPath: '/images/popup/actionPopup/unknown.png',
+          logoPath: '/images/popup/actionPopup/app_icons/unknown.png',
         } as PhishingTabTheme;
     }
   }
