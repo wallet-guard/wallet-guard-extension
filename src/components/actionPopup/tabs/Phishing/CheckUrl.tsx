@@ -26,6 +26,7 @@ export const URLCheckerInput = (props: URLCheckProps) => {
       return;
     }
 
+    setShowError(false);
     updateURLCallback(response);
   }
 

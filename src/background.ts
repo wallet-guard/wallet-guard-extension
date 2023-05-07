@@ -104,6 +104,12 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   }
 });
 
+// chrome.windows.onFocusChanged
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  chrome.tabs.get(activeInfo.tabId).then((tab) => tab.url);
+});
+
 // ALARMS
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'checkVersions') {
