@@ -34,6 +34,7 @@ export const URLCheckerInput = (props: URLCheckProps) => {
       return;
     }
 
+    response.input = inputValue;
     setShowError(false);
     updateURLCallback(response);
   }
