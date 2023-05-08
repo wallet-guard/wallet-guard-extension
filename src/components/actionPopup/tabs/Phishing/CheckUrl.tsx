@@ -3,15 +3,15 @@ import styles from '../../ActionPopup.module.css';
 import { PhishingResponse } from '../../../../models/PhishingResponse';
 import { domainScan } from '../../../../services/http/domainScan';
 import { Spinner } from '../../common/Spinner';
+import { posthog } from 'posthog-js';
 
 interface URLCheckProps {
-  defaultURL: string;
   updateURLCallback: (result: PhishingResponse) => void;
 }
 
 export const URLCheckerInput = (props: URLCheckProps) => {
-  const { defaultURL, updateURLCallback } = props;
-  const [inputValue, setInputValue] = useState(defaultURL);
+  const { updateURLCallback } = props;
+  const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setInputValue(event.target.value);
   const [showError, setShowError] = useState(false);
@@ -20,14 +20,19 @@ export const URLCheckerInput = (props: URLCheckProps) => {
     setLoading(true);
     const response = await domainScan(inputValue);
 
+    posthog.capture('URL Search', {
+      query: inputValue,
+    });
+
     setLoading(false);
 
     if (!response) {
+      posthog.capture('URL Search Error', {
+        query: inputValue,
+      });
       setShowError(true);
       return;
     }
-
-    console.log('hit', response);
 
     setShowError(false);
     updateURLCallback(response);

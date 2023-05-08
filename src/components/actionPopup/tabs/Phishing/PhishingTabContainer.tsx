@@ -3,6 +3,7 @@ import { PhishingResponse, PhishingResult, Warning } from '../../../../models/Ph
 import styles from '../../ActionPopup.module.css';
 import { URLCheckerInput } from './CheckUrl';
 import { getCurrentSite } from '../../../../services/phishing/currentSiteService';
+import { posthog } from 'posthog-js';
 
 interface PhishingTabTheme {
   color: 'green' | 'red' | 'orange' | 'gray';
@@ -19,18 +20,28 @@ const defaultTheme: PhishingTabTheme = {
 export const PhishingTabContainer = () => {
   const [domainName, setDomainName] = useState('');
   const [phishingResult, setPhishing] = useState(PhishingResult.NotPhishing);
+  const [verified, setVerified] = useState(false);
   const [theme, setTheme] = useState(defaultTheme);
 
   useEffect(() => {
     getCurrentSite().then((response) => {
       setDomainName(response.domainName);
       setPhishing(response.phishing);
+      setVerified(response.verified);
+
+      posthog.capture('open toolbar popup', {
+        response,
+      });
     });
   }, []);
 
   useEffect(() => {
-    const theme = getTheme(phishingResult);
-    setTheme(theme);
+    if (verified) {
+      // todo: get special theme
+    } else {
+      const theme = getTheme(phishingResult);
+      setTheme(theme);
+    }
   }, [domainName]);
 
   function getTheme(result: PhishingResult) {
@@ -59,6 +70,7 @@ export const PhishingTabContainer = () => {
   function updateScanResult(result: PhishingResponse) {
     setDomainName(result.domainName);
     setPhishing(result.phishing);
+    setVerified(result.verified);
   }
 
   return (
@@ -88,7 +100,7 @@ export const PhishingTabContainer = () => {
         </div>
       </div>
 
-      <URLCheckerInput defaultURL={domainName} updateURLCallback={updateScanResult} />
+      <URLCheckerInput updateURLCallback={updateScanResult} />
     </div>
   );
 };

@@ -2,27 +2,39 @@ import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
-import { setIcon, urlIsPhishingWarning } from '../../lib/helpers/util';
+import { urlIsPhishingWarning } from '../../lib/helpers/util';
 import { AlertDetail } from '../../models/Alert';
 import { PhishingResult, WarningLevel, WarningType } from '../../models/PhishingResponse';
 import { domainScan } from '../http/domainScan';
+import { setCurrentSite, skippedPDSVerified } from './currentSiteService';
 
 export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const url: string = tab.url || '';
   // do not do a check if we are already on this page
-  if (urlIsPhishingWarning(url)) return;
+  if (urlIsPhishingWarning(url)) {
+    const currentSite = skippedPDSVerified(url);
+    setCurrentSite(currentSite, url);
+    return;
+  }
 
   const domainName = getDomainNameFromURL(url);
   const personalWhitelist = await localStorageHelpers.get<string[]>(WgKeys.PersonalWhitelist);
   // do not scan if domain is on personal whitelist
-  if (personalWhitelist?.includes(domainName)) return;
+  if (personalWhitelist?.includes(domainName)) {
+    const currentSite = skippedPDSVerified(url);
+    setCurrentSite(currentSite, url);
+    return;
+  }
 
   // do not scan if domain is browser native page
-  if (hasBrowserPrefix(url)) return;
+  if (hasBrowserPrefix(url)) {
+    const currentSite = skippedPDSVerified(url);
+    setCurrentSite(currentSite, url);
+    return;
+  }
 
   const pdsResponse = await domainScan(url);
-  chrome.storage.local.set({ [WgKeys.CurrentSite]: pdsResponse });
-  setIcon(pdsResponse?.phishing || PhishingResult.Unknown);
+  setCurrentSite(pdsResponse, url);
 
   if (pdsResponse?.phishing === PhishingResult.Phishing) {
     const recentlyCreatedWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.RecentlyCreated);
