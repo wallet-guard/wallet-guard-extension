@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from '../../ActionPopup.module.css';
 import { PhishingResponse } from '../../../../models/PhishingResponse';
 import { domainScan } from '../../../../services/http/domainScan';
+import { Spinner } from '../../common/Spinner';
 
 interface URLCheckProps {
   defaultURL: string;
@@ -25,6 +26,8 @@ export const URLCheckerInput = (props: URLCheckProps) => {
       setShowError(true);
       return;
     }
+
+    console.log('hit', response);
 
     setShowError(false);
     updateURLCallback(response);
@@ -51,8 +54,10 @@ export const URLCheckerInput = (props: URLCheckProps) => {
               value={inputValue}
               onKeyDown={onPressEnter}
             />
-            <button onClick={checkURL} className={styles.urlCheckButton}>
-              {loading ? 'LOADING' : 'CHECK'}
+            {/* TODO: add regex for is not valid URL + spinner for loading*/}
+            {/* TODO: Add timeout on this button (same as refresh button on version checker) */}
+            <button disabled={inputValue === ''} onClick={checkURL} className={styles.urlCheckButton}>
+              {loading ? <Spinner /> : 'CHECK'}
             </button>
           </div>
           {showError && (

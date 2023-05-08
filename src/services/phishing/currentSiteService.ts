@@ -9,7 +9,7 @@ export async function getCurrentSite(): Promise<PhishingResponse> {
     phishing: PhishingResult.Unknown,
     warnings: null,
     verified: false,
-    complete: true,
+    status: '',
   };
 
   return currentSiteCheck ?? defaultCurrentSite;

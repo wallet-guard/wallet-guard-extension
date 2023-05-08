@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PhishingResponse, PhishingResult, Warning } from '../../../../models/PhishingResponse';
 import styles from '../../ActionPopup.module.css';
 import { URLCheckerInput } from './CheckUrl';
-
-interface PhishingTabContainerProps {
-  scanResult: PhishingResponse;
-}
+import { getCurrentSite } from '../../../../services/phishing/currentSiteService';
 
 interface PhishingTabTheme {
   color: 'green' | 'red' | 'orange' | 'gray';
@@ -19,16 +16,25 @@ const defaultTheme: PhishingTabTheme = {
   logoPath: '/images/popup/actionPopup/secure.png',
 };
 
-export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
-  const [scanResult, setScanResult] = useState(props.scanResult);
-  const [theme, setTheme] = useState<PhishingTabTheme>(defaultTheme);
+export const PhishingTabContainer = () => {
+  const [domainName, setDomainName] = useState('');
+  const [phishingResult, setPhishing] = useState(PhishingResult.NotPhishing);
+  const [theme, setTheme] = useState(defaultTheme);
 
   useEffect(() => {
-    setTheme(getTheme());
-  }, [scanResult]);
+    getCurrentSite().then((response) => {
+      setDomainName(response.domainName);
+      setPhishing(response.phishing);
+    });
+  }, []);
 
-  function getTheme() {
-    switch (scanResult.phishing) {
+  useEffect(() => {
+    const theme = getTheme(phishingResult);
+    setTheme(theme);
+  }, [domainName]);
+
+  function getTheme(result: PhishingResult) {
+    switch (result) {
       case PhishingResult.NotPhishing:
         return {
           color: 'green',
@@ -51,7 +57,8 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
   }
 
   function updateScanResult(result: PhishingResponse) {
-    setScanResult(result);
+    setDomainName(result.domainName);
+    setPhishing(result.phishing);
   }
 
   return (
@@ -72,7 +79,7 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
         <div className={styles.centeredContainer} style={{ marginTop: '-50px' }}>
           <p className={styles.currentURL}>
             {/* todo: pass in current URL as full url here, not just domainName for better ux */}
-            Current URL: <span className={styles[`text-${theme.color}`]}>{scanResult.domainName}</span>
+            Current URL: <span className={styles[`text-${theme.color}`]}>{domainName}</span>
           </p>
           <img src="images/popup/actionPopup/divider.png" />
           <p className={styles.phishingResultHeader}>
@@ -81,7 +88,7 @@ export const PhishingTabContainer = (props: PhishingTabContainerProps) => {
         </div>
       </div>
 
-      <URLCheckerInput defaultURL={scanResult.domainName} updateURLCallback={updateScanResult} />
+      <URLCheckerInput defaultURL={domainName} updateURLCallback={updateScanResult} />
     </div>
   );
 };

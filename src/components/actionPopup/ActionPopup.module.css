@@ -72,6 +72,11 @@
   height: 37px;
 }
 
+.urlCheckButton:disabled {
+  cursor: auto;
+  color: rgb(255, 255, 255, 50%);
+}
+
 .phishingResultHeader {
   font-family: "ArchivoSemiBold";
   font-size: 40px;
