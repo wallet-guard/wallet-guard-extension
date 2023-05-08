@@ -4,6 +4,7 @@ import styles from '../../ActionPopup.module.css';
 import { URLCheckerInput } from './CheckUrl';
 import { getCurrentSite } from '../../../../services/phishing/currentSiteService';
 import { posthog } from 'posthog-js';
+import { add3Dots } from '../../../app-dashboard/tabs/extensions/ExtensionsTab';
 
 interface PhishingTabTheme {
   color: 'green' | 'red' | 'orange' | 'gray';
@@ -18,14 +19,14 @@ const defaultTheme: PhishingTabTheme = {
 };
 
 export const PhishingTabContainer = () => {
-  const [domainName, setDomainName] = useState('');
+  const [url, setURL] = useState('');
   const [phishingResult, setPhishing] = useState(PhishingResult.NotPhishing);
   const [verified, setVerified] = useState(false);
   const [theme, setTheme] = useState(defaultTheme);
 
   useEffect(() => {
     getCurrentSite().then((response) => {
-      setDomainName(response.domainName);
+      setURL(response.input);
       setPhishing(response.phishing);
       setVerified(response.verified);
 
@@ -42,7 +43,7 @@ export const PhishingTabContainer = () => {
       const theme = getTheme(phishingResult);
       setTheme(theme);
     }
-  }, [domainName]);
+  }, [url]);
 
   function getTheme(result: PhishingResult) {
     switch (result) {
@@ -68,7 +69,7 @@ export const PhishingTabContainer = () => {
   }
 
   function updateScanResult(result: PhishingResponse) {
-    setDomainName(result.domainName);
+    setURL(result.input);
     setPhishing(result.phishing);
     setVerified(result.verified);
   }
@@ -91,7 +92,7 @@ export const PhishingTabContainer = () => {
         <div className={styles.centeredContainer} style={{ marginTop: '-50px' }}>
           <p className={styles.currentURL}>
             {/* todo: pass in current URL as full url here, not just domainName for better ux */}
-            Current URL: <span className={styles[`text-${theme.color}`]}>{domainName}</span>
+            Current URL: <span className={styles[`text-${theme.color}`]}>{add3Dots(url, 30)}</span>
           </p>
           <img src="images/popup/actionPopup/divider.png" />
           <p className={styles.phishingResultHeader}>

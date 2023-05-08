@@ -4,6 +4,7 @@ export interface PhishingResponse {
   warnings: Warning[] | null;
   verified: boolean;
   status: string;
+  input: string;
 }
 
 export interface Warning {

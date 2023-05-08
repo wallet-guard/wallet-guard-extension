@@ -11,6 +11,7 @@ export async function getCurrentSite(): Promise<PhishingResponse> {
     warnings: null,
     verified: false,
     status: '',
+    input: '',
   };
 
   return currentSiteCheck ?? defaultCurrentSite;
@@ -23,6 +24,7 @@ export function skippedPDSVerified(URL: string) {
     warnings: null,
     verified: false,
     status: '',
+    input: URL,
   };
 
   return defaultCurrentSite;
@@ -36,9 +38,15 @@ export async function setCurrentSite(scanResult: PhishingResponse | null, curren
       warnings: null,
       verified: false,
       status: '',
+      input: currentURL
     };
   }
 
-  chrome.storage.local.set({ [WgKeys.CurrentSite]: scanResult });
+  chrome.storage.local.set({
+    [WgKeys.CurrentSite]: {
+      ...scanResult,
+      input: currentURL
+    } as PhishingResponse
+  });
   setIcon(scanResult.phishing);
 }
