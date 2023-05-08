@@ -11,7 +11,7 @@ import { setCurrentSite, skippedPDSVerified } from './currentSiteService';
 export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const url: string = tab.url || '';
   // do not do a check if we are already on this page
-  if (urlIsPhishingWarning(url)) {
+  if (!url || urlIsPhishingWarning(url)) {
     const currentSite = skippedPDSVerified(url);
     setCurrentSite(currentSite, url);
     return;

@@ -41,7 +41,7 @@ export const PhishingTabContainer = () => {
     async function fetchSpecialTheme() {
       const response = await fetch(S3_URL_PROD + url + '.json');
       const data = await response.json();
-      setMetadata(data);
+      // setMetadata(data);
     }
 
     if (verified) {

@@ -99,60 +99,60 @@
   src: local("ArchivoBold"),
    url("../../fonts/Archivo-Bold.ttf") format("truetype");
   font-weight: bold;
-  }
+}
 
-  @font-face {
-    font-family: "ArchivoMedium";
-    src: local("ArchivoMedium"),
-     url("../../fonts/Archivo-Medium.ttf") format("truetype");
-    }
+@font-face {
+  font-family: "ArchivoMedium";
+  src: local("ArchivoMedium"),
+   url("../../fonts/Archivo-Medium.ttf") format("truetype");
+}
 
-  .font-archivo-medium {
-    font-family: "ArchivoMedium";
-  }
+.font-archivo-medium {
+  font-family: "ArchivoMedium";
+}
 
-  .font-archivo-bold {
-    font-family: "ArchivoBold";
-  }
+.font-archivo-bold {
+  font-family: "ArchivoBold";
+}
 
-  .links:hover {
-    text-decoration: underline solid #ffffff;
-  }
+.links:hover {
+  text-decoration: underline solid #ffffff;
+}
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
+::-webkit-scrollbar {
+  display: none;
+}
 
-  .assetChangeRow {
-    margin-bottom: 20px;
-  }
+.assetChangeRow {
+  margin-bottom: 20px;
+}
 
-  .assetChangeRow:last-child {
-    margin-bottom: 0px;
-  }
+.assetChangeRow:last-child {
+  margin-bottom: 0px;
+}
 
-  /* Takes up the remaining space left by assetChangeRightColumn */
-  .assetChangeLeftColumn {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-basis: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+/* Takes up the remaining space left by assetChangeRightColumn */
+.assetChangeLeftColumn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
-  /* Takes up 100% of width depending on the content, up to 40% of the row */
-  .assetChangeRightColumn {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: right;
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 1;
-    padding-left: 15px;
-    padding-right: 15px;
-    max-width: 40%;
-  }
+/* Takes up 100% of width depending on the content, up to 40% of the row */
+.assetChangeRightColumn {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: right;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 40%;
+}

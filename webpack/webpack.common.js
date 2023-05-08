@@ -21,6 +21,7 @@ module.exports = {
   },
 
   output: {
+    publicPath: '',
     path: path.join(__dirname, '..', 'dist', targetBrowser),
     filename: 'js/[name].js',
   },
