@@ -38,19 +38,19 @@ export function setIcon(phishing: PhishingResult): void {
   if (phishing === PhishingResult.NotPhishing) {
     chrome.action.setIcon({
       path: {
-        '16': '../images/favicon/shield-green-16.png'
+        '16': '../images/favicon/secure.png'
       }
     });
   } else if (phishing === PhishingResult.Phishing) {
     chrome.action.setIcon({
       path: {
-        '16': '../images/favicon/shield-red-16.png'
+        '16': '../images/favicon/blocked.png'
       }
     });
   } else {
     chrome.action.setIcon({
       path: {
-        '16': '../images/favicon/encrypted.png'
+        '16': '../images/favicon/suspicious.png'
       }
     });
   }

@@ -21,7 +21,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   if (hasBrowserPrefix(url)) return;
 
   const pdsResponse = await domainScan(url);
-  chrome.storage.local.set({ currentSite: pdsResponse });
+  chrome.storage.local.set({ [WgKeys.CurrentSite]: pdsResponse });
   setIcon(pdsResponse?.phishing || PhishingResult.Unknown);
 
   if (pdsResponse?.phishing === PhishingResult.Phishing) {

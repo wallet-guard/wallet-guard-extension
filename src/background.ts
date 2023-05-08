@@ -16,6 +16,7 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
+import { PhishingResponse } from './models/PhishingResponse';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -104,10 +105,16 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   }
 });
 
-// chrome.windows.onFocusChanged
-
 chrome.tabs.onActivated.addListener((activeInfo) => {
-  chrome.tabs.get(activeInfo.tabId).then((tab) => tab.url);
+  chrome.tabs.get(activeInfo.tabId).then(async (tab) => {
+    if (tab.url === undefined) return;
+
+    const currentSite = await getCurrentSite();
+
+    if (domainHasChanged(tab.url, currentSite)) {
+      await checkUrlForPhishing(tab);
+    }
+  });
 });
 
 // ALARMS
