@@ -5,6 +5,7 @@ import { URLCheckerInput } from './CheckUrl';
 import { getCurrentSite } from '../../../../services/phishing/currentSiteService';
 import { posthog } from 'posthog-js';
 import { add3Dots } from '../../../app-dashboard/tabs/extensions/ExtensionsTab';
+import { S3_URL_PROD } from '../../../../lib/environment';
 
 interface PhishingTabTheme {
   color: 'green' | 'red' | 'orange' | 'gray';
@@ -37,8 +38,14 @@ export const PhishingTabContainer = () => {
   }, []);
 
   useEffect(() => {
+    async function fetchSpecialTheme() {
+      const response = await fetch(S3_URL_PROD + url + '.json');
+      const data = await response.json();
+      setMetadata(data);
+    }
+
     if (verified) {
-      // todo: get special theme
+      fetchSpecialTheme();
     } else {
       const theme = getTheme(phishingResult);
       setTheme(theme);
@@ -91,7 +98,6 @@ export const PhishingTabContainer = () => {
         <img width="200px" src={theme.logoPath} />
         <div className={styles.centeredContainer} style={{ marginTop: '-50px' }}>
           <p className={styles.currentURL}>
-            {/* todo: pass in current URL as full url here, not just domainName for better ux */}
             Current URL: <span className={styles[`text-${theme.color}`]}>{add3Dots(url, 30)}</span>
           </p>
           <img src="images/popup/actionPopup/divider.png" />
