@@ -125,6 +125,9 @@ function getSimulationEndpoint(chainId: string): string {
     case "0xa4b1":
     case '42161':
       return `${TAS_SERVER_URL_PROD}/v0/arb/mainnet/transaction`;
+    case '0x89':
+    case '137':
+      return `${TAS_SERVER_URL_PROD}/v0/polygon/mainnet/transaction`;
     default:
       return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
   }
@@ -135,9 +138,12 @@ function getSignatureEndpoint(chainId: string): string {
     case '0x1':
     case '1':
       return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/signature`;
-    case "0xa4b1":
+    case '0xa4b1':
     case '42161':
       return `${TAS_SERVER_URL_PROD}/v0/arb/mainnet/signature`;
+    case '0x89':
+    case '137':
+      return `${TAS_SERVER_URL_PROD}/v0/polygon/mainnet/signature`;
     default:
       return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/signature`;
   }
