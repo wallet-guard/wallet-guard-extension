@@ -1,5 +1,5 @@
-// this function standardizes all values sent to the API into strings to prevent type errors
-export function convertObjectValuesToString(inputObj: any): any {
+// TODO: Make sure this matches what is in injectWalletGuard.tsx. For some reason I can't get tests to run when importing from that file
+function convertObjectValuesToString(inputObj: any): any {
     const keys = Object.keys(inputObj);
     const output: any = {};
     for (let x of keys) {
