@@ -41,7 +41,7 @@ listenToRequest(async (request: TransactionArgs) => {
   log.info({ request }, 'Request');
   ids.push(request.id);
 
-  let currentTab = window.location.hostname;
+  let currentTab = window.location.href;
   if (currentTab) {
     request.origin = currentTab;
   }
