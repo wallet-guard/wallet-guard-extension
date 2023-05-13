@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './ActionPopup.module.css';
 import { PopupHeader } from './common/PopupHeader';
 import { ActionPopupTab } from '../../models/actionPopupScreen';
@@ -6,7 +6,6 @@ import { TabSelector } from './common/TabSelector';
 import { PhishingTab } from './tabs/Phishing/PhishingTab';
 import { PopupTabContext } from '../../lib/context/context';
 import { useTab } from '../../lib/hooks/useNavigation';
-import { SimulationTab } from './tabs/Simulation/SimulationTab';
 
 export const ActionPopupContainer = () => {
   const tabData = useTab();
@@ -18,9 +17,9 @@ export const ActionPopupContainer = () => {
     switch (tabData.currentTab) {
       case ActionPopupTab.PhishingTab:
         return <PhishingTab />;
-      case ActionPopupTab.SimulationTab:
-        return <SimulationTab />;
       case ActionPopupTab.ChatWeb3Tab:
+        return <></>;
+      case ActionPopupTab.WalletVersionsTab:
         return <></>;
       default:
         return <PhishingTab />;
@@ -34,8 +33,8 @@ export const ActionPopupContainer = () => {
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <PopupTabContext.Provider value={tabData}>
           <PopupHeader />
-          <TabSelector />
           {renderSelectedTab()}
+          <TabSelector />
         </PopupTabContext.Provider>
       </div>
     </div>

@@ -28,26 +28,46 @@
   background: #171717;
 }
 
+.tabButtonRow {
+  min-height: 52px;
+  width: 100vw;
+  border-top: 1px solid #5E5E5E;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background: #101010;
+  margin-left: -15px;
+}
+
+.tabButtonSpacer {
+  display: flex;
+  justify-content: center;
+  background: #101010;
+  width: 33%;
+}
+
 .tabButton {
-  font-family: "ArchivoSemiBold";
-  font-size: 12px;
-  color: white;
-  background: #232323;
-  border: 1px solid #313131;
-  border-radius: 6px;
-  width: 30%;
-  height: 60px;
+  border-radius: 5px;
+  width: 45px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconActive {
+  filter: invert(100%) sepia(0%) saturate(7458%) hue-rotate(86deg) brightness(200%) contrast(105%);
 }
 
 .tabButtonActive {
-  font-family: "ArchivoSemiBold";
-  font-size: 12px;
-  color: black;
-  background: white;
-  border: 1px solid #313131;
-  border-radius: 6px;
-  width: 30%;
-  height: 60px;
+  width: 45px;
+  height: 36px;
+  background: #282828;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .urlCheckInput {

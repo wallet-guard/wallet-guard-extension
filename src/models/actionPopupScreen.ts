@@ -1,5 +1,5 @@
 export enum ActionPopupTab {
   PhishingTab = 'PHISHING',
-  SimulationTab = 'SIMULATION',
-  ChatWeb3Tab = 'CHATWEB3'
+  ChatWeb3Tab = 'CHATWEB3',
+  WalletVersionsTab = 'WALLETVERSIONS'
 }
