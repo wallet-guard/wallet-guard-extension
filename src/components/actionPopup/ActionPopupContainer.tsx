@@ -6,6 +6,7 @@ import { TabSelector } from './common/TabSelector';
 import { PhishingTab } from './tabs/Phishing/PhishingTab';
 import { PopupTabContext } from '../../lib/context/context';
 import { useTab } from '../../lib/hooks/useNavigation';
+import { SettingsTab } from './tabs/Settings/SettingsTab';
 
 export const ActionPopupContainer = () => {
   const tabData = useTab();
@@ -21,6 +22,8 @@ export const ActionPopupContainer = () => {
         return <></>;
       case ActionPopupTab.WalletVersionsTab:
         return <></>;
+      case ActionPopupTab.SettingsTab:
+        return <SettingsTab />;
       default:
         return <PhishingTab />;
     }
