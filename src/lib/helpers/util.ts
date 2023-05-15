@@ -44,13 +44,19 @@ export function setIcon(phishing: PhishingResult): void {
   } else if (phishing === PhishingResult.Phishing) {
     chrome.action.setIcon({
       path: {
-        '16': '/images/favicon/blocked.png'
+        '16': '/images/favicon/malicious.png'
+      }
+    });
+  } else if (phishing === PhishingResult.Suspicious) {
+    chrome.action.setIcon({
+      path: {
+        '16': '/images/favicon/suspicious.png'
       }
     });
   } else {
     chrome.action.setIcon({
       path: {
-        '16': '/images/favicon/suspicious.png'
+        '16': '/images/favicon/unknown.png'
       }
     });
   }

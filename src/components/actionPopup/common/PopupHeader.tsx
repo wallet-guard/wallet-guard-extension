@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import styles from '../ActionPopup.module.css';
-import { SettingsIcon } from '@chakra-ui/icons';
 import { openDashboard } from '../../../lib/helpers/linkHelper';
-import { FaExpandArrowsAlt } from 'react-icons/fa';
-import { FiBell } from 'react-icons/fi';
+import { FiBell, FiSettings } from 'react-icons/fi';
 import { PopupTabContext } from '../../../lib/context/context';
 import { ActionPopupTab } from '../../../models/actionPopupScreen';
 
@@ -18,14 +16,14 @@ export const PopupHeader = () => {
     }
   }
 
+  // todo: Grab number of unread alerts here
   return (
     <div className={styles.headerRow}>
       <img src="/images/wg_logos/Wallpaper-Transparent.png" alt="" width={'140px'} />
 
       <div className={styles.iconsRow}>
-        <FiBell />
-        <SettingsIcon onClick={toggleSettingsTab} />
-        <FaExpandArrowsAlt className={styles.hover} onClick={() => openDashboard('popup', false)} />
+        <FiBell onClick={() => openDashboard('popup', false)} />
+        <FiSettings onClick={toggleSettingsTab} />
       </div>
     </div>
   );

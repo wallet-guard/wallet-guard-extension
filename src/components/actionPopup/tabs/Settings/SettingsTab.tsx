@@ -1,22 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import localStorageHelpers from '../../../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../../../lib/helpers/chrome/localStorageKeys';
 import { Settings, WG_DEFAULT_SETTINGS } from '../../../../lib/settings';
 import styles from '../../ActionPopup.module.css';
 import { Switch } from '../../common/Switch';
+import { PopupTabContext } from '../../../../lib/context/context';
+import { ActionPopupTab } from '../../../../models/actionPopupScreen';
+import posthog from 'posthog-js';
 
 export function SettingsTab() {
   const [settings, setSettings] = useState<Settings>(WG_DEFAULT_SETTINGS);
+  const { updateTab } = useContext(PopupTabContext);
 
   useEffect(() => {
     getSettingsFromLocalstorage();
+
     async function getSettingsFromLocalstorage() {
       const data = await localStorageHelpers.get<Settings>(WgKeys.Settings);
       if (data) {
-        setSettings(data);
+        setSettings({
+          ...data,
+        });
       }
     }
   }, []);
+
+  function updateSetting(key: string, value: boolean) {
+    const newSettings: Settings = {
+      ...settings,
+      [key]: value,
+    };
+
+    posthog.capture('popup change settings', { newSettings });
+    setSettings(newSettings);
+    chrome.storage.local.set({ settings: newSettings });
+  }
 
   return (
     <div style={{ height: '100%' }}>
@@ -28,23 +46,33 @@ export function SettingsTab() {
         }}
       >
         <p className={styles.settingsHeader}>Settings</p>
-        {/* TODO: add close button here integrated w/ context*/}
-        <p style={{ fontSize: '20px', marginRight: '15px' }}>X</p>
+        <p
+          className={styles.hover}
+          style={{ fontSize: '20px', marginRight: '15px' }}
+          onClick={() => updateTab(ActionPopupTab.PhishingTab)}
+        >
+          X
+        </p>
       </div>
 
       <div className={styles.settingsRow}>
         <p className={styles.settingsOption}>Transaction Simulation</p>
-        <Switch />
+        <Switch active={settings.simulationEnabled} toggleCB={updateSetting} settingKey="simulationEnabled" />
       </div>
 
+      {/* TODO: Setup ability to enable/disable phishing detection */}
       <div className={styles.settingsRow}>
         <p className={styles.settingsOption}>Phishing Detection</p>
-        <Switch />
+        <Switch active={true} toggleCB={updateSetting} settingKey="TODO" />
       </div>
 
       <div className={styles.settingsRow}>
         <p className={styles.settingsOption}>Malicious Extension Detection</p>
-        <Switch />
+        <Switch
+          active={settings.maliciousExtensionDetection}
+          toggleCB={updateSetting}
+          settingKey="maliciousExtensionDetection"
+        />
       </div>
     </div>
   );

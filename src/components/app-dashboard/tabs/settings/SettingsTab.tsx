@@ -29,7 +29,6 @@ export function SettingsTab() {
     };
 
     posthog.capture('change settings', { newSettings });
-
     setSettings(newSettings);
     chrome.storage.local.set({ settings: newSettings });
   }

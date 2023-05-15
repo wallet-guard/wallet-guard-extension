@@ -7,8 +7,9 @@ import { posthog } from 'posthog-js';
 import { add3Dots } from '../../../app-dashboard/tabs/extensions/ExtensionsTab';
 import { CDN_URL_PROD } from '../../../../lib/environment';
 
+type ThemeColors = 'green' | 'red' | 'orange' | 'gray' | 'blue'; // todo: add the rest
 interface PhishingTabTheme {
-  color: 'green' | 'red' | 'orange' | 'gray';
+  color: ThemeColors;
   title: string;
   logoPath: string;
 }
@@ -18,6 +19,12 @@ const defaultTheme: PhishingTabTheme = {
   title: 'verified',
   logoPath: '/images/popup/actionPopup/secure.png',
 };
+
+interface SpecialTheme {
+  name: string;
+  logo: string;
+  color: ThemeColors;
+}
 
 export const PhishingTabContainer = () => {
   const [url, setURL] = useState('');
@@ -40,8 +47,8 @@ export const PhishingTabContainer = () => {
   useEffect(() => {
     async function fetchSpecialTheme() {
       const response = await fetch(CDN_URL_PROD + url + '.json');
-      const data = await response.json();
-      // setMetadata(data);
+      const data: SpecialTheme = await response.json();
+      setTheme({ color: data.color, title: 'verified', logoPath: data.logo });
     }
 
     if (verified) {
@@ -65,6 +72,12 @@ export const PhishingTabContainer = () => {
           color: 'red',
           title: 'malicious',
           logoPath: '/images/popup/actionPopup/app_icons/malicious.png',
+        } as PhishingTabTheme;
+      case PhishingResult.Suspicious:
+        return {
+          color: 'orange',
+          title: 'suspicious',
+          logoPath: '/images/popup/actionPopup/app_icons/suspicious.png',
         } as PhishingTabTheme;
       case PhishingResult.Unknown:
         return {
@@ -95,12 +108,13 @@ export const PhishingTabContainer = () => {
         src={`images/popup/actionPopup/${theme.color}-glow.png`}
       />
       <div className={styles.centeredContainer}>
-        <img width="200px" src={theme.logoPath} />
-        <div className={styles.centeredContainer} style={{ marginTop: '-50px' }}>
+        <img width={'100px'} style={{ marginTop: '20px', marginBottom: '20px' }} src={theme.logoPath} />
+        <div className={styles.centeredContainer}>
           <p className={styles.currentURL}>
             Current URL: <span className={styles[`text-${theme.color}`]}>{add3Dots(url, 30)}</span>
           </p>
           <img src="images/popup/actionPopup/divider.png" />
+          {/* TODO: add classes for suspicious and unknown here */}
           <p className={styles.phishingResultHeader}>
             This is a <span className={styles[`text-${theme.color}`]}>{theme.title}</span> website
           </p>

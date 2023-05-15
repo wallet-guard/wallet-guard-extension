@@ -34,5 +34,6 @@ export enum WarningLevel {
 export enum PhishingResult {
   Phishing = "PHISHING",
   NotPhishing = "NOT_PHISHING",
-  Unknown = "UNKNOWN"
+  Suspicious = "SUSPICIOUS",
+  Unknown = "UNKNOWN",
 }
