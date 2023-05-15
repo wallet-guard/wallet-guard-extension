@@ -148,3 +148,25 @@
   align-items: center;
   margin-bottom: 25px;
 }
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+}
+
+.iconsRow {
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+}
+
+.iconsRow > * {
+  margin-right: 15px;
+}
+
+.iconsRow > *:hover {
+  cursor: pointer;
+}
