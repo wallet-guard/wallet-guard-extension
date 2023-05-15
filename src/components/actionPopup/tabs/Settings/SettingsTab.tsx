@@ -19,24 +19,33 @@ export function SettingsTab() {
   }, []);
 
   return (
-    <>
+    <div style={{ height: '100%' }}>
       <div
+        className={styles.settingsRow}
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
           marginTop: '20px',
           marginBottom: '20px',
         }}
       >
         <p className={styles.settingsHeader}>Settings</p>
         {/* TODO: add close button here integrated w/ context*/}
-        <p>X</p>
+        <p style={{ fontSize: '20px', marginRight: '15px' }}>X</p>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+
+      <div className={styles.settingsRow}>
         <p className={styles.settingsOption}>Transaction Simulation</p>
         <Switch />
       </div>
-    </>
+
+      <div className={styles.settingsRow}>
+        <p className={styles.settingsOption}>Phishing Detection</p>
+        <Switch />
+      </div>
+
+      <div className={styles.settingsRow}>
+        <p className={styles.settingsOption}>Malicious Extension Detection</p>
+        <Switch />
+      </div>
+    </div>
   );
 }

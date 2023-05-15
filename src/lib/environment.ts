@@ -8,4 +8,4 @@ export const EDS_URL_PROD = 'https://bkep3tnrs3.us-east-2.awsapprunner.com';
 export const TAS_SERVER_URL_PROD = 'https://walletguard-transaction-analysis-service-prod.com';
 
 // CDN
-export const S3_URL_PROD = 'https://cdn.walletguard.app/url/metadata/';
+export const CDN_URL_PROD = 'https://cdn.walletguard.app/url/metadata/';

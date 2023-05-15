@@ -5,7 +5,7 @@ import { URLCheckerInput } from './CheckUrl';
 import { getCurrentSite } from '../../../../services/phishing/currentSiteService';
 import { posthog } from 'posthog-js';
 import { add3Dots } from '../../../app-dashboard/tabs/extensions/ExtensionsTab';
-import { S3_URL_PROD } from '../../../../lib/environment';
+import { CDN_URL_PROD } from '../../../../lib/environment';
 
 interface PhishingTabTheme {
   color: 'green' | 'red' | 'orange' | 'gray';
@@ -39,7 +39,7 @@ export const PhishingTabContainer = () => {
 
   useEffect(() => {
     async function fetchSpecialTheme() {
-      const response = await fetch(S3_URL_PROD + url + '.json');
+      const response = await fetch(CDN_URL_PROD + url + '.json');
       const data = await response.json();
       // setMetadata(data);
     }
