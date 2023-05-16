@@ -49,7 +49,6 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -119,10 +118,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div className={`${hideOnLoading} ${unveil}`}>
-          <ConfirmSimulationButton storedSimulation={simulation} />
-        </div>
+      <div className={`${hideOnLoading} ${unveil}`}>
       </div>
     </div>
   );

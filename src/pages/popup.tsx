@@ -105,7 +105,9 @@ const Popup = () => {
       <>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <PersonalSign simulation={currentSimulation}/>
+
         </div>
+        <ConfirmSimulationButton storedSimulation={currentSimulation} />
       </>
     );
   }
