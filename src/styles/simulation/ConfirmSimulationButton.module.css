@@ -17,11 +17,13 @@
     position: absolute;
     bottom: 0;
     width: 100vw;
+    display: flex;
+    justify-content: center;
 }
 
 .button-container {
+    width: min(100vw, 420px);
     display: flex;
     justify-content: space-between;
     padding: 10px max(1rem, 20px);
-} 
-
+}
