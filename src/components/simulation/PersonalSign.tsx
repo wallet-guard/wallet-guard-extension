@@ -40,13 +40,14 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
       setIsLoading(true);
       console.log('simulation.args.origin', simulation.args.origin);
       const response = await fetch(S3_URL_PROD + simulation.args.origin + '.json');
-      const data = await response.json();
-
-      // Add a delay of 2 seconds before setting the metadata
-      // setTimeout(() => {
-      setMetadata(data);
-      setIsLoading(false);
-      // }, 2000);
+      if (response.ok) {
+        const data = await response.json();
+        setMetadata(data);
+        setIsLoading(false);
+      } else {
+        setMetadata(defaultMetadata);
+        setIsLoading(false);
+      }
     };
 
     fetchData();
