@@ -70,6 +70,24 @@
 .headerIcon:hover {
   color: white;
 }
+.alertsButton {
+  position: relative; /* for badge - ensures that the 'absolute' positioned badge stays in this container */
+  padding: 8px;
+}
+
+.badge {
+  background: #F44B4C;
+  color: white;
+  position: absolute;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  top: 0;
+  right: 0;
+  font-size: 13px;
+  padding-left: 5px;
+  border: 1px solid #101010;
+}
 
 .tabButtonActive {
   width: 45px;
@@ -170,7 +188,7 @@
 
 .iconsRow {
   display: flex;
-  font-size: 20px;
+  font-size: 24px;
   align-items: center;
 }
 
