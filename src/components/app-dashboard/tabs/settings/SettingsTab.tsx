@@ -3,7 +3,7 @@ import posthog from 'posthog-js';
 import React, { useEffect, useState } from 'react';
 import localStorageHelpers from '../../../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../../../lib/helpers/chrome/localStorageKeys';
-import { Settings, WG_DEFAULT_SETTINGS } from '../../../../lib/settings';
+import { Settings, SettingsKey, WG_DEFAULT_SETTINGS } from '../../../../lib/settings';
 import { Feedback } from '../../../common/Feedback';
 
 export function SettingsTab() {
@@ -20,7 +20,7 @@ export function SettingsTab() {
   }, []);
 
   function onSwitchUpdate(e: React.ChangeEvent<HTMLInputElement>) {
-    let key = e.target.id;
+    let key = e.target.id as SettingsKey;
     let value = e.target.checked;
 
     const newSettings: Settings = {
@@ -58,7 +58,7 @@ export function SettingsTab() {
                   <div className="col-4 text-right">
                     <Switch
                       colorScheme={'green'}
-                      id="blockSuspiciousDNS" // must match a key of Settings
+                      id={'blockSuspiciousDNS' as SettingsKey}
                       pl={'10px'}
                       isChecked={settings.blockSuspiciousDNS}
                       onChange={onSwitchUpdate}
@@ -87,7 +87,7 @@ export function SettingsTab() {
                   <div className="col-4 text-right">
                     <Switch
                       colorScheme={'green'}
-                      id="blockPunycode" // must match a key of Settings
+                      id={'blockPunycode' as SettingsKey}
                       pl={'10px'}
                       isChecked={settings.blockPunycode}
                       onChange={onSwitchUpdate}
@@ -118,7 +118,7 @@ export function SettingsTab() {
                   <div className="col-4 text-right">
                     <Switch
                       colorScheme={'green'}
-                      id="maliciousExtensionDetection" // must match a key of Settings
+                      id={'maliciousExtensionDetection' as SettingsKey}
                       pl={'10px'}
                       isChecked={settings.maliciousExtensionDetection}
                       onChange={onSwitchUpdate}
@@ -154,7 +154,7 @@ export function SettingsTab() {
                     <Switch
                       size={'md'}
                       colorScheme={'green'}
-                      id="simulationEnabled" // must match a key of Settings
+                      id={'simulationEnabled' as SettingsKey}
                       pl={'10px'}
                       isChecked={settings.simulationEnabled}
                       onChange={onSwitchUpdate}

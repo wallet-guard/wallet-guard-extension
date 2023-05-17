@@ -58,10 +58,13 @@ export function SettingsTab() {
         <Switch active={settings.simulationEnabled} toggleCB={updateSetting} settingKey="simulationEnabled" />
       </div>
 
-      {/* TODO: Setup ability to enable/disable phishing detection */}
       <div className={styles.settingsRow}>
         <p className={styles.settingsOption}>Phishing Detection</p>
-        <Switch active={true} toggleCB={updateSetting} settingKey="TODO" />
+        <Switch
+          active={settings.phishingDetectionEnabled}
+          toggleCB={updateSetting}
+          settingKey="phishingDetectionEnabled"
+        />
       </div>
 
       <div className={styles.settingsRow}>

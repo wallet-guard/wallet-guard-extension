@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Switch.module.css';
+import { SettingsKey } from '../../../lib/settings';
 
 interface SwitchButtonProps {
-  settingKey: string;
+  settingKey: SettingsKey;
   active: boolean;
   toggleCB: (key: string, checked: boolean) => void;
 }
