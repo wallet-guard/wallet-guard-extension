@@ -53,6 +53,7 @@ export function SettingsTab() {
         </p>
       </div>
 
+      {/* todo: add tooltips to these */}
       <div className={styles.settingsRow}>
         <p className={styles.settingsOption}>Phishing Detection</p>
         <Switch
