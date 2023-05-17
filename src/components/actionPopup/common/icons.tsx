@@ -12,7 +12,7 @@ interface IconProps {
 }
 
 function BaseIcon(props: BaseIconProps) {
-  return <img width={props.size} className={props.active ? styles.iconActive : ''} src={props.imageSrc} />;
+  return <img width={props.size} className={props.active ? styles.iconActive : styles.icon} src={props.imageSrc} />;
 }
 
 export function GlobeIcon(props: IconProps) {

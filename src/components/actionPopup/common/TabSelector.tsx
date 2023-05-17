@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { ActionPopupTab } from '../../../models/actionPopupScreen';
 import { PopupTabContext } from '../../../lib/context/context';
 import styles from '../ActionPopup.module.css';
-import { BsChatDots } from 'react-icons/bs';
 import { ChatIcon, GlobeIcon, WalletIcon } from './icons';
 
 export const TabSelector = () => {

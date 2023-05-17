@@ -60,6 +60,17 @@
   filter: invert(100%) sepia(0%) saturate(7458%) hue-rotate(86deg) brightness(200%) contrast(105%);
 }
 
+.icon:hover {
+  filter: invert(100%) sepia(0%) saturate(7458%) hue-rotate(86deg) brightness(200%) contrast(105%);
+}
+
+.headerIcon {
+  color: #cacaca;
+}
+.headerIcon:hover {
+  color: white;
+}
+
 .tabButtonActive {
   width: 45px;
   height: 36px;

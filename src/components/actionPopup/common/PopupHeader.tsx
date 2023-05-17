@@ -22,8 +22,8 @@ export const PopupHeader = () => {
       <img src="/images/wg_logos/Wallpaper-Transparent.png" alt="" width={'140px'} />
 
       <div className={styles.iconsRow}>
-        <FiBell onClick={() => openDashboard('popup', false)} />
-        <FiSettings onClick={toggleSettingsTab} />
+        <FiBell className={styles.headerIcon} onClick={() => openDashboard('popup', false)} />
+        <FiSettings className={styles.headerIcon} onClick={toggleSettingsTab} />
       </div>
     </div>
   );
