@@ -18,9 +18,7 @@ export function SettingsTab() {
     async function getSettingsFromLocalstorage() {
       const data = await localStorageHelpers.get<Settings>(WgKeys.Settings);
       if (data) {
-        setSettings({
-          ...data,
-        });
+        setSettings(data);
       }
     }
   }, []);

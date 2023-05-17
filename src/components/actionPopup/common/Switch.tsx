@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Switch.module.css';
 
 interface SwitchButtonProps {
@@ -17,6 +17,10 @@ export function Switch(props: SwitchButtonProps) {
     setEnabled(checked);
     toggleCB(settingKey, checked);
   }
+
+  useEffect(() => {
+    setEnabled(props.active);
+  }, [props.active]);
 
   return (
     <>

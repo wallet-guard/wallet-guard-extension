@@ -27,6 +27,8 @@ interface SpecialTheme {
 }
 
 export const PhishingTabContainer = () => {
+  // todo: Try refacting url, phishingResult, and verified back into one state result.
+  // need to either use spread operator (...) I think to fix that bug.
   const [url, setURL] = useState('');
   const [phishingResult, setPhishing] = useState(PhishingResult.NotPhishing);
   const [verified, setVerified] = useState(false);
