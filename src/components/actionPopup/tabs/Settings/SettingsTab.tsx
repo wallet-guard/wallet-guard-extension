@@ -54,11 +54,6 @@ export function SettingsTab() {
       </div>
 
       <div className={styles.settingsRow}>
-        <p className={styles.settingsOption}>Transaction Simulation</p>
-        <Switch active={settings.simulationEnabled} toggleCB={updateSetting} settingKey="simulationEnabled" />
-      </div>
-
-      <div className={styles.settingsRow}>
         <p className={styles.settingsOption}>Phishing Detection</p>
         <Switch
           active={settings.phishingDetectionEnabled}
@@ -68,11 +63,25 @@ export function SettingsTab() {
       </div>
 
       <div className={styles.settingsRow}>
+        <p className={styles.settingsOption}>Transaction Simulation</p>
+        <Switch active={settings.simulationEnabled} toggleCB={updateSetting} settingKey="simulationEnabled" />
+      </div>
+
+      <div className={styles.settingsRow}>
         <p className={styles.settingsOption}>Malicious Extension Detection</p>
         <Switch
           active={settings.maliciousExtensionDetection}
           toggleCB={updateSetting}
           settingKey="maliciousExtensionDetection"
+        />
+      </div>
+
+      <div className={styles.settingsRow}>
+        <p className={styles.settingsOption}>Wallet Version Alerts</p>
+        <Switch
+          active={settings.walletVersionNotifications}
+          toggleCB={updateSetting}
+          settingKey="walletVersionNotifications"
         />
       </div>
     </div>
