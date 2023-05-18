@@ -7,6 +7,7 @@ import { PhishingTab } from './tabs/Phishing/PhishingTab';
 import { PopupTabContext } from '../../lib/context/context';
 import { useTab } from '../../lib/hooks/useNavigation';
 import { SettingsTab } from './tabs/Settings/SettingsTab';
+import { WalletsTab } from './tabs/Wallets/WalletTab';
 
 export const ActionPopupContainer = () => {
   const tabData = useTab();
@@ -21,7 +22,7 @@ export const ActionPopupContainer = () => {
       case ActionPopupTab.ChatWeb3Tab:
         return <></>;
       case ActionPopupTab.WalletVersionsTab:
-        return <></>;
+        return <WalletsTab />;
       case ActionPopupTab.SettingsTab:
         return <SettingsTab />;
       default:

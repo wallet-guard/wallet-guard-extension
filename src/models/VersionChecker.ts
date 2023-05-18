@@ -1,7 +1,7 @@
-import { WalletType } from '../lib/config/features';
+import { WalletName } from '../lib/config/features';
 
 export interface WalletInfo {
-  name: WalletType;
+  name: WalletName;
   localVersion: string | null;
   latestVersion: string | null;
   lastCheckedAt: number;

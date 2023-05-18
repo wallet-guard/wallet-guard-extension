@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { FiBell, FiBellOff } from 'react-icons/fi';
-import { supportedWallets, WalletType } from '../../../../lib/config/features';
+import { supportedWallets, WalletName } from '../../../../lib/config/features';
 import { AlertHandler } from '../../../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../../../lib/helpers/chrome/localStorageKeys';
@@ -159,7 +159,7 @@ export function DashboardTab() {
 
   async function getVersionFromLocalStorage() {
     const requests: Promise<WalletInfo | null>[] = [];
-    const supportedWalletKeys = Object.keys(supportedWallets) as WalletType[];
+    const supportedWalletKeys = Object.keys(supportedWallets) as WalletName[];
 
     function getDefaultWalletInfo(i: number): WalletInfo {
       return {

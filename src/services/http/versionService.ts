@@ -1,4 +1,4 @@
-import { WalletType, supportedWallets } from '../../lib/config/features';
+import { WalletName, supportedWallets } from '../../lib/config/features';
 import { EDS_URL_PROD } from '../../lib/environment';
 import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
@@ -14,7 +14,7 @@ export interface VersionCheckResponse {
   lastCheckedAt: string; // ISO string in UTC time
 }
 
-async function getVersion(wallet: WalletType): Promise<string | null> {
+async function getVersion(wallet: WalletName): Promise<string | null> {
   try {
     const request: VersionCheckResponse = await (await httpClient.get(`${EDS_URL_PROD}/version/${wallet}`))?.json();
     return request.version;
@@ -23,7 +23,7 @@ async function getVersion(wallet: WalletType): Promise<string | null> {
   }
 }
 
-async function checkWallet(wallet: WalletType) {
+async function checkWallet(wallet: WalletName) {
   let local: string | null = null;
   const latest = await getVersion(wallet);
 
@@ -53,7 +53,7 @@ export async function checkAllWalletsAndCreateAlerts() {
   const expiredWallets: WalletInfo[] = [];
 
   for (let wallet of supported) {
-    const walletCheck = await checkWallet(wallet as WalletType);
+    const walletCheck = await checkWallet(wallet as WalletName);
     const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
     const isMuted = settings?.walletVersionNotifications
 

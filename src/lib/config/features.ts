@@ -1,4 +1,4 @@
-export type WalletType = keyof typeof supportedWallets;
+export type WalletName = keyof typeof supportedWallets;
 
 // keep wallet names lowercase. values are the chrome web store extension id
 export const supportedWallets = {
