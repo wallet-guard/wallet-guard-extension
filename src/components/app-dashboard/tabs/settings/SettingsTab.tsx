@@ -52,15 +52,15 @@ export function SettingsTab() {
               <div className="card-body">
                 <div className="row">
                   <div className="col-8 pb-1" style={{ fontSize: '22px' }}>
-                    <b>Block Recently Created Sites</b>
+                    <b>Phishing Detection</b>
                   </div>
 
                   <div className="col-4 text-right">
                     <Switch
                       colorScheme={'green'}
-                      id={'blockSuspiciousDNS' as SettingsKey}
+                      id={'phishingDetectionEnabled' as SettingsKey}
                       pl={'10px'}
-                      isChecked={settings.blockSuspiciousDNS}
+                      isChecked={settings.phishingDetectionEnabled}
                       onChange={onSwitchUpdate}
                     ></Switch>
                   </div>
@@ -68,7 +68,7 @@ export function SettingsTab() {
                 <div className="row">
                   <div className="col-9">
                     <p style={{ fontSize: '18px' }}>
-                      We let you know when you're about to visit a website that was recently created and has low trust.
+                      We let you know when you're about to visit a website that was suspected to be a phishing attempt.
                     </p>
                   </div>
                 </div>
@@ -81,15 +81,15 @@ export function SettingsTab() {
               <div className="card-body">
                 <div className="row">
                   <div className="col-8 pb-1" style={{ fontSize: '22px' }}>
-                    <b>URL Homoglyph Detection</b>
+                    <b>Transaction Simulation</b>
                   </div>
 
                   <div className="col-4 text-right">
                     <Switch
                       colorScheme={'green'}
-                      id={'blockPunycode' as SettingsKey}
+                      id={'simulationEnabled' as SettingsKey}
                       pl={'10px'}
-                      isChecked={settings.blockPunycode}
+                      isChecked={settings.simulationEnabled}
                       onChange={onSwitchUpdate}
                     ></Switch>
                   </div>
@@ -97,7 +97,8 @@ export function SettingsTab() {
                 <div className="row">
                   <div className="col-9">
                     <p style={{ fontSize: '18px' }}>
-                      We block scam websites that contain look-alike characters which is a common form of phishing.
+                      Transaction Simulations allow you to see exactly what is coming in and out of your wallet before
+                      you complete your transaction.
                     </p>
                   </div>
                 </div>
@@ -147,26 +148,23 @@ export function SettingsTab() {
               <div className="card-body">
                 <div className="row">
                   <div className="col-9 pb-1" style={{ fontSize: '22px' }}>
-                    <b className="pr-1">Transaction Simulations</b>
+                    <b className="pr-1">Wallet Version Alerts</b>
                   </div>
 
                   <div className="col-3 text-right">
                     <Switch
                       size={'md'}
                       colorScheme={'green'}
-                      id={'simulationEnabled' as SettingsKey}
+                      id={'walletVersionNotifications' as SettingsKey}
                       pl={'10px'}
-                      isChecked={settings.simulationEnabled}
+                      isChecked={settings.walletVersionNotifications}
                       onChange={onSwitchUpdate}
                     ></Switch>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-9">
-                    <p style={{ fontSize: '18px' }}>
-                      Transaction Simulations allow you to see exactly what is coming in and out of your wallet before
-                      you complete your transaction.
-                    </p>
+                    <p style={{ fontSize: '18px' }}>Receive notifications when one of your wallets goes out-of-date.</p>
                   </div>
                 </div>
               </div>

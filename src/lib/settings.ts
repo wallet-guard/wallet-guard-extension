@@ -1,6 +1,4 @@
 export interface Settings {
-  blockPunycode: boolean;// todo: remove, deprecated
-  blockSuspiciousDNS: boolean; // todo: remove, deprecated
   phishingDetectionEnabled: boolean;
   maliciousExtensionDetection: boolean;
   simulationEnabled: boolean;
@@ -8,8 +6,6 @@ export interface Settings {
 }
 
 export const WG_DEFAULT_SETTINGS: Settings = {
-  blockPunycode: true,
-  blockSuspiciousDNS: true,
   phishingDetectionEnabled: true,
   maliciousExtensionDetection: true,
   simulationEnabled: true,
