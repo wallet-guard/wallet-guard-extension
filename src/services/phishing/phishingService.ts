@@ -3,6 +3,7 @@ import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
 import { urlIsPhishingWarning } from '../../lib/helpers/util';
+import { Settings } from '../../lib/settings';
 import { AlertDetail } from '../../models/Alert';
 import { PhishingResult, WarningLevel, WarningType } from '../../models/PhishingResponse';
 import { domainScan } from '../http/domainScan';
@@ -36,7 +37,23 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const pdsResponse = await domainScan(url);
   setCurrentSite(pdsResponse, url);
 
-  if (pdsResponse?.phishing === PhishingResult.Phishing) {
+  // Check settings to make sure 
+  const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
+
+  // phishingDetectionEnabled is a new key, therefore we need to set it to a default
+  // TODO: Remove this after everyone has received the the update
+  if (settings && settings.phishingDetectionEnabled === undefined) {
+    const newSettings: Settings = {
+      ...settings,
+      phishingDetectionEnabled: true
+    };
+    chrome.storage.local.set({ [WgKeys.Settings]: newSettings });
+  }
+
+  const phishingDetectionEnabled = settings &&
+    (settings.phishingDetectionEnabled === undefined || settings.phishingDetectionEnabled === true);
+
+  if (phishingDetectionEnabled && pdsResponse?.phishing === PhishingResult.Phishing) {
     const recentlyCreatedWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.RecentlyCreated);
     if (recentlyCreatedWarning) {
       const daysSinceCreated = Math.round(parseFloat(recentlyCreatedWarning.value) / 24);
