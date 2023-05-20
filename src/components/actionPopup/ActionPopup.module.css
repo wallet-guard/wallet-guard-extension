@@ -168,6 +168,8 @@
 .tabHeader {
   font-family: "ArchivoSemiBold";
   font-size: 22px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .archivoSemiBold {

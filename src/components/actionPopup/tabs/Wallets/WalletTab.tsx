@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from '../../ActionPopup.module.css';
 import { supportedWallets, WalletName } from '../../../../lib/config/features';
-import { Switch } from '@chakra-ui/react';
 import { WalletDetail } from './WalletDetail';
 
 export function WalletsTab() {

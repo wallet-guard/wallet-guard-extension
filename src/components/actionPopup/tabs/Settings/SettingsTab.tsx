@@ -37,7 +37,7 @@ export function SettingsTab() {
   return (
     <div style={{ height: '100%' }}>
       <div
-        className={styles.settingsRow}
+        className={styles.tabHeader}
         style={{
           marginTop: '20px',
           marginBottom: '20px',
