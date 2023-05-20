@@ -63,7 +63,7 @@ export const URLCheckerInput = (props: URLCheckProps) => {
             {/* TODO: add regex for is not valid URL + spinner for loading*/}
             {/* TODO: Add timeout on this button (same as refresh button on version checker) */}
             <button disabled={inputValue === ''} onClick={checkURL} className={styles.urlCheckButton}>
-              {loading ? <Spinner /> : 'CHECK'}
+              {loading ? <Spinner color="green" /> : 'CHECK'}
             </button>
           </div>
           {showError && (

@@ -3,8 +3,6 @@
   position: relative;
   width: 20px;
   height: 20px;
-  margin-top: 5px;
-  color: #19FF00;
 }
 
 .lds-ring div {
@@ -14,10 +12,26 @@
   width: 16px;
   height: 16px;
   margin: 2px;
-  border: 2px solid #19FF00;
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.green {
+  color: #19FF00;
+}
+
+.green div {
+  border: 2px solid #19FF00;
   border-color: #19FF00 transparent transparent transparent;
+}
+
+.gray {
+  color: #595959;
+}
+
+.gray div {
+  border: 2px solid #595959;
+  border-color: #595959 transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {

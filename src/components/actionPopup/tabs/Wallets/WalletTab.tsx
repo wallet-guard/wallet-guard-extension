@@ -9,7 +9,7 @@ export function WalletsTab() {
 
   return (
     <div style={{ height: '100%' }}>
-      <Switch colorScheme={'green'} pl={'10px'} isChecked={true}></Switch>
+      {/* <Switch colorScheme={'green'} pl={'10px'} isChecked={true}></Switch> */}
       <div
         className={styles.settingsRow}
         style={{
@@ -17,7 +17,7 @@ export function WalletsTab() {
           marginBottom: '20px',
         }}
       >
-        <p className={styles.settingsHeader}>Wallet Versions</p>
+        <p className={styles.tabHeader}>Wallet Versions</p>
       </div>
 
       {supportedWalletKeys.map((walletName) => {
