@@ -15,7 +15,7 @@ export const SimulationHeader = () => {
         <div style={{ float: 'right', paddingTop: '30px', paddingRight: '30px' }}>
           <TwitterShareButton
             url={'https://walletguard.app'}
-            title={'Have feedback, a suggestion, or just want to share how Wallet Guard has helped you? Tweet at us!'}
+            title={'Join myself and 10,000+ others who are protecting our assets with Wallet Guard'}
             via={'wallet_guard'}
           >
             <a style={{ color: 'white' }} className="btn btn-dark">

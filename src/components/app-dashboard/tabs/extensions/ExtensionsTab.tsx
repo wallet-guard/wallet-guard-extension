@@ -157,9 +157,9 @@ export default function ExtensionsTab() {
                             )}
                           </div>
                           <div className="col-9" style={{ paddingLeft: '0px' }}>
-                            <h1>
+                            <h6 style={{ marginBottom: 0 }}>
                               <b>{extension.name}</b>
-                            </h1>
+                            </h6>
                           </div>
                         </div>
 

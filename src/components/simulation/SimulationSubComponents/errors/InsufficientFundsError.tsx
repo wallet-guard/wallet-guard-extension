@@ -28,7 +28,7 @@ export default function InsufficientFundsComponent(props: ErrorComponentProps) {
             </p>
           </div> */}
       </div>
-      <ErrorTextComponent filteredSimulations={props.filteredSimulations} />
+      <ErrorTextComponent currentSimulation={props.currentSimulation} />
     </div>
   );
 }

@@ -22,6 +22,7 @@ export function Dashboard() {
       api_host: 'https://app.posthog.com',
       persistence: 'localStorage',
       autocapture: false,
+      capture_pageleave: false,
     });
 
     Sentry.init({

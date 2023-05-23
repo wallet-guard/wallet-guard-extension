@@ -21,7 +21,7 @@ export default function ErrorTextComponent(props: ErrorComponentProps) {
           fontSize: '16px',
         }}
       >
-        ID: {props.filteredSimulations[0].id}
+        ID: {props.currentSimulation.id}
       </p>
     </div>
   );

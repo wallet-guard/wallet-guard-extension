@@ -1,4 +1,4 @@
-import { Badge, Heading, Switch } from '@chakra-ui/react';
+import { Heading, Switch } from '@chakra-ui/react';
 import posthog from 'posthog-js';
 import React, { useEffect, useState } from 'react';
 import localStorageHelpers from '../../../../lib/helpers/chrome/localStorage';
@@ -149,9 +149,6 @@ export function SettingsTab() {
                 <div className="row">
                   <div className="col-9 pb-1" style={{ fontSize: '22px' }}>
                     <b className="pr-1">Transaction Simulations</b>
-                    <Badge pl="1" fontSize="13px" colorScheme="green">
-                      New
-                    </Badge>
                   </div>
 
                   <div className="col-3 text-right">

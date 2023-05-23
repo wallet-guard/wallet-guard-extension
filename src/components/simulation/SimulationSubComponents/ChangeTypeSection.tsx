@@ -3,11 +3,13 @@ import { SimulationStateChange } from '../../../models/simulation/Transaction';
 import { StateChangesComponent } from './StateChangesComponent';
 import styles from '../simulation.module.css';
 import { RiskFactors } from './stateChangeSubComponents/RiskFactors';
+import { PhishingResponse } from '../../../models/PhishingResponse';
 
 export interface ChangeTypeSectionProps {
   stateChanges?: SimulationStateChange[];
   title: string;
   warnings?: any;
+  scanResult: PhishingResponse;
 }
 
 export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
@@ -36,14 +38,10 @@ export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
           }}
         >
           <div className="card-body">
-            <div className="" style={{ marginTop: '-7px', marginBottom: '-15px' }}>
-              <div className="row">
-                <div className="col">
-                  {props.warnings && <RiskFactors warnings={props.warnings} />}
-                  {props.stateChanges && <StateChangesComponent simulationStateChanges={props.stateChanges} />}
-                </div>
-              </div>
-            </div>
+            {props.warnings && <RiskFactors warnings={props.warnings} />}
+            {props.stateChanges && (
+              <StateChangesComponent simulationStateChanges={props.stateChanges} scanResult={props.scanResult} />
+            )}
           </div>
         </div>
       </div>

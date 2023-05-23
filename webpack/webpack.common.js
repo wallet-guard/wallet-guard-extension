@@ -16,6 +16,7 @@ module.exports = {
     dashboard: path.join(srcDir, 'pages/dashboard.tsx'),
     phishing: path.join(srcDir, 'pages/phishing.tsx'),
     'content-scripts/contentScripts': path.join(srcDir, 'content-scripts', 'contentScripts.tsx'),
+    'content-scripts/bypassCheck': path.join(srcDir, 'content-scripts', 'bypassCheck.tsx'),
     'injected/injectWalletGuard': path.join(srcDir, 'injected', 'injectWalletGuard.tsx'),
   },
 
@@ -41,7 +42,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test:/\.(css|scss)$/,
+        test: /\.(css|scss)$/,
         include: path.resolve(srcDir),
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
@@ -71,9 +72,7 @@ module.exports = {
   plugins: [
     new WextManifestWebpackPlugin(),
     new CopyPlugin({
-      patterns: [
-        { from: '.', to: '.', context: 'public' },
-      ],
+      patterns: [{ from: '.', to: '.', context: 'public' }],
       options: {},
     }),
     new webpack.ProvidePlugin({
