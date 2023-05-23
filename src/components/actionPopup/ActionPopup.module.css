@@ -213,3 +213,29 @@
 .iconsRow > *:hover {
   cursor: pointer;
 }
+
+.alerts-row {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #5E5E5E;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.alerts-row-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 18px;
+  color: #5E5E5E;
+  align-items: center;
+}
+
+.alerts-row-detail {
+  font-size: 22px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

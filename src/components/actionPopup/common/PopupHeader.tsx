@@ -6,6 +6,7 @@ import { PopupTabContext } from '../../../lib/context/context';
 import { ActionPopupTab } from '../../../models/actionPopupScreen';
 import { AlertHandler } from '../../../lib/helpers/chrome/alertHandler';
 import { AlertDetail } from '../../../models/Alert';
+import { AiOutlineExpandAlt } from 'react-icons/ai';
 
 export const PopupHeader = () => {
   const { currentTab, updateTab } = useContext(PopupTabContext);
@@ -23,7 +24,14 @@ export const PopupHeader = () => {
     }
   }
 
-  // todo: Grab number of unread alerts here
+  function openAlertsTab() {
+    if (currentTab === ActionPopupTab.AlertsTab) {
+      updateTab(ActionPopupTab.PhishingTab);
+    } else {
+      updateTab(ActionPopupTab.AlertsTab);
+    }
+  }
+
   return (
     <div className={styles.headerRow}>
       <img src="/images/wg_logos/Wallpaper-Transparent.png" alt="" width={'140px'} />
@@ -31,9 +39,10 @@ export const PopupHeader = () => {
       <div className={styles.iconsRow}>
         <div className={styles.alertsButton}>
           {unreadAlerts.length > 0 && <span className={styles.badge}>{unreadAlerts.length}</span>}
-          <FiBell className={styles.headerIcon} onClick={() => openDashboard('popup', false)} />
+          <FiBell className={styles.headerIcon} onClick={openAlertsTab} />
         </div>
         <FiSettings className={styles.headerIcon} onClick={toggleSettingsTab} />
+        <AiOutlineExpandAlt className={styles.headerIcon} onClick={() => openDashboard('popup', false)} />
       </div>
     </div>
   );

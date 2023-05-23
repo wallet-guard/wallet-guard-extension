@@ -117,6 +117,7 @@ export const PhishingTab = () => {
           </p>
           <img src="images/popup/actionPopup/divider.png" />
           {/* TODO: add classes for suspicious and unknown here */}
+          {/* todo: Fix "this is a unknown website" grammar */}
           <p className={styles.phishingResultHeader}>
             This is a <span className={styles[`text-${theme.color}`]}>{theme.title}</span> website
           </p>

@@ -8,15 +8,15 @@ import { PopupTabContext } from '../../lib/context/context';
 import { useTab } from '../../lib/hooks/useNavigation';
 import { SettingsTab } from './tabs/Settings/SettingsTab';
 import { WalletsTab } from './tabs/Wallets/WalletTab';
+import { AlertsTab } from './tabs/Alerts/AlertsTab';
 
 export const ActionPopupContainer = () => {
   const tabData = useTab();
 
-  // todo: figure out how to get settings working
-  // todo: add check for simulation that needs action to swap to TAS tab
-
   function renderSelectedTab() {
     switch (tabData.currentTab) {
+      case ActionPopupTab.AlertsTab:
+        return <AlertsTab />;
       case ActionPopupTab.PhishingTab:
         return <PhishingTab />;
       case ActionPopupTab.ChatWeb3Tab:
@@ -29,8 +29,6 @@ export const ActionPopupContainer = () => {
         return <PhishingTab />;
     }
   }
-
-  // todo: popup header + tab selector should take up X room, and the other tab should take up 100% of remaining space
 
   return (
     <div className={styles.popup}>
