@@ -1,4 +1,10 @@
-import { Conversation, KeyValuePair, Message, OpenAIModel } from '../../../../../../models/chatweb3/chatweb3';
+import {
+  Conversation,
+  KeyValuePair,
+  Message,
+  OpenAIModel,
+  PersonaType,
+} from '../../../../../../models/chatweb3/chatweb3';
 import { FC, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { ChatInput } from './ChatInput';
 import { ChatLoader } from './ChatLoader';
@@ -11,6 +17,7 @@ import '../../styles/globals.css';
 import { ChatInputDashboard } from './ChatInputDashboard';
 import { Navbar } from './ChatWeb3Navbar';
 import { ChatWeb3Landing } from './ChatWeb3Landing';
+import PluginGrid from './PluginGrid';
 
 interface Props {
   conversation: Conversation;
@@ -53,64 +60,98 @@ export const Chat: FC<Props> = ({
 
   return (
     <div className="relative flex-1 overflow-none dark:bg-[#161616]">
-      {modelError ? (
-        <div className="flex flex-col justify-center mx-auto h-full w-[300px] sm:w-[500px] space-y-6">
-          <div className="text-center text-red-500">Error fetching models.</div>
-          <div className="text-center text-red-500">
-            Make sure your OpenAI API key is set in the bottom left of the sidebar or in a .env.local file and refresh.
+      <Navbar />
+
+      {conversation?.messages.length === 0 ? (
+        <>
+          <div className="mx-auto flex w-[350px] flex-col space-y-10 pt-12 lg:w-[600px] xl:w-[1200px]">
+            <div className="text-center text-3xl font-semibold text-gray-800 dark:text-gray-100 sm:text-2xl md:text-3xl sm:pt-0 md:pt-[5%]">
+              <div>Who are you?</div>
+            </div>
+
+            <div>
+              <PluginGrid
+                onSend={(plugin: any) => {
+                  // create a generic Message
+
+                  let messagesTest: Message;
+
+                  if (plugin == PersonaType.LEARN_WEB3) {
+                    messagesTest = {
+                      role: 'assistant',
+                      content:
+                        '# Learn Web3 Plugin \n  The Learn Web3 plugin is designed to provide users with an accessible and comprehensive introduction to the world of web3. With this plugin, users can learn about the basics of decentralized technologies, blockchain, and cryptocurrencies, while receiving support to navigate the ever-evolving Web3 ecosystem. ' +
+                        '\n### Example questions: \n* How is having my money in MetaMask make me my own bank? \n*  Can you explain how zero-knowledge proofs can be used to enhance privacy and security in web3 applications? \n* Can you explain what a smart contract is and how it works in the context of blockchain technology?',
+                    };
+                  } else if (plugin == PersonaType.WEB3_DEVELOPER) {
+                    messagesTest = {
+                      role: 'assistant',
+                      content:
+                        '# Web3 Developer Plugin \n The Web3 Developer plugin is a comprehensive resource for developers seeking to build powerful Web3 applications. With access to Solidity documentation, Alchemy, and Etherscan tools, users can streamline their development process and create innovative decentralized applications. ' +
+                        ' \n### Example questions: \n* Create a decentralized voting system using a smart contract. The system should allow users to create proposals, vote on them, and tally the votes. Ensure the voting process is transparent, tamper-proof, and resistant to double-voting.\n* What are the main advantages of using Alchemy as a development platform for Web3 applications? \n* How can I use Etherscan to track transactions and explore the Ethereum blockchain?',
+                    };
+                  } else if (plugin == PersonaType.NFT_DEGEN) {
+                    messagesTest = {
+                      role: 'assistant',
+                      content:
+                        '# NFT Degen Plugin \n The NFT Degen plugin offers users a seamless way to discover contextualized insights and answers to their favorite NFT questions. Leveraging the power of GPT, this plugin provides expert guidance on navigating the NFT market, collecting, trading, and staying informed on the latest trends. ' +
+                        ' \n### Example questions: \n* What factors should I consider when evaluating the value of an NFT?\n*How can I safely buy, sell, and trade NFTs in the marketplace? \n* What are some of the most popular NFT platforms for artists and collectors?',
+                    };
+                  } else if (plugin == PersonaType.DEFI_TRADER) {
+                    messagesTest = {
+                      role: 'assistant',
+                      content:
+                        '# DeFi Trader Plugin \n The DeFi Trader plugin is a powerful tool for users looking to make informed decisions in the decentralized finance (DeFi) market. With real-time updates on high-yield savings, lending opportunities, and DeFi trends, users can maximize their investments and stay ahead of the curve. ' +
+                        ' \n### Example questions: \n* How does the concept of liquidity pools and automated market makers (AMMs) work to enable seamless token swaps in DeFi?\n* How can I manage risks when investing in DeFi projects? \n* What are some popular DeFi strategies for earning passive income?',
+                    };
+                  } else {
+                    return;
+                  }
+                  setCurrentMessage(messagesTest);
+                  const updatedConversation = {
+                    ...conversation,
+                    messages: [...conversation.messages, messagesTest],
+                  };
+                }}
+              />
+            </div>
           </div>
-          <div className="text-center text-red-500">If you completed this step, OpenAI may be experiencing issues.</div>
-        </div>
+
+          <div className="h-[162px] dark:bg-[#151515]" ref={messagesEndRef} />
+        </>
       ) : (
         <>
-          <div className="overflow-scroll max-h-full">
-            {conversation.messages.length === 0 ? (
-              <>
-                <Navbar />
+          {conversation?.messages.map((message, index) => (
+            <ChatMessage key={index} message={message} lightMode={'dark'} />
+          ))}
 
-                <div className="flex flex-col mx-auto space-y-10 sm:w-[600px]">
-                  <ChatWeb3Landing />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex justify-center py-2 text-neutral-500 bg-neutral-100 dark:bg-[#161616] dark:text-neutral-200 text-sm  dark:border-none">
-                  Model: {conversation.model.name}
-                </div>
+          {loading && <ChatLoader />}
 
-                {conversation.messages.map((message, index) => (
-                  <ChatMessage key={index} message={message} lightMode={'dark'} />
-                ))}
-
-                {loading && <ChatLoader />}
-
-                <div className=" dark:bg-[#161616] h-[162px]" ref={messagesEndRef} />
-              </>
-            )}
-          </div>
-
-          {messageError ? (
-            <Regenerate
-              onRegenerate={() => {
-                if (currentMessage) {
-                  onSend(currentMessage, true);
-                }
-              }}
-            />
-          ) : (
-            <ChatInput
-              stopConversationRef={stopConversationRef}
-              messageIsStreaming={messageIsStreaming}
-              textareaRef={textareaRef}
-              onSend={(message) => {
-                setCurrentMessage(message);
-                onSend(message, false);
-              }}
-              model={conversation.model}
-            />
-          )}
+          <div className="h-[162px] dark:bg-[#151515]" ref={messagesEndRef} />
         </>
       )}
+      <>
+        {messageError ? (
+          <Regenerate
+            onRegenerate={() => {
+              if (currentMessage) {
+                onSend(currentMessage, true);
+              }
+            }}
+          />
+        ) : (
+          <ChatInput
+            stopConversationRef={stopConversationRef}
+            messageIsStreaming={messageIsStreaming}
+            textareaRef={textareaRef}
+            onSend={(message) => {
+              setCurrentMessage(message);
+              onSend(message, false);
+            }}
+            model={conversation.model}
+          />
+        )}
+      </>
     </div>
   );
 };

@@ -55,13 +55,21 @@ export const useChat = () => {
         conversationID: conversationID,
       };
 
+      const body = JSON.stringify({
+        model: updatedConversation.model,
+        messages: updatedConversation.messages,
+        plugin: 'DEFAULT',
+      });
+
+      console.log(body);
+
       const controller = new AbortController();
-      const response = await fetch(`${CHATWEB3_SERVER_URL_PROD}/chatweb3/stream`, {
+      const response = await fetch('http://0.0.0.0:8080/v2/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(chatBody),
+        body: body,
       });
 
       if (!response.ok) {
@@ -71,7 +79,9 @@ export const useChat = () => {
         return;
       }
 
-      const data = response.body;
+      const res = new Response(response.body);
+
+      const data = res.body;
 
       if (!data) {
         setLoading(false);
@@ -174,8 +184,8 @@ export const useChat = () => {
       id: 1,
       name: 'New conversation',
       messages: [],
-      model: OpenAIModels[OpenAIModelID.GPT_4],
-      prompt: 'TRANSACTION',
+      model: OpenAIModels[OpenAIModelID.GPT_3_5],
+      prompt: 'DEFAULT',
     });
   }, []);
 

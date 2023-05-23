@@ -10,8 +10,17 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
 
   if (simulationNeedsAction(state)) {
     return (
-      <div className={`${styles['footer-container']}`}>
-        <div className="row px-3 pt-4">
+      <div className={` ${styles['footer-container']} `}>
+        <div className={` ${styles['center-button']}`}>
+          <button
+            className="pt-3 text-center"
+            style={{ textDecoration: 'underline', color: 'white', background: 'none', border: 'none', outline: 'none' }}
+          >
+            Have any questions?
+          </button>
+        </div>
+
+        <div className="row px-3 pt-3">
           <div className="col-6 text-center">
             <button
               className={`${styles['reject-button']} btn`}

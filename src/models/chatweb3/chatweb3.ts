@@ -53,3 +53,11 @@ export interface LocalStorage {
   selectedConversation: Conversation;
   theme: 'light' | 'dark';
 }
+
+export enum PersonaType {
+  LEARN_WEB3 = 'LEARN_WEB3',
+  WEB3_DEVELOPER = 'WEB3_DEVELOPER',
+  NFT_DEGEN = 'NFT_DEGEN',
+  DEFI_TRADER = 'DEFI_TRADER',
+  DEFAULT = 'DEFAULT',
+}

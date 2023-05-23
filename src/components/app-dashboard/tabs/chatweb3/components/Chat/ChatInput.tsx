@@ -77,27 +77,50 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
   }
 
   return (
-    <div className="absolute bottom-0 left-0 w-full dark:border-white/20 border-transparent dark:bg-[#161616] dark:bg-gradient-to-t from-[#161616] via-[#161616] to-[#161616]/0 dark:!bg-transparent dark:bg-vert-dark-gradient pt-6 md:pt-2">
+    <div className="absolute bottom-0 left-0 w-full border-transparent bg-gradient-to-b from-transparent via-white to-white pt-6 dark:border-white/20 dark:via-[#151515] dark:to-[#151515] md:pt-2 ">
       <div className="stretch md:mt-[52px] mt-4 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-3xl">
         {messageIsStreaming && (
           <button
-            className="absolute -top-2 md:top-0 left-0 right-0 mx-auto dark:bg-[#161616] border w-fit border-gray-500 py-2 px-4 rounded text-black dark:text-white hover:opacity-50 md:mt-[-1%] lg:mt-[-2%]"
+            className="absolute top-2 md:top-0 left-0 right-0 mx-auto dark:bg-[#161616] border w-fit border-gray-500 py-2 px-4 rounded text-black dark:text-white hover:opacity-50 md:mt-[-1%] lg:mt-[-2%]"
             onClick={handleStopConversation}
           >
             <IconPlayerStop size={16} className="inline-block mb-[2px]" /> Stop Generating
           </button>
         )}
-        <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-gray-[#373B3E] dark:text-white dark:bg-[#000000] rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] mx-3 md:mx-0">
+        <div className="relative mx-2 flex w-full flex-grow flex-col rounded-md border border-black/10  shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#202123] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] sm:mx-4">
+          {/* {persona === PersonaType.DEFAULT ? (
+            <div className="absolute left-2 top-2 rounded-sm p-1 text-neutral-800 opacity-60 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200">
+              <IconBolt size={20} />
+            </div>
+          ) : (
+            <img
+              src={
+                persona == PersonaType.LEARN_WEB3
+                  ? 'web3.png'
+                  : persona == PersonaType.WEB3_DEVELOPER
+                  ? 'coding.png'
+                  : persona == PersonaType.DEFI_TRADER
+                  ? 'broker.png'
+                  : persona == PersonaType.NFT_DEGEN
+                  ? 'art.png'
+                  : 'web3.png'
+              }
+              width={26}
+              alt=""
+              className="absolute left-2 top-2 rounded-sm p-1 text-neutral-800 opacity-60 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200"
+            />
+          )} */}
+
           <textarea
             ref={textareaRef}
-            className="text-black dark:text-white m-0 w-full resize-none outline-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0 p-1"
+            className="m-0 w-full resize-none border-0 bg-transparent p-0 py-2 pr-8 text-black dark:bg-transparent dark:text-white py-3 focus:outline-none focus:border-none pl-4"
             style={{
               resize: 'none',
               bottom: `${textareaRef?.current?.scrollHeight}px`,
               maxHeight: '400px',
               overflow: `${textareaRef.current && textareaRef.current.scrollHeight > 400 ? 'auto' : 'hidden'}`,
             }}
-            placeholder='Type a message or type "/" to select a prompt'
+            placeholder={'Type a message...' || ''}
             value={content}
             rows={1}
             onCompositionStart={() => setIsTyping(true)}
@@ -118,12 +141,12 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
           </button>
         </div>
       </div>
-      <div className="px-3 pt-2 pb-3 text-center text-xs text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
-        <a href="https://www.walletguard.app/chatweb3" target="_blank" rel="noreferrer" className="underline">
+      <div className="hidden lg:block px-3 pt-2 pb-3 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
+        <a href="https://walletguard.app" target="_blank" rel="noreferrer" className="underline">
           ChatWeb3
         </a>
-        . Our goal is to make web3, blockchain, and security more natural and safe to interact with. Your feedback will
-        help us improve.
+        .{' '}
+        {'Making web3 accessible to everyone with an AI powered chatbot meant to help you navigate the web3 ecosystem.'}
       </div>
     </div>
   );

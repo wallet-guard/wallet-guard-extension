@@ -15,9 +15,11 @@ import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { ChatWeb3Tab } from '../components/app-dashboard/tabs/chatweb3/components/Chat/ChatWeb3Tab';
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
+  const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
 
   const log = logger.child({ component: 'Popup' });
 
@@ -77,34 +79,42 @@ const Popup = () => {
 
   return (
     <>
-      <div style={{ backgroundColor: 'black' }}>
-        <SimulationHeader />
-      </div>
-
-      <div>
-        {((filteredSimulations[0].state === StoredSimulationState.Success &&
-          filteredSimulations[0].simulation?.warningType === SimulationWarningType.Warn) ||
-          filteredSimulations[0].simulation?.warningType === SimulationWarningType.Info ||
-          filteredSimulations[0].simulation?.error) && (
-          <div>
-            <SimulationOverview
-              warningType={filteredSimulations[0].simulation?.warningType}
-              message={filteredSimulations[0].simulation?.message}
-              method={filteredSimulations[0].simulation.method}
-            />
+      {showChatWeb3 ? (
+        // <ChatWeb3Tab />
+        <div></div>
+      ) : (
+        <div>
+          <div style={{ backgroundColor: 'black' }}>
+            <SimulationHeader />
           </div>
-        )}
-      </div>
 
-      {filteredSimulations[0].state === StoredSimulationState.Success && (
-        <div className="pt-4">
-          <ContractDetails storedSimulation={filteredSimulations && filteredSimulations[0]} />
+          <div>
+            {((filteredSimulations[0].state === StoredSimulationState.Success &&
+              filteredSimulations[0].simulation?.warningType === SimulationWarningType.Warn) ||
+              filteredSimulations[0].simulation?.warningType === SimulationWarningType.Info ||
+              filteredSimulations[0].simulation?.error) && (
+              <div>
+                <SimulationOverview
+                  warningType={filteredSimulations[0].simulation?.warningType}
+                  message={filteredSimulations[0].simulation?.message}
+                  method={filteredSimulations[0].simulation.method}
+                />
+              </div>
+            )}
+          </div>
+
+          {filteredSimulations[0].state === StoredSimulationState.Success && (
+            <div className="pt-4">
+              <ContractDetails storedSimulation={filteredSimulations && filteredSimulations[0]} />
+            </div>
+          )}
+
+          <div className="pb-4">
+            <TransactionContent storedSimulation={filteredSimulations && filteredSimulations[0]} />
+          </div>
         </div>
       )}
 
-      <div className="pb-4">
-        <TransactionContent storedSimulation={filteredSimulations && filteredSimulations[0]} />
-      </div>
       <div style={{ height: '120px' }} />
       <ConfirmSimulationButton storedSimulation={filteredSimulations && filteredSimulations[0]} />
     </>
