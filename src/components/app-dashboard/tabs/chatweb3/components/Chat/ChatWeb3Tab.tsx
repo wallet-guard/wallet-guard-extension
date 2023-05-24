@@ -26,8 +26,8 @@ export const ChatWeb3Tab = () => {
   return (
     <>
       {selectedConversation && (
-        <div className={`flex flex-col h-screen text-white dark:text-white text-sm ${lightMode}`}>
-          <div className="flex h-full w-full  sm:pt-0">
+        <div className={`d-flex flex-column text-white`} style={{ fontSize: '0.875rem', height: '100vh' }}>
+          <div className="d-flex h-100 w-100 pt-0">
             <Chat
               conversation={selectedConversation}
               messageIsStreaming={messageIsStreaming}

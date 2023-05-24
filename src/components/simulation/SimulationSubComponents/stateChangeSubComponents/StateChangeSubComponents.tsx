@@ -22,7 +22,10 @@ function roundNumberIfNeccessary(num: string): string {
 export const RevokeApprovalForAll = () => {
   return (
     <>
-      <h3 style={{ color: '#17FE00', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
+      <h3
+        style={{ color: '#17FE00', fontSize: '16px', marginBottom: '0px' }}
+        className={`${styles['font-archivo-bold']}`}
+      >
         <b>
           Revoking permission <br /> to withdraw ALL
         </b>
@@ -34,7 +37,10 @@ export const RevokeApprovalForAll = () => {
 export const SetTokenApproval = ({ stateChange }: { stateChange: SimulationStateChange }) => {
   return (
     <>
-      <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
+      <h3
+        style={{ color: '#fb4b4b', fontSize: '16px', marginBottom: '0px' }}
+        className={`${styles['font-archivo-bold']}`}
+      >
         <b>
           Permission to <br /> withdraw {stateChange.symbol}
         </b>
@@ -60,7 +66,7 @@ export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
       )}
 
       <h3
-        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px' }}
+        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: '0px' }}
         className={`${styles['font-archivo-bold']}`}
       >
         <b>
@@ -80,7 +86,10 @@ export const SetApproval = () => {
         width={33}
         style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
       />
-      <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
+      <h3
+        style={{ color: '#fb4b4b', fontSize: '16px', marginBottom: '0px' }}
+        className={`${styles['font-archivo-bold']}`}
+      >
         <b>
           Permission to <br /> withdraw NFT
         </b>

@@ -72,23 +72,23 @@ const PluginGrid: React.FC<Props> = ({ onSend }) => {
   }, []);
 
   return (
-    <div className="container mx-auto p-4z">
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+    <div className="container" style={{ padding: '2rem', margin: 'auto' }}>
+      <div className="row">
         {plugins &&
           plugins.map((plugin, index) => (
-            <PluginCard
-              key={index}
-              image={plugin.image}
-              title={plugin.title}
-              persona={plugin.persona}
-              description={plugin.description}
-              onSelect={() => handleSelect(plugin.title)}
-              onSend={onSend}
-            />
+            <div className="col-12 col-lg-6 col-xl-3 mb-4" key={index}>
+              <PluginCard
+                image={plugin.image}
+                title={plugin.title}
+                persona={plugin.persona}
+                description={plugin.description}
+                onSelect={() => handleSelect(plugin.title)}
+                onSend={onSend}
+              />
+            </div>
           ))}
       </div>
     </div>
   );
 };
-
 export default PluginGrid;

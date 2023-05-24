@@ -17,20 +17,60 @@ const PluginCard: React.FC<PluginCardProps> = ({ image, title, description, onSe
   };
 
   return (
-    <div className="bg-[#202123] rounded-lg shadow-md pt-4 w-245 h-287 mx-2 flex flex-col">
-      <div className="flex-grow pl-4 pr-4 pb-4">
-        <div className="flex w-[120px]">
-          <img className="w-1/3 h-full object-cover rounded-md" src={image} alt={title} />
+    <div
+      style={{
+        backgroundColor: '#202123',
+        borderRadius: '0.5rem',
+        paddingTop: '1rem',
+        width: '255px',
+        height: '287px',
+        margin: '0 0.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <div
+        style={{
+          flexGrow: 1,
+          paddingLeft: '1rem',
+          paddingRight: '1rem',
+          paddingBottom: '1.5rem',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <div style={{ display: 'flex', width: '120px' }}>
+          <img
+            style={{ width: '33.33%', height: '100%', objectFit: 'cover', borderRadius: '0.375rem' }}
+            src={image}
+            alt={title}
+          />
         </div>
-        <div className="flex h-3/3">
-          <div className="flex flex-col justify-between w-3/3 pt-[70px]">
-            <h3 className="text-[24px] font-semibold">{title}</h3>
+        <div style={{ display: 'flex', height: '100%' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              width: '100%',
+              paddingTop: '50px',
+            }}
+          >
+            <h3 style={{ fontSize: '24px', fontWeight: '600' }}>{title}</h3>
           </div>
         </div>
-        <p className="text-[16px] mt-4 text-[#80808F]">{description}</p>
+        <p style={{ fontSize: '16px', marginTop: '0.5rem', color: '#80808F' }}>{description}</p>
       </div>
       <button
-        className="bg-[#19FF00] font-bold text-black w-full py-3 rounded-b-md hover:[#19FF00] transition-colors duration-200"
+        className="btn btn-block"
+        style={{
+          backgroundColor: '#19FF00',
+          fontWeight: '700',
+          color: 'black',
+          marginTop: '-26px',
+          padding: '0.75rem',
+          borderRadius: '0 0 0.375rem 0.375rem',
+        }}
         onClick={() => createNewPersona(persona)}
         disabled={persona === PersonaType.NFT_DEGEN}
       >

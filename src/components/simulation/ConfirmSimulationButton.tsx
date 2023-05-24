@@ -5,7 +5,15 @@ import { simulationNeedsAction, StoredSimulationState, updateSimulationState } f
 import { SimulationMethodType, SimulationWarningType } from '../../models/simulation/Transaction';
 import styles from './simulation.module.css';
 
-export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation: StoredSimulation }) => {
+export const ConfirmSimulationButton = ({
+  storedSimulation,
+  showChatWeb3,
+  setShowChatWeb3,
+}: {
+  storedSimulation: StoredSimulation;
+  showChatWeb3?: any;
+  setShowChatWeb3?: any;
+}) => {
   const { id, signer, state } = storedSimulation;
 
   if (simulationNeedsAction(state)) {
@@ -15,8 +23,12 @@ export const ConfirmSimulationButton = ({ storedSimulation }: { storedSimulation
           <button
             className="pt-3 text-center"
             style={{ textDecoration: 'underline', color: 'white', background: 'none', border: 'none', outline: 'none' }}
+            onClick={() => {
+              setShowChatWeb3(!showChatWeb3);
+              posthog.capture('chatweb3 from tas clicked');
+            }}
           >
-            Have any questions?
+            Ask our AI about this transaction
           </button>
         </div>
 

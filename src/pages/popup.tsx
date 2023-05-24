@@ -103,40 +103,50 @@ const Popup = () => {
 
   return (
     <>
-      <div style={{ backgroundColor: 'black' }}>
-        <SimulationHeader />
-      </div>
-      {showSurvey && <SimulationSurvey />}
-
-      <div>
-        {((currentSimulation.state === StoredSimulationState.Success &&
-          currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
-          currentSimulation.simulation?.warningType === SimulationWarningType.Info ||
-          currentSimulation.simulation?.error) && (
-          <div>
-            <SimulationOverview
-              warningType={currentSimulation.simulation.warningType}
-              message={currentSimulation.simulation.message || []}
-              method={currentSimulation.simulation.method}
-            />
-          </div>
-        )}
-      </div>
-
-      {currentSimulation.state === StoredSimulationState.Success && (
-        <div className="pt-4">
-          <ContractDetails storedSimulation={currentSimulation} />
-        </div>
-      )}
-
-      <div className="pb-4">
-        <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
-      </div>
-      <div style={{ height: '120px' }} />
-      {currentSimulation.args?.bypassed ? (
-        <BypassedSimulationButton storedSimulation={currentSimulation} />
+      {showChatWeb3 ? (
+        <ChatWeb3Tab />
       ) : (
-        <ConfirmSimulationButton storedSimulation={currentSimulation} />
+        <div style={{ height: '100vh' }}>
+          <div style={{ backgroundColor: 'black' }}>
+            <SimulationHeader />
+          </div>
+          {showSurvey && <SimulationSurvey />}
+
+          <div>
+            {((currentSimulation.state === StoredSimulationState.Success &&
+              currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
+              currentSimulation.simulation?.warningType === SimulationWarningType.Info ||
+              currentSimulation.simulation?.error) && (
+              <div>
+                <SimulationOverview
+                  warningType={currentSimulation.simulation.warningType}
+                  message={currentSimulation.simulation.message || []}
+                  method={currentSimulation.simulation.method}
+                />
+              </div>
+            )}
+          </div>
+
+          {currentSimulation.state === StoredSimulationState.Success && (
+            <div className="pt-4">
+              <ContractDetails storedSimulation={currentSimulation} />
+            </div>
+          )}
+
+          <div className="pb-4">
+            <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
+          </div>
+          <div style={{ height: '140px' }} />
+          {currentSimulation.args?.bypassed ? (
+            <BypassedSimulationButton storedSimulation={currentSimulation} />
+          ) : (
+            <ConfirmSimulationButton
+              showChatWeb3={showChatWeb3}
+              setShowChatWeb3={setShowChatWeb3}
+              storedSimulation={currentSimulation}
+            />
+          )}
+        </div>
       )}
     </>
   );

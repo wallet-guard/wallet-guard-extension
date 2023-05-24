@@ -15,15 +15,35 @@ export const Navbar = () => {
 
   return (
     <div
-      className="bg-[#232323] h-16 flex items-center justify-between px-4"
-      style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)' }}
+      style={{
+        backgroundColor: '#232323',
+        height: '4rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '1rem',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)',
+      }}
     >
-      <div className="flex items-center flex-1">
-        <img className="h-8 w-auto" src="/images/wg_logos/Logo-Large-Transparent.png" alt="Logo" />
-        <h1 className="text-white font-large text-lg ml-2">
-          <b>ChatWeb3</b>
-        </h1>
+      <div style={{ display: 'flex', alignItems: 'center', flex: '1' }}>
+        <img style={{ height: '2rem', width: 'auto' }} src="/images/wg_logos/Logo-Large-Transparent.png" alt="Logo" />
+        <h1 style={{ color: 'white', fontSize: '1.25rem', marginLeft: '0.5rem', fontWeight: 'bold' }}>ChatWeb3</h1>
       </div>
     </div>
   );
 };
+
+// return (
+//   <div
+//     className="bg-[#232323] h-16 flex items-center justify-between px-4"
+//     style={{ boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)' }}
+//   >
+//     <div className="flex items-center flex-1">
+//       <img className="h-8 w-auto" src="/images/wg_logos/Logo-Large-Transparent.png" alt="Logo" />
+//       <h1 className="text-white font-large text-lg ml-2">
+//         <b>ChatWeb3</b>
+//       </h1>
+//     </div>
+//   </div>
+// );
+// };
