@@ -107,7 +107,7 @@ const Popup = () => {
     <>
       {showChatWeb3 ? (
         <ChakraProvider theme={theme}>
-          <ChatWeb3Tab showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
+          <ChatWeb3Tab showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} fromSimulation={true} />
         </ChakraProvider>
       ) : (
         <div style={{ height: '100vh' }}>

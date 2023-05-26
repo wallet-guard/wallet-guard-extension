@@ -190,6 +190,7 @@ interface Props {
   stopConversationRef: MutableRefObject<boolean>;
   showChatWeb3?: any;
   setShowChatWeb3?: any;
+  fromSimulation?: boolean;
 }
 
 export const Chat: FC<Props> = ({
@@ -205,6 +206,7 @@ export const Chat: FC<Props> = ({
   stopConversationRef,
   showChatWeb3,
   setShowChatWeb3,
+  fromSimulation,
 }) => {
   const [currentMessage, setCurrentMessage] = useState<Message>();
 
@@ -249,7 +251,7 @@ export const Chat: FC<Props> = ({
         backgroundColor: lightMode === 'dark' ? '#161616' : 'initial',
       }}
     >
-      <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
+      <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} fromSimulation={fromSimulation} />
 
       {conversation?.messages.length === 0 ? (
         <>

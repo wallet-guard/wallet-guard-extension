@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useChat } from '../../../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
 
-export const ChatWeb3Tab = ({ showChatWeb3, setShowChatWeb3 }: { showChatWeb3?: any; setShowChatWeb3?: any }) => {
+export const ChatWeb3Tab = ({
+  showChatWeb3,
+  setShowChatWeb3,
+  fromSimulation,
+}: {
+  showChatWeb3?: any;
+  setShowChatWeb3?: any;
+  fromSimulation?: boolean;
+}) => {
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
   const {
     selectedConversation,
@@ -41,6 +49,7 @@ export const ChatWeb3Tab = ({ showChatWeb3, setShowChatWeb3 }: { showChatWeb3?: 
               onSend={handleSend}
               onUpdateConversation={handleUpdateConversation}
               stopConversationRef={stopConversationRef}
+              fromSimulation={fromSimulation}
             />
           </div>
         </div>
