@@ -64,34 +64,37 @@ export const useChat = () => {
       console.log(body);
 
       const controller = new AbortController();
-      const response = await fetch('http://0.0.0.0:8080/v2/chat', {
+      const res = await fetch('http://0.0.0.0:8080/v2/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        signal: controller.signal,
+
         body: body,
       });
 
+      const response = new Response(res.body);
+
       if (!response.ok) {
+        console.log('hey');
         setLoading(false);
         setMessageIsStreaming(false);
         setMessageError(true);
         return;
       }
-
-      const res = new Response(response.body);
 
       const data = res.body;
 
       if (!data) {
+        console.log('heyyyyy');
+
         setLoading(false);
         setMessageIsStreaming(false);
         setMessageError(true);
 
         return;
       }
-
-      setLoading(false);
 
       const reader = data.getReader();
       const decoder = new TextDecoder();
@@ -112,6 +115,7 @@ export const useChat = () => {
         text += chunkValue;
 
         if (isFirst) {
+          setLoading(false);
           isFirst = false;
           const updatedMessages: Message[] = [
             ...updatedConversation.messages,

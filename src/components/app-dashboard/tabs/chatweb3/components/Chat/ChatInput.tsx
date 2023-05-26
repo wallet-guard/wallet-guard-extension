@@ -155,9 +155,11 @@
 import { IconPlayerStop, IconSend } from '@tabler/icons-react';
 import { FC, KeyboardEvent, MutableRefObject, useEffect, useRef, useState } from 'react';
 import React from 'react';
+import { Button, ButtonGroup } from '@chakra-ui/react';
 import { Message, OpenAIModel, OpenAIModelID } from '../../../../../../models/chatweb3/chatweb3';
 import '../../styles/globals.css';
 
+import { Spinner } from '@chakra-ui/react';
 interface Props {
   messageIsStreaming: boolean;
   onSend: (message: Message) => void;
@@ -172,9 +174,13 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
 
   const [hideOnLargeScreens, setHideOnLargeScreens] = useState(false);
 
+  chrome.tabs.query({ active: true, lastFocusedWindow: false }, function (tabs) {
+    console.log(tabs[0].url);
+  });
+
   useEffect(() => {
     const handleResize = () => {
-      setHideOnLargeScreens(window.matchMedia('(min-width: 1024px)').matches);
+      setHideOnLargeScreens(window.matchMedia('(min-width: 600px)').matches);
     };
 
     // Add event listener to update the state on resize
@@ -201,18 +207,23 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
     setContent(value);
   };
 
-  const handleSend = () => {
+  const handleSend = (exampleQuestion?: string) => {
     if (messageIsStreaming) {
       return;
     }
 
-    if (!content) {
-      alert('Please enter a message');
-      return;
-    }
+    if (exampleQuestion) {
+      onSend({ role: 'user', content: exampleQuestion });
+      setContent('');
+    } else {
+      if (!content) {
+        alert('Please enter a message');
+        return;
+      }
 
-    onSend({ role: 'user', content });
-    setContent('');
+      onSend({ role: 'user', content });
+      setContent('');
+    }
 
     if (window.innerWidth < 640 && textareaRef && textareaRef.current) {
       textareaRef.current.blur();
@@ -275,13 +286,14 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
         }}
       >
         <div style={{ width: '100%', maxWidth: '860px' }}>
-          {messageIsStreaming && (
+          {/* {messageIsStreaming && hideOnLargeScreens && (
             <button
               style={{
                 position: 'absolute',
                 top: '0.5rem',
                 left: '0',
                 right: '0',
+                maxWidth: '200px',
                 margin: 'auto',
                 background: '#161616',
                 border: '1px solid gray',
@@ -294,12 +306,52 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
               <IconPlayerStop size={16} style={{ display: 'inline-block', marginBottom: '0.125rem', color: 'white' }} />{' '}
               Stop Generating
             </button>
+          )} */}
+          {!hideOnLargeScreens && (
+            <div>
+              <div className="pb-2" style={{ textAlign: 'left' }}>
+                <ButtonGroup variant="outline" size="md" spacing="2">
+                  <Button
+                    onClick={() => {
+                      handleSend('How to buy NFTs?');
+                    }}
+                  >
+                    How to buy NFTs?
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleSend('How to list items?');
+                    }}
+                  >
+                    How to list items?
+                  </Button>
+                </ButtonGroup>
+              </div>
+              <div className="pb-2" style={{ textAlign: 'left' }}>
+                <ButtonGroup variant="outline" size="md" spacing="2">
+                  <Button
+                    onClick={() => {
+                      handleSend('How to cancel listings?');
+                    }}
+                  >
+                    How to cancel listings?
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleSend(' How to create an NFT?');
+                    }}
+                  >
+                    How to create an NFT?
+                  </Button>
+                </ButtonGroup>
+              </div>
+            </div>
           )}
+
           <div
             style={{
               position: 'relative',
-              marginLeft: '1rem',
-              marginRight: '1rem',
+
               display: 'flex',
               flexGrow: 1,
               flexDirection: 'column',
@@ -321,6 +373,8 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
                 background: 'transparent',
                 padding: '0',
                 paddingTop: '0.75rem',
+                outline: 'none', // added this line
+
                 paddingBottom: '0.75rem',
                 paddingLeft: '1rem',
                 paddingRight: '2rem',
@@ -348,27 +402,14 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
                 background: 'transparent',
                 border: 'transparent',
               }}
-              onClick={handleSend}
+              onClick={() => handleSend}
             >
-              {messageIsStreaming ? (
-                <div
-                  style={{
-                    height: '1rem',
-                    width: '1rem',
-                    animation: 'spin 1s linear infinite',
-                    borderRadius: '50%',
-                    borderTop: '2px solid white',
-                    opacity: '0.6',
-                  }}
-                ></div>
-              ) : (
-                <IconSend size={18} />
-              )}
+              {messageIsStreaming ? <Spinner color="gray.500" size="md" /> : <IconSend size={18} />}
             </button>
           </div>
         </div>
       </div>
-      {hideOnLargeScreens && (
+      {hideOnLargeScreens ? (
         <div
           style={{
             paddingLeft: '0.75rem',
@@ -389,6 +430,23 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
           </a>
           . Making web3 accessible to everyone with an AI-powered chatbot meant to help you navigate the web3 ecosystem.
         </div>
+      ) : (
+        <div
+          style={{
+            paddingTop: '0.2rem',
+            paddingBottom: '0.75rem',
+            textAlign: 'center',
+            fontSize: '0.85rem',
+            color: 'rgba(255,255,255,0.5)',
+          }}
+        >
+          Powered by <span style={{ fontWeight: 'bold' }}>Wallet Guard</span>
+        </div>
+
+        //        <div style={{ display: 'flex', alignItems: 'center', flex: '1' }}>
+        //   <div style={{ textAlign: 'right', fontWeight: 'bold', marginRight: '0.5rem' }}>Extended Opensea support</div>
+        //   <img src="/images/opensea.svg" alt="" width={20} />
+        // </div>
       )}
     </div>
   );

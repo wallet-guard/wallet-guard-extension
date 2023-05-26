@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Kbd } from '@chakra-ui/react';
+import { CloseButton } from '@chakra-ui/react';
 
 export const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -12,6 +14,18 @@ export const Navbar = () => {
     setSelectedModel(model);
     setIsDropdownOpen(false);
   };
+
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    };
+  }, []);
 
   return (
     <div
@@ -27,8 +41,17 @@ export const Navbar = () => {
     >
       <div style={{ display: 'flex', alignItems: 'center', flex: '1' }}>
         <img style={{ height: '2rem', width: 'auto' }} src="/images/wg_logos/Logo-Large-Transparent.png" alt="Logo" />
-        <h1 style={{ color: 'white', fontSize: '1.25rem', marginLeft: '0.5rem', fontWeight: 'bold' }}>ChatWeb3</h1>
+        <h1 style={{ color: 'white', fontSize: '1.25rem', marginLeft: '0.5rem', fontWeight: 'bold', marginTop: '6px' }}>
+          ChatWeb3
+        </h1>
       </div>
+      {width > 768 ? (
+        <span style={{ textAlign: 'right', fontWeight: 'bold' }}>
+          Hotkey: <Kbd>command</Kbd> + <Kbd>shift</Kbd> + <Kbd>U</Kbd>
+        </span>
+      ) : (
+        <CloseButton size="lg" />
+      )}
     </div>
   );
 };

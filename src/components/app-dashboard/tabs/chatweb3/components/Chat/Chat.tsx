@@ -239,7 +239,9 @@ export const Chat: FC<Props> = ({
       style={{
         position: 'relative',
         flex: 1,
-        overflow: 'none',
+        overflow: 'hidden',
+        maxHeight: '100%',
+
         backgroundColor: lightMode === 'dark' ? '#161616' : 'initial',
       }}
     >
@@ -265,7 +267,7 @@ export const Chat: FC<Props> = ({
                   color: lightMode === 'dark' ? 'white' : '#404040',
                 }}
               >
-                <div>Who are you?</div>
+                <div>Choose your plugin</div>
               </div>
 
               <div>

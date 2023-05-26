@@ -19,6 +19,8 @@ import { BypassedSimulationButton } from '../components/simulation/SimulationSub
 import { SimulationSurvey } from '../components/simulation/SimulationSurvey';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from '../lib/theme';
 
 const Popup = () => {
   const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
@@ -104,7 +106,9 @@ const Popup = () => {
   return (
     <>
       {showChatWeb3 ? (
-        <ChatWeb3Tab />
+        <ChakraProvider theme={theme}>
+          <ChatWeb3Tab />
+        </ChakraProvider>
       ) : (
         <div style={{ height: '100vh' }}>
           <div style={{ backgroundColor: 'black' }}>
