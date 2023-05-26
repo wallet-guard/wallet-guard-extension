@@ -6,6 +6,7 @@ import { getCurrentSite } from '../../../../services/phishing/currentSiteService
 import { posthog } from 'posthog-js';
 import { add3Dots } from '../../../app-dashboard/tabs/extensions/ExtensionsTab';
 import { CDN_URL_PROD } from '../../../../lib/environment';
+import { DappLogoWithChain } from '../../../simulation/DappLogoWithChain';
 
 type ThemeColors = 'green' | 'red' | 'orange' | 'gray' | 'blue'; // todo: add the rest
 interface PhishingTabTheme {
@@ -110,7 +111,18 @@ export const PhishingTab = () => {
         src={`images/popup/actionPopup/${theme.color}-glow.png`}
       />
       <div className={styles.centeredContainer}>
-        <img width={'100px'} style={{ marginTop: '20px', marginBottom: '20px' }} src={theme.logoPath} />
+        {verified ? (
+          <DappLogoWithChain
+            name="opensea.io"
+            chainLogoPath="/images/asset_logos/eth-mainnet.png"
+            logoPath="https://cdn.walletguard.app/url/assets/opensea-250.png"
+            color={'blue'}
+            isLoading={false}
+          />
+        ) : (
+          <img width={'100px'} style={{ marginTop: '20px', marginBottom: '20px' }} src={theme.logoPath} />
+        )}
+
         <div className={styles.centeredContainer}>
           <p className={styles.currentURL}>
             Current URL: <span className={styles[`text-${theme.color}`]}>{add3Dots(url, 30)}</span>

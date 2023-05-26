@@ -9,6 +9,7 @@ import { useTab } from '../../lib/hooks/useNavigation';
 import { SettingsTab } from './tabs/Settings/SettingsTab';
 import { WalletsTab } from './tabs/Wallets/WalletTab';
 import { DappLogoWithChain } from '../simulation/DappLogoWithChain';
+import { PopupAlertsTable } from './tabs/Alerts/PopupAlertTable';
 
 export const ActionPopupContainer = () => {
   const tabData = useTab();
@@ -16,15 +17,16 @@ export const ActionPopupContainer = () => {
   function renderSelectedTab() {
     switch (tabData.currentTab) {
       case ActionPopupTab.AlertsTab:
-        return (
-          <DappLogoWithChain
-            name="opensea.io"
-            chainLogoPath="/images/asset_logos/eth-mainnet.png"
-            logoPath="https://cdn.walletguard.app/url/assets/opensea-250.png"
-            color={'blue'}
-            isLoading={false}
-          />
-        );
+        return <PopupAlertsTable />;
+      // return (
+      //   <DappLogoWithChain
+      //     name="opensea.io"
+      //     chainLogoPath="/images/asset_logos/eth-mainnet.png"
+      //     logoPath="https://cdn.walletguard.app/url/assets/opensea-250.png"
+      //     color={'blue'}
+      //     isLoading={false}
+      //   />
+      // );
       case ActionPopupTab.PhishingTab:
         return <PhishingTab />;
       case ActionPopupTab.ChatWeb3Tab:
