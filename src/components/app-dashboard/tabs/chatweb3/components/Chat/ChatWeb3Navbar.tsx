@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
 import { CloseButton } from '@chakra-ui/react';
+import { IconArrowBarLeft, IconArrowBarRight, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 
-export const Navbar = () => {
+export const Navbar = ({ showChatWeb3, setShowChatWeb3 }: { showChatWeb3?: any; setShowChatWeb3?: any }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState('Default (GPT-3.5)');
 
@@ -40,6 +41,9 @@ export const Navbar = () => {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', flex: '1' }}>
+        <button onClick={() => setShowChatWeb3(!showChatWeb3)}>
+          <IconChevronLeft size={35} className="pr-1" />
+        </button>
         <img style={{ height: '2rem', width: 'auto' }} src="/images/wg_logos/Logo-Large-Transparent.png" alt="Logo" />
         <h1 style={{ color: 'white', fontSize: '1.25rem', marginLeft: '0.5rem', fontWeight: 'bold', marginTop: '6px' }}>
           ChatWeb3
@@ -50,7 +54,7 @@ export const Navbar = () => {
           Hotkey: <Kbd>command</Kbd> + <Kbd>shift</Kbd> + <Kbd>U</Kbd>
         </span>
       ) : (
-        <CloseButton size="lg" />
+        <CloseButton size="lg" onClick={() => setShowChatWeb3(!showChatWeb3)} />
       )}
     </div>
   );

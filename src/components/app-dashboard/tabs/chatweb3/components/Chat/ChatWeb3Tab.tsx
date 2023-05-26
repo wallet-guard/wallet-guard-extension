@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useChat } from '../../../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
 
-export const ChatWeb3Tab = () => {
+export const ChatWeb3Tab = ({ showChatWeb3, setShowChatWeb3 }: { showChatWeb3?: any; setShowChatWeb3?: any }) => {
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
   const {
     selectedConversation,
@@ -33,6 +33,8 @@ export const ChatWeb3Tab = () => {
               messageIsStreaming={messageIsStreaming}
               modelError={modelError}
               messageError={messageError}
+              showChatWeb3={showChatWeb3}
+              setShowChatWeb3={setShowChatWeb3}
               models={models}
               loading={loading}
               lightMode={lightMode}

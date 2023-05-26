@@ -188,6 +188,8 @@ interface Props {
   onSend: (message: Message, isResend: boolean) => void;
   onUpdateConversation: (conversation: Conversation, data: KeyValuePair) => void;
   stopConversationRef: MutableRefObject<boolean>;
+  showChatWeb3?: any;
+  setShowChatWeb3?: any;
 }
 
 export const Chat: FC<Props> = ({
@@ -201,6 +203,8 @@ export const Chat: FC<Props> = ({
   onSend,
   onUpdateConversation,
   stopConversationRef,
+  showChatWeb3,
+  setShowChatWeb3,
 }) => {
   const [currentMessage, setCurrentMessage] = useState<Message>();
 
@@ -245,7 +249,7 @@ export const Chat: FC<Props> = ({
         backgroundColor: lightMode === 'dark' ? '#161616' : 'initial',
       }}
     >
-      <Navbar />
+      <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
 
       {conversation?.messages.length === 0 ? (
         <>

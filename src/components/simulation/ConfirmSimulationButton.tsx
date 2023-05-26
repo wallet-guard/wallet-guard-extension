@@ -21,8 +21,15 @@ export const ConfirmSimulationButton = ({
       <div className={` ${styles['footer-container']} `}>
         <div className={` ${styles['center-button']}`}>
           <button
-            className="pt-3 text-center"
-            style={{ textDecoration: 'underline', color: 'white', background: 'none', border: 'none', outline: 'none' }}
+            className="mt-3 text-center"
+            style={{
+              textDecoration: 'underline',
+              color: 'white',
+              background: 'none',
+              border: 'none',
+              outline: 'none',
+              cursor: 'pointer',
+            }}
             onClick={() => {
               setShowChatWeb3(!showChatWeb3);
               posthog.capture('chatweb3 from tas clicked');
