@@ -6,10 +6,12 @@ export const ChatWeb3Tab = ({
   showChatWeb3,
   setShowChatWeb3,
   fromSimulation,
+  storedSimulation,
 }: {
   showChatWeb3?: any;
   setShowChatWeb3?: any;
   fromSimulation?: boolean;
+  storedSimulation?: any;
 }) => {
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
   const {
@@ -50,6 +52,7 @@ export const ChatWeb3Tab = ({
               onUpdateConversation={handleUpdateConversation}
               stopConversationRef={stopConversationRef}
               fromSimulation={fromSimulation}
+              storedSimulation={storedSimulation}
             />
           </div>
         </div>

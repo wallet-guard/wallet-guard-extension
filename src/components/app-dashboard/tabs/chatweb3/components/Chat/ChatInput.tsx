@@ -402,7 +402,7 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
                 background: 'transparent',
                 border: 'transparent',
               }}
-              onClick={() => handleSend}
+              onClick={() => handleSend()}
             >
               {messageIsStreaming ? <Spinner color="gray.500" size="md" /> : <IconSend size={18} />}
             </button>

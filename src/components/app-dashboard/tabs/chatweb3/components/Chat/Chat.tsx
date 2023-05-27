@@ -185,12 +185,13 @@ interface Props {
   messageError: boolean;
   loading: boolean;
   lightMode: 'light' | 'dark';
-  onSend: (message: Message, isResend: boolean) => void;
+  onSend: (message: Message, isResend: boolean, storedSimulation?: any) => void;
   onUpdateConversation: (conversation: Conversation, data: KeyValuePair) => void;
   stopConversationRef: MutableRefObject<boolean>;
   showChatWeb3?: any;
   setShowChatWeb3?: any;
   fromSimulation?: boolean;
+  storedSimulation?: any;
 }
 
 export const Chat: FC<Props> = ({
@@ -207,6 +208,7 @@ export const Chat: FC<Props> = ({
   showChatWeb3,
   setShowChatWeb3,
   fromSimulation,
+  storedSimulation,
 }) => {
   const [currentMessage, setCurrentMessage] = useState<Message>();
 
@@ -279,7 +281,7 @@ export const Chat: FC<Props> = ({
               <div>
                 <PluginGrid
                   onSend={(plugin: any) => {
-                    // ...rest of your code
+                    // setCurrentMessage({ role: 'user', content: 'plugin' });
                   }}
                 />
               </div>
@@ -321,7 +323,11 @@ export const Chat: FC<Props> = ({
             textareaRef={textareaRef}
             onSend={(message) => {
               setCurrentMessage(message);
-              onSend(message, false);
+              if (storedSimulation) {
+                onSend(message, false, storedSimulation);
+              } else {
+                onSend(message, false);
+              }
             }}
             model={conversation.model}
           />

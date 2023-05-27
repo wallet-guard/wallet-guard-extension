@@ -24,7 +24,7 @@ export const useChat = () => {
   const stopConversationRef = useRef<boolean>(false);
   const [conversationID] = useState(uuidv4());
 
-  const handleSend = async (message: Message, isResend: boolean) => {
+  const handleSend = async (message: Message, isResend: boolean, storedSimulation: any = null) => {
     if (selectedConversation) {
       let updatedConversation: Conversation;
 
