@@ -1,5 +1,5 @@
 import { WalletType, supportedWallets } from '../../lib/config/features';
-import { EDS_URL_PROD } from '../../lib/environment';
+import { SERVER_URL_PROD } from '../../lib/environment';
 import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
@@ -16,7 +16,7 @@ export interface VersionCheckResponse {
 
 async function getVersion(wallet: WalletType): Promise<string | null> {
   try {
-    const request: VersionCheckResponse = await (await httpClient.get(`${EDS_URL_PROD}/version/${wallet}`))?.json();
+    const request: VersionCheckResponse = await (await httpClient.get(`${SERVER_URL_PROD}/version/${wallet}`))?.json();
     return request.version;
   } catch (e) {
     return null;

@@ -1,6 +1,6 @@
 import { ErrorType, SimulationErrorResponse, SimulationResponse, TransactionArgs } from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
-import { TAS_SERVER_URL_PROD } from '../environment';
+import { SERVER_URL_PROD } from '../environment';
 
 // TODO: add unit tests for these 2 functions
 export const fetchSimulate = async (args: TransactionArgs): Promise<Response> => {
@@ -117,34 +117,34 @@ export const fetchSignature = async (
   }
 };
 
-function getSimulationEndpoint(chainId: string): string {
-  switch (chainId) {
+export function getSimulationEndpoint(chainId: string): string {
+  switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':
-      return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
     case "0xa4b1":
     case '42161':
-      return `${TAS_SERVER_URL_PROD}/v0/arb/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/arb/mainnet/transaction`;
     case '0x89':
     case '137':
-      return `${TAS_SERVER_URL_PROD}/v0/polygon/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/polygon/mainnet/transaction`;
     default:
-      return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
   }
 }
 
-function getSignatureEndpoint(chainId: string): string {
-  switch (chainId) {
+export function getSignatureEndpoint(chainId: string): string {
+  switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':
-      return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/signature`;
+      return `${SERVER_URL_PROD}/eth/mainnet/signature`;
     case '0xa4b1':
     case '42161':
-      return `${TAS_SERVER_URL_PROD}/v0/arb/mainnet/signature`;
+      return `${SERVER_URL_PROD}/arb/mainnet/signature`;
     case '0x89':
     case '137':
-      return `${TAS_SERVER_URL_PROD}/v0/polygon/mainnet/signature`;
+      return `${SERVER_URL_PROD}/polygon/mainnet/signature`;
     default:
-      return `${TAS_SERVER_URL_PROD}/v0/eth/mainnet/signature`;
+      return `${SERVER_URL_PROD}/eth/mainnet/signature`;
   }
 }
