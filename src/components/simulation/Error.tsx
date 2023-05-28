@@ -5,34 +5,35 @@ import { ErrorType, SimulationWarningType } from '../../models/simulation/Transa
 import { ConfirmSimulationButton } from './ConfirmSimulationButton';
 import { SimulationHeader } from './SimulationHeader';
 import { SimulationOverview } from './SimulationOverview';
+import { BypassedSimulationButton } from './SimulationSubComponents/BypassButton';
 import GeneralErrorComponent from './SimulationSubComponents/errors/GeneralError';
 import InsufficientFundsComponent from './SimulationSubComponents/errors/InsufficientFundsError';
 import RevertComponent from './SimulationSubComponents/errors/RevertError';
 import UnauthorizedComponent from './SimulationSubComponents/errors/UnauthorizedError';
 
 interface ErrorComponentProps {
-  filteredSimulations: StoredSimulation[];
+  currentSimulation: StoredSimulation;
   type: ErrorType;
 }
 
 export const ErrorComponent = (props: ErrorComponentProps) => {
-  const { filteredSimulations, type } = props;
+  const { currentSimulation, type } = props;
 
   posthog.capture('show simulation error', {
-    filteredSimulations,
+    currentSimulation,
     errorType: type,
   });
 
   function getErrorComponent() {
     switch (type) {
       case ErrorType.Unauthorized:
-        return <UnauthorizedComponent filteredSimulations={filteredSimulations} />;
+        return <UnauthorizedComponent currentSimulation={currentSimulation} />;
       case ErrorType.InsufficientFunds:
-        return <InsufficientFundsComponent filteredSimulations={filteredSimulations} />;
+        return <InsufficientFundsComponent currentSimulation={currentSimulation} />;
       case ErrorType.Revert:
-        return <RevertComponent filteredSimulations={filteredSimulations} />;
+        return <RevertComponent currentSimulation={currentSimulation} />;
       default:
-        return <GeneralErrorComponent filteredSimulations={filteredSimulations} />;
+        return <GeneralErrorComponent currentSimulation={currentSimulation} />;
     }
   }
 
@@ -41,15 +42,15 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
       <SimulationHeader />
 
       <div>
-        {((filteredSimulations[0].state === StoredSimulationState.Success &&
-          filteredSimulations[0].simulation?.warningType === SimulationWarningType.Warn) ||
-          filteredSimulations[0].simulation?.warningType === SimulationWarningType.Info ||
-          filteredSimulations[0].simulation?.error) && (
+        {((currentSimulation.state === StoredSimulationState.Success &&
+          currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
+          currentSimulation.simulation?.warningType === SimulationWarningType.Info ||
+          currentSimulation.simulation?.error) && (
           <div>
             <SimulationOverview
-              warningType={filteredSimulations[0].simulation?.warningType}
-              message={filteredSimulations[0].simulation?.message}
-              method={filteredSimulations[0].simulation.method}
+              warningType={currentSimulation.simulation.warningType}
+              message={currentSimulation.simulation.message || []}
+              method={currentSimulation.simulation.method}
             />
           </div>
         )}
@@ -66,8 +67,11 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
       </div>
 
       {getErrorComponent()}
-
-      <ConfirmSimulationButton storedSimulation={filteredSimulations && filteredSimulations[0]} />
+      {currentSimulation.args?.bypassed ? (
+        <BypassedSimulationButton storedSimulation={currentSimulation} />
+      ) : (
+        <ConfirmSimulationButton storedSimulation={currentSimulation && currentSimulation} />
+      )}
     </div>
   );
 };

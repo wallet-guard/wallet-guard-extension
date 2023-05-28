@@ -5,7 +5,7 @@ import styles from './simulation.module.css';
 export interface OverviewProps {
   warningType: SimulationWarningType;
   message: string[];
-  method?: SimulationMethodType;
+  method?: SimulationMethodType | string;
 }
 
 export const SimulationOverview = (props: OverviewProps) => {
@@ -52,7 +52,7 @@ export const SimulationOverview = (props: OverviewProps) => {
         </div>
 
         <p className={`${styles['font-archivo-medium']} pl-3 pb-3 pr-2`} style={{ color: 'white', fontSize: '16px' }}>
-          {props.message
+          {props.message && props.message.length > 0
             ? props.message.join(' ')
             : 'We seem to be having some trouble simulating this transaction. Please continue with caution.'}
         </p>

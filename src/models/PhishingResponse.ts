@@ -16,9 +16,10 @@ export enum WarningType {
   Similarity = "SIMILARITY",
   RecentlyCreated = "RECENTLY_CREATED",
   Malware = "MALWARE",
-  Homoglpyh = "HOMOGLYPH",
+  Homoglyph = "HOMOGLYPH",
   Blocklisted = "BLOCKLISTED",
-  MLInference = "ML_INFERENCE"
+  MLInference = "ML_INFERENCE",
+  Drainer = "DRAINER"
 }
 
 export enum WarningLevel {

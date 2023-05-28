@@ -1,12 +1,13 @@
 import Browser from 'webextension-polyfill';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
+import { BrowserMessageType, RunSimulationMessageType } from '../lib/helpers/chrome/messageHandler';
 import logger from '../lib/logger';
 import { Settings } from '../lib/settings';
-import { dispatchResponse, listenToRequest, REQUEST_COMMAND, Response } from '../lib/simulation/requests';
+import { dispatchResponse, listenToRequest, Response } from '../lib/simulation/requests';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { removeSimulation, StoredSimulationState } from '../lib/simulation/storage';
-import { RequestArgs } from '../models/simulation/Transaction';
+import { TransactionArgs } from '../models/simulation/Transaction';
 
 // Function to inject scripts into browser
 const addScript = (url: string) => {
@@ -36,7 +37,7 @@ const maybeRemoveId = (id: string) => {
 };
 
 // Listen to Request from injected script
-listenToRequest(async (request: RequestArgs) => {
+listenToRequest(async (request: TransactionArgs) => {
   log.info({ request }, 'Request');
   ids.push(request.id);
 
@@ -64,17 +65,14 @@ listenToRequest(async (request: RequestArgs) => {
         const newSimulations = changes['simulations'].newValue;
 
         newSimulations.forEach((simulation: StoredSimulation) => {
-          log.info('dispatching continue or reject');
           // Either dispatch the corresponding event, or push the item to new simulations.
           if (simulation.state === StoredSimulationState.Confirmed) {
-            log.debug('Dispatch confirmed', simulation.id);
             dispatchResponse({
               id: simulation.id,
               type: Response.Continue,
             });
             maybeRemoveId(simulation.id);
           } else if (simulation.state === StoredSimulationState.Rejected) {
-            log.debug('Dispatch rejected', simulation.id);
             dispatchResponse({
               id: simulation.id,
               type: Response.Reject,
@@ -86,8 +84,8 @@ listenToRequest(async (request: RequestArgs) => {
     });
 
     chrome.runtime.sendMessage({
-      command: REQUEST_COMMAND,
+      type: BrowserMessageType.RunSimulation,
       data: request,
-    });
+    } as RunSimulationMessageType);
   });
 });
