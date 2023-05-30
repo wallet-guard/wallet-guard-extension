@@ -21,6 +21,8 @@ export function convertObjectValuesToString(inputObj: any): any {
       }
 
       output[x] = array;
+    } else if (inputObj[x] === null) {
+      output[x] = null;
     } else if (typeof inputObj[x] === 'object') {
       output[x] = convertObjectValuesToString(inputObj[x]);
     } else if (typeof inputObj[x] === 'number' || typeof inputObj[x] === 'bigint') {
