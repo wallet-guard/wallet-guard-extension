@@ -3,7 +3,7 @@ import { StoredSimulation } from '../../lib/simulation/storage';
 import { DappLogoWithChain } from './DappLogoWithChain';
 import styles from '../../styles/simulation/PersonalSign/PersonalSign.module.css';
 import animations from '../../styles/CommonAnimations.module.css';
-import { S3_URL_PROD } from '../../lib/environment';
+import { CDN_URL_PROD } from '../../lib/environment';
 
 interface PersonalSignProps {
   simulation: StoredSimulation;
@@ -36,7 +36,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const response = await fetch(S3_URL_PROD + simulation.args.origin + '.json');
+      const response = await fetch(CDN_URL_PROD + simulation.args.origin + '.json');
       if (response.ok) {
         const data = await response.json();
         setMetadata(data);
