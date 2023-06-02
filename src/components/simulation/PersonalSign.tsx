@@ -4,11 +4,9 @@ import { DappLogoWithChain } from './DappLogoWithChain';
 import styles from '../../styles/simulation/PersonalSign/PersonalSign.module.css';
 import animations from '../../styles/CommonAnimations.module.css';
 import { S3_URL_PROD } from '../../lib/environment';
-import { ConfirmSimulationButton } from './ConfirmSimulationButton';
 
 interface PersonalSignProps {
   simulation: StoredSimulation;
-  // children: React.ReactNode;
 }
 
 interface Metadata {
@@ -38,7 +36,6 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      console.log('simulation.args.origin', simulation.args.origin);
       const response = await fetch(S3_URL_PROD + simulation.args.origin + '.json');
       if (response.ok) {
         const data = await response.json();
@@ -118,8 +115,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
         </div>
       </div>
 
-      <div className={`${hideOnLoading} ${unveil}`}>
-      </div>
+      <div className={`${hideOnLoading} ${unveil}`}></div>
     </div>
   );
 };

@@ -100,12 +100,11 @@ const Popup = () => {
   }
 
   // Personal Sign Screen
-  if (currentSimulation.args.method == SimulationMethodType.PersonalSign) {
+  if (currentSimulation.args.method === SimulationMethodType.PersonalSign) {
     return (
       <>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <PersonalSign simulation={currentSimulation}/>
-
+          <PersonalSign simulation={currentSimulation} />
         </div>
         <ConfirmSimulationButton storedSimulation={currentSimulation} />
       </>
