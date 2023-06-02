@@ -103,7 +103,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
               >
                 <img className={`${hideOnLoading}`} src={metadata.logo} />
               </div>
-              <p>{simulation.args.origin}</p>
+              <p>{getDomainNameFromURL(simulation.args.origin)}</p>
             </div>
           </div>
 
