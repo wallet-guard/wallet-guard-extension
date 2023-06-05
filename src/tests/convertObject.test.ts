@@ -28,6 +28,46 @@ function convertObjectValuesToString(inputObj: any): any {
 }
 
 describe('convertObjectValuesToString', () => {
+    it('handles normal transaction', () => {
+        const request = `
+        {
+                "chainId": "0x1",
+                "id": "123",
+                "method": "eth_sendTransaction",
+                "origin": "",
+                "signer": "0x12345",
+                "transaction": {
+                    "data": "0xasdf",
+                    "from": "0x12345",
+                    "gas": "0x91755",
+                    "gasPrice": "0x8sa41",
+                    "to": "0x56789"
+                }
+        }`;
+
+        const expected = `
+        {
+                "chainId": "0x1",
+                "id": "123",
+                "method": "eth_sendTransaction",
+                "origin": "",
+                "signer": "0x12345",
+                "transaction": {
+                    "data": "0xasdf",
+                    "from": "0x12345",
+                    "gas": "0x91755",
+                    "gasPrice": "0x8sa41",
+                    "to": "0x56789"
+                }
+        }`;
+
+        const requestObj = JSON.parse(request);
+        const output = convertObjectValuesToString(requestObj);
+        const expectedObj = JSON.parse(expected);
+
+        expect(expectedObj).toEqual(output);
+    });
+
     it('handles Permit2', () => {
         const badRequest = `{
                 "chainId": "0x1",
