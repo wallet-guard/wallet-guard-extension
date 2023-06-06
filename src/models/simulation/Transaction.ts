@@ -101,6 +101,7 @@ export enum ErrorType {
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
   Revert = 'REVERT',
+  TooManyRequests = 'TOO_MANY_REQUESTS',
   GeneralError = 'ERROR',
   UnknownError = "UNKNOWN_ERROR"
 }

@@ -41,6 +41,15 @@ export const fetchSimulate = async (args: TransactionArgs): Promise<Response> =>
           extraData: null
         }
       };
+    } else if (result.status === 429) {
+      return {
+        type: ResponseType.Error,
+        error: {
+          type: ErrorType.TooManyRequests,
+          message: "TooManyRequests",
+          extraData: null
+        }
+      }
     }
 
     const data: SimulationErrorResponse = await result.json();
@@ -99,6 +108,15 @@ export const fetchSignature = async (
           extraData: null
         }
       };
+    } else if (result.status === 429) {
+      return {
+        type: ResponseType.Error,
+        error: {
+          type: ErrorType.TooManyRequests,
+          message: "TooManyRequests",
+          extraData: null
+        }
+      }
     }
 
     const data: SimulationErrorResponse = await result.json();
