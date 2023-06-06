@@ -47,7 +47,7 @@ window.addEventListener('message', (message) => {
       const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
       sendMessageToPort(contentScriptPort, request);
     } else if (data.method === 'eth_signTypedData_v3' || data.method === 'eth_signTypedData_v4') {
-      if (data.params.length !== 2) {
+      if (data.params.length < 2) {
         console.warn('Unexpected argument length.');
         return;
       }

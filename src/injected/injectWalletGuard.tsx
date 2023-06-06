@@ -107,7 +107,7 @@ const addWalletGuardProxy = (provider: any) => {
           throw ethErrors.provider.userRejectedRequest('Wallet Guard Tx Signature: User denied transaction signature.');
         }
       } else if (request.method === 'eth_signTypedData_v3' || request.method === 'eth_signTypedData_v4') {
-        if (request.params.length !== 2) {
+        if (request.params.length < 2) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
           return Reflect.apply(target, thisArg, args);
@@ -144,7 +144,7 @@ const addWalletGuardProxy = (provider: any) => {
         }
       } else if (request.method === 'eth_sign') {
         log.info('EthSign Request');
-        if (request.params.length !== 2) {
+        if (request.params.length < 2) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
           return Reflect.apply(target, thisArg, args);
@@ -258,7 +258,7 @@ const addWalletGuardProxy = (provider: any) => {
             }
           });
       } else if (request.method === 'eth_signTypedData_v3' || request.method === 'eth_signTypedData_v4') {
-        if (request.params.length !== 2) {
+        if (request.params.length < 2) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
           return Reflect.apply(target, thisArg, args);
@@ -309,7 +309,7 @@ const addWalletGuardProxy = (provider: any) => {
           });
       } else if (request.method === 'eth_sign') {
         log.info('EthSign Request');
-        if (request.params.length !== 2) {
+        if (request.params.length < 2) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
           return Reflect.apply(target, thisArg, args);
