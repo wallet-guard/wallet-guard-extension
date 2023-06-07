@@ -10,6 +10,7 @@ import GeneralErrorComponent from './SimulationSubComponents/errors/GeneralError
 import InsufficientFundsComponent from './SimulationSubComponents/errors/InsufficientFundsError';
 import RevertComponent from './SimulationSubComponents/errors/RevertError';
 import UnauthorizedComponent from './SimulationSubComponents/errors/UnauthorizedError';
+import RateLimitedError from './SimulationSubComponents/errors/RateLimitedError';
 
 interface ErrorComponentProps {
   currentSimulation: StoredSimulation;
@@ -32,6 +33,8 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
         return <InsufficientFundsComponent currentSimulation={currentSimulation} />;
       case ErrorType.Revert:
         return <RevertComponent currentSimulation={currentSimulation} />;
+      case ErrorType.TooManyRequests:
+        return <RateLimitedError currentSimulation={currentSimulation} />;
       default:
         return <GeneralErrorComponent currentSimulation={currentSimulation} />;
     }
