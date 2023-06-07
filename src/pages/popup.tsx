@@ -9,13 +9,14 @@ import { SimulationOverview } from '../components/simulation/SimulationOverview'
 import { TransactionContent } from '../components/simulation/TransactionContent';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { StoredSimulationState } from '../lib/simulation/storage';
-import { ErrorType, SimulationWarningType } from '../models/simulation/Transaction';
+import { ErrorType, SimulationMethodType, SimulationWarningType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
 import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
 import { SimulationSurvey } from '../components/simulation/SimulationSurvey';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
+import { PersonalSign } from '../components/simulation/PersonalSign';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 
 const Popup = () => {
@@ -95,6 +96,18 @@ const Popup = () => {
         currentSimulation={currentSimulation}
         type={currentSimulation.simulation?.error?.type || currentSimulation.error?.type || ErrorType.GeneralError}
       />
+    );
+  }
+
+  // Personal Sign Screen
+  if (currentSimulation.args.method === SimulationMethodType.PersonalSign) {
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <PersonalSign simulation={currentSimulation} />
+        </div>
+        <ConfirmSimulationButton storedSimulation={currentSimulation} />
+      </>
     );
   }
 

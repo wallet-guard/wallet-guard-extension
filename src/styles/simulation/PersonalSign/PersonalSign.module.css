@@ -1,0 +1,54 @@
+@font-face {
+    font-family: "ArchivoLight";
+    src: url("../../../fonts/Archivo-Light.ttf") format("truetype");
+}
+
+.parent {
+    margin: auto;
+    font-family: 'ArchivoLight';
+}
+
+.parent p {
+    margin-bottom: 0;
+}
+
+.row {
+    display: flex;
+    padding: 1rem 0;
+    justify-content: space-between;
+    color: #ffffff;
+    width: max(380px, 50vw);
+    border-bottom: 0.5px solid #3F3F3F;
+}
+
+.c-grey {
+    color: #636363;
+}
+
+.df-ac-g5 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.scrollable {
+    overflow: scroll;
+    overflow-x: scroll;
+    white-space: pre-wrap;
+    max-height: 16vh;
+}
+
+/* Style the scrollbar */
+.scrollable::-webkit-scrollbar {
+    display: block;
+    width: 3px;
+    height: 3px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background: #636363;
+}
+
+.scrollable::-webkit-scrollbar-corner{
+    background: none;
+}

@@ -1,0 +1,29 @@
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    width: 183px;
+    height: 46px;
+    border-radius: 8px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.footer-container {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.button-container {
+    width: min(100vw, 420px);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px max(1rem, 20px);
+}

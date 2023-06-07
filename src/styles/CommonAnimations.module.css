@@ -1,0 +1,129 @@
+@keyframes shimmer {
+    0% {
+        background-position: -200px;
+    }
+
+    100% {
+        background-position: 200px;
+    }
+}
+
+.shimmer {
+    animation: shimmer 2s infinite;
+    background: linear-gradient(90deg, #f4f4f4 25%, #e0e0e0 50%, #f4f4f4 75%);
+    background-size: 200% auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(180deg);
+    }
+}
+
+.spin {
+    animation: spin 2s forwards;
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(0.5);
+    }
+
+    50% {
+        transform: scale(0.65);
+    }
+
+    100% {
+        transform: scale(0.5);
+    }
+}
+
+.pulsate {
+    animation: pulsate 4s infinite ease-in-out;
+    /* transition: background 4s; */
+}
+
+@keyframes grow-50 {
+    0% {
+        transform: scale(0.2);
+    }
+
+    100% {
+        transform: scale(0.5);
+    }
+}
+
+@keyframes grow-65 {
+    0% {
+        transform: scale(0.3);
+    }
+
+    100% {
+        transform: scale(0.65);
+    }
+}
+
+@keyframes grow-80 {
+    0% {
+        transform: scale(0.4);
+    }
+
+    100% {
+        transform: scale(0.80);
+    }
+}
+
+@keyframes grow-95 {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(0.95);
+    }
+}
+
+
+.grow {
+    animation: grow 3s forwards;
+}
+
+.grow-50 {
+    animation: grow-50 3s forwards;
+}
+
+.grow-65 {
+    animation: grow-65 3s forwards;
+}
+
+.grow-80 {
+    animation: grow-80 3s forwards;
+}
+
+.grow-95 {
+    animation: grow-95 3s forwards;
+}
+
+.hide {
+    display: none;
+}
+
+@keyframes unveil {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.unveil {
+    animation: unveil 1s ease-out
+}
