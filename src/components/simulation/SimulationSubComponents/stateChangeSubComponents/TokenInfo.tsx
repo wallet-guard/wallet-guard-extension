@@ -47,7 +47,7 @@ export const TokenInfo = (props: StateChangesComponentProps) => {
           bg="#212121"
           color="white"
           placement="right"
-          className={`${styles['font-archivo-bold']}`}
+          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
           style={{ borderRadius: '2em' }}
         >
           <img src="/images/popup/twitter-verified-badge.svg" alt="" width={25} className="pl-2" />
