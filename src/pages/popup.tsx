@@ -20,9 +20,9 @@ import { PersonalSign } from '../components/simulation/PersonalSign';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 
 const Popup = () => {
-  const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
   const [currentSimulation, setCurrentSimulation] = useState<StoredSimulation>();
   const [showSurvey, setShowSurvey] = useState(false);
+  const [loading, isLoading] = useState(true);
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
     api_host: 'https://app.posthog.com',
@@ -36,31 +36,8 @@ const Popup = () => {
     integrations: [new BrowserTracing()],
   });
 
-  useEffect(() => {
-    chrome.storage.local.get('simulations').then(({ simulations }) => {
-      setStoredSimulations(simulations);
-    });
-
-    chrome.storage.onChanged.addListener((changes, area) => {
-      if (area === 'local' && changes['simulations']?.newValue) {
-        const newSimulations = changes['simulations']?.newValue;
-        setStoredSimulations(newSimulations);
-      }
-    });
-
-    // Show the survey if the feature flag is enabled and the user hasn't completed it yet
-    const surveyFlag = posthog.isFeatureEnabled('show-user-survey');
-    if (surveyFlag) {
-      localStorageHelpers.get<boolean>(WgKeys.SurveyComplete).then((surveyComplete) => {
-        if (!surveyComplete) {
-          setShowSurvey(true);
-        }
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    const filteredSimulations = storedSimulations?.filter(
+  function updateSimulations(simulations: StoredSimulation[]) {
+    const filteredSimulations = simulations?.filter(
       (simulation: StoredSimulation) =>
         simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
     );
@@ -84,7 +61,41 @@ const Popup = () => {
         setCurrentSimulation(current);
       }
     }
-  }, [storedSimulations]);
+
+    isLoading(false);
+  }
+
+  useEffect(() => {
+    isLoading(true);
+    chrome.storage.local
+      .get('simulations')
+      .then(({ simulations }) => updateSimulations(simulations))
+      .catch((err) => {
+        isLoading(false);
+        console.log('unable to fetch simulations from popup', err);
+      });
+
+    chrome.storage.onChanged.addListener((changes, area) => {
+      if (area === 'local' && changes['simulations']?.newValue) {
+        const newSimulations = changes['simulations']?.newValue;
+        updateSimulations(newSimulations);
+      }
+    });
+
+    // Show the survey if the feature flag is enabled and the user hasn't completed it yet
+    const surveyFlag = posthog.isFeatureEnabled('show-user-survey');
+    if (surveyFlag) {
+      localStorageHelpers.get<boolean>(WgKeys.SurveyComplete).then((surveyComplete) => {
+        if (!surveyComplete) {
+          setShowSurvey(true);
+        }
+      });
+    }
+  }, []);
+
+  if (loading) {
+    return <div style={{ backgroundColor: 'black' }} />;
+  }
 
   if (!currentSimulation) {
     return <NoSimulation />;

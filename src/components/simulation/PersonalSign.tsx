@@ -4,6 +4,7 @@ import { DappLogoWithChain } from './DappLogoWithChain';
 import styles from '../../styles/simulation/PersonalSign/PersonalSign.module.css';
 import animations from '../../styles/CommonAnimations.module.css';
 import { CDN_URL_PROD } from '../../lib/environment';
+import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
 
 interface PersonalSignProps {
   simulation: StoredSimulation;
@@ -36,7 +37,8 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const response = await fetch(CDN_URL_PROD + simulation.args.origin + '.json');
+      const domainName = getDomainNameFromURL(simulation.args.origin);
+      const response = await fetch(CDN_URL_PROD + domainName + '.json');
       if (response.ok) {
         const data = await response.json();
         setMetadata(data);
@@ -101,7 +103,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
               >
                 <img className={`${hideOnLoading}`} src={metadata.logo} />
               </div>
-              <p>{simulation.args.origin}</p>
+              <p>{getDomainNameFromURL(simulation.args.origin)}</p>
             </div>
           </div>
 
