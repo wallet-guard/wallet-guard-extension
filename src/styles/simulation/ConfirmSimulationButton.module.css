@@ -24,5 +24,6 @@
 
 .button-container {
     display: flex;
-    padding: 10px max(1rem, 20px);
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
