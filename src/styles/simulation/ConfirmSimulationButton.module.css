@@ -14,6 +14,7 @@
 }
 
 .footer-container {
+    border-top: .5px solid #3F3F3F;
     position: absolute;
     bottom: 0;
     width: 100vw;
@@ -22,8 +23,6 @@
 }
 
 .button-container {
-    width: min(100vw, 420px);
     display: flex;
-    justify-content: space-between;
     padding: 10px max(1rem, 20px);
 }
