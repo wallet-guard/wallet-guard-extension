@@ -1,5 +1,5 @@
 {
-  "name": "Wallet Guard: Browse Web3 Securely",
+  "name": "Wallet Guard: Protect Your Crypto",
   "version": "0.8.4",
   "description": "A browser extension for detecting phishing attacks on crypto wallets",
   "main": "index.js",

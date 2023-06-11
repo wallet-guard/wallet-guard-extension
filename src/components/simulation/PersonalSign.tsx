@@ -38,7 +38,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
     const fetchData = async () => {
       setIsLoading(true);
       const domainName = getDomainNameFromURL(simulation.args.origin);
-      const response = await fetch(CDN_URL_PROD + domainName + '.json');
+      const response = await fetch(CDN_URL_PROD + `/url/metadata/${domainName}.json`);
       if (response.ok) {
         const data = await response.json();
         setMetadata(data);
