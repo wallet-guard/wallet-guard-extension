@@ -23,7 +23,7 @@ The blockchain can be scary without knowing what you're doing!
 - Transaction Simulations will enable you to understand exactly what is entering and leaving your wallet on any transaction!
 - This human readable context + a friendly UI will help defeat many scams we see in web3.
 - Wallet Guard's transaction simulation also works in tandem with our proactive phishing detection to provide deeper insights on transactions!
-  <img src="public/images/dashboard/onboarding/SimulationExample.gif" alt="Wallet Guard logo">
+  <img src="https://cdn.walletguard.app/extension-assets/SimulationExample.gif" alt="Example of transaction simulation">
 
 <br>
 
