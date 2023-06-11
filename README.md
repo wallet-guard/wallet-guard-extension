@@ -11,7 +11,7 @@ Secure your online assets with Wallet Guard - the ultimate web3 security browser
 
 Wallet Guard's Proactive Phishing Protection uses an ensemble of machine learning models to check for common phishing attack methods such as recently created domains, homoglyph translations and impersonation attempts.
 
-<img src="public/images/wg_logos/phishing-screen.png" alt="Wallet Guard logo">
+<img src="https://cdn.walletguard.app/extension-assets/phishing-screen.png" alt="Phishing screen example">
 
 <br>
 
