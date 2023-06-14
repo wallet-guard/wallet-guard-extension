@@ -322,6 +322,7 @@ export const Chat: FC<Props> = ({
             messageIsStreaming={messageIsStreaming}
             textareaRef={textareaRef}
             onSend={(message) => {
+              console.log('storedSimulation', storedSimulation);
               setCurrentMessage(message);
               if (storedSimulation) {
                 onSend(message, false, storedSimulation);

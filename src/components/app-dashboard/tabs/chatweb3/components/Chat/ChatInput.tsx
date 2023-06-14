@@ -316,14 +316,14 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
                       handleSend('How to buy NFTs?');
                     }}
                   >
-                    How to buy NFTs?
+                    Transaction method?
                   </Button>
                   <Button
                     onClick={() => {
                       handleSend('How to list items?');
                     }}
                   >
-                    How to list items?
+                    Explain state changes
                   </Button>
                 </ButtonGroup>
               </div>
@@ -334,14 +334,14 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
                       handleSend('How to cancel listings?');
                     }}
                   >
-                    How to cancel listings?
+                    Any phishing warnings?
                   </Button>
                   <Button
                     onClick={() => {
                       handleSend(' How to create an NFT?');
                     }}
                   >
-                    How to create an NFT?
+                    Approval significance?
                   </Button>
                 </ButtonGroup>
               </div>
