@@ -11,6 +11,7 @@ import InsufficientFundsComponent from './SimulationSubComponents/errors/Insuffi
 import RevertComponent from './SimulationSubComponents/errors/RevertError';
 import UnauthorizedComponent from './SimulationSubComponents/errors/UnauthorizedError';
 import RateLimitedError from './SimulationSubComponents/errors/RateLimitedError';
+import UnsupportedSignatureComopnent from './SimulationSubComponents/errors/UnsupportedSignature';
 
 interface ErrorComponentProps {
   currentSimulation: StoredSimulation;
@@ -35,6 +36,8 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
         return <RevertComponent currentSimulation={currentSimulation} />;
       case ErrorType.TooManyRequests:
         return <RateLimitedError currentSimulation={currentSimulation} />;
+      case ErrorType.UnsupportedSignature:
+        return <UnsupportedSignatureComopnent currentSimulation={currentSimulation} />;
       default:
         return <GeneralErrorComponent currentSimulation={currentSimulation} />;
     }

@@ -79,7 +79,7 @@ interface RequestArgs {
 export type SimulationResponse = {
   warningType: SimulationWarningType;
   message?: string[];
-  stateChanges: SimulationStateChange[];
+  stateChanges: SimulationStateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string;
@@ -101,6 +101,7 @@ export enum ErrorType {
   Unauthorized = 'UNAUTHORIZED',
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
+  UnsupportedSignature = "UNSUPPORTED_SIGNATURE",
   Revert = 'REVERT',
   TooManyRequests = 'TOO_MANY_REQUESTS',
   GeneralError = 'ERROR',
