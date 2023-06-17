@@ -1,0 +1,119 @@
+.blur-common {
+    position: absolute;
+    width: 103px;
+    height: 103px;
+}
+
+.blur-1 {
+    filter: blur(50px);
+    width: 206px;
+    height: 206px;
+}
+
+.filter-50 {
+    filter: blur(50px);
+}
+
+.filter-65 {
+    filter: blur(65px);
+}
+
+.filter-80 {
+    filter: blur(80px);
+}
+
+.filter-95 {
+    filter: blur(95px);
+}
+
+.logo-dapp {
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+    box-shadow: 0px 11px 4px rgba(0, 0, 0, 0.25);
+}
+
+.logo-chain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 2;
+    background-color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin: 64px 0px 0px 76px;
+    box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+.text-dapp {
+    position: absolute;
+    margin-top: 175px;
+    font-size: 32px;
+    color: white;
+}
+
+.pink-1 {
+    background: radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 0, 122, 0.5) 0%, rgba(255, 0, 122, 0) 100%)
+}
+
+.pink-2 {
+    background: radial-gradient(88.3% 88.3% at 50% 100%, #FF007A 0%, rgba(255, 0, 122, 0) 100%);
+}
+
+.blue-1 {
+    background: radial-gradient(88.3% 88.3% at 50% 95%, rgba(26, 106, 185, 0.5) 0%, rgba(122, 0, 255, 0) 100%)
+}
+
+.blue-2 {
+    background: radial-gradient(88.3% 88.3% at 50% 100%, rgb(26, 106, 185) 0%, rgba(122, 0, 255, 0) 100%)
+}
+
+.orange-1 {
+    background: radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 122, 0, 0.5) 0%, rgba(255, 122, 0, 0) 100%)
+}
+
+.orange-2 {
+    background: radial-gradient(88.3% 88.3% at 50% 100%, rgb(255, 122, 0) 0%, rgba(255, 122, 0, 0) 100%)
+}
+
+.white-1 {
+    background: radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.white-2 {
+    background: radial-gradient(88.3% 88.3% at 50% 100%, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0) 100%)
+}
+
+.purple-1 {
+    background: radial-gradient(88.3% 88.3% at 50% 95%, rgba(122, 0, 255, 0.5) 0%, rgba(122, 0, 255, 0) 100%)
+}
+
+.purple-2 {
+    background: radial-gradient(88.3% 88.3% at 50% 100%, rgb(122, 0, 255) 0%, rgba(122, 0, 255, 0) 100%)
+}
+
+.green-1 {
+    background: radial-gradient(88.3% 88.3% at 50% 95%, rgba(0, 255, 122, 0.5) 0%, rgba(0, 255, 122, 0) 100%);
+}
+
+.green-2 {
+    background: radial-gradient(88.3% 88.3% at 50% 100%, rgb(0, 255, 122) 0%, rgba(0, 255, 122, 0) 100%)
+}
+
+.lime-green-1 {
+    background: radial-gradient(88.3% 88.3% at 50% 95%, rgba(144, 255, 0, 0.5) 0%, rgba(0, 255, 122, 0) 100%)
+}
+
+.lime-green-2 {
+    background: radial-gradient(88.3% 88.3% at 50% 100%, rgb(144, 255, 0) 0%, rgba(0, 255, 122, 0) 100%)
+}
+
+.yellow-1 {
+    background: radial-gradient(88.3% 88.3% at 50% 95%, rgba(255, 255, 0, 0.5) 0%, rgba(255, 255, 0, 0) 100%)
+}
+
+.yellow-2 {
+    background: radial-gradient(88.3% 88.3% at 50% 100%, rgb(255, 255, 0) 0%, rgba(255, 255, 0, 0) 100%)
+}

@@ -48,20 +48,18 @@ export const useChat = () => {
       setMessageIsStreaming(true);
       setMessageError(false);
 
-      const chatBody: ChatBody = {
-        model: updatedConversation.model,
-        messages: updatedConversation.messages,
-        prompt: updatedConversation.prompt,
-        conversationID: conversationID,
-      };
+      // const chatBody: ChatBody = {
+      //   model: updatedConversation.model,
+      //   messages: updatedConversation.messages,
+      //   prompt: updatedConversation.prompt,
+      //   conversationID: conversationID,
+      // };
 
       const body = JSON.stringify({
         model: updatedConversation.model,
         messages: updatedConversation.messages,
         plugin: 'DEFAULT',
       });
-
-      console.log(body);
 
       const controller = new AbortController();
       const res = await fetch('http://0.0.0.0:8080/v2/chat', {

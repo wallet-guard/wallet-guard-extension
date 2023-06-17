@@ -2,6 +2,7 @@ import tutorialStyles from '../DashboardTab.module.css';
 import React from 'react';
 import { Text } from '@chakra-ui/react';
 import { BsDiscord } from 'react-icons/bs';
+import { CDN_URL_PROD } from '../../../../../lib/environment';
 
 interface TutorialProps {
   step: number;
@@ -51,7 +52,7 @@ export function OnboardingCommunity(props: TutorialProps) {
             </div>
           </div>
           <div className="col-6" style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src="images/dashboard/onboarding/CommunityLogos.png" style={{ height: '350px' }} />
+            <img src={`${CDN_URL_PROD}/extension-assets/CommunityLogos.png`} style={{ height: '350px' }} />
           </div>
         </div>
       </div>

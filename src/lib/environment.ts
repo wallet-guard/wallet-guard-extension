@@ -1,11 +1,8 @@
-// PDS
-export const PDS_SERVER_URL_PROD = 'https://walletguard-phishing-detection-service-prod.com';
-
-// EDS
-export const EDS_URL_PROD = 'https://bkep3tnrs3.us-east-2.awsapprunner.com';
-
-// TAS
-export const TAS_SERVER_URL_PROD = 'https://walletguard-transaction-analysis-service-prod.com';
+// Security API - For business inquiries please visit https://docs.walletguard.app
+export const SERVER_URL_PROD = 'https://api.walletguard.app/extension/v0';
 
 // CHATWEB3
 export const CHATWEB3_SERVER_URL_PROD = 'http://localhost:8080';
+
+// CDN
+export const CDN_URL_PROD = 'https://cdn.walletguard.app';

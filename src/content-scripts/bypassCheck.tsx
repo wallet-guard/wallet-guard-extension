@@ -25,7 +25,7 @@ const sendMessageToPort = (stream: Browser.Runtime.Port, data: TransactionArgs):
 window.addEventListener('message', (message) => {
   const { target } = message?.data ?? {};
   const { name, data } = message?.data?.data ?? {};
-  const { hostname } = location;
+  const { href } = location;
   const chainId = metamaskChainId;
 
   if (name !== PortIdentifiers.METAMASK_PROVIDER || !data) return;
@@ -39,7 +39,7 @@ window.addEventListener('message', (message) => {
         signer: transaction.from,
         transaction,
         method: data.method,
-        origin: hostname,
+        origin: href,
         bypassed,
       };
 
@@ -47,7 +47,7 @@ window.addEventListener('message', (message) => {
       const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
       sendMessageToPort(contentScriptPort, request);
     } else if (data.method === 'eth_signTypedData_v3' || data.method === 'eth_signTypedData_v4') {
-      if (data.params.length !== 2) {
+      if (data.params.length < 2) {
         console.warn('Unexpected argument length.');
         return;
       }
@@ -70,7 +70,7 @@ window.addEventListener('message', (message) => {
         message: message,
         primaryType: params['primaryType'],
         method: data.method,
-        origin: hostname,
+        origin: href,
         bypassed,
       };
 
@@ -89,7 +89,7 @@ window.addEventListener('message', (message) => {
       const request: PersonalSignArgs = {
         id: uuid4(),
         chainId: String(chainId),
-        origin: hostname,
+        origin: href,
         bypassed,
         method: data.method,
         signer,
@@ -111,7 +111,7 @@ window.addEventListener('message', (message) => {
       const request: SignatureHashSignArgs = {
         id: uuid4(),
         chainId: String(chainId),
-        origin: hostname,
+        origin: href,
         bypassed,
         method: data.method,
         signer,

@@ -160,22 +160,36 @@ import { Message, OpenAIModel, OpenAIModelID } from '../../../../../../models/ch
 import '../../styles/globals.css';
 
 import { Spinner } from '@chakra-ui/react';
+import { getDomainNameFromURL } from '../../../../../../lib/helpers/phishing/parseDomainHelper';
+import { chatWeb3Questions } from '../../../../../../lib/helpers/chatweb3/questions';
 interface Props {
   messageIsStreaming: boolean;
   onSend: (message: Message) => void;
   model: OpenAIModel;
   stopConversationRef: MutableRefObject<boolean>;
   textareaRef: MutableRefObject<HTMLTextAreaElement | null>;
+  showChatWeb3?: boolean;
 }
 
-export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopConversationRef, textareaRef }) => {
+export const ChatInput: FC<Props> = ({
+  onSend,
+  messageIsStreaming,
+  model,
+  stopConversationRef,
+  textareaRef,
+  showChatWeb3,
+}) => {
   const [content, setContent] = useState<string>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [currentUrl, setCurrentUrl] = useState<string | undefined>('');
 
   const [hideOnLargeScreens, setHideOnLargeScreens] = useState(false);
 
   chrome.tabs.query({ active: true, lastFocusedWindow: false }, function (tabs) {
-    console.log(tabs[0].url);
+    if (tabs[0].url) {
+      setCurrentUrl(getDomainNameFromURL(tabs[0].url));
+      console.log(getDomainNameFromURL(tabs[0].url));
+    }
   });
 
   useEffect(() => {
@@ -313,17 +327,37 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
                 <ButtonGroup variant="outline" size="md" spacing="2">
                   <Button
                     onClick={() => {
-                      handleSend('How to buy NFTs?');
+                      handleSend(
+                        showChatWeb3
+                          ? 'Explain state changes'
+                          : currentUrl && chatWeb3Questions[currentUrl]
+                          ? chatWeb3Questions[currentUrl][0]
+                          : "What's a NFT?"
+                      );
                     }}
                   >
-                    Transaction method?
+                    {showChatWeb3
+                      ? 'Explain state changes'
+                      : currentUrl && chatWeb3Questions[currentUrl]
+                      ? chatWeb3Questions[currentUrl][0]
+                      : "What's a NFT?"}
                   </Button>
                   <Button
                     onClick={() => {
-                      handleSend('How to list items?');
+                      handleSend(
+                        showChatWeb3
+                          ? 'Any phishing warnings?'
+                          : currentUrl && chatWeb3Questions[currentUrl]
+                          ? chatWeb3Questions[currentUrl][1]
+                          : "What's a DApp?"
+                      );
                     }}
                   >
-                    Explain state changes
+                    {showChatWeb3
+                      ? 'Any phishing warnings?'
+                      : currentUrl && chatWeb3Questions[currentUrl]
+                      ? chatWeb3Questions[currentUrl][1]
+                      : "What's a DApp?"}
                   </Button>
                 </ButtonGroup>
               </div>
@@ -331,17 +365,39 @@ export const ChatInput: FC<Props> = ({ onSend, messageIsStreaming, model, stopCo
                 <ButtonGroup variant="outline" size="md" spacing="2">
                   <Button
                     onClick={() => {
-                      handleSend('How to cancel listings?');
+                      handleSend(
+                        showChatWeb3
+                          ? 'Approval significance?'
+                          : currentUrl && chatWeb3Questions[currentUrl]
+                          ? chatWeb3Questions[currentUrl][2]
+                          : 'Define smart contracts?'
+                      );
                     }}
                   >
-                    Any phishing warnings?
+                    {showChatWeb3
+                      ? 'Approval significance?'
+                      : currentUrl && chatWeb3Questions[currentUrl]
+                      ? chatWeb3Questions[currentUrl][2]
+                      : 'Define smart contracts?'}
                   </Button>
                   <Button
                     onClick={() => {
-                      handleSend(' How to create an NFT?');
+                      handleSend(
+                        showChatWeb3
+                          ? "What's 'value' field?"
+                          : currentUrl && chatWeb3Questions[currentUrl]
+                          ? chatWeb3Questions[currentUrl][3]
+                          : "What's gas fees?"
+                      );
                     }}
                   >
-                    Approval significance?
+                    {showChatWeb3
+                      ? "What's 'value' field?"
+                      : currentUrl && chatWeb3Questions[currentUrl]
+                      ? chatWeb3Questions[currentUrl][3]
+                      : "What's gas fees?"}
+
+                    {/* Approval significance? */}
                   </Button>
                 </ButtonGroup>
               </div>

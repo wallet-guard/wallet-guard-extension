@@ -2,6 +2,7 @@ import tutorialStyles from '../DashboardTab.module.css';
 import React from 'react';
 import { List, ListIcon, ListItem, Text } from '@chakra-ui/react';
 import { MdCheckCircle } from 'react-icons/md';
+import { CDN_URL_PROD } from '../../../../../lib/environment';
 
 interface TutorialProps {
   step: number;
@@ -52,7 +53,7 @@ export function OnboardingSimulation(props: TutorialProps) {
             <br />
           </div>
           <div className="col-6" style={{ paddingLeft: 0 }}>
-            <img src="images/dashboard/onboarding/SimulationExample.gif" style={{ borderRadius: '15px' }} />
+            <img src={`${CDN_URL_PROD}/extension-assets/SimulationExample.gif`} style={{ borderRadius: '15px' }} />
           </div>
         </div>
       </div>

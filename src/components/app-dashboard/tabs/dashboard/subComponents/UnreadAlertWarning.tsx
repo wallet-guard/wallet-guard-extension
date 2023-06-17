@@ -15,6 +15,7 @@ const UnreadAlertComponent = (props: Warning) => {
   function mapCategory(category: AlertType) {
     switch (category) {
       case WarningType.Blocklisted:
+      case WarningType.Drainer:
       case WarningType.RecentlyCreated:
       case WarningType.Malware:
       case 'BLOCKLIST_CONTAINS_URL':

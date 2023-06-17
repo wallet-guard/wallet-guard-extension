@@ -24,6 +24,7 @@ export default function AlertsTable(props: Props) {
         return 'yellow';
       case WarningType.Blocklisted:
       case WarningType.Similarity:
+      case WarningType.Drainer:
       case WarningType.Homoglyph:
       case WarningType.MLInference:
       case WarningType.RecentlyCreated: // todo: make this yellow/red depending on WarningLevel
@@ -48,6 +49,8 @@ export default function AlertsTable(props: Props) {
 
   function mapCategory(category: AlertType) {
     switch (category) {
+      case WarningType.Drainer:
+        return 'Suspected wallet drainer';
       case WarningType.Blocklisted:
       case 'BLOCKLIST_CONTAINS_URL':
         return 'Known Phishing Website';
