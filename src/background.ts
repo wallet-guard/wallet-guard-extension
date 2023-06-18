@@ -261,7 +261,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
           url: 'chatweb3.html',
           type: 'popup',
           width: 420,
-          height: 820,
+          height: 760,
         })
         .then((createdWindow) => {
           currentChatWeb3Popup = createdWindow?.id;
