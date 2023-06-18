@@ -5,15 +5,6 @@ import { simulationNeedsAction, StoredSimulationState, updateSimulationState } f
 import { SimulationMethodType, SimulationWarningType } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/ConfirmSimulationButton.module.css';
 
-// export const ConfirmSimulationButton = ({
-//   storedSimulation,
-//   showChatWeb3,
-//   setShowChatWeb3,
-// }: {
-//   storedSimulation: StoredSimulation;
-//   showChatWeb3?: any;
-//   setShowChatWeb3?: any;
-
 interface SimulationActionButton {
   color?: string;
   backgroundColor?: string;
