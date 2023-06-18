@@ -33,7 +33,7 @@ export const ChatInput: FC<Props> = ({
 
   // TODO: need to only get url once, this url is fetched everytime a chunk is passed to the frontend
   chrome.tabs.query({ active: true, lastFocusedWindow: false }, function (tabs) {
-    if (tabs[0].url) {
+    if (tabs && tabs[0].url) {
       setCurrentUrl(getDomainNameFromURL(tabs[0].url));
       console.log(getDomainNameFromURL(tabs[0].url));
     }
@@ -147,27 +147,6 @@ export const ChatInput: FC<Props> = ({
         }}
       >
         <div style={{ width: '100%', maxWidth: '860px' }}>
-          {/* {messageIsStreaming && hideOnLargeScreens && (
-            <button
-              style={{
-                position: 'absolute',
-                top: '0.5rem',
-                left: '0',
-                right: '0',
-                maxWidth: '200px',
-                margin: 'auto',
-                background: '#161616',
-                border: '1px solid gray',
-                padding: '0.5rem 1rem',
-                borderRadius: '0.375rem',
-                color: 'white',
-              }}
-              onClick={handleStopConversation}
-            >
-              <IconPlayerStop size={16} style={{ display: 'inline-block', marginBottom: '0.125rem', color: 'white' }} />{' '}
-              Stop Generating
-            </button>
-          )} */}
           {!hideOnLargeScreens && (
             <div>
               <div className="pb-2" style={{ textAlign: 'left' }}>
