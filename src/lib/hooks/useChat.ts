@@ -55,27 +55,47 @@ export const useChat = () => {
       //   conversationID: conversationID,
       // };
 
-      const body = JSON.stringify({
-        model: updatedConversation.model,
-        messages: updatedConversation.messages,
-        plugin: 'DEFAULT',
-      });
-
       const controller = new AbortController();
-      const res = await fetch('http://0.0.0.0:8080/v2/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        signal: controller.signal,
+      let res;
 
-        body: body,
-      });
+      if (storedSimulation) {
+        console.log('storedSimulation', storedSimulation);
+        const body = JSON.stringify({
+          model: updatedConversation.model,
+          messages: updatedConversation.messages,
+          plugin: 'DEFAULT',
+          simulation: storedSimulation,
+        });
+
+        res = await fetch('http://0.0.0.0:8080/v2/simulation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          signal: controller.signal,
+          body: body,
+        });
+      } else {
+        const body = JSON.stringify({
+          model: updatedConversation.model,
+          messages: updatedConversation.messages,
+          plugin: 'DEFAULT',
+        });
+
+        res = await fetch('http://0.0.0.0:8080/v2/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          signal: controller.signal,
+
+          body: body,
+        });
+      }
 
       const response = new Response(res.body);
 
       if (!response.ok) {
-        console.log('hey');
         setLoading(false);
         setMessageIsStreaming(false);
         setMessageError(true);
@@ -85,8 +105,6 @@ export const useChat = () => {
       const data = res.body;
 
       if (!data) {
-        console.log('heyyyyy');
-
         setLoading(false);
         setMessageIsStreaming(false);
         setMessageError(true);
