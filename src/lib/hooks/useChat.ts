@@ -67,7 +67,7 @@ export const useChat = () => {
           simulation: storedSimulation,
         });
 
-        res = await fetch('http://0.0.0.0:8080/v2/simulation', {
+        res = await fetch(CHATWEB3_SERVER_URL_PROD + '/v2/simulation', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export const useChat = () => {
           plugin: 'DEFAULT',
         });
 
-        res = await fetch('http://0.0.0.0:8080/v2/chat', {
+        res = await fetch(CHATWEB3_SERVER_URL_PROD + '/v2/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
