@@ -52,66 +52,6 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
 
   if (simulationNeedsAction(state)) {
     return (
-      // <div className={` ${styles['footer-container']} `}>
-      //   <div className={` ${styles['center-button']}`}>
-      //     <button
-      //       className="mt-3 text-center"
-      //       style={{
-      //         textDecoration: 'underline',
-      //         color: 'white',
-      //         background: 'none',
-      //         border: 'none',
-      //         outline: 'none',
-      //         cursor: 'pointer',
-      //       }}
-      //       onClick={() => {
-      //         setShowChatWeb3(!showChatWeb3);
-      //         posthog.capture('chatweb3 from tas clicked');
-      //       }}
-      //     >
-      //       Ask our AI about this transaction
-      //     </button>
-      //   </div>
-
-      //   <div className="row px-3 pt-3">
-      //     <div className="col-6 text-center">
-      //       <button
-      //         className={`${styles['reject-button']} btn`}
-      //         onClick={() => {
-      //           posthog.capture('simulation rejected', {
-      //             warningType: storedSimulation.simulation?.warningType,
-      //             storedSimulation: storedSimulation,
-      //           });
-      //           updateSimulationState(id, StoredSimulationState.Rejected);
-      //         }}
-      //       >
-      //         <img
-      //           src="/images/popup/x.png"
-      //           alt="An X icon in a circle, indicating cancel or close."
-      //           width={19}
-      //           className={`${styles['font-archivo-medium']} pr-2`}
-      //           style={{ marginTop: '-3px' }}
-
-      //   <div className={` ${styles['center-button']}`}>
-      //   <button
-      //     className="mt-3 text-center"
-      //     style={{
-      //       textDecoration: 'underline',
-      //       color: 'white',
-      //       background: 'none',
-      //       border: 'none',
-      //       outline: 'none',
-      //       cursor: 'pointer',
-      //     }}
-      //     onClick={() => {
-      //       setShowChatWeb3(!showChatWeb3);
-      //       posthog.capture('chatweb3 from tas clicked');
-      //     }}
-      //   >
-      //     Ask our AI about this transaction
-      //   </button>
-      // </div>
-
       <div className={`${styles['footer-container']}`}>
         <button
           className="mt-3 text-center"
