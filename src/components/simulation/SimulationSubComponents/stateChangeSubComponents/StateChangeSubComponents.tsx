@@ -60,7 +60,7 @@ export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
       )}
 
       <h3
-        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: '0px' }}
+        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px' }}
         className={`${styles['font-archivo-bold']}`}
       >
         <b>
