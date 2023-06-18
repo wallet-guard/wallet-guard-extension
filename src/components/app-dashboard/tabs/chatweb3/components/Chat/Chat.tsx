@@ -86,9 +86,8 @@ export const Chat: FC<Props> = ({
       style={{
         position: 'relative',
         flex: 1,
-        overflow: 'hidden',
         maxHeight: '100%',
-
+        minHeight: '100vh',
         backgroundColor: lightMode === 'dark' ? '#161616' : 'initial',
       }}
     >

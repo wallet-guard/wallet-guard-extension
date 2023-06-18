@@ -36,7 +36,7 @@ export const ChatWeb3Tab = ({
   return (
     <>
       {selectedConversation && (
-        <div className={`d-flex flex-column text-white`} style={{ fontSize: '0.875rem', height: '100vh' }}>
+        <div className={`d-flex flex-column text-white`} style={{ fontSize: '0.875rem', height: '100%' }}>
           <div className="d-flex h-100 w-100 pt-0">
             <Chat
               conversation={selectedConversation}
