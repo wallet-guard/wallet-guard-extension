@@ -49,19 +49,39 @@ export const CodeBlock: FC<Props> = memo(({ language, value }) => {
     URL.revokeObjectURL(url);
   };
   return (
-    <div className="codeblock relative font-sans text-[16px]">
-      <div className="flex items-center justify-between py-1.5 px-4">
-        <span className="text-xs lowercase text-white">{language}</span>
+    <div style={{ position: 'relative', fontFamily: 'sans-serif', fontSize: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px' }}>
+        <span style={{ fontSize: '12px', textTransform: 'lowercase', color: 'white' }}>{language}</span>
 
-        <div className="flex items-center">
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <button
-            className="flex gap-1.5 items-center rounded bg-none p-1 text-xs text-white"
+            style={{
+              display: 'flex',
+              gap: '12px',
+              alignItems: 'center',
+              borderRadius: '4px',
+              backgroundColor: 'transparent',
+              padding: '8px',
+              fontSize: '12px',
+              color: 'white',
+            }}
             onClick={copyToClipboard}
           >
             {isCopied ? <IconCheck size={18} /> : <IconClipboard size={18} />}
             {isCopied ? 'Copied!' : 'Copy code'}
           </button>
-          <button className="flex items-center rounded bg-none p-1 text-xs text-white" onClick={downloadAsFile}>
+          <button
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              borderRadius: '4px',
+              backgroundColor: 'transparent',
+              padding: '8px',
+              fontSize: '12px',
+              color: 'white',
+            }}
+            onClick={downloadAsFile}
+          >
             <IconDownload size={18} />
           </button>
         </div>
