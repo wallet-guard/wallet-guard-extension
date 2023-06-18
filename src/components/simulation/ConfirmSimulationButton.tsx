@@ -113,25 +113,23 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
       // </div>
 
       <div className={`${styles['footer-container']}`}>
-        <div style={{ display: 'flex' }}>
-          <button
-            className="mt-3 text-center"
-            style={{
-              textDecoration: 'underline',
-              color: 'white',
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              setShowChatWeb3(!showChatWeb3);
-              posthog.capture('chatweb3 from tas clicked');
-            }}
-          >
-            Ask our AI about this transaction
-          </button>
-        </div>
+        <button
+          className="mt-3 text-center"
+          style={{
+            textDecoration: 'underline',
+            color: 'white',
+            background: 'none',
+            border: 'none',
+            outline: 'none',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            setShowChatWeb3(!showChatWeb3);
+            posthog.capture('chatweb3 from tas clicked');
+          }}
+        >
+          Ask our AI about this transaction
+        </button>
 
         <div className={styles['button-container']}>
           <div className="row">

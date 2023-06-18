@@ -19,7 +19,9 @@
     bottom: 0;
     width: 100vw;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .button-container {
