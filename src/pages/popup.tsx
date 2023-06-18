@@ -123,7 +123,12 @@ const Popup = () => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <PersonalSign simulation={currentSimulation} />
         </div>
-        <ConfirmSimulationButton storedSimulation={currentSimulation} />
+        <ConfirmSimulationButton
+          hideChatWeb3Button={true}
+          storedSimulation={currentSimulation}
+          showChatWeb3={showChatWeb3}
+          setShowChatWeb3={setShowChatWeb3}
+        />
       </>
     );
   }

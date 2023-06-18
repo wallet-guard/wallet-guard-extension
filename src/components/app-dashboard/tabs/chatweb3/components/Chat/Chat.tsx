@@ -113,7 +113,7 @@ export const Chat: FC<Props> = ({
                   color: lightMode === 'dark' ? 'white' : '#404040',
                 }}
               >
-                <div>Choose your plugin</div>
+                <div>Activated Plugins</div>
               </div>
 
               <div>

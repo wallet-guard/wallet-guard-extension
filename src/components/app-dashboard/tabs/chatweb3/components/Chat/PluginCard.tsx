@@ -74,7 +74,7 @@ const PluginCard: React.FC<PluginCardProps> = ({ image, title, description, onSe
         onClick={() => createNewPersona(persona)}
         disabled={persona === PersonaType.NFT_DEGEN}
       >
-        {persona === PersonaType.NFT_DEGEN ? 'Coming Soon' : 'Select'}
+        {persona === PersonaType.NFT_DEGEN ? 'Coming Soon' : 'Selected'}
       </button>
     </div>
   );
