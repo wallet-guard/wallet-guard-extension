@@ -7,7 +7,7 @@ import '../../styles/globals.css';
 
 import { Spinner } from '@chakra-ui/react';
 import { getDomainNameFromURL } from '../../../../../../lib/helpers/phishing/parseDomainHelper';
-import { chatWeb3Questions } from '../../../../../../lib/helpers/chatweb3/questions';
+import { chatWeb3Questions, chatWeb3QuestionsRefactored } from '../../../../../../lib/helpers/chatweb3/questions';
 interface Props {
   messageIsStreaming: boolean;
   onSend: (message: Message) => void;
@@ -156,16 +156,16 @@ export const ChatInput: FC<Props> = ({
                       handleSend(
                         showChatWeb3
                           ? 'Explain state changes'
-                          : currentUrl && chatWeb3Questions[currentUrl]
-                          ? chatWeb3Questions[currentUrl][0]
+                          : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                          ? chatWeb3QuestionsRefactored[currentUrl][0].reformatted
                           : "What's a NFT?"
                       );
                     }}
                   >
                     {showChatWeb3
                       ? 'Explain state changes'
-                      : currentUrl && chatWeb3Questions[currentUrl]
-                      ? chatWeb3Questions[currentUrl][0]
+                      : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                      ? chatWeb3QuestionsRefactored[currentUrl][0].original
                       : "What's a NFT?"}
                   </Button>
                   <Button
@@ -173,16 +173,16 @@ export const ChatInput: FC<Props> = ({
                       handleSend(
                         showChatWeb3
                           ? 'Any phishing warnings?'
-                          : currentUrl && chatWeb3Questions[currentUrl]
-                          ? chatWeb3Questions[currentUrl][1]
+                          : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                          ? chatWeb3QuestionsRefactored[currentUrl][1].reformatted
                           : "What's a DApp?"
                       );
                     }}
                   >
                     {showChatWeb3
                       ? 'Any phishing warnings?'
-                      : currentUrl && chatWeb3Questions[currentUrl]
-                      ? chatWeb3Questions[currentUrl][1]
+                      : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                      ? chatWeb3QuestionsRefactored[currentUrl][1].original
                       : "What's a DApp?"}
                   </Button>
                 </ButtonGroup>
@@ -194,16 +194,16 @@ export const ChatInput: FC<Props> = ({
                       handleSend(
                         showChatWeb3
                           ? 'Approval significance?'
-                          : currentUrl && chatWeb3Questions[currentUrl]
-                          ? chatWeb3Questions[currentUrl][2]
+                          : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                          ? chatWeb3QuestionsRefactored[currentUrl][2].reformatted
                           : 'Define smart contracts?'
                       );
                     }}
                   >
                     {showChatWeb3
                       ? 'Approval significance?'
-                      : currentUrl && chatWeb3Questions[currentUrl]
-                      ? chatWeb3Questions[currentUrl][2]
+                      : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                      ? chatWeb3QuestionsRefactored[currentUrl][2].original
                       : 'Define smart contracts?'}
                   </Button>
                   <Button
@@ -211,16 +211,16 @@ export const ChatInput: FC<Props> = ({
                       handleSend(
                         showChatWeb3
                           ? "What's 'value' field?"
-                          : currentUrl && chatWeb3Questions[currentUrl]
-                          ? chatWeb3Questions[currentUrl][3]
+                          : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                          ? chatWeb3QuestionsRefactored[currentUrl][3].reformatted
                           : "What's gas fees?"
                       );
                     }}
                   >
                     {showChatWeb3
                       ? "What's 'value' field?"
-                      : currentUrl && chatWeb3Questions[currentUrl]
-                      ? chatWeb3Questions[currentUrl][3]
+                      : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                      ? chatWeb3QuestionsRefactored[currentUrl][3].original
                       : "What's gas fees?"}
 
                     {/* Approval significance? */}
