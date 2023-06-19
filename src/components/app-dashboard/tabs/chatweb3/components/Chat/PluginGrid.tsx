@@ -76,7 +76,11 @@ const PluginGrid: React.FC<Props> = ({ onSend }) => {
       <div className="row">
         {plugins &&
           plugins.map((plugin, index) => (
-            <div className="col-12 col-lg-6 col-xl-3 mb-4" key={index}>
+            <div
+              className="col-12 col-lg-6 col-xl-3"
+              key={index}
+              style={{ display: 'flex', justifyContent: 'center', marginBottom: '5rem' }}
+            >
               <PluginCard
                 image={plugin.image}
                 title={plugin.title}

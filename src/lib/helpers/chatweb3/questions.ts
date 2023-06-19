@@ -94,9 +94,9 @@ export const chatWeb3QuestionsRefactored: ChatWeb3QuestionsRefactored = {
   ],
   'blur.io': [
     { original: "What's Blur?", reformatted: 'Can you tell me what Blur is on blur.io?' },
-    { original: 'Create blur?', reformatted: 'How can I create a blur on blur.io?' },
-    { original: 'Share creation?', reformatted: 'How can I share my creation on blur.io?' },
-    { original: 'Blur application?', reformatted: 'How can I apply Blur on blur.io?' },
+    { original: 'Bid how?', reformatted: 'How can I place a bid on blur.io?' },
+    { original: 'Sell how?', reformatted: 'How can I sell an item on blur.io?' },
+    { original: 'Gas fees?', reformatted: 'What are gas fees on blur.io?' },
   ],
   'snapshot.org': [
     { original: "What's Snapshot?", reformatted: 'Could you explain what Snapshot is on snapshot.org?' },

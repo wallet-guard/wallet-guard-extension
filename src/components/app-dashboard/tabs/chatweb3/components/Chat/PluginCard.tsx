@@ -24,7 +24,6 @@ const PluginCard: React.FC<PluginCardProps> = ({ image, title, description, onSe
         paddingTop: '1rem',
         width: '255px',
         height: '287px',
-        margin: '0 0.5rem',
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -59,7 +58,7 @@ const PluginCard: React.FC<PluginCardProps> = ({ image, title, description, onSe
             <h3 style={{ fontSize: '24px', fontWeight: '600' }}>{title}</h3>
           </div>
         </div>
-        <p style={{ fontSize: '16px', marginTop: '0.5rem', color: '#80808F' }}>{description}</p>
+        <p style={{ fontSize: '16px', marginTop: '0.5rem', minHeight: '120px', color: '#80808F' }}>{description}</p>
       </div>
       <button
         className="btn btn-block"
