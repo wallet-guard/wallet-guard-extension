@@ -48,24 +48,52 @@ export const Navbar = ({
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', flex: '1' }}>
-        {fromSimulation && (
-          <button onClick={() => setShowChatWeb3(!showChatWeb3)}>
-            <IconChevronLeft size={35} className="pr-1" />
-          </button>
+      <div>
+        {fromSimulation ? (
+          <>
+            <button
+              onClick={() => setShowChatWeb3(!showChatWeb3)}
+              style={{ display: 'flex', alignItems: 'center', flex: '1' }}
+            >
+              <IconChevronLeft size={35} className="pr-1" />
+              <h1
+                style={{
+                  color: 'white',
+                  fontSize: '1.25rem',
+                  marginLeft: '0.15rem',
+                  fontWeight: 'bold',
+                  marginTop: '6px',
+                }}
+              >
+                Back to transaction
+              </h1>
+            </button>
+          </>
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', flex: '1' }}>
+            <img
+              style={{ height: '2rem', width: 'auto' }}
+              src="/images/wg_logos/Logo-Large-Transparent.png"
+              alt="Logo"
+            />
+            <h1
+              style={{
+                color: 'white',
+                fontSize: '1.25rem',
+                marginLeft: '0.5rem',
+                fontWeight: 'bold',
+                marginTop: '6px',
+              }}
+            >
+              ChatWeb3
+            </h1>
+          </div>
         )}
-
-        <img style={{ height: '2rem', width: 'auto' }} src="/images/wg_logos/Logo-Large-Transparent.png" alt="Logo" />
-        <h1 style={{ color: 'white', fontSize: '1.25rem', marginLeft: '0.5rem', fontWeight: 'bold', marginTop: '6px' }}>
-          ChatWeb3
-        </h1>
       </div>
-      {width > 768 ? (
+      {width > 768 && (
         <span style={{ textAlign: 'right', fontWeight: 'bold' }}>
           Hotkey: <Kbd>command</Kbd> + <Kbd>shift</Kbd> + <Kbd>U</Kbd>
         </span>
-      ) : (
-        fromSimulation && <CloseButton size="lg" onClick={() => setShowChatWeb3(!showChatWeb3)} />
       )}
     </div>
   );
