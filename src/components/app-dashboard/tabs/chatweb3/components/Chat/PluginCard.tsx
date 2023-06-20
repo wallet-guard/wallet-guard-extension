@@ -7,15 +7,9 @@ interface PluginCardProps {
   title: string;
   persona: PersonaType;
   description: string;
-  onSelect: () => void;
-  onSend: (plugin: any) => void;
 }
 
-const PluginCard: React.FC<PluginCardProps> = ({ image, title, description, onSelect, persona, onSend }) => {
-  const createNewPersona = (pluginPersona: PersonaType) => {
-    onSend(pluginPersona);
-  };
-
+const PluginCard: React.FC<PluginCardProps> = ({ image, title, description, persona }) => {
   return (
     <div
       style={{
@@ -70,7 +64,6 @@ const PluginCard: React.FC<PluginCardProps> = ({ image, title, description, onSe
           padding: '0.75rem',
           borderRadius: '0 0 0.375rem 0.375rem',
         }}
-        onClick={() => createNewPersona(persona)}
         disabled={persona === PersonaType.NFT_DEGEN}
       >
         {persona === PersonaType.NFT_DEGEN ? 'Coming Soon' : 'Selected'}

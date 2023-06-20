@@ -15,6 +15,7 @@ import React from 'react';
 import '../../styles/globals.css';
 import { Navbar } from './ChatWeb3Navbar';
 import PluginGrid from './PluginGrid';
+import { StoredSimulation } from '../../../../../../lib/simulation/storage';
 
 interface Props {
   conversation: Conversation;
@@ -24,13 +25,13 @@ interface Props {
   messageError: boolean;
   loading: boolean;
   lightMode: 'light' | 'dark';
-  onSend: (message: Message, isResend: boolean, storedSimulation?: any) => void;
+  onSend: (message: Message, isResend: boolean, storedSimulation?: StoredSimulation) => void;
   onUpdateConversation: (conversation: Conversation, data: KeyValuePair) => void;
   stopConversationRef: MutableRefObject<boolean>;
-  showChatWeb3?: any;
-  setShowChatWeb3?: any;
+  showChatWeb3?: boolean;
+  setShowChatWeb3?: () => void;
   fromSimulation?: boolean;
-  storedSimulation?: any;
+  storedSimulation?: StoredSimulation;
 }
 
 export const Chat: FC<Props> = ({
@@ -117,11 +118,7 @@ export const Chat: FC<Props> = ({
               </div>
 
               <div>
-                <PluginGrid
-                  onSend={(plugin: any) => {
-                    // setCurrentMessage({ role: 'user', content: 'plugin' });
-                  }}
-                />
+                <PluginGrid />
               </div>
             </div>
           )}

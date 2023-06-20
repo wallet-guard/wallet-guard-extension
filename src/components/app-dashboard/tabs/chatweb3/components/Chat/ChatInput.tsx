@@ -7,7 +7,7 @@ import '../../styles/globals.css';
 
 import { Spinner } from '@chakra-ui/react';
 import { getDomainNameFromURL } from '../../../../../../lib/helpers/phishing/parseDomainHelper';
-import { chatWeb3Questions, chatWeb3QuestionsRefactored } from '../../../../../../lib/helpers/chatweb3/questions';
+import { chatWeb3QuestionsRefactored } from '../../../../../../lib/helpers/chatweb3/questions';
 interface Props {
   messageIsStreaming: boolean;
   onSend: (message: Message) => void;

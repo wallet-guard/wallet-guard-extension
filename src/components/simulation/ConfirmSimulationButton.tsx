@@ -38,7 +38,7 @@ const SimulationActionButton: React.FC<SimulationActionButton> = ({
 interface ConfirmSimulationButtonProps {
   storedSimulation: StoredSimulation;
   confirmText?: string;
-  showChatWeb3?: any;
+  showChatWeb3?: boolean | undefined;
   hideChatWeb3Button?: boolean;
   setShowChatWeb3?: any;
 }

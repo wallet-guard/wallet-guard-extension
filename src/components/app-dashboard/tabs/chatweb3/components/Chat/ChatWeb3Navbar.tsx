@@ -2,28 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
 import { CloseButton } from '@chakra-ui/react';
 import { IconArrowBarLeft, IconArrowBarRight, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { StoredSimulation } from '../../../../../../lib/simulation/storage';
 
 export const Navbar = ({
   showChatWeb3,
   setShowChatWeb3,
   fromSimulation,
 }: {
-  showChatWeb3?: any;
+  showChatWeb3?: boolean | undefined;
   setShowChatWeb3?: any;
-  fromSimulation?: any;
+  fromSimulation?: boolean | undefined;
 }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedModel, setSelectedModel] = useState('Default (GPT-3.5)');
-
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleDropdownSelect = (model: any) => {
-    setSelectedModel(model);
-    setIsDropdownOpen(false);
-  };
-
   const [width, setWidth] = useState<number>(window.innerWidth);
 
   function handleWindowSizeChange() {

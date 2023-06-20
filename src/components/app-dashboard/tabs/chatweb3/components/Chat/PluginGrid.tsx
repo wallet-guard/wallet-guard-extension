@@ -1,4 +1,3 @@
-// src/PluginGrid.tsx
 import React, { useEffect } from 'react';
 
 import PluginCard from './PluginCard';
@@ -11,19 +10,10 @@ interface PluginData {
   description: string;
 }
 
-// if screen size is less than 500px
-// then display 1 card per row
+interface Props {}
 
-interface Props {
-  onSend: (plugin: any) => void;
-}
-
-const PluginGrid: React.FC<Props> = ({ onSend }) => {
+const PluginGrid: React.FC<Props> = () => {
   const [plugins, setPlugins] = React.useState<PluginData[]>([]);
-
-  const handleSelect = (pluginTitle: string) => {
-    console.log(`Selected plugin: ${pluginTitle}`);
-  };
 
   useEffect(() => {
     if (window.innerWidth > 500) {
@@ -78,7 +68,7 @@ const PluginGrid: React.FC<Props> = ({ onSend }) => {
           plugins.map((plugin, index) => (
             <div
               className="col-12 col-lg-6 col-xl-3"
-              key={index}
+              key={plugin.persona}
               style={{ display: 'flex', justifyContent: 'center', marginBottom: '5rem' }}
             >
               <PluginCard
@@ -86,8 +76,6 @@ const PluginGrid: React.FC<Props> = ({ onSend }) => {
                 title={plugin.title}
                 persona={plugin.persona}
                 description={plugin.description}
-                onSelect={() => handleSelect(plugin.title)}
-                onSend={onSend}
               />
             </div>
           ))}
