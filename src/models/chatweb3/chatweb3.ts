@@ -39,14 +39,6 @@ export interface KeyValuePair {
   value: any;
 }
 
-// keep track of local storage schema
-export interface LocalStorage {
-  apiKey: string;
-  conversationHistory: Conversation[];
-  selectedConversation: Conversation;
-  theme: 'light' | 'dark';
-}
-
 export enum PersonaType {
   LEARN_WEB3 = 'LEARN_WEB3',
   WEB3_DEVELOPER = 'WEB3_DEVELOPER',
