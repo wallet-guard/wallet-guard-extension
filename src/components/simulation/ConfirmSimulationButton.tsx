@@ -68,7 +68,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
             }}
             onClick={() => {
               setShowChatWeb3(!showChatWeb3);
-              posthog.capture('chatweb3 from tas clicked');
+              posthog.capture('chatweb3 opened', { source: 'simulation' });
             }}
           >
             Ask our AI about this transaction

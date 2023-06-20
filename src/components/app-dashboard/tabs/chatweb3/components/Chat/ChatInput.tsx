@@ -8,6 +8,7 @@ import '../../styles/globals.css';
 import { Spinner } from '@chakra-ui/react';
 import { getDomainNameFromURL } from '../../../../../../lib/helpers/phishing/parseDomainHelper';
 import { chatWeb3QuestionsRefactored } from '../../../../../../lib/helpers/chatweb3/questions';
+import posthog from 'posthog-js';
 interface Props {
   messageIsStreaming: boolean;
   onSend: (message: Message) => void;
@@ -75,14 +76,16 @@ export const ChatInput: FC<Props> = ({
 
     if (exampleQuestion) {
       onSend({ role: 'user', content: exampleQuestion });
+      posthog.capture('chatweb3 message sent', { message: exampleQuestion });
       setContent('');
     } else {
       if (!content) {
         alert('Please enter a message');
         return;
       }
-
       onSend({ role: 'user', content });
+      posthog.capture('chatweb3 message sent', { message: content });
+
       setContent('');
     }
 
