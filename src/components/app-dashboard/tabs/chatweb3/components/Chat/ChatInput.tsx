@@ -1,4 +1,4 @@
-import { IconPlayerStop, IconSend } from '@tabler/icons-react';
+import { IconSend } from '@tabler/icons-react';
 import { FC, KeyboardEvent, MutableRefObject, useEffect, useRef, useState } from 'react';
 import React from 'react';
 import { Button, ButtonGroup } from '@chakra-ui/react';

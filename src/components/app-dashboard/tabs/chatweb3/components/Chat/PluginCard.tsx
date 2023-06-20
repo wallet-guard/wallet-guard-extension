@@ -1,4 +1,3 @@
-// src/PluginCard.tsx
 import React from 'react';
 import { PersonaType } from '../../../../../../models/chatweb3/chatweb3';
 

@@ -1,6 +1,5 @@
 import { Message } from '../../../../../../models/chatweb3/chatweb3';
 import { FC } from 'react';
-import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { CodeBlock } from '../Markdown/CodeBlock';
 import React from 'react';
@@ -8,7 +7,7 @@ import '../../styles/globals.css';
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 import remarkMath from 'remark-math';
 import rehypeMathjax from 'rehype-mathjax';
-import { IconCheck, IconCopy, IconEdit, IconRobot, IconUser, IconDots } from '@tabler/icons-react';
+import { IconRobot, IconUser } from '@tabler/icons-react';
 
 interface Props {
   message: Message;

@@ -1,12 +1,8 @@
 import { FC } from 'react';
 import React from 'react';
-import styles from '../../styles/globals.css';
-import style from 'react-syntax-highlighter/dist/esm/styles/hljs/a11y-dark';
-import { IconCheck, IconCopy, IconEdit, IconRobot, IconUser, IconDots } from '@tabler/icons-react';
+import { IconRobot, IconDots } from '@tabler/icons-react';
 
-interface Props {}
-
-export const ChatLoader: FC<Props> = () => {
+export const ChatLoader: FC = () => {
   return (
     <div
       style={{

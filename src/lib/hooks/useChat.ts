@@ -7,10 +7,8 @@ import {
   OpenAIModelID,
   OpenAIModels,
 } from '../../models/chatweb3/chatweb3';
-import { v4 as uuidv4 } from 'uuid';
 import { CHATWEB3_SERVER_URL_PROD } from '../environment';
 import { updateConversation } from '../helpers/chatweb3/conversation';
-import { DEFAULT_SYSTEM_PROMPT } from '../helpers/chatweb3/const';
 import { StoredSimulation } from '../simulation/storage';
 
 export const useChat = () => {

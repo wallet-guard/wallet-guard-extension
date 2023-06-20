@@ -1,16 +1,9 @@
-import {
-  Conversation,
-  KeyValuePair,
-  Message,
-  OpenAIModel,
-  PersonaType,
-} from '../../../../../../models/chatweb3/chatweb3';
+import { Conversation, KeyValuePair, Message, OpenAIModel } from '../../../../../../models/chatweb3/chatweb3';
 import { FC, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { ChatInput } from './ChatInput';
 import { ChatLoader } from './ChatLoader';
 import { ChatMessage } from './ChatMessage';
 import { Regenerate } from './Regenerate';
-import { SystemPrompt } from './SystemPrompt';
 import React from 'react';
 import '../../styles/globals.css';
 import { Navbar } from './ChatWeb3Navbar';

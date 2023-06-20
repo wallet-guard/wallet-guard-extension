@@ -1,6 +1,6 @@
 import { FC, memo, useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark, oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { IconCheck, IconClipboard, IconDownload } from '@tabler/icons-react';
 import { generateRandomString, programmingLanguages } from '../../../../../../lib/helpers/chatweb3/codeblock';
 import React from 'react';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useChat } from '../../../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
 import { StoredSimulation } from '../../../../../../lib/simulation/storage';

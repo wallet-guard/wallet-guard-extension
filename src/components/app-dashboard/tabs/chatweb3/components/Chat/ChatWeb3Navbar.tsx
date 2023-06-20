@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
-import { CloseButton } from '@chakra-ui/react';
-import { IconArrowBarLeft, IconArrowBarRight, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
-import { StoredSimulation } from '../../../../../../lib/simulation/storage';
+import { IconChevronLeft } from '@tabler/icons-react';
 
 export const Navbar = ({
   showChatWeb3,
