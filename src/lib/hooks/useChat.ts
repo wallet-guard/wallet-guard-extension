@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import {
+  ChatWeb3RequestBody,
   Conversation,
   KeyValuePair,
   Message,
@@ -46,41 +47,35 @@ export const useChat = () => {
       setMessageError(false);
 
       const controller = new AbortController();
-      let res;
+
+      const requestBody: ChatWeb3RequestBody = {
+        model: updatedConversation.model,
+        messages: updatedConversation.messages,
+        plugin: 'DEFAULT',
+      };
+
+      let requestUrl;
 
       if (storedSimulation) {
-        const body = JSON.stringify({
-          model: updatedConversation.model,
-          messages: updatedConversation.messages,
-          plugin: 'DEFAULT',
-          simulation: storedSimulation,
-        });
-
-        res = await fetch(CHATWEB3_SERVER_URL_PROD + '/v2/simulation', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          signal: controller.signal,
-          body: body,
-        });
+        // Add simulation to the request payload only if storedSimulation exists
+        requestBody.simulation = storedSimulation;
+        requestUrl = CHATWEB3_SERVER_URL_PROD + '/v2/simulation';
       } else {
-        const body = JSON.stringify({
-          model: updatedConversation.model,
-          messages: updatedConversation.messages,
-          plugin: 'DEFAULT',
-        });
-
-        res = await fetch(CHATWEB3_SERVER_URL_PROD + '/v2/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          signal: controller.signal,
-
-          body: body,
-        });
+        requestUrl = CHATWEB3_SERVER_URL_PROD + '/v2/chat';
       }
+
+      // Convert request payload to JSON
+      const body = JSON.stringify(requestBody);
+
+      // Make the request
+      const res = await fetch(requestUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal: controller.signal,
+        body: body,
+      });
 
       const response = new Response(res.body);
 
@@ -104,7 +99,7 @@ export const useChat = () => {
       const reader = data.getReader();
       const decoder = new TextDecoder();
       let done = false;
-      let isFirst = true;
+      let isFirstMessageChunk = true;
       let text = '';
 
       while (!done) {
@@ -119,9 +114,9 @@ export const useChat = () => {
 
         text += chunkValue;
 
-        if (isFirst) {
+        if (isFirstMessageChunk) {
           setLoading(false);
-          isFirst = false;
+          isFirstMessageChunk = false;
           const updatedMessages: Message[] = [
             ...updatedConversation.messages,
             { role: 'assistant', content: chunkValue },

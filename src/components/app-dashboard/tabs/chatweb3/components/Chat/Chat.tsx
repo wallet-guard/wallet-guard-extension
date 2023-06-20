@@ -130,7 +130,7 @@ export const Chat: FC<Props> = ({
           {loading && <ChatLoader />}
 
           <div
-            style={{ height: '162px', backgroundColor: lightMode === 'dark' ? '#151515' : 'initial' }}
+            style={{ height: '184px', backgroundColor: lightMode === 'dark' ? '#151515' : 'initial' }}
             ref={messagesEndRef}
           />
         </>

@@ -1,3 +1,5 @@
+import { StoredSimulation } from '../../lib/simulation/storage';
+
 export interface OpenAIModel {
   id: string;
   name: string;
@@ -46,3 +48,10 @@ export enum PersonaType {
   DEFI_TRADER = 'DEFI_TRADER',
   DEFAULT = 'DEFAULT',
 }
+
+export type ChatWeb3RequestBody = {
+  model: OpenAIModel;
+  messages: Message[];
+  plugin: string;
+  simulation?: StoredSimulation;
+};
