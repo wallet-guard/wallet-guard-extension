@@ -2,7 +2,6 @@ import { Conversation } from '../../../../../../models/chatweb3/chatweb3';
 import { FC, useEffect, useRef, useState } from 'react';
 import React from 'react';
 import '../../styles/globals.css';
-import { DEFAULT_SYSTEM_PROMPT } from '../../../../../../lib/helpers/chatweb3/const';
 
 interface Props {
   conversation: Conversation;
@@ -36,14 +35,6 @@ export const SystemPrompt: FC<Props> = ({ conversation, onChangePrompt }) => {
       textareaRef.current.style.height = `${textareaRef.current?.scrollHeight}px`;
     }
   }, [value]);
-
-  useEffect(() => {
-    if (conversation.prompt) {
-      setValue('');
-    } else {
-      setValue('');
-    }
-  }, [conversation]);
 
   return (
     <div className="flex flex-col">

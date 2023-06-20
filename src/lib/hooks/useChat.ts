@@ -49,7 +49,6 @@ export const useChat = () => {
       let res;
 
       if (storedSimulation) {
-        console.log('storedSimulation', storedSimulation);
         const body = JSON.stringify({
           model: updatedConversation.model,
           messages: updatedConversation.messages,

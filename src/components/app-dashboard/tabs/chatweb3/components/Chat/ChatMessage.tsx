@@ -11,10 +11,9 @@ import { IconRobot, IconUser } from '@tabler/icons-react';
 
 interface Props {
   message: Message;
-  lightMode: 'light' | 'dark';
 }
 
-export const ChatMessage: FC<Props> = ({ message, lightMode }) => {
+export const ChatMessage: FC<Props> = ({ message }) => {
   return (
     <div
       style={{

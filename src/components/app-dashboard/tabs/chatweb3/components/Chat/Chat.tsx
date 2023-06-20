@@ -124,7 +124,7 @@ export const Chat: FC<Props> = ({
       ) : (
         <>
           {conversation?.messages.map((message, index) => (
-            <ChatMessage key={index} message={message} lightMode={'dark'} />
+            <ChatMessage key={index} message={message} />
           ))}
 
           {loading && <ChatLoader />}
@@ -151,7 +151,6 @@ export const Chat: FC<Props> = ({
             textareaRef={textareaRef}
             showChatWeb3={showChatWeb3}
             onSend={(message) => {
-              console.log('storedSimulation', storedSimulation);
               setCurrentMessage(message);
               if (storedSimulation) {
                 onSend(message, false, storedSimulation);
