@@ -241,7 +241,7 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
 chrome.runtime.onInstalled.addListener(() => {
   // Create a context menu item
   chrome.contextMenus.create({
-    id: 'ask-chatgpt',
+    id: 'ask-chatweb3',
     title: 'Ask ChatWeb3',
     contexts: ['all'],
   });
@@ -249,7 +249,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Listen for when the user clicks on the context menu item
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === 'ask-chatgpt') {
+  if (info.menuItemId === 'ask-chatweb3') {
     // Send a message to the content script
 
     if (!currentChatWeb3Popup) {
@@ -277,17 +277,9 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
       return;
     }
-
-    // Let's send it to the front if it already exists
-    if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
-      chrome.windows.update(currentChatWeb3Popup, {
-        focused: true,
-      });
-    }
   }
 });
 
-// Remove Simulation Popup
 chrome.windows.onRemoved.addListener((windowId: number) => {
   if (currentChatWeb3Popup && currentChatWeb3Popup === windowId) {
     currentChatWeb3Popup = undefined;
@@ -319,13 +311,6 @@ chrome.commands.onCommand.addListener((command) => {
     chrome.windows.remove(closeId);
 
     return;
-  }
-
-  // Let's send it to the front if it already exists
-  if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
-    chrome.windows.update(currentChatWeb3Popup, {
-      focused: true,
-    });
   }
 });
 

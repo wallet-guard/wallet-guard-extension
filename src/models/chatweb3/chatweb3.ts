@@ -34,13 +34,6 @@ export interface Conversation {
   prompt: string;
 }
 
-export interface ChatBody {
-  model: OpenAIModel;
-  messages: Message[];
-  prompt: string;
-  conversationID: string;
-}
-
 export interface KeyValuePair {
   key: string;
   value: any;

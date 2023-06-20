@@ -26,13 +26,6 @@ export const ChatWeb3Tab = ({
     stopConversationRef,
   } = useChat();
 
-  useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      setLightMode('dark');
-    }
-  }, []);
-
   return (
     <>
       {selectedConversation && (

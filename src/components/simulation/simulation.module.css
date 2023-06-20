@@ -123,12 +123,6 @@
     display: none;
   }
 
-  .center-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
   .assetChangeRow {
     margin-bottom: 20px;
   }

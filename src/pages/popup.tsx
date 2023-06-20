@@ -24,7 +24,6 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../lib/theme';
 
 const Popup = () => {
-  const [storedSimulations, setStoredSimulations] = useState<StoredSimulation[]>([]);
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
   const [currentSimulation, setCurrentSimulation] = useState<StoredSimulation>();
   const [showSurvey, setShowSurvey] = useState(false);
@@ -145,7 +144,7 @@ const Popup = () => {
           />
         </ChakraProvider>
       ) : (
-        <div style={{ height: '100vh' }}>
+        <>
           <div style={{ backgroundColor: 'black' }}>
             <SimulationHeader />
           </div>
@@ -185,7 +184,7 @@ const Popup = () => {
               storedSimulation={currentSimulation}
             />
           )}
-        </div>
+        </>
       )}
     </>
   );

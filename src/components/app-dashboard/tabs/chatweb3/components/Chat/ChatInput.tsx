@@ -31,13 +31,15 @@ export const ChatInput: FC<Props> = ({
 
   const [hideOnLargeScreens, setHideOnLargeScreens] = useState(false);
 
-  // TODO: need to only get url once, this url is fetched everytime a chunk is passed to the frontend
-  chrome.tabs.query({ active: true, lastFocusedWindow: false }, function (tabs) {
-    if (tabs && tabs[0].url) {
-      setCurrentUrl(getDomainNameFromURL(tabs[0].url));
-      console.log(getDomainNameFromURL(tabs[0].url));
-    }
-  });
+  useEffect(() => {
+    // TODO: need to only get url once, this url is fetched everytime a chunk is passed to the frontend
+    chrome.tabs.query({ active: true, lastFocusedWindow: false }, function (tabs) {
+      if (tabs && tabs[0].url) {
+        setCurrentUrl(getDomainNameFromURL(tabs[0].url));
+        console.log(getDomainNameFromURL(tabs[0].url));
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {

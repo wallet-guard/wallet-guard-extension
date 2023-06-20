@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import {
-  ChatBody,
   Conversation,
   KeyValuePair,
   Message,
@@ -10,7 +9,7 @@ import {
 } from '../../models/chatweb3/chatweb3';
 import { v4 as uuidv4 } from 'uuid';
 import { CHATWEB3_SERVER_URL_PROD } from '../environment';
-import { saveConversation, saveConversations, updateConversation } from '../helpers/chatweb3/conversation';
+import { updateConversation } from '../helpers/chatweb3/conversation';
 import { DEFAULT_SYSTEM_PROMPT } from '../helpers/chatweb3/const';
 
 export const useChat = () => {
@@ -22,7 +21,6 @@ export const useChat = () => {
   const [messageError, setMessageError] = useState<boolean>(false);
   const [modelError, setModelError] = useState<boolean>(false);
   const stopConversationRef = useRef<boolean>(false);
-  const [conversationID] = useState(uuidv4());
 
   const handleSend = async (message: Message, isResend: boolean, storedSimulation: any = null) => {
     if (selectedConversation) {
@@ -47,13 +45,6 @@ export const useChat = () => {
       setLoading(true);
       setMessageIsStreaming(true);
       setMessageError(false);
-
-      // const chatBody: ChatBody = {
-      //   model: updatedConversation.model,
-      //   messages: updatedConversation.messages,
-      //   prompt: updatedConversation.prompt,
-      //   conversationID: conversationID,
-      // };
 
       const controller = new AbortController();
       let res;
@@ -165,8 +156,6 @@ export const useChat = () => {
         }
       }
 
-      saveConversation(updatedConversation);
-
       const updatedConversations: Conversation[] = conversations.map((conversation) => {
         if (conversation.id === selectedConversation.id) {
           return updatedConversation;
@@ -180,8 +169,6 @@ export const useChat = () => {
       }
 
       setConversations(updatedConversations);
-
-      saveConversations(updatedConversations);
 
       setMessageIsStreaming(false);
     }
