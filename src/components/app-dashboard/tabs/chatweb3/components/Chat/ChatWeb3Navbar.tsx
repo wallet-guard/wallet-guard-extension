@@ -5,11 +5,9 @@ import { IconChevronLeft } from '@tabler/icons-react';
 export const Navbar = ({
   showChatWeb3,
   setShowChatWeb3,
-  fromSimulation,
 }: {
   showChatWeb3?: boolean | undefined;
   setShowChatWeb3?: any;
-  fromSimulation?: boolean | undefined;
 }) => {
   const [width, setWidth] = useState<number>(window.innerWidth);
 
@@ -36,7 +34,7 @@ export const Navbar = ({
       }}
     >
       <div>
-        {fromSimulation ? (
+        {showChatWeb3 ? (
           <>
             <button
               onClick={() => setShowChatWeb3(!showChatWeb3)}

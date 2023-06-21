@@ -77,9 +77,7 @@ export const useChat = () => {
         body: body,
       });
 
-      const response = new Response(res.body);
-
-      if (!response.ok) {
+      if (!res.ok) {
         setLoading(false);
         setMessageIsStreaming(false);
         setMessageError(true);

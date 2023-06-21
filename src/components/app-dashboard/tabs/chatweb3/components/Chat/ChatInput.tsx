@@ -158,7 +158,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'Explain state changes'
+                          ? 'Can you explain all of the state changes in the transaction?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][0].reformatted
                           : "What's a NFT?"
@@ -175,7 +175,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'Any phishing warnings?'
+                          ? 'Are there any phishing warnings in the transaciton?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][1].reformatted
                           : "What's a DApp?"
@@ -196,7 +196,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'Approval significance?'
+                          ? 'What is the approval significance in this transaction?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][2].reformatted
                           : 'Define smart contracts?'
@@ -213,7 +213,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? "What's 'value' field?"
+                          ? "What's the 'value' field for in a transaction?"
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][3].reformatted
                           : "What's gas fees?"

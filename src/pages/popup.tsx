@@ -139,7 +139,6 @@ const Popup = () => {
           <ChatWeb3Tab
             showChatWeb3={showChatWeb3}
             setShowChatWeb3={setShowChatWeb3}
-            fromSimulation={true}
             storedSimulation={currentSimulation}
           />
         </ChakraProvider>
