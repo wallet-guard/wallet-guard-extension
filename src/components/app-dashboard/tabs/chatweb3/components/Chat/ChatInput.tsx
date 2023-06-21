@@ -213,7 +213,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? "What's the 'value' field for in a transaction?"
+                          ? 'What is Gwei price in a transaction?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][3].reformatted
                           : "What's gas fees?"
@@ -221,7 +221,7 @@ export const ChatInput: FC<Props> = ({
                     }}
                   >
                     {showChatWeb3
-                      ? "What's 'value' field?"
+                      ? 'What is Gwei price?'
                       : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                       ? chatWeb3QuestionsRefactored[currentUrl][3].original
                       : "What's gas fees?"}
