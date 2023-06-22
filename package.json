@@ -19,7 +19,6 @@
     "@sentry/react": "^7.37.1",
     "@sentry/tracing": "^7.37.1",
     "@tabler/icons-react": "^2.11.0",
-    "@types/react-syntax-highlighter": "^15.5.6",
     "deep-equal": "^2.2.0",
     "eth-rpc-errors": "^4.0.3",
     "parse-domain": "^7.0.0",
@@ -38,6 +37,7 @@
   },
   "devDependencies": {
     "@types/chrome": "^0.0.217",
+    "@types/react-syntax-highlighter": "^15.5.6",
     "@types/jest": "^29.5.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^18.0.10",
