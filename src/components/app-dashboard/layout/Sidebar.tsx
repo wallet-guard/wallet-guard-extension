@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
-import { FiBell, FiDisc, FiExternalLink, FiFilePlus, FiHome, FiSettings } from 'react-icons/fi';
+import { FiBell, FiDisc, FiExternalLink, FiFilePlus, FiHome, FiSettings, FiTv } from 'react-icons/fi';
 import { PageContext } from '../../../lib/context/context';
 import { PageView } from '../../../models/PageView';
 import posthog from 'posthog-js';
@@ -30,7 +30,7 @@ interface LinkItemProps {
 const GuestLinkItems: Array<LinkItemProps> = [
   { name: 'Dashboard', icon: FiHome, view: 'dashboard' },
   { name: 'Extensions', icon: FiFilePlus, view: 'extensions' },
-  { name: 'ChatWeb3', icon: FiFilePlus, view: 'chatweb3' },
+  { name: 'ChatWeb3', icon: FiTv, view: '' as PageView, externalLink: 'https://chat.walletguard.app' },
   { name: 'Alert History', icon: FiBell, view: 'alerts' },
   { name: 'Settings', icon: FiSettings, view: 'settings' },
   { name: 'Support', icon: BsDiscord, view: '' as PageView, externalLink: 'https://discord.gg/mvbtaJzXDP' },

@@ -59,9 +59,9 @@ export const useChat = () => {
       if (storedSimulation) {
         // Add simulation to the request payload only if storedSimulation exists
         requestBody.simulation = storedSimulation;
-        requestUrl = CHATWEB3_SERVER_URL_PROD + '/v0/chat/simulation';
+        requestUrl = CHATWEB3_SERVER_URL_PROD + '/v2/simulation';
       } else {
-        requestUrl = CHATWEB3_SERVER_URL_PROD + '/v0/chat';
+        requestUrl = CHATWEB3_SERVER_URL_PROD + '/v2/chat';
       }
 
       // Convert request payload to JSON

@@ -48,8 +48,6 @@ export function Dashboard() {
         return <DashboardTab />;
       case 'settings':
         return <SettingsTab />;
-      case 'chatweb3':
-        return <ChatWeb3Tab />;
       case 'extensions':
         return <ExtensionsTab />;
       case 'alerts':

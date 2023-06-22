@@ -7,7 +7,6 @@ import { Regenerate } from './Regenerate';
 import React from 'react';
 import '../../styles/globals.css';
 import { Navbar } from './ChatWeb3Navbar';
-import PluginGrid from './PluginGrid';
 import { StoredSimulation } from '../../../../../../lib/simulation/storage';
 
 interface Props {
@@ -96,22 +95,7 @@ export const Chat: FC<Props> = ({
                 gap: '40px',
                 paddingTop: '48px',
               }}
-            >
-              <div
-                style={{
-                  textAlign: 'center',
-                  fontSize: '1.875rem',
-                  fontWeight: '600',
-                  color: lightMode === 'dark' ? 'white' : '#404040',
-                }}
-              >
-                <div>Activated Plugins</div>
-              </div>
-
-              <div>
-                <PluginGrid />
-              </div>
-            </div>
+            ></div>
           )}
 
           <div

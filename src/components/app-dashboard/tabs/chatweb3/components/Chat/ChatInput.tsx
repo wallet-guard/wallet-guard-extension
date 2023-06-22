@@ -34,7 +34,7 @@ export const ChatInput: FC<Props> = ({
 
   useEffect(() => {
     chrome.tabs.query({ active: true, lastFocusedWindow: false }, function (tabs) {
-      if (tabs && tabs[0].url) {
+      if (tabs && tabs[0] && tabs[0].url) {
         setCurrentUrl(getDomainNameFromURL(tabs[0].url));
       }
     });

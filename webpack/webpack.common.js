@@ -78,9 +78,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       process: 'process/browser.js',
     }),
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
-    }),
+
     new DotenvPlugin(),
   ],
 };
