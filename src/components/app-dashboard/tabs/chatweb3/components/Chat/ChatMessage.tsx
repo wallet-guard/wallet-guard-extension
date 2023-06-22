@@ -6,7 +6,6 @@ import React from 'react';
 import '../../styles/globals.css';
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 import remarkMath from 'remark-math';
-import rehypeMathjax from 'rehype-mathjax';
 import { IconRobot, IconUser } from '@tabler/icons-react';
 
 interface Props {
@@ -49,7 +48,6 @@ export const ChatMessage: FC<Props> = ({ message }) => {
             <MemoizedReactMarkdown
               className="prose dark:prose-invert"
               remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[rehypeMathjax]}
               components={{
                 code({ node, inline, className, children, ...props }) {
                   const match = /language-(\w+)/.exec(className || '');
@@ -110,7 +108,7 @@ export const ChatMessage: FC<Props> = ({ message }) => {
                 },
               }}
             >
-              {message.content}
+              {message && message.content}
             </MemoizedReactMarkdown>
           )}
         </div>

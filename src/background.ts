@@ -25,7 +25,6 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
-import posthog from 'posthog-js';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -257,8 +256,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
       // Indicate we're creating a popup so we don't have many.
       currentChatWeb3Popup = -1;
 
-      posthog.capture('chatweb3 opened', { source: 'contextMenu' });
-
       chrome.windows
         .create({
           url: 'chatweb3.html',
@@ -293,8 +290,6 @@ chrome.commands.onCommand.addListener((command) => {
   if (!currentChatWeb3Popup) {
     // Indicate we're creating a popup so we don't have many.
     currentChatWeb3Popup = -1;
-
-    posthog.capture('chatweb3 opened', { source: 'hotkey' });
 
     chrome.windows
       .create({

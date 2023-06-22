@@ -30,7 +30,6 @@
     "react-markdown": "^8.0.5",
     "react-share": "^4.4.1",
     "react-syntax-highlighter": "^15.5.0",
-    "rehype-mathjax": "^4.0.2",
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
     "stream-browserify": "^3.0.0",

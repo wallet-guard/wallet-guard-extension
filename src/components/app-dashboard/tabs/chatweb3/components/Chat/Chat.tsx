@@ -105,9 +105,8 @@ export const Chat: FC<Props> = ({
         </>
       ) : (
         <>
-          {conversation?.messages.map((message, index) => (
-            <ChatMessage key={index} message={message} />
-          ))}
+          {conversation?.messages &&
+            conversation?.messages.map((message, index) => <ChatMessage key={index} message={message} />)}
 
           {loading && <ChatLoader />}
 
