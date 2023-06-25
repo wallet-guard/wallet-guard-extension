@@ -122,12 +122,7 @@ const Popup = () => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <PersonalSign simulation={currentSimulation} />
         </div>
-        <ConfirmSimulationButton
-          hideChatWeb3Button={true}
-          storedSimulation={currentSimulation}
-          showChatWeb3={showChatWeb3}
-          setShowChatWeb3={setShowChatWeb3}
-        />
+        <ConfirmSimulationButton storedSimulation={currentSimulation} />
       </>
     );
   }
@@ -145,7 +140,7 @@ const Popup = () => {
       ) : (
         <>
           <div style={{ backgroundColor: 'black' }}>
-            <SimulationHeader />
+            <SimulationHeader showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
           </div>
           {showSurvey && <SimulationSurvey />}
 
@@ -177,11 +172,7 @@ const Popup = () => {
           {currentSimulation.args?.bypassed ? (
             <BypassedSimulationButton storedSimulation={currentSimulation} />
           ) : (
-            <ConfirmSimulationButton
-              showChatWeb3={showChatWeb3}
-              setShowChatWeb3={setShowChatWeb3}
-              storedSimulation={currentSimulation}
-            />
+            <ConfirmSimulationButton storedSimulation={currentSimulation} />
           )}
         </>
       )}

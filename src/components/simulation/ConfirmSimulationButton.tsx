@@ -38,43 +38,17 @@ const SimulationActionButton: React.FC<SimulationActionButton> = ({
 interface ConfirmSimulationButtonProps {
   storedSimulation: StoredSimulation;
   confirmText?: string;
-  showChatWeb3?: boolean | undefined;
-  hideChatWeb3Button?: boolean;
-  setShowChatWeb3?: any;
 }
 
 export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = ({
   storedSimulation,
   confirmText = 'CONTINUE',
-  showChatWeb3,
-  hideChatWeb3Button = false,
-  setShowChatWeb3,
 }) => {
   const { id, signer, state } = storedSimulation;
 
   if (simulationNeedsAction(state)) {
     return (
       <div className={`${styles['footer-container']}`}>
-        {!hideChatWeb3Button && (
-          <button
-            className="mt-3 text-center"
-            style={{
-              textDecoration: 'underline',
-              color: 'white',
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              setShowChatWeb3(!showChatWeb3);
-              posthog.capture('chatweb3 opened', { source: 'simulation' });
-            }}
-          >
-            Ask our AI about this transaction
-          </button>
-        )}
-
         <div className={styles['button-container']}>
           <div className="row">
             <div className="col-6" style={{ paddingRight: '7.5px' }}>
