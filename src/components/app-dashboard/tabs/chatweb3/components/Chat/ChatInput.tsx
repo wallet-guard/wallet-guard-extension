@@ -158,7 +158,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'Can you explain all of the state changes in the transaction?'
+                          ? 'Why does this transaction need approvals?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][0].reformatted
                           : "What's a NFT?"
@@ -166,7 +166,7 @@ export const ChatInput: FC<Props> = ({
                     }}
                   >
                     {showChatWeb3
-                      ? 'Explain state changes'
+                      ? 'Tx needs approvals?'
                       : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                       ? chatWeb3QuestionsRefactored[currentUrl][0].original
                       : "What's a NFT?"}
@@ -175,7 +175,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'Are there any phishing warnings in the transaciton?'
+                          ? 'What risk metrics are associated with this transaction?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][1].reformatted
                           : "What's a DApp?"
@@ -183,7 +183,7 @@ export const ChatInput: FC<Props> = ({
                     }}
                   >
                     {showChatWeb3
-                      ? 'Any phishing warnings?'
+                      ? 'Is this suspicious?'
                       : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                       ? chatWeb3QuestionsRefactored[currentUrl][1].original
                       : "What's a DApp?"}
@@ -196,7 +196,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'What is the approval significance in this transaction?'
+                          ? 'What assets are being sent in this transaction?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][2].reformatted
                           : 'Define smart contracts?'
@@ -204,7 +204,7 @@ export const ChatInput: FC<Props> = ({
                     }}
                   >
                     {showChatWeb3
-                      ? 'Approval significance?'
+                      ? 'Sending & receiving?'
                       : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                       ? chatWeb3QuestionsRefactored[currentUrl][2].original
                       : 'Define smart contracts?'}
@@ -213,7 +213,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'What is Gwei price in a transaction?'
+                          ? 'What are the state changes in this transaction?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][3].reformatted
                           : "What's gas fees?"
@@ -221,7 +221,7 @@ export const ChatInput: FC<Props> = ({
                     }}
                   >
                     {showChatWeb3
-                      ? 'What is Gwei price?'
+                      ? 'Asset Changes?'
                       : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                       ? chatWeb3QuestionsRefactored[currentUrl][3].original
                       : "What's gas fees?"}

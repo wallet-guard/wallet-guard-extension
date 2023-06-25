@@ -22,6 +22,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #0e0e0e;
 }
 
 .button-container {
