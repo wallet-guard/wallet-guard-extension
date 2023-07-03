@@ -75,11 +75,9 @@ export const Navbar = ({
           </div>
         )}
       </div>
-      {width > 768 && (
-        <span style={{ textAlign: 'right', fontWeight: 'bold' }}>
-          Hotkey: <Kbd>command</Kbd> + <Kbd>shift</Kbd> + <Kbd>U</Kbd>
-        </span>
-      )}
+      <span style={{ textAlign: 'right', fontWeight: 'bold' }}>
+        Hotkey: <Kbd>command</Kbd> + <Kbd>shift</Kbd> + <Kbd>U</Kbd>
+      </span>
     </div>
   );
 };
