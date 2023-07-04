@@ -8,6 +8,7 @@ import React from 'react';
 import '../../styles/globals.css';
 import { Navbar } from './ChatWeb3Navbar';
 import { StoredSimulation } from '../../../../../../lib/simulation/storage';
+import { WelcomeModal } from './WelcomeModal';
 
 interface Props {
   conversation: Conversation;
@@ -72,6 +73,11 @@ export const Chat: FC<Props> = ({
     textareaRef.current?.focus();
   }, [conversation.messages]);
 
+  const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
+  function toggleReferralModal() {
+    setIsReferralModalOpen(!isReferralModalOpen);
+  }
+
   return (
     <div
       style={{
@@ -83,6 +89,8 @@ export const Chat: FC<Props> = ({
       }}
     >
       <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
+
+      <WelcomeModal isOpen={isReferralModalOpen} onRequestClose={toggleReferralModal} />
 
       {conversation?.messages.length === 0 ? (
         <>

@@ -39,6 +39,7 @@ import { OnboardingCommunity } from './onboarding/OnboardingCommunity';
 import { OnboardingPhishing } from './onboarding/OnboardingPhishing';
 import { posthog } from 'posthog-js';
 import { openGuide } from '../../../../lib/helpers/linkHelper';
+import { WelcomeModal } from '../chatweb3/components/Chat/WelcomeModal';
 
 export function DashboardTab() {
   const [walletInfo, setWalletInfo] = useState<WalletInfo[]>([]);
@@ -51,6 +52,11 @@ export function DashboardTab() {
   const [tutorialStep, setTutorialStep] = useState<number>(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const LAST_TUTORIAL_INDEX = 3;
+
+  const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
+  function toggleReferralModal() {
+    setIsReferralModalOpen(!isReferralModalOpen);
+  }
 
   useEffect(() => {
     getVersionFromLocalStorage();
@@ -354,6 +360,8 @@ export function DashboardTab() {
           </div>
         </div>
       </div>
+      <WelcomeModal isOpen={isReferralModalOpen} onRequestClose={toggleReferralModal} />
+
       <Feedback />
     </div>
   );
