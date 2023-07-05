@@ -17,10 +17,9 @@ import { Modal } from '@chakra-ui/react';
 interface WelcomeModalProps {
   isOpen: boolean;
   onClose: any;
-  onOpen: any;
 }
 
-export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, onOpen }) => {
+export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
 
   const updateScreenSize = () => {
@@ -33,7 +32,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose, onO
   }, []);
 
   return (
-    <Modal isOpen={true} onClose={onClose} size={'5xl'}>
+    <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
       <ModalOverlay />
       <ModalContent
         style={{ padding: 0, backgroundColor: '#232323', marginBottom: !isLargeScreen ? '0px' : '4rem' }}

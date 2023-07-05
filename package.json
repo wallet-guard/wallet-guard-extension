@@ -16,7 +16,6 @@
     "@emotion/styled": "^11.10.5",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@headlessui/react": "^1.7.15",
     "@sentry/react": "^7.37.1",
     "@sentry/tracing": "^7.37.1",
     "@tabler/icons-react": "^2.11.0",

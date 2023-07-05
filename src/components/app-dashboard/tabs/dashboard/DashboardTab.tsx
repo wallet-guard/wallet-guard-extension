@@ -49,14 +49,15 @@ export function DashboardTab() {
   const [unreadAlerts, setUnreadAlerts] = useState<AlertDetail[]>([]);
   const [settings, setSettings] = useState<Settings>(WG_DEFAULT_SETTINGS);
   const [tutorialComplete, setTutorialComplete] = useState<boolean>(true);
+  const [chatweb3Welcome, setChatWeb3Welcome] = useState<boolean>(true);
+
   const [tutorialStep, setTutorialStep] = useState<number>(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const LAST_TUTORIAL_INDEX = 3;
 
-  // const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
-  // function toggleReferralModal() {
-  //   setIsReferralModalOpen(!isReferralModalOpen);
-  // }
+  function toggleChatWeb3WelcomeModal() {
+    setChatWeb3Welcome(!chatweb3Welcome);
+  }
 
   useEffect(() => {
     getVersionFromLocalStorage();
@@ -207,7 +208,7 @@ export function DashboardTab() {
 
   return (
     <div className="container">
-      <WelcomeModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      <WelcomeModal isOpen={chatweb3Welcome} onClose={toggleChatWeb3WelcomeModal} />
       <Modal isOpen={!tutorialComplete} onClose={onClose} size="5xl" motionPreset="slideInBottom">
         <ModalOverlay backdropFilter="blur(3px)" />
         <ModalContent className={tutorialStyles.modal} justifyContent={'center'}>

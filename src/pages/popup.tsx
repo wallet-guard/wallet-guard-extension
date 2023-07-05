@@ -22,12 +22,18 @@ import { PersonalSign } from '../components/simulation/PersonalSign';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../lib/theme';
+import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/components/Chat/WelcomeModal';
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
   const [currentSimulation, setCurrentSimulation] = useState<StoredSimulation>();
   const [showSurvey, setShowSurvey] = useState(false);
   const [loading, isLoading] = useState(true);
+
+  const [chatweb3Welcome, setChatWeb3Welcome] = useState<boolean>(true);
+  function toggleChatWeb3WelcomeModal() {
+    setChatWeb3Welcome(!chatweb3Welcome);
+  }
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
     api_host: 'https://app.posthog.com',
@@ -139,6 +145,10 @@ const Popup = () => {
         </ChakraProvider>
       ) : (
         <>
+          <ChakraProvider theme={theme}>
+            <WelcomeModal isOpen={chatweb3Welcome} onClose={toggleChatWeb3WelcomeModal} />
+          </ChakraProvider>
+
           <div style={{ backgroundColor: 'black' }}>
             <SimulationHeader showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
           </div>

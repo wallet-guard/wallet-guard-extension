@@ -74,13 +74,6 @@ export const Chat: FC<Props> = ({
     textareaRef.current?.focus();
   }, [conversation.messages]);
 
-  // const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
-  // function toggleReferralModal() {
-  //   setIsReferralModalOpen(!isReferralModalOpen);
-  // }
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <div
       style={{
@@ -93,7 +86,6 @@ export const Chat: FC<Props> = ({
     >
       <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
 
-      {showChatWeb3 && <WelcomeModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />}
       {conversation?.messages.length === 0 ? (
         <>
           {hideOnLargeScreens && (

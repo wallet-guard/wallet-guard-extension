@@ -42,8 +42,13 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ showChatWeb3
               posthog.capture('chatweb3 opened', { source: 'simulation' });
             }}
           >
-            <div>
-              <img src="/images/wg_logos/Logo-Large-Transparent.png" alt="" width={'18px'} />
+            <div style={{ display: 'flex', padding: '0.75px' }}>
+              <img
+                src="/images/wg_logos/Logo-Large-Transparent.png"
+                alt=""
+                width={'18px'}
+                style={{ alignSelf: 'center' }}
+              />
 
               <b className={`${styles['font-archivo-medium']} pr-2 pl-1`}> ChatWeb3</b>
             </div>
