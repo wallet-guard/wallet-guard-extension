@@ -9,6 +9,7 @@ import '../../styles/globals.css';
 import { Navbar } from './ChatWeb3Navbar';
 import { StoredSimulation } from '../../../../../../lib/simulation/storage';
 import { WelcomeModal } from './WelcomeModal';
+import { useDisclosure } from '@chakra-ui/react';
 
 interface Props {
   conversation: Conversation;
@@ -73,10 +74,12 @@ export const Chat: FC<Props> = ({
     textareaRef.current?.focus();
   }, [conversation.messages]);
 
-  const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
-  function toggleReferralModal() {
-    setIsReferralModalOpen(!isReferralModalOpen);
-  }
+  // const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
+  // function toggleReferralModal() {
+  //   setIsReferralModalOpen(!isReferralModalOpen);
+  // }
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <div
@@ -90,8 +93,7 @@ export const Chat: FC<Props> = ({
     >
       <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
 
-      <WelcomeModal isOpen={isReferralModalOpen} onRequestClose={toggleReferralModal} />
-
+      {showChatWeb3 && <WelcomeModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />}
       {conversation?.messages.length === 0 ? (
         <>
           {hideOnLargeScreens && (

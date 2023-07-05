@@ -53,10 +53,10 @@ export function DashboardTab() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const LAST_TUTORIAL_INDEX = 3;
 
-  const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
-  function toggleReferralModal() {
-    setIsReferralModalOpen(!isReferralModalOpen);
-  }
+  // const [isReferralModalOpen, setIsReferralModalOpen] = useState(true);
+  // function toggleReferralModal() {
+  //   setIsReferralModalOpen(!isReferralModalOpen);
+  // }
 
   useEffect(() => {
     getVersionFromLocalStorage();
@@ -207,6 +207,7 @@ export function DashboardTab() {
 
   return (
     <div className="container">
+      <WelcomeModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
       <Modal isOpen={!tutorialComplete} onClose={onClose} size="5xl" motionPreset="slideInBottom">
         <ModalOverlay backdropFilter="blur(3px)" />
         <ModalContent className={tutorialStyles.modal} justifyContent={'center'}>
@@ -360,8 +361,6 @@ export function DashboardTab() {
           </div>
         </div>
       </div>
-      <WelcomeModal isOpen={isReferralModalOpen} onRequestClose={toggleReferralModal} />
-
       <Feedback />
     </div>
   );
