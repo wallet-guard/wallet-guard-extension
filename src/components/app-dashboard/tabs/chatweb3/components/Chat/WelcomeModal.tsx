@@ -32,7 +32,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
-      <ModalOverlay />
+      <ModalOverlay backdropFilter="blur(1px)" />
       <ModalContent
         style={{ padding: 0, backgroundColor: '#232323', marginBottom: !isLargeScreen ? '0px' : '4rem' }}
         containerProps={{ alignItems: isLargeScreen ? 'center' : 'flex-end' }}
