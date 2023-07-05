@@ -1,4 +1,3 @@
-import { Dialog } from '@headlessui/react';
 import { IconChevronRight } from '@tabler/icons-react';
 import React from 'react';
 import { useEffect, useState } from 'react';
