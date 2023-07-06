@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
 import { IconChevronLeft } from '@tabler/icons-react';
+import { TwitterShareButton } from 'react-share';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 export const Navbar = ({
   showChatWeb3,
@@ -10,6 +13,7 @@ export const Navbar = ({
   setShowChatWeb3?: any;
 }) => {
   const [width, setWidth] = useState<number>(window.innerWidth);
+  const [isMac, setIsMac] = useState(false);
 
   function handleWindowSizeChange() {
     setWidth(window.innerWidth);
@@ -20,6 +24,12 @@ export const Navbar = ({
       window.removeEventListener('resize', handleWindowSizeChange);
     };
   }, []);
+
+  chrome.runtime.getPlatformInfo(function (info) {
+    if (info.os === 'mac') {
+      setIsMac(true);
+    }
+  });
 
   return (
     <div
@@ -50,7 +60,7 @@ export const Navbar = ({
                   marginTop: '6px',
                 }}
               >
-                Back to transaction
+                Back
               </h1>
             </button>
           </>
@@ -75,9 +85,24 @@ export const Navbar = ({
           </div>
         )}
       </div>
-      <span style={{ textAlign: 'right', fontWeight: 'bold' }}>
-        Hotkey: <Kbd>command</Kbd> + <Kbd>shift</Kbd> + <Kbd>U</Kbd>
-      </span>
+      {showChatWeb3 ? (
+        <span style={{ textAlign: 'right', fontWeight: 'bold' }}>
+          Hotkey: <Kbd>{isMac ? 'command' : 'control'}</Kbd> + <Kbd>shift</Kbd> + <Kbd>U</Kbd>
+        </span>
+      ) : (
+        <TwitterShareButton
+          url={'https://walletguard.app'}
+          title={'Join myself and 20,000+ others who are protecting our assets with Wallet Guard'}
+          via={'wallet_guard'}
+        >
+          <a style={{ color: 'white' }} className="btn btn-dark">
+            <div>
+              <b className={`pr-2`}>Share</b>
+              <FontAwesomeIcon icon={faTwitter} size="lg" />
+            </div>
+          </a>
+        </TwitterShareButton>
+      )}
     </div>
   );
 };

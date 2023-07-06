@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import {
   Button,
   CloseButton,
+  Kbd,
   ModalBody,
   ModalCloseButton,
   ModalContent,
@@ -20,6 +21,7 @@ interface WelcomeModalProps {
 
 export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
+  const [isMac, setIsMac] = useState(false);
 
   const updateScreenSize = () => {
     setIsLargeScreen(window.innerWidth >= 768);
@@ -29,6 +31,12 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
     window.addEventListener('resize', updateScreenSize);
     return () => window.removeEventListener('resize', updateScreenSize);
   }, []);
+
+  chrome.runtime.getPlatformInfo(function (info) {
+    if (info.os === 'mac') {
+      setIsMac(true);
+    }
+  });
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
@@ -104,10 +112,10 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                         textAlign: 'center',
                       }}
                     >
-                      Command + Shift + U
+                      Hotkey Support
                     </h2>
                     <p style={{ color: 'gray', textAlign: 'center', maxWidth: isLargeScreen ? '230px' : '270px' }}>
-                      Access ChatWeb3 from anywhere on the web.
+                      <Kbd>{isMac ? 'command' : 'control'} + shift + U</Kbd> or try right click and Ask ChatWeb3
                     </p>
                   </div>
                   <div
@@ -136,10 +144,10 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                         textAlign: 'center',
                       }}
                     >
-                      Ask questions
+                      Ask Questions
                     </h2>
                     <p style={{ fontSize: '1rem', color: 'gray', textAlign: 'center', maxWidth: '230px' }}>
-                      Trained specifically on everything web3
+                      Access ChatWeb3 from anywhere on the web.
                     </p>
                   </div>
                 </div>
@@ -157,7 +165,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                     }}
                     onClick={onClose}
                   >
-                    Get Started
+                    Continue
                   </button>
                 </div>
               </div>
