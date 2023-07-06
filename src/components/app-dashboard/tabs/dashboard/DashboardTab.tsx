@@ -57,6 +57,7 @@ export function DashboardTab() {
 
   function toggleChatWeb3WelcomeModal() {
     setChatWeb3Welcome(!chatweb3Welcome);
+    setTutorialComplete(!tutorialComplete);
   }
 
   useEffect(() => {
@@ -208,7 +209,8 @@ export function DashboardTab() {
 
   return (
     <div className="container">
-      <WelcomeModal isOpen={chatweb3Welcome} onClose={toggleChatWeb3WelcomeModal} />
+      <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
+      {/* <WelcomeModal isOpen={chatweb3Welcome} onClose={toggleChatWeb3WelcomeModal} />
       <Modal isOpen={!tutorialComplete} onClose={onClose} size="5xl" motionPreset="slideInBottom">
         <ModalOverlay backdropFilter="blur(3px)" />
         <ModalContent className={tutorialStyles.modal} justifyContent={'center'}>
@@ -265,7 +267,7 @@ export function DashboardTab() {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
       <div className="row" style={{ paddingTop: '5%' }}>
         <div className="col-12">
           <div className="card" style={{ backgroundColor: '#222222' }}>

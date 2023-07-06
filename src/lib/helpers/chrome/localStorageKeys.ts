@@ -8,5 +8,5 @@ export enum WgKeys {
   Phantom = 'phantom',
   TutorialComplete = 'tutorialComplete',
   Simulations = 'simulations',
-  SurveyComplete = 'surveyComplete'
+  SurveyComplete = 'surveyComplete',
 }

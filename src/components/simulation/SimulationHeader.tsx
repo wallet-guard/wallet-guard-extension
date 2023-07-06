@@ -12,7 +12,11 @@ interface SimulationHeaderProps {
   setShowChatWeb3?: any;
 }
 
-export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ showChatWeb3, setShowChatWeb3 }) => {
+export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
+  showChatWeb3,
+  setShowChatWeb3,
+  storedSimulation,
+}) => {
   return (
     <div style={{ marginTop: '-10px', marginBottom: '-10px' }}>
       <div className="justify-content-between" style={{ display: 'flex' }}>
@@ -28,7 +32,7 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ showChatWeb3
           >
             <a style={{ color: 'white' }} className="btn btn-dark">
               <div>
-                <b className={`${styles['font-archivo-medium']} pr-2`}>Share</b>
+                {/* <b className={`${styles['font-archivo-medium']} pr-2`}>Share</b> */}
                 <FontAwesomeIcon icon={faTwitter} size="lg" />
               </div>
             </a>

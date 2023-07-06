@@ -29,10 +29,12 @@ const Popup = () => {
   const [currentSimulation, setCurrentSimulation] = useState<StoredSimulation>();
   const [showSurvey, setShowSurvey] = useState(false);
   const [loading, isLoading] = useState(true);
+  const [tutorialComplete, setTutorialComplete] = useState<boolean>(true);
 
   const [chatweb3Welcome, setChatWeb3Welcome] = useState<boolean>(true);
   function toggleChatWeb3WelcomeModal() {
     setChatWeb3Welcome(!chatweb3Welcome);
+    setTutorialComplete(!tutorialComplete);
   }
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
@@ -104,6 +106,28 @@ const Popup = () => {
     }
   }, []);
 
+  useEffect(() => {
+    localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((tutorialIsComplete) => {
+      if (tutorialIsComplete) {
+        setTutorialComplete(true);
+        return;
+      }
+
+      chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
+
+      posthog.onFeatureFlags(() => {
+        const onboardingFeatureEnabled = posthog.getFeatureFlagPayload('show-onboarding') as boolean;
+
+        if (onboardingFeatureEnabled) {
+          posthog.capture('startTutorial');
+          setTutorialComplete(false);
+        } else {
+          setTutorialComplete(true);
+        }
+      });
+    });
+  }, []);
+
   if (loading) {
     return <div style={{ backgroundColor: 'black' }} />;
   }
@@ -146,14 +170,17 @@ const Popup = () => {
       ) : (
         <>
           <ChakraProvider theme={theme}>
-            <WelcomeModal isOpen={chatweb3Welcome} onClose={toggleChatWeb3WelcomeModal} />
+            <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
           </ChakraProvider>
-
+          {/* // TODO: Need to remove chatweb3 button when there is no simulation */}
           <div style={{ backgroundColor: 'black' }}>
-            <SimulationHeader showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
+            <SimulationHeader
+              showChatWeb3={showChatWeb3}
+              setShowChatWeb3={setShowChatWeb3}
+              storedSimulation={currentSimulation}
+            />
           </div>
           {showSurvey && <SimulationSurvey />}
-
           <div>
             {((currentSimulation.state === StoredSimulationState.Success &&
               currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
@@ -168,13 +195,11 @@ const Popup = () => {
               </div>
             )}
           </div>
-
           {currentSimulation.state === StoredSimulationState.Success && (
             <div className="pt-4">
               <ContractDetails storedSimulation={currentSimulation} />
             </div>
           )}
-
           <div className="pb-4">
             <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
           </div>
