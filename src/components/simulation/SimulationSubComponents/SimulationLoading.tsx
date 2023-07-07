@@ -5,10 +5,11 @@ export const SimulationLoading = () => {
   return (
     <div>
       <div className="row text-center" style={{ marginTop: '50%' }}>
-        <div className="col">
+        <div className="col" style={{ display: 'flex', justifyContent: 'center' }}>
           <img src="/images/popup/RunMichaelK.gif" alt="" width={150} />
         </div>
       </div>
+
       <div className="row">
         <div className="col">
           <div className={styles['bouncing-loader']}></div>
