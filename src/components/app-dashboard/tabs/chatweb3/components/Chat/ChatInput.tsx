@@ -153,7 +153,7 @@ export const ChatInput: FC<Props> = ({
           {!hideOnLargeScreens && (
             <div>
               <div className="pb-2" style={{ textAlign: 'left' }}>
-                <ButtonGroup variant="outline" size="md" spacing="2">
+                <ButtonGroup variant="outline" size="sm" spacing="2">
                   <Button
                     onClick={() => {
                       handleSend(
@@ -191,7 +191,7 @@ export const ChatInput: FC<Props> = ({
                 </ButtonGroup>
               </div>
               <div className="pb-2" style={{ textAlign: 'left' }}>
-                <ButtonGroup variant="outline" size="md" spacing="2">
+                <ButtonGroup variant="outline" size="sm" spacing="2">
                   <Button
                     onClick={() => {
                       handleSend(
