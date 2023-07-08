@@ -12,7 +12,7 @@ export const ChatWeb3Tab = ({
   setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
   storedSimulation?: StoredSimulation | undefined;
 }) => {
-  const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
+  const [lightMode, setLightMode] = useState<'dark'>('dark');
   const {
     selectedConversation,
     messageIsStreaming,

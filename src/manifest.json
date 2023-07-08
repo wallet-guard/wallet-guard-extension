@@ -35,7 +35,7 @@
   "permissions": ["storage", "tabs", "alarms", "management", "notifications", "contextMenus"],
   "host_permissions": ["<all_urls>"],
   "commands": {
-    "run-foo": {
+    "run-chatweb3": {
       "suggested_key": {
         "default": "Ctrl+Shift+U",
         "mac": "Command+Shift+U"

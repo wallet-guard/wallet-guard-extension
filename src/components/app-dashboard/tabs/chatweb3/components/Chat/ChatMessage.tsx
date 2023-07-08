@@ -45,7 +45,9 @@ export const ChatMessage: FC<Props> = ({ message, index }) => {
 
         <div className="prose dark:prose-invert mt-[-2px]">
           {message.role === 'user' ? (
-            <div className="prose dark:prose-invert whitespace-pre-wrap">{message.content}</div>
+            <div className="prose dark:prose-invert" style={{ whiteSpace: 'pre-wrap' }}>
+              {message.content}
+            </div>
           ) : (
             <MemoizedReactMarkdown
               className="prose dark:prose-invert"

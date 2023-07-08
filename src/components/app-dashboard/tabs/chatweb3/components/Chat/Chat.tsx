@@ -16,7 +16,7 @@ interface Props {
   modelError: boolean;
   messageError: boolean;
   loading: boolean;
-  lightMode: 'light' | 'dark';
+  lightMode: 'dark';
   onSend: (message: Message, isResend: boolean, storedSimulation?: StoredSimulation) => void;
   onUpdateConversation: (conversation: Conversation, data: KeyValuePair) => void;
   stopConversationRef: MutableRefObject<boolean>;
@@ -77,17 +77,14 @@ export const Chat: FC<Props> = ({
         flex: 1,
         maxHeight: '100%',
         minHeight: '100vh',
-        backgroundColor: lightMode === 'dark' ? '#161616' : 'initial',
+        backgroundColor: '#161616',
       }}
     >
       <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
 
       {conversation?.messages.length === 0 ? (
         <>
-          <div
-            style={{ height: '162px', backgroundColor: lightMode === 'dark' ? '#151515' : 'initial' }}
-            ref={messagesEndRef}
-          />
+          <div style={{ height: '162px', backgroundColor: '#151515' }} ref={messagesEndRef} />
         </>
       ) : (
         <>
@@ -96,10 +93,7 @@ export const Chat: FC<Props> = ({
 
           {loading && <ChatLoader />}
 
-          <div
-            style={{ height: '184px', backgroundColor: lightMode === 'dark' ? '#151515' : 'initial' }}
-            ref={messagesEndRef}
-          />
+          <div style={{ height: '184px', backgroundColor: '#151515' }} ref={messagesEndRef} />
         </>
       )}
       <>
