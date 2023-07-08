@@ -5,7 +5,7 @@ import { ChatLoader } from './ChatLoader';
 import { ChatMessage } from './ChatMessage';
 import { Regenerate } from './Regenerate';
 import React from 'react';
-import '../../styles/globals.css';
+import '../../styles/chatweb3.css';
 import { Navbar } from './ChatWeb3Navbar';
 import { StoredSimulation } from '../../../../../../lib/simulation/storage';
 

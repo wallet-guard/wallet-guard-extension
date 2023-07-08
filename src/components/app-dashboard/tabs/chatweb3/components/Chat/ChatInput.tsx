@@ -3,7 +3,7 @@ import { FC, KeyboardEvent, MutableRefObject, useEffect, useRef, useState } from
 import React from 'react';
 import { Button, ButtonGroup } from '@chakra-ui/react';
 import { Message, OpenAIModel, OpenAIModelID } from '../../../../../../models/chatweb3/chatweb3';
-import '../../styles/globals.css';
+import '../../styles/chatweb3.css';
 
 import { Spinner } from '@chakra-ui/react';
 import { getDomainNameFromURL } from '../../../../../../lib/helpers/phishing/parseDomainHelper';

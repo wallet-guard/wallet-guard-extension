@@ -16,7 +16,7 @@ import { Modal } from '@chakra-ui/react';
 
 interface WelcomeModalProps {
   isOpen: boolean;
-  onClose: any;
+  onClose: () => void;
 }
 
 export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {

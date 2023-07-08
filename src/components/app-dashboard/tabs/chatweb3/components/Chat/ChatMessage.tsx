@@ -3,7 +3,7 @@ import { FC } from 'react';
 import remarkGfm from 'remark-gfm';
 import { CodeBlock } from '../Markdown/CodeBlock';
 import React from 'react';
-import '../../styles/globals.css';
+import '../../styles/chatweb3.css';
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 import remarkMath from 'remark-math';
 import { IconRobot, IconUser } from '@tabler/icons-react';
@@ -60,7 +60,7 @@ export const ChatMessage: FC<Props> = ({ message, index }) => {
                     <CodeBlock
                       key={Math.random()}
                       language={match[1]}
-                      value={String(children).replace(/\n$/, '')}
+                      code={String(children).replace(/\n$/, '')}
                       {...props}
                     />
                   ) : (

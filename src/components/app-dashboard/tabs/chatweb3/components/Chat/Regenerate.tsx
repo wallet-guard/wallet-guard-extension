@@ -1,7 +1,7 @@
 import { IconRefresh } from '@tabler/icons-react';
 import { FC } from 'react';
 import React from 'react';
-import '../../styles/globals.css';
+import '../../styles/chatweb3.css';
 
 interface Props {
   onRegenerate: () => void;
