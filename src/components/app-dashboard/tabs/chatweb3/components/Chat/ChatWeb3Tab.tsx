@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useChat } from '../../../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
 import { StoredSimulation } from '../../../../../../lib/simulation/storage';
@@ -9,7 +9,7 @@ export const ChatWeb3Tab = ({
   storedSimulation,
 }: {
   showChatWeb3?: boolean | undefined;
-  setShowChatWeb3?: any;
+  setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
   storedSimulation?: StoredSimulation | undefined;
 }) => {
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');

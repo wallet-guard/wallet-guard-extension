@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import { TwitterShareButton } from 'react-share';
@@ -10,7 +10,7 @@ export const Navbar = ({
   setShowChatWeb3,
 }: {
   showChatWeb3?: boolean | undefined;
-  setShowChatWeb3?: any;
+  setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
 }) => {
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [isMac, setIsMac] = useState(false);
@@ -46,7 +46,7 @@ export const Navbar = ({
       }}
     >
       <div>
-        {showChatWeb3 ? (
+        {showChatWeb3 && setShowChatWeb3 ? (
           <>
             <button
               onClick={() => setShowChatWeb3(!showChatWeb3)}

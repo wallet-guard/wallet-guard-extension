@@ -1,5 +1,5 @@
 import { Conversation, KeyValuePair, Message, OpenAIModel } from '../../../../../../models/chatweb3/chatweb3';
-import { FC, MutableRefObject, useEffect, useRef, useState } from 'react';
+import { Dispatch, FC, MutableRefObject, SetStateAction, useEffect, useRef, useState } from 'react';
 import { ChatInput } from './ChatInput';
 import { ChatLoader } from './ChatLoader';
 import { ChatMessage } from './ChatMessage';
@@ -21,7 +21,7 @@ interface Props {
   onUpdateConversation: (conversation: Conversation, data: KeyValuePair) => void;
   stopConversationRef: MutableRefObject<boolean>;
   showChatWeb3?: boolean;
-  setShowChatWeb3?: () => void;
+  setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
   storedSimulation?: StoredSimulation;
 }
 
