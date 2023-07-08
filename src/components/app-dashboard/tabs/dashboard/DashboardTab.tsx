@@ -49,13 +49,11 @@ export function DashboardTab() {
   const [unreadAlerts, setUnreadAlerts] = useState<AlertDetail[]>([]);
   const [settings, setSettings] = useState<Settings>(WG_DEFAULT_SETTINGS);
   const [tutorialComplete, setTutorialComplete] = useState<boolean>(true);
-  const [chatweb3Welcome, setChatWeb3Welcome] = useState<boolean>(true);
 
   const [tutorialStep, setTutorialStep] = useState<number>(0);
   const LAST_TUTORIAL_INDEX = 3;
 
   function toggleChatWeb3WelcomeModal() {
-    setChatWeb3Welcome(!chatweb3Welcome);
     setTutorialComplete(!tutorialComplete);
   }
 
