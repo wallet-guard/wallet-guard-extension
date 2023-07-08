@@ -52,7 +52,6 @@ export function DashboardTab() {
   const [chatweb3Welcome, setChatWeb3Welcome] = useState<boolean>(true);
 
   const [tutorialStep, setTutorialStep] = useState<number>(0);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const LAST_TUTORIAL_INDEX = 3;
 
   function toggleChatWeb3WelcomeModal() {

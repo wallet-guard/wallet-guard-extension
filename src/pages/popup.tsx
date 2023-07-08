@@ -171,7 +171,6 @@ const Popup = () => {
           <ChakraProvider theme={theme}>
             <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
           </ChakraProvider>
-          {/* // TODO: Need to remove chatweb3 button when there is no simulation */}
           <div style={{ backgroundColor: 'black' }}>
             <SimulationHeader
               showChatWeb3={showChatWeb3}

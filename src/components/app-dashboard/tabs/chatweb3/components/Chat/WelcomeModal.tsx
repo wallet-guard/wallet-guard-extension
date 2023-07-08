@@ -172,13 +172,6 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
             </div>
           </div>
         </ModalBody>
-
-        {/* <ModalFooter>
-        <Button colorScheme='blue' mr={3} onClick={onClose}>
-          Close
-        </Button>
-        <Button variant='ghost'>Secondary Action</Button>
-      </ModalFooter> */}
       </ModalContent>
     </Modal>
   );

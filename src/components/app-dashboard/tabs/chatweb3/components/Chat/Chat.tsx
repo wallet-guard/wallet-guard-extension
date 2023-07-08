@@ -84,18 +84,6 @@ export const Chat: FC<Props> = ({
 
       {conversation?.messages.length === 0 ? (
         <>
-          {hideOnLargeScreens && (
-            <div
-              style={{
-                margin: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '40px',
-                paddingTop: '48px',
-              }}
-            ></div>
-          )}
-
           <div
             style={{ height: '162px', backgroundColor: lightMode === 'dark' ? '#151515' : 'initial' }}
             ref={messagesEndRef}

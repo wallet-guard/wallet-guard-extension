@@ -32,7 +32,6 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
           >
             <a style={{ color: 'white' }} className="btn btn-dark">
               <div>
-                {/* <b className={`${styles['font-archivo-medium']} pr-2`}>Share</b> */}
                 <FontAwesomeIcon icon={faTwitter} size="lg" />
               </div>
             </a>
