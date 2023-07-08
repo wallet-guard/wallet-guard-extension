@@ -3,9 +3,9 @@ import { toUnicode } from 'punycode';
 import React, { useEffect } from 'react';
 import { standardizeUrl } from '../../../../lib/helpers/util';
 import { AlertCategory, AlertDetail, AlertType } from '../../../../models/Alert';
-import { WarningType } from '../../../../models/PhishingResponse';
 import { add3Dots } from '../extensions/ExtensionsTab';
 import styles from './Alerts.module.css';
+import { WarningType } from '../../../../models/simulation/Transaction';
 
 interface Props {
   alertsHistory: AlertDetail[];
@@ -47,6 +47,7 @@ export default function AlertsTable(props: Props) {
     }
   }
 
+  // TODO: Unhandled cases here now that we have things like ETH_SIGN
   function mapCategory(category: AlertType) {
     switch (category) {
       case WarningType.Drainer:

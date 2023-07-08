@@ -1,7 +1,7 @@
 import { Heading } from '@chakra-ui/react';
 import React from 'react';
 import { AlertCategory, AlertType } from '../../../../../models/Alert';
-import { WarningType } from '../../../../../models/PhishingResponse';
+import { WarningType } from '../../../../../models/simulation/Transaction';
 
 interface Warning {
   type: AlertType;
@@ -12,6 +12,7 @@ const UnreadAlertComponent = (props: Warning) => {
   const { type, warningsCount } = props;
   const warningText = mapCategory(type);
 
+  // TODO: Unhandled cases here from warningType
   function mapCategory(category: AlertType) {
     switch (category) {
       case WarningType.Blocklisted:

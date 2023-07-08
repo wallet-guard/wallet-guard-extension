@@ -77,15 +77,63 @@ interface RequestArgs {
 }
 
 export type SimulationResponse = {
-  warningType: SimulationWarningType;
-  message?: string[];
-  stateChanges: SimulationStateChange[];
+  recommendedAction: RecommendedActionType;
+  overviewMessage: string;
+  warningType: SimulationWarningType; // Deprecated in favor of RecommendedAction
+  message?: string[]; // Deprecated in favor of OverviewMessage
+  stateChanges: SimulationStateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
-  decodedMessage?: string;
+  riskFactors: RiskFactor[] | null;
+  decodedMessage?: string; // only present on signatures
+  gas?: SimulatedGas; // Only present on transactions
   scanResult: PhishingResponse;
   error: SimulationError | null;
 };
+
+export type SimulatedGas = {
+  gasUsedEth: string;
+  fiatValue: string;
+  currency: Currency;
+};
+
+export enum Currency {
+  // add support for more currencies here in the future
+  USD = 'USD',
+}
+
+export enum RecommendedActionType {
+  None = 'NONE',
+  Warn = 'WARN',
+  Block = 'BLOCK',
+}
+
+export type RiskFactor = {
+  severity: Severity;
+  type: WarningType;
+  message: string;
+  value: string;
+};
+
+export enum WarningType {
+  Similarity = 'SIMILARITY',
+  RecentlyCreated = 'RECENTLY_CREATED',
+  Malware = 'MALWARE',
+  Homoglyph = 'HOMOGLYPH',
+  Blocklisted = 'BLOCKLISTED',
+  MLInference = 'ML_INFERENCE',
+  Drainer = 'DRAINER',
+  BlurListing = 'BLUR_LISTING',
+  OpenseaListing = 'OPENSEA_LISTING',
+  EthSign = 'ETH_SIGN',
+  LooksrareListing = 'LOOKSRARE_LISTING',
+}
+
+export enum Severity {
+  Low = 'LOW',
+  High = 'HIGH',
+  Critical = 'CRITICAL',
+}
 
 export type SimulationErrorResponse = {
   error: SimulationError;

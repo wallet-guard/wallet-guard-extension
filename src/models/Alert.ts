@@ -1,4 +1,4 @@
-import { WarningType } from './PhishingResponse';
+import { WarningType } from './simulation/Transaction';
 
 export type AlertType = WarningType | AlertCategory | PHISHING_REASON;
 
