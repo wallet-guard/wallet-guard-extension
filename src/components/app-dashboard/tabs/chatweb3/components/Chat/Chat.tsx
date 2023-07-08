@@ -8,8 +8,6 @@ import React from 'react';
 import '../../styles/globals.css';
 import { Navbar } from './ChatWeb3Navbar';
 import { StoredSimulation } from '../../../../../../lib/simulation/storage';
-import { WelcomeModal } from './WelcomeModal';
-import { useDisclosure } from '@chakra-ui/react';
 
 interface Props {
   conversation: Conversation;
@@ -29,9 +27,7 @@ interface Props {
 
 export const Chat: FC<Props> = ({
   conversation,
-  models,
   messageIsStreaming,
-  modelError,
   messageError,
   loading,
   lightMode,
@@ -108,7 +104,7 @@ export const Chat: FC<Props> = ({
       ) : (
         <>
           {conversation?.messages &&
-            conversation?.messages.map((message, index) => <ChatMessage key={index} message={message} />)}
+            conversation?.messages.map((message, index) => <ChatMessage key={index} message={message} index={index} />)}
 
           {loading && <ChatLoader />}
 

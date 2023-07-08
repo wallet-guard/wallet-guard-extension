@@ -10,13 +10,15 @@ import { IconRobot, IconUser } from '@tabler/icons-react';
 
 interface Props {
   message: Message;
+  index: number;
 }
 
-export const ChatMessage: FC<Props> = ({ message }) => {
+export const ChatMessage: FC<Props> = ({ message, index }) => {
   return (
     <div
       style={{
         color: '#F7FAFC',
+        marginTop: index === 0 ? '64px' : '',
         borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
         backgroundColor: message.role === 'assistant' ? '#151515' : '#282828',
         overflowWrap: 'anywhere',
