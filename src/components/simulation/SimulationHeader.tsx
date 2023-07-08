@@ -38,27 +38,29 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
             </a>
           </TwitterShareButton>
 
-          <button
-            style={{ color: 'white' }}
-            className="btn btn-dark ml-2"
-            onClick={() => {
-              setShowChatWeb3(!showChatWeb3);
-              posthog.capture('chatweb3 opened', { source: 'simulation' });
-            }}
-          >
-            <div style={{ display: 'flex' }}>
-              <img
-                src="/images/wg_logos/Logo-Large-Transparent.png"
-                alt=""
-                width={'18px'}
-                style={{ alignSelf: 'center', marginRight: '1px' }}
-              />
+          {setShowChatWeb3 && (
+            <button
+              style={{ color: 'white' }}
+              className="btn btn-dark ml-2"
+              onClick={() => {
+                setShowChatWeb3(!showChatWeb3);
+                posthog.capture('chatweb3 opened', { source: 'simulation' });
+              }}
+            >
+              <div style={{ display: 'flex' }}>
+                <img
+                  src="/images/wg_logos/Logo-Large-Transparent.png"
+                  alt=""
+                  width={'18px'}
+                  style={{ alignSelf: 'center', marginRight: '1px' }}
+                />
 
-              <b className={`${styles['font-archivo-medium']} pr-2 pl-1`} style={{ fontWeight: 'normal' }}>
-                ChatWeb3
-              </b>
-            </div>
-          </button>
+                <b className={`${styles['font-archivo-medium']} pr-2 pl-1`} style={{ fontWeight: 'normal' }}>
+                  ChatWeb3
+                </b>
+              </div>
+            </button>
+          )}
         </div>
       </div>
     </div>
