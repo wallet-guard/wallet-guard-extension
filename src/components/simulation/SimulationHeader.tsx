@@ -4,7 +4,6 @@ import React from 'react';
 import { TwitterShareButton } from 'react-share';
 import styles from './simulation.module.css';
 import { StoredSimulation } from '../../lib/simulation/storage';
-import posthog from 'posthog-js';
 
 interface SimulationHeaderProps {
   storedSimulation?: StoredSimulation;
@@ -43,7 +42,6 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
               className="btn btn-dark ml-2"
               onClick={() => {
                 setShowChatWeb3(!showChatWeb3);
-                posthog.capture('chatweb3 opened', { source: 'simulation' });
               }}
             >
               <div style={{ display: 'flex' }}>

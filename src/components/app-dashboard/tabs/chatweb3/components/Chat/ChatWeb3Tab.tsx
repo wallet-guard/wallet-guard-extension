@@ -1,7 +1,8 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useChat } from '../../../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
 import { StoredSimulation } from '../../../../../../lib/simulation/storage';
+import posthog from 'posthog-js';
 
 export const ChatWeb3Tab = ({
   showChatWeb3,
@@ -24,6 +25,14 @@ export const ChatWeb3Tab = ({
     handleUpdateConversation,
     stopConversationRef,
   } = useChat();
+
+  useEffect(() => {
+    if (showChatWeb3) {
+      posthog.capture('chatweb3 opened', { source: 'simulation' });
+    } else {
+      posthog.capture('chatweb3 closed', { source: 'hotkey' });
+    }
+  }, []);
 
   return (
     <>
