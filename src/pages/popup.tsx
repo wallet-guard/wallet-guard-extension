@@ -65,6 +65,7 @@ const Popup = () => {
 
     if (current?.args?.bypassed) {
       if (current.simulation) {
+        // TODO: update ref here
         current.simulation.warningType = SimulationWarningType.Warn;
         current.simulation.message = [
           `This transaction attempted to bypass Wallet Guard's simulation. Please proceed with caution.`,
