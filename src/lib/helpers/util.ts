@@ -34,24 +34,23 @@ export function mapSubdomains(subdomains: string[] | undefined): string {
 }
 
 export function setIcon(phishing: boolean): void {
-
   if (phishing === false) {
     chrome.action.setIcon({
       path: {
-        '16': '../images/favicon/shield-green-16.png'
-      }
+        '16': '../images/favicon/shield-green-16.png',
+      },
     });
   } else if (phishing === true) {
     chrome.action.setIcon({
       path: {
-        '16': '../images/favicon/shield-red-16.png'
-      }
+        '16': '../images/favicon/shield-red-16.png',
+      },
     });
   } else {
     chrome.action.setIcon({
       path: {
-        '16': '../images/favicon/encrypted.png'
-      }
+        '16': '../images/favicon/encrypted.png',
+      },
     });
   }
 }
@@ -62,7 +61,6 @@ export function createDomainName(domainObj: ParseResultListed) {
 
   // Handle URLs like gov.uk, netlify.app, etc.
   if (!domain) {
-    console.log('domain is blank');
     return topLevelDomains.join('.');
   }
 

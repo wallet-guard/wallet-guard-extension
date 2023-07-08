@@ -14,7 +14,9 @@ import {
 } from '@chakra-ui/react';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
-import { FiBell, FiDisc, FiExternalLink, FiFilePlus, FiHome, FiSettings } from 'react-icons/fi';
+import { FiBell, FiExternalLink, FiHome, FiSettings } from 'react-icons/fi';
+import { TbRobot } from 'react-icons/tb';
+import { HiOutlinePuzzle } from 'react-icons/hi';
 import { PageContext } from '../../../lib/context/context';
 import { PageView } from '../../../models/PageView';
 import posthog from 'posthog-js';
@@ -29,11 +31,12 @@ interface LinkItemProps {
 
 const GuestLinkItems: Array<LinkItemProps> = [
   { name: 'Dashboard', icon: FiHome, view: 'dashboard' },
+  { name: 'Extensions', icon: HiOutlinePuzzle, view: 'extensions' },
   { name: 'Alert History', icon: FiBell, view: 'alerts' },
-  { name: 'Extensions', icon: FiFilePlus, view: 'extensions' },
-  { name: 'Settings', icon: FiSettings, view: 'settings' },
-  { name: 'Support', icon: BsDiscord, view: '' as PageView, externalLink: 'https://discord.gg/mvbtaJzXDP' },
+  { name: 'ChatWeb3', icon: TbRobot, view: '' as PageView, externalLink: 'https://chat.walletguard.app' },
   { name: 'Academy', icon: BsBook, view: '' as PageView, externalLink: 'https://walletguard.app/academy' },
+  { name: 'Support', icon: BsDiscord, view: '' as PageView, externalLink: 'https://discord.gg/mvbtaJzXDP' },
+  { name: 'Settings', icon: FiSettings, view: 'settings' },
 ];
 
 export default function SimpleSidebar({ children }: any) {
@@ -102,9 +105,9 @@ export default function SimpleSidebar({ children }: any) {
   const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     return (
       <Box
-        bg={useColorModeValue('white', 'black')}
+        bg={useColorModeValue('white', '#111111')}
         borderRight="1px"
-        borderRightColor={'gray.900'}
+        borderRightColor={'#212121'}
         w={{ base: 'full', md: 60 }}
         pos="fixed"
         h="full"
@@ -154,7 +157,7 @@ export default function SimpleSidebar({ children }: any) {
   };
 
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'black')}>
+    <Box minH="100vh" bg={useColorModeValue('gray.100', '#111111')}>
       <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
       <Drawer
         autoFocus={false}
@@ -170,9 +173,7 @@ export default function SimpleSidebar({ children }: any) {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box>
+      <Box ml={{ base: 0, md: 60 }}>{children}</Box>
     </Box>
   );
 }

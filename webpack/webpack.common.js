@@ -12,6 +12,7 @@ module.exports = {
     manifest: path.join(srcDir, 'manifest.json'),
     background: path.join(srcDir, 'background.ts'),
     popup: path.join(srcDir, 'pages/popup.tsx'),
+    chatweb3: path.join(srcDir, 'pages/chatweb3.tsx'),
     dashboard: path.join(srcDir, 'pages/dashboard.tsx'),
     phishing: path.join(srcDir, 'pages/phishing.tsx'),
     'content-scripts/contentScripts': path.join(srcDir, 'content-scripts', 'contentScripts.tsx'),
@@ -75,8 +76,9 @@ module.exports = {
       options: {},
     }),
     new webpack.ProvidePlugin({
-      process: 'process/browser',
+      process: 'process/browser.js',
     }),
+
     new DotenvPlugin(),
   ],
 };

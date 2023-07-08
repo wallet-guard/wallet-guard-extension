@@ -14,7 +14,7 @@ export const NoSimulation = () => {
       <div className="row pt-5 text-center pl-4 pr-4">
         <div className="col-12">
           <h5 className={`${styles['font-archivo-bold']}`} style={{ color: 'white' }}>
-            Start a transaction on Ethereum Mainnet to create a simulation
+            Start a transaction to create a simulation
           </h5>
         </div>
       </div>

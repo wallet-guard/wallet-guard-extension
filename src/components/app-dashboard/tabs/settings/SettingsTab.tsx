@@ -49,7 +49,7 @@ export function SettingsTab() {
 
         <div className="row pt-5">
           <div className="col-lg-12 col-xl-6 pt-1 pb-1">
-            <div className="card h-100" style={{ backgroundColor: '#121212', minWidth: '460px' }}>
+            <div className="card h-100" style={{ backgroundColor: '#222222', minWidth: '460px' }}>
               <div className="card-body">
                 <div className="row">
                   <div className="col-8 pb-1" style={{ fontSize: '22px' }}>
@@ -78,7 +78,7 @@ export function SettingsTab() {
           </div>
 
           <div className="col-lg-12 col-xl-6 pt-1 pb-1 pl-0">
-            <div className="card h-100" style={{ backgroundColor: '#121212', minWidth: '460px' }}>
+            <div className="card h-100" style={{ backgroundColor: '#222222', minWidth: '460px' }}>
               <div className="card-body">
                 <div className="row">
                   <div className="col-8 pb-1" style={{ fontSize: '22px' }}>
@@ -109,7 +109,7 @@ export function SettingsTab() {
 
         <div className="row pt-2">
           <div className="col-lg-12 col-xl-6 pt-1 pb-1">
-            <div className="card h-100" style={{ backgroundColor: '#121212', minWidth: '460px' }}>
+            <div className="card h-100" style={{ backgroundColor: '#222222', minWidth: '460px' }}>
               <div className="card-body">
                 <div className="row">
                   <div className="col-8 pb-1" style={{ fontSize: '22px' }}>
@@ -144,7 +144,7 @@ export function SettingsTab() {
           </div>
 
           <div className="col-lg-12 col-xl-6 pt-1 pb-1 pl-0">
-            <div className="card h-100" style={{ backgroundColor: '#121212', minWidth: '460px' }}>
+            <div className="card h-100" style={{ backgroundColor: '#222222', minWidth: '460px' }}>
               <div className="card-body">
                 <div className="row">
                   <div className="col-9 pb-1" style={{ fontSize: '22px' }}>
