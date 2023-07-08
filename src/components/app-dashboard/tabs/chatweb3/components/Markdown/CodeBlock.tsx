@@ -27,27 +27,7 @@ export const CodeBlock: FC<Props> = memo(({ language, value }) => {
       }, 2000);
     });
   };
-  const downloadAsFile = () => {
-    const fileExtension = programmingLanguages[language] || '.file';
-    const suggestedFileName = `file-${generateRandomString(3, true)}${fileExtension}`;
-    const fileName = window.prompt('Enter file name' || '', suggestedFileName);
 
-    if (!fileName) {
-      // user pressed cancel on prompt
-      return;
-    }
-
-    const blob = new Blob([value], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.download = fileName;
-    link.href = url;
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
   return (
     <div style={{ position: 'relative', fontFamily: 'sans-serif', fontSize: '16px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px' }}>
@@ -69,20 +49,6 @@ export const CodeBlock: FC<Props> = memo(({ language, value }) => {
           >
             {isCopied ? <IconCheck size={18} /> : <IconClipboard size={18} />}
             {isCopied ? 'Copied!' : 'Copy code'}
-          </button>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              borderRadius: '4px',
-              backgroundColor: 'transparent',
-              padding: '8px',
-              fontSize: '12px',
-              color: 'white',
-            }}
-            onClick={downloadAsFile}
-          >
-            <IconDownload size={18} />
           </button>
         </div>
       </div>
