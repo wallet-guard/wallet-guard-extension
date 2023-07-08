@@ -32,11 +32,11 @@ interface LinkItemProps {
 const GuestLinkItems: Array<LinkItemProps> = [
   { name: 'Dashboard', icon: FiHome, view: 'dashboard' },
   { name: 'Extensions', icon: HiOutlinePuzzle, view: 'extensions' },
-  { name: 'ChatWeb3', icon: TbRobot, view: '' as PageView, externalLink: 'https://chat.walletguard.app' },
   { name: 'Alert History', icon: FiBell, view: 'alerts' },
-  { name: 'Settings', icon: FiSettings, view: 'settings' },
-  { name: 'Support', icon: BsDiscord, view: '' as PageView, externalLink: 'https://discord.gg/mvbtaJzXDP' },
+  { name: 'ChatWeb3', icon: TbRobot, view: '' as PageView, externalLink: 'https://chat.walletguard.app' },
   { name: 'Academy', icon: BsBook, view: '' as PageView, externalLink: 'https://walletguard.app/academy' },
+  { name: 'Support', icon: BsDiscord, view: '' as PageView, externalLink: 'https://discord.gg/mvbtaJzXDP' },
+  { name: 'Settings', icon: FiSettings, view: 'settings' },
 ];
 
 export default function SimpleSidebar({ children }: any) {

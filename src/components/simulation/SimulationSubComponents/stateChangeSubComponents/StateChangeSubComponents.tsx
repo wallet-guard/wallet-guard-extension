@@ -106,7 +106,7 @@ export const TransferNFT = (props: TransferAssetProps) => {
       {props.stateChange.fiatValue !== '' && (
         <Tooltip
           hasArrow
-          label="OpenSea floor price"
+          label="Opensea floor price"
           placement="left"
           bg="#212121"
           color="white"
