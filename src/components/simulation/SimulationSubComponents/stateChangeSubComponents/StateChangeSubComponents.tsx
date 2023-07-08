@@ -101,7 +101,7 @@ export const TransferNFT = (props: TransferAssetProps) => {
         style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        <b>{props.type === 'send' ? '-1 NFT' : '+1 NFT'}</b>
+        <b>{props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}</b>
       </h3>
       {props.stateChange.fiatValue !== '' && (
         <Tooltip

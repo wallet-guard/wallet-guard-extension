@@ -17,7 +17,7 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
   storedSimulation,
 }) => {
   return (
-    <div style={{ marginTop: '-10px', marginBottom: '-10px' }}>
+    <>
       <div className="justify-content-between" style={{ display: 'flex' }}>
         <div>
           <img src="/images/wg_logos/Wallpaper-Transparent.png" alt="" width={'175px'} />
@@ -60,6 +60,6 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };

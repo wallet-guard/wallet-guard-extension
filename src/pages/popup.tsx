@@ -157,6 +157,8 @@ const Popup = () => {
   }
 
   return (
+    // todo; consider adding this back
+    // <div style={{ height: '100%', minHeight: '100vh' }}>
     <>
       {showChatWeb3 ? (
         <ChakraProvider theme={theme}>

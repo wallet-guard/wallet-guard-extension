@@ -15,7 +15,7 @@
 
 .footer-container {
     border-top: .5px solid #3F3F3F;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100vw;
     display: flex;

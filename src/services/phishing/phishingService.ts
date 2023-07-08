@@ -41,7 +41,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
             '&reason=' +
             recentlyCreatedWarning.type,
         });
-      } else if (recentlyCreatedWarning.level === WarningLevel.High) {
+      } else if (recentlyCreatedWarning.level === WarningLevel.High) { // todo: we need to move this outside the if statement
         chrome.notifications.create('', {
           title: 'Suspicious Activity Detected',
           message: `This website was updated ${daysSinceCreated} days ago.\nPlease proceed with caution and double-check any approval requests`,
