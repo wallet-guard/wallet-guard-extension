@@ -1,6 +1,6 @@
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { TwitterShareButton } from 'react-share';
 import styles from './simulation.module.css';
 import { StoredSimulation } from '../../lib/simulation/storage';
@@ -8,7 +8,7 @@ import { StoredSimulation } from '../../lib/simulation/storage';
 interface SimulationHeaderProps {
   storedSimulation?: StoredSimulation;
   showChatWeb3?: boolean | undefined;
-  setShowChatWeb3?: any;
+  setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
 }
 
 export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
