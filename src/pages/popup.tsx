@@ -106,13 +106,13 @@ const Popup = () => {
   }, []);
 
   useEffect(() => {
-    localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((tutorialIsComplete) => {
+    localStorageHelpers.get<boolean>(WgKeys.ChatWeb3Onboarding).then((tutorialIsComplete) => {
       if (tutorialIsComplete) {
         setTutorialComplete(true);
         return;
       }
 
-      chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
+      chrome.storage.local.set({ [WgKeys.ChatWeb3Onboarding]: true });
 
       posthog.onFeatureFlags(() => {
         const onboardingFeatureEnabled = posthog.getFeatureFlagPayload('show-onboarding') as boolean;
