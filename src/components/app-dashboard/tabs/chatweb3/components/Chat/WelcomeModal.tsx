@@ -147,7 +147,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       Ask Questions
                     </h2>
                     <p style={{ fontSize: '1rem', color: 'gray', textAlign: 'center', maxWidth: '230px' }}>
-                      Access ChatWeb3 from anywhere on the web.
+                      Access ChatWeb3 from anywhere on the web
                     </p>
                   </div>
                 </div>
