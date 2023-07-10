@@ -34,7 +34,7 @@ export function Dashboard() {
 
     if (process.env.NODE_ENV === 'production' && source === 'install') {
       const uid = posthog.get_distinct_id();
-      posthog.capture('install');
+      posthog.capture('install', { source, uid });
       chrome.runtime.setUninstallURL('https://walletguard.app/uninstall?id=' + uid);
     }
 

@@ -118,7 +118,7 @@ const Popup = () => {
         const onboardingFeatureEnabled = posthog.getFeatureFlagPayload('show-onboarding') as boolean;
 
         if (onboardingFeatureEnabled) {
-          posthog.capture('startTutorial');
+          posthog.capture('showChatWeb3Onboarding');
           setTutorialComplete(false);
         } else {
           setTutorialComplete(true);
