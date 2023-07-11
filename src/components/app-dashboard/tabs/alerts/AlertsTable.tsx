@@ -22,6 +22,10 @@ export default function AlertsTable(props: Props) {
     switch (status) {
       case 'CREATED_AT':
         return 'yellow';
+      case WarningType.BlurListing:
+      case WarningType.OpenseaListing:
+      case WarningType.EthSign:
+      case WarningType.LooksrareListing:
       case WarningType.Blocklisted:
       case WarningType.Similarity:
       case WarningType.Drainer:
@@ -47,9 +51,12 @@ export default function AlertsTable(props: Props) {
     }
   }
 
-  // TODO: Unhandled cases here now that we have things like ETH_SIGN
   function mapCategory(category: AlertType) {
     switch (category) {
+      case WarningType.BlurListing:
+      case WarningType.LooksrareListing:
+      case WarningType.OpenseaListing:
+        return 'Unverified marketplace listing';
       case WarningType.Drainer:
         return 'Suspected wallet drainer';
       case WarningType.Blocklisted:
