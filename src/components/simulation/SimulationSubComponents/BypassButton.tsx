@@ -15,13 +15,24 @@ export const BypassedSimulationButton = ({ storedSimulation }: { storedSimulatio
     storedSimulation,
   });
 
+  function joinDiscord() {
+    chrome.tabs.create({ url: 'https://discord.gg/mvbtaJzXDP' });
+  }
+
   if (simulationNeedsAction(state)) {
     return (
       <div className={`${styles['footer-container']}`}>
-        <div className="row px-3 pt-4">
-          <div className="col-12 text-center">
+        <div className="row px-3">
+          <div
+            className="col-12 text-center"
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+          >
+            <a href="#" onClick={joinDiscord} style={{ marginTop: '15px', marginBottom: '15px' }}>
+              Open Support Ticket
+            </a>
             <button
               className={`${styles['reject-button']} btn`}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
               onClick={() => {
                 posthog.capture('bypassed simulation rejected', {
                   warningType: storedSimulation.simulation?.warningType,
@@ -35,7 +46,6 @@ export const BypassedSimulationButton = ({ storedSimulation }: { storedSimulatio
                 alt="An X icon in a circle, indicating cancel or close."
                 width={19}
                 className={`${styles['font-archivo-medium']} pr-2`}
-                style={{ marginTop: '-3px' }}
               />
               Dismiss
             </button>
