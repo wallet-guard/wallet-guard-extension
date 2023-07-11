@@ -8,7 +8,8 @@ export async function getCurrentSite(): Promise<PhishingResponse> {
     domainName: '',
     phishing: PhishingResult.Unknown,
     warnings: null,
-    verified: false
+    verified: false,
+    riskFactors: null
   };
 
   return currentSiteCheck ?? defaultCurrentSite;

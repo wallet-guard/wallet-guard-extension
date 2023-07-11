@@ -1,7 +1,7 @@
 import { Heading } from '@chakra-ui/react';
 import React from 'react';
 import { AlertCategory, AlertType } from '../../../../../models/Alert';
-import { WarningType } from '../../../../../models/PhishingResponse';
+import { WarningType } from '../../../../../models/simulation/Transaction';
 
 interface Warning {
   type: AlertType;
@@ -14,6 +14,12 @@ const UnreadAlertComponent = (props: Warning) => {
 
   function mapCategory(category: AlertType) {
     switch (category) {
+      case WarningType.BlurListing:
+      case WarningType.LooksrareListing:
+      case WarningType.OpenseaListing:
+        return 'We detected a website trying to list your assets on a marketplace without your permission. This type of transaction is widely used by scammers.';
+      case WarningType.EthSign:
+        return 'We detected a website using the eth_sign method. This is highly recommended to avoid since it is widely used by scammers.';
       case WarningType.Blocklisted:
       case WarningType.Drainer:
       case WarningType.RecentlyCreated:

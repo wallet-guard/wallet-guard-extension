@@ -1,13 +1,12 @@
-// import { PostHog } from 'posthog-node'
 import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
 import { urlIsPhishingWarning } from '../../lib/helpers/util';
 import { AlertDetail } from '../../models/Alert';
-import { PhishingResult, WarningLevel, WarningType } from '../../models/PhishingResponse';
+import { PhishingResult } from '../../models/PhishingResponse';
+import { RiskFactor, Severity, WarningType } from '../../models/simulation/Transaction';
 import { domainScan } from '../http/domainScan';
-import { posthog } from 'posthog-js';
 
 export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const url: string = tab.url || '';
@@ -25,40 +24,37 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const pdsResponse = await domainScan(url);
   chrome.storage.local.set({ currentSite: pdsResponse });
 
-  if (pdsResponse?.phishing === PhishingResult.Phishing) {
-    const recentlyCreatedWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.RecentlyCreated);
-    if (recentlyCreatedWarning) {
-      const daysSinceCreated = Math.round(parseFloat(recentlyCreatedWarning.value) / 24);
+  const recentlyCreatedWarning = pdsResponse?.riskFactors?.find(warning => warning.type === WarningType.RecentlyCreated);
+  if (recentlyCreatedWarning) {
+    const daysSinceCreated = Math.round(parseFloat(recentlyCreatedWarning.value) / 24);
 
-      if (recentlyCreatedWarning.level === WarningLevel.Critical) {
-        chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
-          url:
-            chrome.runtime.getURL('phish.html') +
-            '?safe=' +
-            'null' +
-            '&proceed=' +
-            tab.url +
-            '&reason=' +
-            recentlyCreatedWarning.type,
-        });
-      } else if (recentlyCreatedWarning.level === WarningLevel.High) { // todo: we need to move this outside the if statement
-        chrome.notifications.create('', {
-          title: 'Suspicious Activity Detected',
-          message: `This website was updated ${daysSinceCreated} days ago.\nPlease proceed with caution and double-check any approval requests`,
-          iconUrl: '../images/wg_logos/Logo-Large-Transparent.png', // todo: check if dimensions need to be 128x128 & that this looks good
-          type: 'basic'
-        });
-      }
+    if (recentlyCreatedWarning.severity === Severity.Critical) {
+      chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
+        url:
+          chrome.runtime.getURL('phish.html') +
+          '?safe=' +
+          'null' +
+          '&proceed=' +
+          tab.url +
+          '&reason=' +
+          recentlyCreatedWarning.type,
+      });
+    } else if (recentlyCreatedWarning.severity === Severity.High) {
+      chrome.notifications.create('', {
+        title: 'Suspicious Activity Detected',
+        message: `This website was updated ${daysSinceCreated} days ago.\nPlease proceed with caution and double-check any approval requests`,
+        iconUrl: '../images/wg_logos/Logo-Large-Transparent.png', // todo: check if dimensions need to be 128x128 & that this looks good
+        type: 'basic'
+      });
     }
 
-    const drainerWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Drainer);
-    const similarityWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Similarity);
-    const homoglyphWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Homoglyph);
-    const mlWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.MLInference);
-    const blocklistWarning = pdsResponse.warnings?.find(warning => warning.type === WarningType.Blocklisted);
-    if (drainerWarning || similarityWarning || homoglyphWarning || mlWarning || blocklistWarning) {
-      const safeURL = similarityWarning?.value || homoglyphWarning?.value || mlWarning?.value || 'null';
-      const reason = drainerWarning?.type || similarityWarning?.type || homoglyphWarning?.type || mlWarning?.type || blocklistWarning?.type || 'null';
+    const shouldBlock = pdsResponse?.phishing === PhishingResult.Phishing;
+    const criticalRiskFactor: RiskFactor | undefined = pdsResponse?.riskFactors?.find(warning => warning.severity === Severity.Critical);
+
+    if (shouldBlock && criticalRiskFactor) {
+      const safeURL = criticalRiskFactor.value || 'null';
+      const reason = criticalRiskFactor.type || 'null';
+
       chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
         url:
           chrome.runtime.getURL('phish.html') +
@@ -73,7 +69,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
 
     const activityInfo = {
       name: 'Suspicious Site Detected',
-      category: pdsResponse.warnings && pdsResponse.warnings[0].type,
+      category: criticalRiskFactor?.type,
       details: `${tab.url}`,
       key: `${new Date()}`,
     } as AlertDetail;

@@ -3,9 +3,9 @@ import { toUnicode } from 'punycode';
 import React, { useEffect } from 'react';
 import { standardizeUrl } from '../../../../lib/helpers/util';
 import { AlertCategory, AlertDetail, AlertType } from '../../../../models/Alert';
-import { WarningType } from '../../../../models/PhishingResponse';
 import { add3Dots } from '../extensions/ExtensionsTab';
 import styles from './Alerts.module.css';
+import { WarningType } from '../../../../models/simulation/Transaction';
 
 interface Props {
   alertsHistory: AlertDetail[];
@@ -22,6 +22,10 @@ export default function AlertsTable(props: Props) {
     switch (status) {
       case 'CREATED_AT':
         return 'yellow';
+      case WarningType.BlurListing:
+      case WarningType.OpenseaListing:
+      case WarningType.EthSign:
+      case WarningType.LooksrareListing:
       case WarningType.Blocklisted:
       case WarningType.Similarity:
       case WarningType.Drainer:
@@ -49,6 +53,10 @@ export default function AlertsTable(props: Props) {
 
   function mapCategory(category: AlertType) {
     switch (category) {
+      case WarningType.BlurListing:
+      case WarningType.LooksrareListing:
+      case WarningType.OpenseaListing:
+        return 'Unverified marketplace listing';
       case WarningType.Drainer:
         return 'Suspected wallet drainer';
       case WarningType.Blocklisted:
