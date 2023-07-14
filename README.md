@@ -75,3 +75,17 @@ Any questions or concerns? contacts us!
 
 - [Twitter](https://twitter.com/wallet_guard)
 - [Discord](http://discord.gg/cM8USCesnd)
+
+## Beta environment publishing
+
+In order to test new permissions publishing proactively, you should publish to the Beta environment first. To publish a development build to the Chrome store, copy this name and description into the `manifest.json` and `package.json`. Key is only for `manifest.json`
+
+BETA Environment (Requires your email to be added to verified testers & signed-in using that Google account): https://chrome.google.com/webstore/detail/wallet-guard-development/hneinefadakgidghilfdhbpalmgbnbjd/?authuser=0
+
+```
+  "name": "Wallet Guard DEVELOPMENT BUILD",
+  "description": "THIS EXTENSION IS FOR BETA TESTING",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkmDbgtHSlVypnBDmDD/JXSyah+EUyhV5ResDho2X2JPge2wfqtw/O2zOwTJ77x0NvF8zFXwdH6IG77dtKxlF00p/CfdFpspIJb7E0ovoRVqXrNEJPAX2fByILVzo3CZNj8mqv//DTkHKRAbQVpKWOjLT0YmgwVl4L+adXdHLGFMKqjDtTwP5eRp5gpjnXsU1DKvRCUo8/7q92AaMze6MKNEPjKq5H7gOHuXG9UESv4c2n2i40osmR++PBoDgpnSnnmAUVne28tBo7YpQeuXJ3WOoIDPyeM5FtmosEj+pk0bgixJ3bBjXL0xx1f/LzH7Pk3ET3vc6C9lili8XdfJ9XQIDAQAB",
+```
+
+For the full Docs on publishing to a test environment, visit https://developer.chrome.com/docs/webstore/cws-dashboard-distribution/
