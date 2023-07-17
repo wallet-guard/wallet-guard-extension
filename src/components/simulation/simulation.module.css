@@ -99,60 +99,92 @@
   src: local("ArchivoBold"),
    url("../../fonts/Archivo-Bold.ttf") format("truetype");
   font-weight: bold;
-  }
+}
 
-  @font-face {
-    font-family: "ArchivoMedium";
-    src: local("ArchivoMedium"),
-     url("../../fonts/Archivo-Medium.ttf") format("truetype");
-    }
+@font-face {
+  font-family: "ArchivoMedium";
+  src: local("ArchivoMedium"),
+    url("../../fonts/Archivo-Medium.ttf") format("truetype");
+}
 
-  .font-archivo-medium {
-    font-family: "ArchivoMedium";
-  }
+@font-face {
+  font-family: "ArchivoRegular";
+  src: local("ArchivoRegular"),
+    url("../../fonts/Archivo-Regular.ttf") format("truetype");
+}
 
-  .font-archivo-bold {
-    font-family: "ArchivoBold";
-  }
+.font-archivo-medium {
+  font-family: "ArchivoMedium";
+}
 
-  .links:hover {
-    text-decoration: underline solid #ffffff;
-  }
+.font-archivo-bold {
+  font-family: "ArchivoBold";
+}
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
+.links:hover {
+  text-decoration: underline solid #ffffff;
+}
 
-  .assetChangeRow {
-    margin-bottom: 20px;
-  }
+::-webkit-scrollbar {
+  display: none;
+}
 
-  .assetChangeRow:last-child {
-    margin-bottom: 0px;
-  }
+.assetChangeRow {
+  margin-bottom: 20px;
+}
 
-  /* Takes up the remaining space left by assetChangeRightColumn */
-  .assetChangeLeftColumn {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-basis: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+.assetChangeRow:last-child {
+  margin-bottom: 0px;
+}
 
-  /* Takes up 100% of width depending on the content, up to 40% of the row */
-  .assetChangeRightColumn {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: right;
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 1;
-    padding-left: 15px;
-    padding-right: 15px;
-    max-width: 40%;
-  }
+/* Takes up the remaining space left by assetChangeRightColumn */
+.assetChangeLeftColumn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Takes up 100% of width depending on the content, up to 40% of the row */
+.assetChangeRightColumn {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: right;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 40%;
+}
+
+.transactionDetailsCard {
+  background-color: #161616;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.label-xs {
+  color: #646464;
+  font-size: 11px;
+  margin-bottom: 5px;
+  font-family: "ArchivoRegular";
+  text-transform: uppercase;
+}
+
+.label-sm {
+  color: #646464;
+  font-size: 14px;
+}
+
+.text-sm {
+  color: #ffffff;
+  font-size: 14px;
+  font-family: "ArchivoMedium";
+}

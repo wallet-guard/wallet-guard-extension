@@ -22,6 +22,7 @@ import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../lib/theme';
 import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/components/Chat/WelcomeModal';
+import { TransactionDetails } from '../components/simulation/TransactionDetails';
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
@@ -179,7 +180,12 @@ const Popup = () => {
             />
           </div>
           {showSurvey && <SimulationSurvey />}
-          <div>
+
+          <div className="container">
+            <TransactionDetails />
+          </div>
+
+          {/* <div>
             {((currentSimulation.state === StoredSimulationState.Success &&
               currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
               currentSimulation.simulation?.warningType === SimulationWarningType.Info ||
@@ -192,7 +198,7 @@ const Popup = () => {
                 />
               </div>
             )}
-          </div>
+          </div> */}
           {currentSimulation.state === StoredSimulationState.Success && (
             <div className="pt-4">
               <ContractDetails storedSimulation={currentSimulation} />
