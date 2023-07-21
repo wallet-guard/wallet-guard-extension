@@ -105,7 +105,13 @@
     font-family: "ArchivoMedium";
     src: local("ArchivoMedium"),
      url("../../fonts/Archivo-Medium.ttf") format("truetype");
-    }
+  }
+
+  @font-face {
+    font-family: "ArchivoSemiBold";
+    src: local("ArchivoSemiBold"),
+      url("../../fonts/Archivo-SemiBold.ttf") format("truetype");
+  }
 
   .font-archivo-medium {
     font-family: "ArchivoMedium";
@@ -113,6 +119,10 @@
 
   .font-archivo-bold {
     font-family: "ArchivoBold";
+  }
+
+  .font-archivo-semibold {
+    font-family: "ArchivoSemiBold";
   }
 
   .links:hover {

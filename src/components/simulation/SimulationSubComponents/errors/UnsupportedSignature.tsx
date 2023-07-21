@@ -56,7 +56,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
       </div>
 
       <div className="col-12">
-        <h4 className={`${styles['font-archivo-medium']} pb-3`} style={{ color: 'white', marginBottom: '20px' }}>
+        <h4 className={`${styles['font-archivo-semibold']} pb-3`} style={{ color: 'white', marginBottom: '20px' }}>
           Unsupported Project
         </h4>
       </div>
@@ -113,14 +113,14 @@ function VotedSuccessfullyComponent() {
     <>
       <div className="row text-center">
         <img
-          style={{ marginTop: '75px', marginBottom: '-100px', pointerEvents: 'none' }}
+          style={{ marginTop: '75px', marginBottom: '-60px', pointerEvents: 'none' }}
           src="/images/popup/green_check.png"
           alt="a green checkmark"
         />
       </div>
 
       <div className="col-12">
-        <h4 className={`${styles['font-archivo-medium']} pb-3`} style={{ color: 'white', marginBottom: '20px' }}>
+        <h4 className={`${styles['font-archivo-semibold']} pb-3`} style={{ color: 'white' }}>
           Your vote has been counted
         </h4>
       </div>
