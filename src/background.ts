@@ -4,7 +4,16 @@ import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } 
 import { TransactionArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
-import { PortMessage, BrowserMessageType, PortIdentifiers, BrowserMessage, findApprovedTransaction, ProceedAnywayMessageType, ApprovedTxnMessageType, RunSimulationMessageType } from './lib/helpers/chrome/messageHandler';
+import {
+  PortMessage,
+  BrowserMessageType,
+  PortIdentifiers,
+  BrowserMessage,
+  findApprovedTransaction,
+  ProceedAnywayMessageType,
+  ApprovedTxnMessageType,
+  RunSimulationMessageType,
+} from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
 import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
@@ -21,6 +30,7 @@ const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
 
 let currentPopup: undefined | number;
+let currentChatWeb3Popup: undefined | number;
 
 Sentry.init({
   dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
@@ -228,6 +238,82 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
   }
 });
 
+chrome.runtime.onInstalled.addListener(() => {
+  // Create a context menu item
+  chrome.contextMenus.create({
+    id: 'ask-chatweb3',
+    title: 'Ask ChatWeb3',
+    contexts: ['all'],
+  });
+});
+
+// Listen for when the user clicks on the context menu item
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === 'ask-chatweb3') {
+    // Send a message to the content script
+
+    if (!currentChatWeb3Popup) {
+      // Indicate we're creating a popup so we don't have many.
+      currentChatWeb3Popup = -1;
+
+      chrome.windows
+        .create({
+          url: 'chatweb3.html',
+          type: 'popup',
+          width: 420,
+          height: 760,
+        })
+        .then((createdWindow) => {
+          currentChatWeb3Popup = createdWindow?.id;
+        });
+
+      return;
+    }
+
+    if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
+      const closeId = currentChatWeb3Popup;
+      currentChatWeb3Popup = undefined;
+      chrome.windows.remove(closeId);
+
+      return;
+    }
+  }
+});
+
+chrome.windows.onRemoved.addListener((windowId: number) => {
+  if (currentChatWeb3Popup && currentChatWeb3Popup === windowId) {
+    currentChatWeb3Popup = undefined;
+  }
+});
+
+chrome.commands.onCommand.addListener((command) => {
+  if (!currentChatWeb3Popup) {
+    // Indicate we're creating a popup so we don't have many.
+    currentChatWeb3Popup = -1;
+
+    chrome.windows
+      .create({
+        url: 'chatweb3.html',
+        type: 'popup',
+        width: 420,
+        height: 760,
+      })
+      .then((createdWindow) => {
+        currentChatWeb3Popup = createdWindow?.id;
+      });
+
+    return;
+  }
+
+  if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
+    const closeId = currentChatWeb3Popup;
+    currentChatWeb3Popup = undefined;
+    chrome.windows.remove(closeId);
+
+    return;
+  }
+});
+
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (!SUPPORTED_CHAINS.includes(message.data.chainId)) return;
   const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
@@ -238,7 +324,7 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   if (isApproved) return;
 
   // Wait for Metamask to popup first because otherwise Chrome will create both popups in the same coordinates
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, 200));
 
   // Run the simulation
   clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));

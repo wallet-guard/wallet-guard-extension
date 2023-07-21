@@ -7,7 +7,8 @@ export const pages = {
   alerts: 'alerts',
   settings: 'settings',
   support: 'support',
-  academy: 'academy'
+  academy: 'academy',
+  chatweb3: 'chatweb3',
 } as const;
 
 export type PageView = keyof typeof pages;

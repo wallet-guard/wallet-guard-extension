@@ -63,7 +63,7 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
           {props.stateChange.openSeaVerified && (
             <Tooltip
               hasArrow
-              label="Verified on Opensea"
+              label="Verified on OpenSea"
               bg="#212121"
               color="white"
               placement="right"

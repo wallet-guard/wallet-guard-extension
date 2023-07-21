@@ -24,18 +24,17 @@ import { BrowserMessageType, ProceedAnywayMessageType } from '../lib/helpers/chr
 import { openDashboard } from '../lib/helpers/linkHelper';
 import { standardizeUrl } from '../lib/helpers/util';
 import theme from '../lib/theme';
-import { PHISHING_REASON } from '../models/Alert';
-import { WarningType } from '../models/PhishingResponse';
 import styles from '../styles.module.css';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
+import { WarningType } from '../models/simulation/Transaction';
 
 export function PhishingWarning() {
   const [isFalsePositive, setIsFalsePositive] = useState(false);
   const queryParams = new URLSearchParams(window.location.search);
   const safeUrl = queryParams.get('safe') || 'null';
   const proceedAnywayUrl = queryParams.get('proceed') || 'null';
-  const reason: PHISHING_REASON | string = queryParams.get('reason') || 'null';
+  const reason: WarningType | string = queryParams.get('reason') || 'null';
   const mappedSafeUrl = safeUrl ? `https://${safeUrl}` : 'null';
   const isConfirmedPhishing = reason === WarningType.Blocklisted;
   const logoSrc = 'images/wg_logos/Logo-phishing-protection.png';

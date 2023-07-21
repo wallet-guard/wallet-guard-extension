@@ -15,11 +15,14 @@
 
 .footer-container {
     border-top: .5px solid #3F3F3F;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100vw;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    background-color: #0e0e0e;
 }
 
 .button-container {

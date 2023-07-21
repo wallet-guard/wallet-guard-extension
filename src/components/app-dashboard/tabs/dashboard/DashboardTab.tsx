@@ -39,6 +39,7 @@ import { OnboardingCommunity } from './onboarding/OnboardingCommunity';
 import { OnboardingPhishing } from './onboarding/OnboardingPhishing';
 import { posthog } from 'posthog-js';
 import { openGuide } from '../../../../lib/helpers/linkHelper';
+import { WelcomeModal } from '../chatweb3/components/Chat/WelcomeModal';
 
 export function DashboardTab() {
   const [walletInfo, setWalletInfo] = useState<WalletInfo[]>([]);
@@ -48,9 +49,13 @@ export function DashboardTab() {
   const [unreadAlerts, setUnreadAlerts] = useState<AlertDetail[]>([]);
   const [settings, setSettings] = useState<Settings>(WG_DEFAULT_SETTINGS);
   const [tutorialComplete, setTutorialComplete] = useState<boolean>(true);
+
   const [tutorialStep, setTutorialStep] = useState<number>(0);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const LAST_TUTORIAL_INDEX = 3;
+
+  function toggleChatWeb3WelcomeModal() {
+    setTutorialComplete(!tutorialComplete);
+  }
 
   useEffect(() => {
     getVersionFromLocalStorage();
@@ -73,19 +78,19 @@ export function DashboardTab() {
       });
     });
 
-    localStorageHelpers.get<boolean>(WgKeys.TutorialComplete).then((tutorialIsComplete) => {
+    localStorageHelpers.get<boolean>(WgKeys.ChatWeb3Onboarding).then((tutorialIsComplete) => {
       if (tutorialIsComplete) {
         setTutorialComplete(true);
         return;
       }
 
-      chrome.storage.local.set({ [WgKeys.TutorialComplete]: true });
+      chrome.storage.local.set({ [WgKeys.ChatWeb3Onboarding]: true });
 
       posthog.onFeatureFlags(() => {
         const onboardingFeatureEnabled = posthog.getFeatureFlagPayload('show-onboarding') as boolean;
 
         if (onboardingFeatureEnabled) {
-          posthog.capture('startTutorial');
+          posthog.capture('showChatWeb3Onboarding');
           setTutorialComplete(false);
         } else {
           setTutorialComplete(true);
@@ -201,6 +206,8 @@ export function DashboardTab() {
 
   return (
     <div className="container">
+      <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
+      {/* <WelcomeModal isOpen={chatweb3Welcome} onClose={toggleChatWeb3WelcomeModal} />
       <Modal isOpen={!tutorialComplete} onClose={onClose} size="5xl" motionPreset="slideInBottom">
         <ModalOverlay backdropFilter="blur(3px)" />
         <ModalContent className={tutorialStyles.modal} justifyContent={'center'}>
@@ -257,10 +264,10 @@ export function DashboardTab() {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
       <div className="row" style={{ paddingTop: '5%' }}>
         <div className="col-12">
-          <div className="card" style={{ backgroundColor: '#121212' }}>
+          <div className="card" style={{ backgroundColor: '#222222' }}>
             <div className="card-body" style={{ paddingTop: '50px', paddingBottom: '50px' }}>
               <div className="row align-items-center">
                 <div style={{ paddingLeft: '80px' }} className="col-md-12 col-lg-8">
@@ -291,7 +298,7 @@ export function DashboardTab() {
 
       <div className="row pt-5">
         <div className="col-12 pb-1">
-          <div className="card h-100" style={{ backgroundColor: '#121212' }}>
+          <div className="card h-100" style={{ backgroundColor: '#222222' }}>
             <div className="card-body">
               <div className="row pb-3 align-items-center" style={{ justifyContent: 'space-between' }}>
                 <div className="row align-items-center">
@@ -339,7 +346,7 @@ export function DashboardTab() {
 
       <div className="row pb-5 pt-5">
         <div className="col-12">
-          <div className="card" style={{ backgroundColor: '#121212' }}>
+          <div className="card" style={{ backgroundColor: '#222222' }}>
             <div className="card-body">
               <Heading as="h3" size="md" pb={4} paddingLeft={'10px'}>
                 Recent Alerts

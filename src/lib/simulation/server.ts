@@ -1,4 +1,9 @@
-import { ErrorType, SimulationErrorResponse, SimulationResponse, TransactionArgs } from '../../models/simulation/Transaction';
+import {
+  ErrorType,
+  SimulationErrorResponse,
+  SimulationResponse,
+  TransactionArgs,
+} from '../../models/simulation/Transaction';
 import { Response, ResponseType } from '../../models/simulation/Transaction';
 import { SERVER_URL_PROD } from '../environment';
 
@@ -23,7 +28,7 @@ export const fetchSimulate = async (args: TransactionArgs): Promise<Response> =>
         return {
           type: ResponseType.Revert,
           error: data.error,
-        }
+        };
       }
 
       return {
@@ -37,19 +42,19 @@ export const fetchSimulate = async (args: TransactionArgs): Promise<Response> =>
         type: ResponseType.Error,
         error: {
           type: ErrorType.Unauthorized,
-          message: "Unauthorized",
-          extraData: null
-        }
+          message: 'Unauthorized',
+          extraData: null,
+        },
       };
     } else if (result.status === 429) {
       return {
         type: ResponseType.Error,
         error: {
           type: ErrorType.TooManyRequests,
-          message: "TooManyRequests",
-          extraData: null
-        }
-      }
+          message: 'TooManyRequests',
+          extraData: null,
+        },
+      };
     }
 
     const data: SimulationErrorResponse = await result.json();
@@ -61,16 +66,14 @@ export const fetchSimulate = async (args: TransactionArgs): Promise<Response> =>
       error: {
         type: ErrorType.UnknownError,
         message: 'An unknown error occurred',
-        extraData: e
+        extraData: e,
       },
-      type: ResponseType.Error
+      type: ResponseType.Error,
     };
   }
 };
 
-export const fetchSignature = async (
-  args: TransactionArgs
-): Promise<Response> => {
+export const fetchSignature = async (args: TransactionArgs): Promise<Response> => {
   try {
     const signatureURL = getSignatureEndpoint(args.chainId);
 
@@ -90,7 +93,7 @@ export const fetchSignature = async (
         return {
           type: ResponseType.Revert,
           error: data.error,
-        }
+        };
       }
 
       return {
@@ -104,19 +107,19 @@ export const fetchSignature = async (
         type: ResponseType.Error,
         error: {
           type: ErrorType.Unauthorized,
-          message: "Unauthorized",
-          extraData: null
-        }
+          message: 'Unauthorized',
+          extraData: null,
+        },
       };
     } else if (result.status === 429) {
       return {
         type: ResponseType.Error,
         error: {
           type: ErrorType.TooManyRequests,
-          message: "TooManyRequests",
-          extraData: null
-        }
-      }
+          message: 'TooManyRequests',
+          extraData: null,
+        },
+      };
     }
 
     const data: SimulationErrorResponse = await result.json();
@@ -128,9 +131,9 @@ export const fetchSignature = async (
       error: {
         type: ErrorType.UnknownError,
         message: 'An unknown error occurred',
-        extraData: e
+        extraData: e,
       },
-      type: ResponseType.Error
+      type: ResponseType.Error,
     };
   }
 };
@@ -140,7 +143,7 @@ export function getSimulationEndpoint(chainId: string): string {
     case '0x1':
     case '1':
       return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
-    case "0xa4b1":
+    case '0xa4b1':
     case '42161':
       return `${SERVER_URL_PROD}/arb/mainnet/transaction`;
     case '0x89':

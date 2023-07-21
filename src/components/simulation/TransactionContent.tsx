@@ -23,10 +23,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
     !storedSimulation.simulation.stateChanges &&
     storedSimulation.simulation.warningType === SimulationWarningType.Warn
   ) {
-    return (
-      <div></div>
-      // return <ChangeTypeSection title="Risk Factors" warnings={['this is a warning']}/>
-    );
+    return <div></div>;
   } else if (!storedSimulation.simulation.stateChanges) {
     return <NoTransactionChanges />;
   }
