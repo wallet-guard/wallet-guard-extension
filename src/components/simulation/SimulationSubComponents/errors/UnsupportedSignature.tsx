@@ -81,7 +81,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
           style={{
             marginTop: '20px',
             background: '#1F1F1F',
-            borderRadius: '4px',
+            borderRadius: '8px',
             display: 'flex',
             flexDirection: 'row',
             width: '150px',
