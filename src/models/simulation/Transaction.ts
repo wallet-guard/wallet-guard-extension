@@ -77,15 +77,10 @@ interface RequestArgs {
 }
 
 export type SimulationResponse = {
-<<<<<<< HEAD
-  warningType: SimulationWarningType;
-  message?: string[];
-=======
   recommendedAction: RecommendedActionType;
   overviewMessage: string;
   warningType: SimulationWarningType; // Deprecated in favor of RecommendedAction
   message?: string[]; // Deprecated in favor of OverviewMessage
->>>>>>> 34098fcdc05e891e30b2feed53efbe378ccafcb6
   stateChanges: SimulationStateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
