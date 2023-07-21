@@ -169,22 +169,3 @@
   padding: 20px;
   margin-bottom: 20px;
 }
-
-.label-xs {
-  color: #646464;
-  font-size: 11px;
-  margin-bottom: 5px;
-  font-family: "ArchivoRegular";
-  text-transform: uppercase;
-}
-
-.label-sm {
-  color: #646464;
-  font-size: 14px;
-}
-
-.text-sm {
-  color: #ffffff;
-  font-size: 14px;
-  font-family: "ArchivoMedium";
-}
