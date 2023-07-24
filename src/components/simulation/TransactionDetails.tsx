@@ -10,22 +10,21 @@ export function TransactionDetails() {
       <div className="row">
         <div className="col-6">
           <TransactionDetailLabel labelText="Chain" />
-          <p className={styles['label-xs']}>Chain</p>
           <p className={styles['text-sm']}>ETHEREUM</p>
         </div>
         <div className="col-6">
-          <p>Contract</p>
+          <TransactionDetailLabel labelText="Contract" />
           <p>0x008..d6</p>
         </div>
       </div>
 
       <div className="row">
         <div className="col-6">
-          <p>Website</p>
+          <TransactionDetailLabel labelText="Website" />
           <p>opensea-mint.com</p>
         </div>
         <div className="col-6">
-          <p>Interacting with</p>
+          <TransactionDetailLabel labelText="Interacting with" />
           <p>Unknown address</p>
         </div>
       </div>

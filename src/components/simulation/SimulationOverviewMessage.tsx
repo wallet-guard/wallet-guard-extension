@@ -29,15 +29,12 @@ export const SimulationOverviewMessage = (props: OverviewProps) => {
     }
   }
 
-    if (recommendedAction === RecommendedActionType.None) {
+  if (recommendedAction === RecommendedActionType.None) {
     return <></>;
   }
-
 
   const warningText = getWarningText();
   const headerColor = getHeaderColor();
 
-  return (
-
-  )
-}
+  return <></>;
+};
