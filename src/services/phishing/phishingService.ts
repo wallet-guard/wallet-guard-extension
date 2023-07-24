@@ -73,8 +73,6 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
       details: `${tab.url}`,
       key: `${new Date()}`,
     } as AlertDetail;
-
-    AlertHandler.create(activityInfo);
   }
 }
 
