@@ -182,7 +182,7 @@ const Popup = () => {
           {showSurvey && <SimulationSurvey />}
 
           <div className="container">
-            <TransactionDetails />
+            <TransactionDetails currentSimulation={currentSimulation} />
           </div>
 
           {/* <div>
