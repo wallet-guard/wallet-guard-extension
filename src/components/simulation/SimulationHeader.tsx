@@ -1,9 +1,10 @@
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { TwitterShareButton } from 'react-share';
 import styles from './simulation.module.css';
 import { StoredSimulation } from '../../lib/simulation/storage';
+import { RecommendedActionType } from '../../models/simulation/Transaction';
 
 interface SimulationHeaderProps {
   storedSimulation?: StoredSimulation;
@@ -16,8 +17,25 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
   setShowChatWeb3,
   storedSimulation,
 }) => {
+  const [headerColor, setHeaderColor] = useState(getHeaderColor());
+
+  function getHeaderColor() {
+    switch (storedSimulation?.simulation?.recommendedAction) {
+      case RecommendedActionType.None:
+        return '#19FF00';
+      case RecommendedActionType.Warn:
+        return '#FF783E';
+      case RecommendedActionType.Block:
+        return '#F44B4C';
+      default:
+        return '#b4b4b4';
+    }
+  }
+
   return (
-    <>
+    <div style={{ background: '#0e0e0e' }}>
+      {/* todo: add glow here */}
+      <div style={{ height: '2px', width: '100%', background: headerColor }} />
       <div className="justify-content-between" style={{ display: 'flex' }}>
         <div>
           <img src="/images/wg_logos/Wallpaper-Transparent.png" alt="" width={'175px'} />
@@ -60,6 +78,6 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };

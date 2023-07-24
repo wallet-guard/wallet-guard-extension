@@ -172,13 +172,11 @@ const Popup = () => {
           <ChakraProvider theme={theme}>
             <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
           </ChakraProvider>
-          <div style={{ backgroundColor: 'black' }}>
-            <SimulationHeader
-              showChatWeb3={showChatWeb3}
-              setShowChatWeb3={setShowChatWeb3}
-              storedSimulation={currentSimulation}
-            />
-          </div>
+          <SimulationHeader
+            showChatWeb3={showChatWeb3}
+            setShowChatWeb3={setShowChatWeb3}
+            storedSimulation={currentSimulation}
+          />
           {showSurvey && <SimulationSurvey />}
 
           <div className="container">
@@ -199,11 +197,11 @@ const Popup = () => {
               </div>
             )}
           </div> */}
-          {currentSimulation.state === StoredSimulationState.Success && (
+          {/* {currentSimulation.state === StoredSimulationState.Success && (
             <div className="pt-4">
               <ContractDetails storedSimulation={currentSimulation} />
             </div>
-          )}
+          )} */}
           <div className="pb-4">
             <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
           </div>
