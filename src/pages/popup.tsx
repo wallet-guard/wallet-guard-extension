@@ -88,7 +88,7 @@ const Popup = () => {
     return (
       <SimulationContext.Provider value={{ currentSimulation, loading }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <PersonalSign simulation={currentSimulation} />
+          <PersonalSign />
         </div>
         <ConfirmSimulationButton storedSimulation={currentSimulation} />
       </SimulationContext.Provider>
@@ -96,7 +96,7 @@ const Popup = () => {
   }
 
   return (
-    <>
+    <SimulationContext.Provider value={{ currentSimulation, loading }}>
       {showChatWeb3 ? (
         <ChakraProvider theme={theme}>
           <ChatWeb3Tab
@@ -150,7 +150,7 @@ const Popup = () => {
           )}
         </>
       )}
-    </>
+    </SimulationContext.Provider>
   );
 };
 
