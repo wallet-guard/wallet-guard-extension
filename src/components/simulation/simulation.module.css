@@ -169,8 +169,8 @@
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 15px;
-  padding-bottom: 0px;
-  margin-bottom: 20px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .label-sm {
@@ -198,5 +198,6 @@
 .text-md {
   color: #ffffff;
   font-size: 16px;
+  margin-bottom: 0px;
   font-family: "ArchivoMedium";
 }

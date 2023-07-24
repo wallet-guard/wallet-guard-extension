@@ -117,7 +117,7 @@ const Popup = () => {
           />
 
           <div className="container">
-            <TransactionDetails currentSimulation={currentSimulation} />
+            <TransactionDetails />
           </div>
 
           {/* <div>
