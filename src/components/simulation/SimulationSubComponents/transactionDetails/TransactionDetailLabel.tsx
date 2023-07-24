@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './transactionDetails.module.css';
+import styles from '../../simulation.module.css';
 
 interface DetailProps {
   labelText: string;
@@ -8,5 +8,5 @@ interface DetailProps {
 export function TransactionDetailLabel(props: DetailProps) {
   const { labelText } = props;
 
-  return <p className={styles['label-xs']}>{labelText}</p>;
+  return <p className={styles['label-sm']}>{labelText}</p>;
 }

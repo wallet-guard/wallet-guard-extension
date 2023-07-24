@@ -59,12 +59,14 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
   );
 
   return (
-    <div style={{ marginTop: '-10px' }}>
+    <>
       {revokeStateChanges.length !== 0 && (
         <ChangeTypeSection
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={revokeStateChanges}
           title="You are revoking"
+          iconPath="images/popup/ArrowReceiving.png"
+          gas={storedSimulation.simulation.gas}
         />
       )}
 
@@ -73,6 +75,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={listingStateChanges}
           title="You are listing"
+          iconPath="images/popup/Listing.png"
         />
       )}
 
@@ -81,16 +84,18 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={transferAndApproveStateChanges}
           title="You are giving"
+          iconPath="images/popup/ArrowGiving.png"
+          gas={storedSimulation.simulation.gas}
         />
       )}
-
       {receiveStateChanges.length !== 0 && (
         <ChangeTypeSection
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={receiveStateChanges}
           title="You are receiving"
+          iconPath="images/popup/ArrowReceiving.png"
         />
       )}
-    </div>
+    </>
   );
 };

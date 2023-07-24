@@ -29,7 +29,7 @@ export const ContractDetails = ({ storedSimulation }: { storedSimulation: Stored
         <div className="row">
           <div className="col-12" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <h5
-              className={`${styles['font-archivo-medium']} card-title`}
+              className={`${styles['font-archivo-medium']}`}
               style={{ color: '#ffffff', fontSize: '21px', marginTop: '-15px' }}
             >
               {storedSimulation.simulation?.method === SimulationMethodType.EthSendTransaction

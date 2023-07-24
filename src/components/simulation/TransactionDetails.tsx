@@ -18,11 +18,11 @@ export function TransactionDetails(props: TransactionDetailsProps) {
         <div className="col-6">
           <TransactionDetailLabel labelText="Chain" />
           {/* todo: make a component that takes chainid as input and maps that to an icon+label */}
-          <p className={styles['text-sm']}>{currentSimulation.args.chainId}</p>
+          <p className={styles['text-md']}>{currentSimulation.args.chainId}</p>
         </div>
         <div className="col-6">
           <TransactionDetailLabel labelText="Contract" />
-          <p>0x008..d6</p>
+          <p className={styles['text-md']}>0x008..d6</p>
           {/* todo: make a component that takes contract, and verified flags as input and maps that to the respective icons */}
         </div>
       </div>
@@ -31,11 +31,11 @@ export function TransactionDetails(props: TransactionDetailsProps) {
         <div className="col-6">
           <TransactionDetailLabel labelText="Website" />
           {/* todo: create a component that takes scanresult as input */}
-          <p>opensea-mint.com</p>
+          <p className={styles['text-md']}>opensea-mint.com</p>
         </div>
         <div className="col-6">
           <TransactionDetailLabel labelText="Interacting with" />
-          <p>Unknown address</p>
+          <p className={styles['text-md']}>Unknown address</p>
         </div>
       </div>
 
