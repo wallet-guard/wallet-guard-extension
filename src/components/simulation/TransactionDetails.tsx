@@ -4,6 +4,7 @@ import { TransactionDetailLabel } from './SimulationSubComponents/transactionDet
 import { SimulationContext } from '../../lib/context/context';
 import { ChainDetail } from './SimulationSubComponents/transactionDetails/ChainDetail';
 import { ContractDetail } from './SimulationSubComponents/transactionDetails/ContractDetail';
+import { WebsiteDetail } from './SimulationSubComponents/transactionDetails/WebsiteDetail';
 
 export function TransactionDetails() {
   const { currentSimulation } = useContext(SimulationContext);
@@ -22,16 +23,13 @@ export function TransactionDetails() {
         <div className="col-6">
           <TransactionDetailLabel labelText="Contract" />
           <ContractDetail addressDetails={currentSimulation?.simulation?.addressDetails} />
-          {/* <p className={styles['text-md']}>0x008..d6</p> */}
-          {/* todo: make a component that takes contract, and verified flags as input and maps that to the respective icons */}
         </div>
       </div>
 
       <div className="row">
         <div className="col-6">
           <TransactionDetailLabel labelText="Website" />
-          {/* todo: create a component that takes scanresult as input */}
-          <p className={styles['text-md']}>opensea-mint.com</p>
+          <WebsiteDetail scanResult={currentSimulation?.simulation?.scanResult} />
         </div>
       </div>
 
