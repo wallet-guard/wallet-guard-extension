@@ -24,8 +24,15 @@ export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
               <p className={styles['label-md']}>{props.title}</p>
             </div>
             {props.gas && (
-              // todo: the bubble around the tooltip is difficult to see. consider refactoring style
-              <Tooltip placement="top-start" hasArrow variant="default" label="Gas fee is an estimate">
+              <Tooltip
+                placement="top-start"
+                hasArrow
+                bg="#212121"
+                color="white"
+                borderRadius={'5px'}
+                className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+                label="Gas is an estimated value"
+              >
                 <p className={styles['label-md']}>
                   Gas <span className={styles['text-sm']}>${Number(props.gas.fiatValue).toFixed(2)}</span>
                 </p>
