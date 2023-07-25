@@ -118,9 +118,7 @@ const Popup = () => {
             storedSimulation={currentSimulation}
           />
 
-          <div className="container">
-            <TransactionDetails />
-          </div>
+          <TransactionDetails />
 
           {/* <div>
             {((currentSimulation.state === StoredSimulationState.Success &&

@@ -102,6 +102,13 @@
 }
 
 @font-face {
+  font-family: "ArchivoSemiBold";
+  src: local("ArchivoSemiBold"),
+    url("../../fonts/Archivo-SemiBold.ttf") format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
   font-family: "ArchivoMedium";
   src: local("ArchivoMedium"),
     url("../../fonts/Archivo-Medium.ttf") format("truetype");
@@ -173,6 +180,17 @@
   margin-bottom: 15px;
 }
 
+.transactionDetailsWithWarnings {
+  background-color: #161616;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
 .label-sm {
   color: #646464;
   font-size: 12px;
@@ -200,4 +218,12 @@
   font-size: 16px;
   margin-bottom: 0px;
   font-family: "ArchivoMedium";
+}
+
+.heading-md {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 0px;
+  font-family: "ArchivoSemiBold";
+  text-transform: uppercase;
 }
