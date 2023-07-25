@@ -1,29 +1,36 @@
 import React from 'react';
-import { SimulationStateChange } from '../../../models/simulation/Transaction';
+import { SimulatedGas, SimulationStateChange } from '../../../models/simulation/Transaction';
 import { StateChangesComponent } from './StateChangesComponent';
 import styles from '../simulation.module.css';
 import { PhishingResponse } from '../../../models/PhishingResponse';
+import { Tooltip } from '@chakra-ui/react';
 
 export interface ChangeTypeSectionProps {
   stateChanges?: SimulationStateChange[];
   title: string;
   scanResult: PhishingResponse;
+  iconPath: string;
+  gas?: SimulatedGas;
 }
 
 export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
   return (
-    <div>
-      <div className="pl-3 pr-3 pt-3 pb-2 container">
+    <>
+      <div className="p-3 container">
         <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <h5
-                className={`${styles['font-archivo-medium']} card-title pb-1`}
-                style={{ color: '#a8a8a8', fontSize: '20px', marginTop: '-4px' }}
-              >
-                {props.title}
-              </h5>
+          <div className="row mb-3 justify-content-between">
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              <img src={props.iconPath} style={{ height: '16px', marginRight: '5px' }} />
+              <p className={styles['label-md']}>{props.title}</p>
             </div>
+            {props.gas && (
+              // todo: the bubble around the tooltip is difficult to see. consider refactoring style
+              <Tooltip placement="top-start" hasArrow variant="default" label="Gas fee is an estimate">
+                <p className={styles['label-md']}>
+                  Gas <span className={styles['text-sm']}>${Number(props.gas.fiatValue).toFixed(2)}</span>
+                </p>
+              </Tooltip>
+            )}
           </div>
         </div>
         <div
@@ -42,6 +49,6 @@ export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

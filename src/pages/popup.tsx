@@ -2,20 +2,15 @@ import posthog from 'posthog-js';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ConfirmSimulationButton } from '../components/simulation/ConfirmSimulationButton';
-import { ContractDetails } from '../components/simulation/ContractDetails';
 import { NoSimulation } from '../components/simulation/NoSimulation';
 import { SimulationHeader } from '../components/simulation/SimulationHeader';
-import { SimulationOverview } from '../components/simulation/SimulationOverview';
 import { TransactionContent } from '../components/simulation/TransactionContent';
-import type { StoredSimulation } from '../lib/simulation/storage';
-import { StoredSimulationState } from '../lib/simulation/storage';
-import { ErrorType, SimulationMethodType, SimulationWarningType } from '../models/simulation/Transaction';
+import { ErrorType, SimulationMethodType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/app-dashboard/tabs/chatweb3/components/Chat/ChatWeb3Tab';
 import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
-import { SimulationSurvey } from '../components/simulation/SimulationSurvey';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
 import { PersonalSign } from '../components/simulation/PersonalSign';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
@@ -23,15 +18,15 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../lib/theme';
 import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/components/Chat/WelcomeModal';
 import { TransactionDetails } from '../components/simulation/TransactionDetails';
+import { useSimulation } from '../lib/hooks/useSimulation';
+import { SimulationContext } from '../lib/context/context';
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
-  const [currentSimulation, setCurrentSimulation] = useState<StoredSimulation>();
-  const [showSurvey, setShowSurvey] = useState(false);
-  const [loading, isLoading] = useState(true);
   const [tutorialComplete, setTutorialComplete] = useState<boolean>(true);
-
   const [chatweb3Welcome, setChatWeb3Welcome] = useState<boolean>(true);
+  const { currentSimulation, loading } = useSimulation();
+
   function toggleChatWeb3WelcomeModal() {
     setChatWeb3Welcome(!chatweb3Welcome);
     setTutorialComplete(!tutorialComplete);
@@ -48,63 +43,6 @@ const Popup = () => {
     dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
     integrations: [new BrowserTracing()],
   });
-
-  function updateSimulations(simulations: StoredSimulation[]) {
-    const filteredSimulations = simulations?.filter(
-      (simulation: StoredSimulation) =>
-        simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
-    );
-
-    let current;
-
-    if (filteredSimulations && filteredSimulations[0]) {
-      current = filteredSimulations[0];
-      setCurrentSimulation(current);
-    } else {
-      setCurrentSimulation(undefined);
-    }
-
-    if (current?.args?.bypassed) {
-      if (current.simulation) {
-        current.simulation.warningType = SimulationWarningType.Warn;
-        current.simulation.message = [
-          `This transaction attempted to bypass Wallet Guard's simulation. If you continue seeing this, please open a support ticket.`,
-          ...(current.simulation.message || ''),
-        ];
-        setCurrentSimulation(current);
-      }
-    }
-
-    isLoading(false);
-  }
-
-  useEffect(() => {
-    isLoading(true);
-    chrome.storage.local
-      .get('simulations')
-      .then(({ simulations }) => updateSimulations(simulations))
-      .catch((err) => {
-        isLoading(false);
-        console.log('unable to fetch simulations from popup', err);
-      });
-
-    chrome.storage.onChanged.addListener((changes, area) => {
-      if (area === 'local' && changes['simulations']?.newValue) {
-        const newSimulations = changes['simulations']?.newValue;
-        updateSimulations(newSimulations);
-      }
-    });
-
-    // Show the survey if the feature flag is enabled and the user hasn't completed it yet
-    const surveyFlag = posthog.isFeatureEnabled('show-user-survey');
-    if (surveyFlag) {
-      localStorageHelpers.get<boolean>(WgKeys.SurveyComplete).then((surveyComplete) => {
-        if (!surveyComplete) {
-          setShowSurvey(true);
-        }
-      });
-    }
-  }, []);
 
   useEffect(() => {
     localStorageHelpers.get<boolean>(WgKeys.ChatWeb3Onboarding).then((tutorialIsComplete) => {
@@ -148,17 +86,17 @@ const Popup = () => {
   // Personal Sign Screen
   if (currentSimulation.args.method === SimulationMethodType.PersonalSign) {
     return (
-      <>
+      <SimulationContext.Provider value={{ currentSimulation, loading }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <PersonalSign simulation={currentSimulation} />
+          <PersonalSign />
         </div>
         <ConfirmSimulationButton storedSimulation={currentSimulation} />
-      </>
+      </SimulationContext.Provider>
     );
   }
 
   return (
-    <>
+    <SimulationContext.Provider value={{ currentSimulation, loading }}>
       {showChatWeb3 ? (
         <ChakraProvider theme={theme}>
           <ChatWeb3Tab
@@ -177,10 +115,9 @@ const Popup = () => {
             setShowChatWeb3={setShowChatWeb3}
             storedSimulation={currentSimulation}
           />
-          {showSurvey && <SimulationSurvey />}
 
           <div className="container">
-            <TransactionDetails currentSimulation={currentSimulation} />
+            <TransactionDetails />
           </div>
 
           {/* <div>
@@ -213,7 +150,7 @@ const Popup = () => {
           )}
         </>
       )}
-    </>
+    </SimulationContext.Provider>
   );
 };
 

@@ -112,7 +112,7 @@ export type RiskFactor = {
   severity: Severity;
   type: WarningType;
   message: string;
-  value: string;
+  value?: string;
 };
 
 export enum WarningType {
@@ -193,6 +193,9 @@ export type SimulationAddressDetails = {
   addressType: string;
   etherscanVerified: boolean;
   etherscanLink: string;
+  addressName: string;
+  isAssociatedWithProtocol: string;
+  addressSummary: string;
 };
 
 export type TokenData = {

@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StoredSimulation } from '../../lib/simulation/storage';
 import { DappLogoWithChain } from './DappLogoWithChain';
 import styles from '../../styles/simulation/PersonalSign/PersonalSign.module.css';
 import animations from '../../styles/CommonAnimations.module.css';
 import { CDN_URL_PROD } from '../../lib/environment';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
-
-interface PersonalSignProps {
-  simulation: StoredSimulation;
-}
+import { SimulationContext } from '../../lib/context/context';
 
 interface Metadata {
   name: string;
@@ -22,7 +19,8 @@ const defaultMetadata: Metadata = {
   color: 'green',
 };
 
-export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
+export const PersonalSign: React.FC = () => {
+  const { currentSimulation } = useContext(SimulationContext);
   const [metadata, setMetadata] = useState<Metadata>(defaultMetadata);
   const [chainLogoPath, setChainLogoPath] = useState<string>('/images/asset_logos/eth-mainnet.png');
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -37,7 +35,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const domainName = getDomainNameFromURL(simulation.args.origin);
+      const domainName = getDomainNameFromURL(currentSimulation?.args.origin || '');
       const response = await fetch(CDN_URL_PROD + `/url/metadata/${domainName}.json`);
       if (response.ok) {
         const data = await response.json();
@@ -53,7 +51,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
 
   // Set the chain logo path
   useEffect(() => {
-    switch (simulation.args.chainId) {
+    switch (currentSimulation?.args.chainId || '') {
       case '1':
       case '0x1':
         setChainLogoPath('/images/asset_logos/ethereum.png');
@@ -90,7 +88,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
             <p>Account</p>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
               <p>Your account</p>
-              <p className={styles['c-grey']}>{formatEthereumAddress(simulation.signer)}</p>
+              <p className={styles['c-grey']}>{formatEthereumAddress(currentSimulation?.signer || '')}</p>
             </div>
           </div>
 
@@ -103,7 +101,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
               >
                 <img className={`${hideOnLoading}`} src={metadata.logo} />
               </div>
-              <p>{getDomainNameFromURL(simulation.args.origin)}</p>
+              <p>{getDomainNameFromURL(currentSimulation?.args.origin || '')}</p>
             </div>
           </div>
 
@@ -112,7 +110,9 @@ export const PersonalSign: React.FC<PersonalSignProps> = ({ simulation }) => {
             style={{ flexDirection: 'column', textAlign: 'left', gap: '10px', height: '180px' }}
           >
             <p>You are signing</p>
-            <p className={`${styles['scrollable']} ${styles['c-grey']}`}>{simulation.simulation?.decodedMessage}</p>
+            <p className={`${styles['scrollable']} ${styles['c-grey']}`}>
+              {currentSimulation?.simulation?.decodedMessage || ''}
+            </p>
           </div>
         </div>
       </div>
