@@ -17,6 +17,8 @@ export interface SimulationContextModel {
   loading: boolean;
 }
 
+// todo: current simulation undefined causes issues with subcomponents, if loaded is true we should have a currentSimulation
+// see if we can fix that
 export const SimulationContext = createContext({
   currentSimulation: undefined,
   loading: true,
