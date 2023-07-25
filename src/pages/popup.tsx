@@ -20,6 +20,8 @@ import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/componen
 import { TransactionDetails } from '../components/simulation/TransactionDetails';
 import { useSimulation } from '../lib/hooks/useSimulation';
 import { SimulationContext } from '../lib/context/context';
+import { ContractDetails } from '../components/simulation/ContractDetails';
+import { StoredSimulationState } from '../lib/simulation/storage';
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
