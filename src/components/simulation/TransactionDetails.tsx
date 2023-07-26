@@ -43,7 +43,7 @@ export function TransactionDetails() {
       </div>
       {/* {currentSimulation?.simulation?.riskFactors && currentSimulation?.simulation?.riskFactors.length > 0 && ( */}
 
-      <Accordion allowToggle style={{ marginTop: '-15px' }}>
+      {/* <Accordion allowToggle style={{ marginTop: '-15px' }}>
         <AccordionItem background={'#FF783E'}>
           <AccordionButton>
             <div className="container" style={{ paddingTop: '10px' }}>
@@ -55,9 +55,9 @@ export function TransactionDetails() {
 
             <AccordionIcon />
           </AccordionButton>
-          <AccordionPanel pb={4}>{/* todo */}</AccordionPanel>
+          <AccordionPanel pb={4}></AccordionPanel>
         </AccordionItem>
-      </Accordion>
+      </Accordion> */}
       {/* )} */}
     </div>
   );

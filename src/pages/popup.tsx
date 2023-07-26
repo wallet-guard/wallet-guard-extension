@@ -139,9 +139,7 @@ const Popup = () => {
               <ContractDetails storedSimulation={currentSimulation} />
             </div>
           )} */}
-          <div className="pb-4">
-            <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
-          </div>
+          <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
           <div style={{ height: '140px' }} />
           {currentSimulation.args?.bypassed ? (
             <BypassedSimulationButton storedSimulation={currentSimulation} />

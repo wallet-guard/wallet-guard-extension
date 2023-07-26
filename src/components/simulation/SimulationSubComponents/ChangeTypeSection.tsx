@@ -15,7 +15,7 @@ export interface ChangeTypeSectionProps {
 export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
   return (
     <>
-      <div className="p-3">
+      <div className="px-3 pt-3">
         <ChangeTypeHeading title={props.title} iconPath={props.iconPath} gas={props.gas} />
         {props.stateChanges && (
           <StateChangesComponent simulationStateChanges={props.stateChanges} scanResult={props.scanResult} />
