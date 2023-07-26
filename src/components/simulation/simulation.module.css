@@ -137,11 +137,10 @@
 }
 
 .assetChangeRow {
-  margin-bottom: 20px;
-}
-
-.assetChangeRow:last-child {
-  margin-bottom: 0px;
+  margin-bottom: 0.5rem;
+  height: 70px;
+  background: #161616;
+  border-radius: 16px;
 }
 
 /* Takes up the remaining space left by assetChangeRightColumn */
@@ -153,7 +152,6 @@
   flex-grow: 1;
   flex-shrink: 1;
   padding-left: 15px;
-  padding-right: 15px;
 }
 
 /* Takes up 100% of width depending on the content, up to 40% of the row */
@@ -165,7 +163,6 @@
   flex-basis: auto;
   flex-grow: 0;
   flex-shrink: 1;
-  padding-left: 15px;
   padding-right: 15px;
   max-width: 40%;
 }

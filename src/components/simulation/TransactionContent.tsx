@@ -83,7 +83,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
         <ChangeTypeSection
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={transferAndApproveStateChanges}
-          title="You are giving"
+          title="You are sending"
           iconPath="images/popup/ArrowGiving.png"
           gas={storedSimulation.simulation.gas}
         />

@@ -13,9 +13,8 @@ export const TokenInfo = (props: StateChangesComponentProps) => {
     <div className={styles.assetChangeLeftColumn}>
       <img
         src={props.stateChange.logo ? props.stateChange.logo : '/images/popup/unknown.png'}
-        alt=""
-        width={48}
-        style={{ borderRadius: '20%', alignSelf: 'center', maxHeight: '50px' }}
+        width={40}
+        style={{ borderRadius: '20%', alignSelf: 'center', maxHeight: '40px' }}
       />
       {props.stateChange.coinmarketcapLink ? (
         <a

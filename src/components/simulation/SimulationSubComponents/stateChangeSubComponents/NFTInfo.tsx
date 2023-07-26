@@ -13,9 +13,8 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
     <div className={styles.assetChangeLeftColumn}>
       <img
         src={props.stateChange.tokenURI ? props.stateChange.tokenURI : '/images/popup/unknown.png'}
-        alt=""
-        width={50}
-        style={{ borderRadius: '20%', alignSelf: 'center', maxHeight: '50px' }}
+        width={40}
+        style={{ borderRadius: '20%', alignSelf: 'center', maxHeight: '40px' }}
       />
       <div>
         {props.stateChange.openSeaLink ? (

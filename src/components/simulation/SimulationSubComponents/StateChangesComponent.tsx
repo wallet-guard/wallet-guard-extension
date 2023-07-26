@@ -60,10 +60,12 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
 
   return (
     <>
-      {props.simulationStateChanges &&
-        props.simulationStateChanges.map((stateChange: SimulationStateChange) => {
-          return (
+      {props.simulationStateChanges.map((stateChange: SimulationStateChange) => {
+        return (
+          // todo: fix the key here
+          <div className="container">
             <div
+              // style={{ height: '100%' }}
               className={`${styles.assetChangeRow} row justify-content-between`}
               key={stateChange.name + stateChange.tokenID + stateChange.fiatValue}
             >
@@ -108,8 +110,9 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                 </>
               )}
             </div>
-          );
-        })}
+          </div>
+        );
+      })}
     </>
   );
 };
