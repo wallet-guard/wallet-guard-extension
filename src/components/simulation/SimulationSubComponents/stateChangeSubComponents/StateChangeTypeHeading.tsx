@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../../simulation.module.css';
 import { Tooltip } from '@chakra-ui/react';
 import { SimulatedGas } from '../../../../models/simulation/Transaction';
+import { FaGasPump } from 'react-icons/fa';
 
 export interface ChangeTypeSectionProps {
   title: string;
@@ -28,9 +29,12 @@ export const ChangeTypeHeading = (props: ChangeTypeSectionProps) => {
               className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
               label="Gas is an estimated value"
             >
-              <p className={styles['label-md']}>
-                Gas <span className={styles['text-sm']}>${Number(props.gas.fiatValue).toFixed(2)}</span>
-              </p>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <FaGasPump color="#646464" fontSize={'14px'} style={{ marginRight: '5px' }} />
+                <p className={styles['label-md']}>
+                  Gas <span className={styles['text-sm']}>${Number(props.gas.fiatValue).toFixed(2)}</span>
+                </p>
+              </div>
             </Tooltip>
           )}
         </div>
