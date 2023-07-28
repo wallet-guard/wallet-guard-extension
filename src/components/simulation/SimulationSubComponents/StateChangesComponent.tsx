@@ -100,7 +100,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                         <TransferToken stateChange={stateChange} type="receive" />
                       ) : (
                         stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
-                          <SetTokenApproval stateChange={stateChange} />
+                          <SetTokenApproval stateChange={stateChange} verified={props.scanResult.verified} />
                         )
                       )}
                     </div>

@@ -22,28 +22,37 @@ function roundNumberIfNeccessary(num: string): string {
 export const RevokeApprovalForAll = () => {
   return (
     <>
-      <h3 style={{ color: '#17FE00', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        Revoking permission <br /> to withdraw ALL
+      <h3 style={{ color: '#17FE00', fontSize: '16px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
+        Revoking approval <br /> to withdraw ALL
       </h3>
     </>
   );
 };
 
-export const SetTokenApproval = ({ stateChange }: { stateChange: SimulationStateChange }) => {
+export const SetTokenApproval = ({
+  stateChange,
+  verified,
+}: {
+  stateChange: SimulationStateChange;
+  verified?: boolean;
+}) => {
   return (
     <>
-      <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        Permission to <br /> withdraw {stateChange.symbol}
+      <h3
+        style={{ color: verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
+        className={`${styles['font-archivo-bold']}`}
+      >
+        Approval to <br /> withdraw {stateChange.amount} {stateChange.symbol}
       </h3>
     </>
   );
 };
 
-interface SetApprovalForAllProps {
+interface ApprovalProps {
   verified?: boolean;
 }
 
-export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
+export const SetApprovalForAll = (props: ApprovalProps) => {
   return (
     <>
       {!props.verified && (
@@ -56,63 +65,52 @@ export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
       )}
 
       <h3
-        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px' }}
+        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        Permission to <br /> withdraw ALL
+        Approval to <br /> withdraw ALL
       </h3>
     </>
   );
 };
 
-export const SetApproval = () => {
+export const SetApproval = (props: ApprovalProps) => {
   return (
     <>
-      <img
-        src="/images/popup/orange-danger.png"
-        alt=""
-        width={33}
-        style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
-      />
-      <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        Permission to <br /> withdraw NFT
+      {!props.verified && (
+        <img
+          src="/images/popup/orange-danger.png"
+          alt=""
+          width={33}
+          style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
+        />
+      )}
+      <h3
+        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
+        className={`${styles['font-archivo-bold']}`}
+      >
+        Approval to <br /> withdraw NFT
       </h3>
     </>
   );
 };
 
+type TransferType = 'send' | 'receive';
+
 interface TransferAssetProps {
-  type: 'send' | 'receive';
+  type: TransferType;
   stateChange: SimulationStateChange;
 }
 
 export const TransferNFT = (props: TransferAssetProps) => {
   return (
     <>
-      <h3
-        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '16px', marginBottom: 0 }}
-        className={`${styles['font-archivo-bold']}`}
-      >
-        {props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}
-      </h3>
-      {props.stateChange.fiatValue !== '' && (
-        <Tooltip
-          hasArrow
-          label="OpenSea floor price"
-          placement="left"
-          bg="#212121"
-          color="white"
-          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-          style={{ borderRadius: '2em' }}
-        >
-          <p
-            style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '14px' }}
-            className={`${styles['font-archivo-medium']}`}
-          >
-            ${Number(props.stateChange.fiatValue).toFixed(2)}
-          </p>
-        </Tooltip>
-      )}
+      <TransferValueHeading
+        title={props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}
+        type={props.type}
+      />
+
+      <TransferValueSubHeading type={props.type} fiatValue={props.stateChange.fiatValue} isNFT />
     </>
   );
 };
@@ -120,20 +118,56 @@ export const TransferNFT = (props: TransferAssetProps) => {
 export const TransferToken = (props: TransferAssetProps) => {
   return (
     <>
-      <h3
-        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '16px', marginBottom: 0 }}
-        className={`${styles['font-archivo-bold']}`}
-      >
-        {roundNumberIfNeccessary(props.stateChange.amount)} {props.stateChange.symbol}
-      </h3>
-      {props.stateChange.fiatValue !== '' && (
-        <p
-          style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '14px' }}
-          className={`${styles['font-archivo-medium']}`}
-        >
-          ${Number(props.stateChange.fiatValue).toFixed(2)}
-        </p>
-      )}
+      <TransferValueHeading
+        title={`${roundNumberIfNeccessary(props.stateChange.amount)} ${props.stateChange.symbol}`}
+        type={props.type}
+      />
+      <TransferValueSubHeading type={props.type} fiatValue={props.stateChange.fiatValue} />
     </>
   );
 };
+
+function TransferValueHeading({ title, type }: { title: string; type: TransferType }) {
+  return (
+    <h3
+      style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
+      className={`${styles['font-archivo-bold']}`}
+    >
+      {title}
+    </h3>
+  );
+}
+
+function TransferValueSubHeading({
+  fiatValue,
+  type,
+  isNFT,
+}: {
+  fiatValue: string;
+  type: TransferType;
+  isNFT?: boolean;
+}) {
+  if (!fiatValue) return <></>;
+
+  return (
+    <>
+      <Tooltip
+        hidden={!isNFT}
+        hasArrow
+        label="OpenSea floor price"
+        placement="left"
+        bg="#212121"
+        color="white"
+        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+        style={{ borderRadius: '2em' }}
+      >
+        <p
+          style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '16px' }}
+          className={`${styles['font-archivo-medium']}`}
+        >
+          ${Number(fiatValue).toFixed(2)}
+        </p>
+      </Tooltip>
+    </>
+  );
+}

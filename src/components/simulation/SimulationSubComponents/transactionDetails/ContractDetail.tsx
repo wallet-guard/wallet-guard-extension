@@ -82,9 +82,9 @@ export function ContractDetail(props: ChainDetailProps) {
         >
           <a href={addressDetails.etherscanLink} className={styles.zoom} target="_blank">
             {addressDetails.etherscanVerified ? (
-              <img src="/images/popup/EtherscanVerified.png" width={20} />
+              <img src="/images/popup/EtherscanVerified.svg" height={20} />
             ) : (
-              <img src="/images/popup/EtherscanUnverified.png" width={20} />
+              <img src="/images/popup/EtherscanUnverified.svg" height={20} />
             )}
           </a>
         </Tooltip>
