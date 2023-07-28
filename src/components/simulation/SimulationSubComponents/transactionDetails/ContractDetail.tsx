@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from '../../simulation.module.css';
 import { SimulationAddressDetails } from '../../../../models/simulation/Transaction';
-import { useClipboard } from '@chakra-ui/react';
+import { Tooltip, useClipboard } from '@chakra-ui/react';
 import { AiFillCopy, AiOutlineCheck } from 'react-icons/ai';
 
 interface ChainDetailProps {
@@ -9,12 +9,23 @@ interface ChainDetailProps {
 }
 
 export function ContractDetail(props: ChainDetailProps) {
+  const [addressName, setAddressName] = useState('');
   const { addressDetails } = props;
   const { onCopy, setValue, hasCopied } = useClipboard('');
 
   useEffect(() => {
     if (addressDetails?.address) {
       setValue(addressDetails.address);
+    }
+
+    if (addressDetails?.addressName) {
+      if (addressDetails.addressName.includes(':')) {
+        const tempName = addressDetails.addressName.split(':').at(0);
+        setAddressName(tempName || '');
+        return;
+      }
+
+      setAddressName(addressDetails.addressName);
     }
   }, []);
 
@@ -33,26 +44,41 @@ export function ContractDetail(props: ChainDetailProps) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-      <p onClick={onCopy} style={{ marginRight: '6px', cursor: 'pointer' }} className={styles['text-md']}>
-        {addressDetails.addressName || add3DotsMiddle(addressDetails.address, 6)}
-      </p>
-      {hasCopied ? (
-        <AiOutlineCheck color="#19FF00" fontSize={'16px'} style={{ marginRight: '6px' }} />
-      ) : (
-        <AiFillCopy
-          fontSize={'16px'}
-          onClick={onCopy}
-          color="#676767"
-          style={{ cursor: 'pointer', marginRight: '6px' }}
-        />
-      )}
-      <a href={addressDetails.etherscanLink} className={styles.zoom} target="_blank">
-        {addressDetails.etherscanVerified ? (
-          <img src="/images/popup/EtherscanVerified.png" width={18} />
+      <div style={{ flexBasis: 'auto', flexGrow: 0, flexShrink: 1 }}>
+        <p onClick={onCopy} style={{ marginRight: '10px', cursor: 'pointer' }} className={styles['text-md']}>
+          {addressName || add3DotsMiddle(addressDetails?.address || '', 6)}
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'row', flexBasis: 'auto', flexGrow: 0, flexShrink: 1 }}>
+        {hasCopied ? (
+          <AiOutlineCheck color="#19FF00" fontSize={'16px'} style={{ marginRight: '6px' }} />
         ) : (
-          <img src="/images/popup/EtherscanUnverified.png" width={18} />
+          <AiFillCopy
+            fontSize={'16px'}
+            onClick={onCopy}
+            color="#676767"
+            style={{ cursor: 'pointer', marginRight: '6px' }}
+          />
         )}
-      </a>
+        <Tooltip
+          hasArrow
+          label={addressDetails.etherscanVerified ? 'Verified on EtherScan' : 'Unverified contract'}
+          bg="#212121"
+          placement="left"
+          color="white"
+          borderRadius={'5px'}
+          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+        >
+          <a href={addressDetails.etherscanLink} className={styles.zoom} target="_blank">
+            {addressDetails.etherscanVerified ? (
+              <img src="/images/popup/EtherscanVerified.png" width={20} />
+            ) : (
+              <img src="/images/popup/EtherscanUnverified.png" width={20} />
+            )}
+          </a>
+        </Tooltip>
+      </div>
     </div>
   );
 }

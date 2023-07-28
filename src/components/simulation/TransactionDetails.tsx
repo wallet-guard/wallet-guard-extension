@@ -23,7 +23,7 @@ export function TransactionDetails() {
           Transaction Details
         </p>
 
-        <div className="row mb-2">
+        <div className="row mb-3">
           <div className="col-6">
             <TransactionDetailLabel labelText="Chain" />
             <ChainDetail chainId={currentSimulation?.args.chainId || '0x1'} />
