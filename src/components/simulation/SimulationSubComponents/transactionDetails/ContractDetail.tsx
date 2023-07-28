@@ -45,9 +45,19 @@ export function ContractDetail(props: ChainDetailProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <div style={{ flexBasis: 'auto', flexGrow: 0, flexShrink: 1 }}>
-        <p onClick={onCopy} style={{ marginRight: '10px', cursor: 'pointer' }} className={styles['text-md']}>
-          {addressName || add3DotsMiddle(addressDetails?.address || '', 6)}
-        </p>
+        <Tooltip
+          hasArrow
+          label="Copy address"
+          bg="#212121"
+          placement="top"
+          color="white"
+          borderRadius={'5px'}
+          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+        >
+          <p onClick={onCopy} style={{ marginRight: '10px', cursor: 'pointer' }} className={styles['text-md']}>
+            {addressName || add3DotsMiddle(addressDetails?.address || '', 6)}
+          </p>
+        </Tooltip>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'row', flexBasis: 'auto', flexGrow: 0, flexShrink: 1 }}>

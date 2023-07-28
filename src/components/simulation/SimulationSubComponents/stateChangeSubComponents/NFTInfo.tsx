@@ -3,6 +3,7 @@ import React from 'react';
 import { SimulationStateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 import { add3Dots } from '../StateChangesComponent';
+import { AssetChangeImage } from './AssetChangeImage';
 
 export interface StateChangesComponentProps {
   stateChange: SimulationStateChange;
@@ -11,30 +12,19 @@ export interface StateChangesComponentProps {
 export const NFTInfo = (props: StateChangesComponentProps) => {
   return (
     <div className={styles.assetChangeLeftColumn}>
-      <img
-        src={props.stateChange.tokenURI ? props.stateChange.tokenURI : '/images/popup/unknown.png'}
-        width={40}
-        style={{ borderRadius: '20%', alignSelf: 'center', maxHeight: '40px' }}
-      />
+      <AssetChangeImage imageURL={props.stateChange.tokenURI} />
       <div>
         {props.stateChange.openSeaLink ? (
-          <a
-            href={props.stateChange.openSeaLink}
-            target="_blank"
-            className={`${styles['links']}`}
-            style={{ display: 'flex' }}
-          >
+          <a href={props.stateChange.openSeaLink} target="_blank" className={`${styles['links']}`}>
             <p
               style={{ color: 'white', fontSize: '18px', marginBottom: 0 }}
               className={`${styles['font-archivo-bold']} pl-3`}
             >
-              <b>
-                {props.stateChange.tokenName
-                  ? add3Dots(props.stateChange.tokenName, 14)
-                  : props.stateChange.tokenID
-                  ? props.stateChange.tokenID
-                  : 'Unknown'}
-              </b>
+              {props.stateChange.tokenName
+                ? add3Dots(props.stateChange.tokenName, 14)
+                : props.stateChange.tokenID
+                ? props.stateChange.tokenID
+                : 'Unknown'}
             </p>
           </a>
         ) : (
@@ -42,22 +32,20 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
             style={{ color: 'white', fontSize: '18px', marginBottom: 0 }}
             className={`${styles['font-archivo-bold']} pl-3`}
           >
-            <b>
-              {props.stateChange.tokenName
-                ? add3Dots(props.stateChange.tokenName, 14)
-                : props.stateChange.tokenID
-                ? props.stateChange.tokenID
-                : 'Unknown'}
-            </b>
+            {props.stateChange.tokenName
+              ? add3Dots(props.stateChange.tokenName, 14)
+              : props.stateChange.tokenID
+              ? props.stateChange.tokenID
+              : 'Unknown'}
           </p>
         )}
 
-        <div style={{ display: 'flex' }}>
+        <div>
           <p
             style={{ color: 'darkgray', fontSize: '16px', marginBottom: 0 }}
             className={`${styles['font-archivo-bold']} pl-3`}
           >
-            <b>{props.stateChange.name ? add3Dots(props.stateChange.name, 14) : 'Unknown'}</b>
+            {props.stateChange.name ? add3Dots(props.stateChange.name, 14) : 'Unknown'}
           </p>
           {props.stateChange.openSeaVerified && (
             <Tooltip

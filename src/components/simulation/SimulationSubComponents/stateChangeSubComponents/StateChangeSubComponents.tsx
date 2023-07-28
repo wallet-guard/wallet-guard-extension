@@ -23,9 +23,7 @@ export const RevokeApprovalForAll = () => {
   return (
     <>
       <h3 style={{ color: '#17FE00', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        <b>
-          Revoking permission <br /> to withdraw ALL
-        </b>
+        Revoking permission <br /> to withdraw ALL
       </h3>
     </>
   );
@@ -35,9 +33,7 @@ export const SetTokenApproval = ({ stateChange }: { stateChange: SimulationState
   return (
     <>
       <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        <b>
-          Permission to <br /> withdraw {stateChange.symbol}
-        </b>
+        Permission to <br /> withdraw {stateChange.symbol}
       </h3>
     </>
   );
@@ -63,9 +59,7 @@ export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
         style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px' }}
         className={`${styles['font-archivo-bold']}`}
       >
-        <b>
-          Permission to <br /> withdraw ALL
-        </b>
+        Permission to <br /> withdraw ALL
       </h3>
     </>
   );
@@ -81,9 +75,7 @@ export const SetApproval = () => {
         style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
       />
       <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        <b>
-          Permission to <br /> withdraw NFT
-        </b>
+        Permission to <br /> withdraw NFT
       </h3>
     </>
   );
@@ -98,10 +90,10 @@ export const TransferNFT = (props: TransferAssetProps) => {
   return (
     <>
       <h3
-        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
+        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        <b>{props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}</b>
+        {props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}
       </h3>
       {props.stateChange.fiatValue !== '' && (
         <Tooltip
@@ -114,10 +106,10 @@ export const TransferNFT = (props: TransferAssetProps) => {
           style={{ borderRadius: '2em' }}
         >
           <p
-            style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0 }}
+            style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '14px' }}
             className={`${styles['font-archivo-medium']}`}
           >
-            <b>${Number(props.stateChange.fiatValue).toFixed(2)}</b>
+            ${Number(props.stateChange.fiatValue).toFixed(2)}
           </p>
         </Tooltip>
       )}
@@ -129,19 +121,17 @@ export const TransferToken = (props: TransferAssetProps) => {
   return (
     <>
       <h3
-        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
+        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        <b>
-          {roundNumberIfNeccessary(props.stateChange.amount)} {props.stateChange.symbol}
-        </b>
+        {roundNumberIfNeccessary(props.stateChange.amount)} {props.stateChange.symbol}
       </h3>
       {props.stateChange.fiatValue !== '' && (
         <p
-          style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0 }}
+          style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '14px' }}
           className={`${styles['font-archivo-medium']}`}
         >
-          <b>${Number(props.stateChange.fiatValue).toFixed(2)}</b>
+          ${Number(props.stateChange.fiatValue).toFixed(2)}
         </p>
       )}
     </>
