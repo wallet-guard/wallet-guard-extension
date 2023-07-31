@@ -2,7 +2,7 @@ import { posthog } from 'posthog-js';
 import React from 'react';
 import { StoredSimulation, StoredSimulationState } from '../../lib/simulation/storage';
 import { ErrorType, SimulationWarningType } from '../../models/simulation/Transaction';
-import { ConfirmSimulationButton } from './ConfirmSimulationButton';
+import { ConfirmSimulationButton } from './SimulationButton';
 import { SimulationHeader } from './SimulationHeader';
 import { SimulationOverview } from './SimulationOverview';
 import { BypassedSimulationButton } from './SimulationSubComponents/BypassButton';

@@ -1,7 +1,7 @@
 import posthog from 'posthog-js';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ConfirmSimulationButton } from '../components/simulation/ConfirmSimulationButton';
+import { ConfirmSimulationButton } from '../components/simulation/SimulationButton';
 import { NoSimulation } from '../components/simulation/NoSimulation';
 import { SimulationHeader } from '../components/simulation/SimulationHeader';
 import { TransactionContent } from '../components/simulation/TransactionContent';

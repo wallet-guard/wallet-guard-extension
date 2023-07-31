@@ -30,6 +30,7 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
     if (recommendedAction === RecommendedActionType.Block) {
       return {
         tooltipText: 'Dangerous website',
+        // todo: need a red version of this
         iconPath: '/images/popup/orange-danger.png',
         color: '#F44B4C',
       } as WebsiteIcon;
