@@ -7,9 +7,9 @@ interface AssetChangeImageProps {
 export function AssetChangeImage(props: AssetChangeImageProps) {
   return (
     <img
-      width={35}
+      width={45}
       src={props.imageURL ? props.imageURL : '/images/popup/unknown.png'}
-      style={{ borderRadius: '20%', maxHeight: '35px' }}
+      style={{ borderRadius: '20%', maxHeight: '45px' }}
     />
   );
 }
