@@ -17,8 +17,6 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
   setShowChatWeb3,
   storedSimulation,
 }) => {
-  const [headerColor, setHeaderColor] = useState(getHeaderColor());
-
   function getHeaderColor() {
     switch (storedSimulation?.simulation?.recommendedAction) {
       case RecommendedActionType.None:
@@ -31,6 +29,8 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
         return '#b4b4b4';
     }
   }
+
+  const headerColor = getHeaderColor();
 
   return (
     <div style={{ background: '#0e0e0e' }}>

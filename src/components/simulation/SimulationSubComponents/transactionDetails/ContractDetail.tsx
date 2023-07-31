@@ -44,51 +44,48 @@ export function ContractDetail(props: ChainDetailProps) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-      <div style={{ flexBasis: 'auto', flexGrow: 0, flexShrink: 1 }}>
-        <Tooltip
-          hasArrow
-          label="Copy address"
-          bg="#212121"
-          placement="top"
-          color="white"
-          borderRadius={'5px'}
-          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-        >
+      <Tooltip
+        hasArrow
+        label="Copy address"
+        bg="#212121"
+        placement="top"
+        color="white"
+        borderRadius={'5px'}
+        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+      >
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <p onClick={onCopy} style={{ marginRight: '10px', cursor: 'pointer' }} className={styles['text-md']}>
             {addressName || add3DotsMiddle(addressDetails?.address || '', 6)}
           </p>
-        </Tooltip>
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'row', flexBasis: 'auto', flexGrow: 0, flexShrink: 1 }}>
-        {hasCopied ? (
-          <AiOutlineCheck color="#19FF00" fontSize={'16px'} style={{ marginRight: '6px' }} />
-        ) : (
-          <AiFillCopy
-            fontSize={'16px'}
-            onClick={onCopy}
-            color="#676767"
-            style={{ cursor: 'pointer', marginRight: '6px' }}
-          />
-        )}
-        <Tooltip
-          hasArrow
-          label={addressDetails.etherscanVerified ? 'Verified on EtherScan' : 'Unverified contract'}
-          bg="#212121"
-          placement="left"
-          color="white"
-          borderRadius={'5px'}
-          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-        >
-          <a href={addressDetails.etherscanLink} className={styles.zoom} target="_blank">
-            {addressDetails.etherscanVerified ? (
-              <img src="/images/popup/EtherscanVerified.svg" height={20} />
-            ) : (
-              <img src="/images/popup/EtherscanUnverified.svg" height={20} />
-            )}
-          </a>
-        </Tooltip>
-      </div>
+          {hasCopied ? (
+            <AiOutlineCheck color="#19FF00" fontSize={'16px'} style={{ marginRight: '6px' }} />
+          ) : (
+            <AiFillCopy
+              fontSize={'16px'}
+              onClick={onCopy}
+              color="#676767"
+              style={{ cursor: 'pointer', marginRight: '6px' }}
+            />
+          )}
+        </div>
+      </Tooltip>
+      <Tooltip
+        hasArrow
+        label={addressDetails.etherscanVerified ? 'Verified contract' : 'Unverified contract'}
+        bg="#212121"
+        placement="left"
+        color="white"
+        borderRadius={'5px'}
+        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+      >
+        <a href={addressDetails.etherscanLink} className={styles.zoom} target="_blank">
+          {addressDetails.etherscanVerified ? (
+            <img src="/images/popup/EtherscanVerified.svg" height={20} />
+          ) : (
+            <img src="/images/popup/EtherscanUnverified.svg" height={20} />
+          )}
+        </a>
+      </Tooltip>
     </div>
   );
 }

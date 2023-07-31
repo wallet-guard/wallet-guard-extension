@@ -159,7 +159,7 @@ function TransferValueSubHeading({
         bg="#212121"
         color="white"
         className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-        style={{ borderRadius: '2em' }}
+        borderRadius={'5px'}
       >
         <p
           style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '16px' }}
