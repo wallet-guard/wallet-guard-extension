@@ -1,6 +1,6 @@
 {
   "name": "Wallet Guard: Protect Your Crypto",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "A browser extension for detecting phishing attacks on crypto wallets",
   "main": "index.js",
   "scripts": {

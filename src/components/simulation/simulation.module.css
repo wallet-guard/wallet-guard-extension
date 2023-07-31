@@ -124,6 +124,10 @@
   font-family: "ArchivoMedium";
 }
 
+.font-archivo-semibold {
+  font-family: "ArchivoSemiBold";
+}
+
 .font-archivo-bold {
   font-family: "ArchivoBold";
 }

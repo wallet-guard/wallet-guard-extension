@@ -149,6 +149,7 @@ export enum ErrorType {
   Unauthorized = 'UNAUTHORIZED',
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
+  UnsupportedSignature = "UNSUPPORTED_SIGNATURE",
   Revert = 'REVERT',
   TooManyRequests = 'TOO_MANY_REQUESTS',
   GeneralError = 'ERROR',
