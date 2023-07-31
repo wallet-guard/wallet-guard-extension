@@ -65,7 +65,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
           <div className="container">
             <div
               className={`${styles.assetChangeRow} row justify-content-between`}
-              key={stateChange.symbol + stateChange.tokenID}
+              key={stateChange.name + stateChange.tokenID + stateChange.fiatValue}
             >
               {/* TODO: FIX check opensea if its is an NFT */}
               {stateChange.tokenURI ? <NFTInfo stateChange={stateChange} /> : <TokenInfo stateChange={stateChange} />}

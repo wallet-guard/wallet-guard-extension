@@ -6,6 +6,7 @@ import { ChainDetail } from './SimulationSubComponents/transactionDetails/ChainD
 import { ContractDetail } from './SimulationSubComponents/transactionDetails/ContractDetail';
 import { WebsiteDetail } from './SimulationSubComponents/transactionDetails/WebsiteDetail';
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from '@chakra-ui/react';
+import { RecommendedActionType } from '../../models/simulation/Transaction';
 
 export function TransactionDetails() {
   const { currentSimulation } = useContext(SimulationContext);
@@ -37,7 +38,11 @@ export function TransactionDetails() {
         <div className="row">
           <div className="col-6">
             <TransactionDetailLabel labelText="Website" />
-            <WebsiteDetail scanResult={currentSimulation?.simulation?.scanResult} />
+            <WebsiteDetail
+              verified={currentSimulation?.simulation?.scanResult.verified || false}
+              domainName={currentSimulation?.simulation?.scanResult.domainName || ''}
+              recommendedAction={currentSimulation?.simulation?.recommendedAction || RecommendedActionType.None}
+            />
           </div>
         </div>
       </div>

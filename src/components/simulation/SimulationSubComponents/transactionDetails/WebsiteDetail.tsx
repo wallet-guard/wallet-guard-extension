@@ -1,36 +1,50 @@
 import React from 'react';
-import { PhishingResponse, PhishingResult } from '../../../../models/PhishingResponse';
 import styles from '../../simulation.module.css';
 import { Tooltip } from '@chakra-ui/react';
+import { RecommendedActionType } from '../../../../models/simulation/Transaction';
 
 interface WebsiteDetailProps {
-  scanResult: PhishingResponse | undefined;
+  verified: boolean;
+  recommendedAction: RecommendedActionType;
+  domainName: string;
 }
 
 interface WebsiteIcon {
   tooltipText: string;
   iconPath: string;
+  color: string;
 }
 
 export function WebsiteDetail(props: WebsiteDetailProps) {
-  const { scanResult } = props;
+  const { verified, recommendedAction, domainName } = props;
 
   function getWebsiteIcon(): WebsiteIcon {
-    if (scanResult?.verified) {
+    // TEMP - re-add this
+    // if (verified) {
+    //   return {
+    //     tooltipText: 'Verified by Wallet Guard',
+    //     iconPath: '/images/popup/green-verified.png',
+    //     color: '',
+    //   } as WebsiteIcon;
+    // } else
+    if (recommendedAction === RecommendedActionType.Block) {
       return {
-        tooltipText: 'Verified by Wallet Guard',
-        iconPath: '/images/popup/green-verified.png',
-      } as WebsiteIcon;
-    } else if (scanResult?.phishing === PhishingResult.Phishing) {
-      return {
-        tooltipText: 'Low trust website',
+        tooltipText: 'Dangerous website',
         iconPath: '/images/popup/orange-danger.png',
+        color: '#F44B4C',
+      } as WebsiteIcon;
+    } else if (recommendedAction === RecommendedActionType.Warn) {
+      return {
+        tooltipText: 'Suspicious website',
+        iconPath: '/images/popup/orange-danger.png',
+        color: '#FF783E',
       } as WebsiteIcon;
     }
 
     return {
       tooltipText: 'Unknown website',
       iconPath: '/images/popup/unknown.png',
+      color: '',
     } as WebsiteIcon;
   }
 
@@ -38,7 +52,9 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-      <p className={styles['text-md']}>{scanResult?.domainName}</p>
+      <p className={styles['text-md']} style={{ color: websiteIcon.color }}>
+        {domainName}
+      </p>
       <Tooltip
         hasArrow
         label={websiteIcon.tooltipText}
