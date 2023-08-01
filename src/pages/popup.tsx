@@ -20,8 +20,6 @@ import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/componen
 import { TransactionDetails } from '../components/simulation/TransactionDetails';
 import { useSimulation } from '../lib/hooks/useSimulation';
 import { SimulationContext } from '../lib/context/context';
-import { ContractDetails } from '../components/simulation/ContractDetails';
-import { StoredSimulationState } from '../lib/simulation/storage';
 import { SimulationTabs } from '../components/simulation/SimulationTabs';
 
 const Popup = () => {
@@ -70,7 +68,7 @@ const Popup = () => {
   }, []);
 
   if (loading) {
-    return <div style={{ backgroundColor: 'black' }} />;
+    return <div style={{ backgroundColor: '#0b0b0b' }} />;
   }
 
   if (!currentSimulation) {
@@ -104,11 +102,7 @@ const Popup = () => {
         <ChakraProvider theme={theme}>
           <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
         </ChakraProvider>
-        <SimulationHeader
-          showChatWeb3={showChatWeb3}
-          setShowChatWeb3={setShowChatWeb3}
-          storedSimulation={currentSimulation}
-        />
+        <SimulationHeader storedSimulation={currentSimulation} />
 
         {!loading && (
           <>

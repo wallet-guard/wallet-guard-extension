@@ -1,21 +1,15 @@
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React from 'react';
 import { TwitterShareButton } from 'react-share';
 import { StoredSimulation } from '../../lib/simulation/storage';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 
 interface SimulationHeaderProps {
   storedSimulation?: StoredSimulation;
-  showChatWeb3?: boolean | undefined;
-  setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
 }
 
-export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
-  showChatWeb3,
-  setShowChatWeb3,
-  storedSimulation,
-}) => {
+export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ storedSimulation }) => {
   function getHeaderColor() {
     switch (storedSimulation?.simulation?.recommendedAction) {
       case RecommendedActionType.None:
