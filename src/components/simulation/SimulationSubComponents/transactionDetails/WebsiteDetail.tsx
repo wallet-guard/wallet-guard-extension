@@ -19,15 +19,13 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
   const { verified, recommendedAction, domainName } = props;
 
   function getWebsiteIcon(): WebsiteIcon {
-    // TEMP - re-add this
-    // if (verified) {
-    //   return {
-    //     tooltipText: 'Verified by Wallet Guard',
-    //     iconPath: '/images/popup/green-verified.png',
-    //     color: '',
-    //   } as WebsiteIcon;
-    // } else
-    if (recommendedAction === RecommendedActionType.Block) {
+    if (verified) {
+      return {
+        tooltipText: 'Verified by Wallet Guard',
+        iconPath: '/images/popup/green-verified.png',
+        color: '#ffffff',
+      } as WebsiteIcon;
+    } else if (recommendedAction === RecommendedActionType.Block) {
       return {
         tooltipText: 'Dangerous website',
         // todo: need a red version of this
@@ -45,7 +43,7 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
     return {
       tooltipText: 'Unknown website',
       iconPath: '/images/popup/unknown.png',
-      color: '',
+      color: '#ffffff',
     } as WebsiteIcon;
   }
 

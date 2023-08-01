@@ -26,7 +26,7 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
       case RecommendedActionType.Block:
         return '#F44B4C';
       default:
-        return '#b4b4b4';
+        return '#0b0b0b';
     }
   }
 
