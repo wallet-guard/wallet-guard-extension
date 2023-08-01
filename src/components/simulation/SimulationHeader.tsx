@@ -33,8 +33,17 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
 
   return (
     <div className="container">
-      {/* todo: add glow here */}
-      <div style={{ height: '2px', width: '100vw', position: 'absolute', left: 0, background: headerColor }} />
+      <div
+        style={{
+          height: '2px',
+          width: '100vw',
+          position: 'absolute',
+          left: 0,
+          background: headerColor,
+          boxShadow: `0 2px 10px ${headerColor}`,
+          opacity: '80%',
+        }}
+      />
       <div
         className="justify-content-between"
         style={{
