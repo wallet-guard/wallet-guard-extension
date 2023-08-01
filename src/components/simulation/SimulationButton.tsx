@@ -73,7 +73,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
               {storedSimulation.state === StoredSimulationState.Simulating ? (
                 <SimulationActionButton
                   backgroundColor="white"
-                  imgSrc="/images/popup/circleCheck.png"
+                  imgSrc="/images/popup/ArrowRight.png"
                   imgWidth={19}
                   buttonText="SKIP"
                   onClick={() => {
