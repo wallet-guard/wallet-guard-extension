@@ -45,6 +45,8 @@ function RiskFactorsWarn(props: RiskFactorsProps) {
       return `Created ${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
     } else if (riskFactor.type === WarningType.MLInference) {
       return `Likely a phishing attempt of ${riskFactor.value}`;
+    } else if (riskFactor.type == WarningType.Bypass) {
+      return riskFactor.value || '';
     }
 
     return '';
@@ -52,7 +54,11 @@ function RiskFactorsWarn(props: RiskFactorsProps) {
 
   return (
     <>
-      <img style={{ marginBottom: '-1px', marginLeft: '50px' }} width={'15px'} src="/images/popup/arrow_warn.svg" />
+      <img
+        style={{ marginBottom: '-1px', marginLeft: '50px' }}
+        width={'15px'}
+        src="/images/popup/websiteDetail/arrow_warn.svg"
+      />
       <AccordionItem
         background={'#FF783E'}
         borderBottomLeftRadius={'16px'}
@@ -111,7 +117,11 @@ function RiskFactorsBlock(props: RiskFactorsProps) {
 
   return (
     <>
-      <img style={{ marginBottom: '-1px', marginLeft: '50px' }} width={'15px'} src="/images/popup/arrow_block.svg" />
+      <img
+        style={{ marginBottom: '-1px', marginLeft: '50px' }}
+        width={'15px'}
+        src="/images/popup/websiteDetail/arrow_block.svg"
+      />
       <AccordionItem
         background={'#F44B4C'}
         borderBottomLeftRadius="16px"
@@ -121,7 +131,7 @@ function RiskFactorsBlock(props: RiskFactorsProps) {
         <div className="container" style={{ paddingTop: '10px', paddingBottom: '10px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
             <div className={styles.row} style={{ marginBottom: '3px' }}>
-              <img width={'16px'} src="/images/popup/hand_danger.svg" style={{ marginRight: '6px' }} />
+              <img width={'16px'} src="/images/popup/websiteDetail/hand_danger.svg" style={{ marginRight: '6px' }} />
               <p className={styles['heading-md']} style={{ letterSpacing: '.75px' }}>
                 Dangerous
               </p>

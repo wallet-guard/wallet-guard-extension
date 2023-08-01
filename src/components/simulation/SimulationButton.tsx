@@ -62,7 +62,6 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                 onClick={() => {
                   posthog.capture('simulation rejected', {
                     recommendedAction: storedSimulation.simulation?.recommendedAction,
-                    warningType: storedSimulation.simulation?.warningType,
                     storedSimulation: storedSimulation,
                   });
                   updateSimulationState(id, StoredSimulationState.Rejected);
@@ -80,7 +79,6 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                     posthog.alias(signer);
                     posthog.capture('simulation skipped', {
                       recommendedAction: storedSimulation.simulation?.recommendedAction,
-                      warningType: storedSimulation.simulation?.warningType,
                       storedSimulation: storedSimulation,
                     });
                     updateSimulationState(id, StoredSimulationState.Confirmed);
@@ -108,7 +106,6 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   onClick={() => {
                     posthog.capture('simulation confirmed', {
                       recommendedAction: storedSimulation.simulation?.recommendedAction,
-                      warningType: storedSimulation.simulation?.warningType,
                       storedSimulation: storedSimulation,
                     });
                     updateSimulationState(id, StoredSimulationState.Confirmed);

@@ -79,8 +79,8 @@ interface RequestArgs {
 export type SimulationResponse = {
   recommendedAction: RecommendedActionType;
   overviewMessage: string;
-  warningType: SimulationWarningType; // Deprecated in favor of RecommendedAction
-  message?: string[]; // Deprecated in favor of OverviewMessage
+  // warningType: SimulationWarningType; // Deprecated in favor of RecommendedAction
+  // message?: string[]; // Deprecated in favor of OverviewMessage
   stateChanges: SimulationStateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
@@ -116,6 +116,7 @@ export type RiskFactor = {
 };
 
 export enum WarningType {
+  Bypass = 'BYPASS',
   Similarity = 'SIMILARITY',
   RecentlyCreated = 'RECENTLY_CREATED',
   Malware = 'MALWARE',

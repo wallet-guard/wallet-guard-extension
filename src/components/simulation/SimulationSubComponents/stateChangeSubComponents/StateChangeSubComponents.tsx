@@ -57,7 +57,7 @@ export const SetApprovalForAll = (props: ApprovalProps) => {
     <>
       {!props.verified && (
         <img
-          src="/images/popup/orange-danger.png"
+          src="/images/popup/websiteDetail/orange-danger.png"
           alt=""
           width={33}
           style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
@@ -79,7 +79,7 @@ export const SetApproval = (props: ApprovalProps) => {
     <>
       {!props.verified && (
         <img
-          src="/images/popup/orange-danger.png"
+          src="/images/popup/websiteDetail/orange-danger.png"
           alt=""
           width={33}
           style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}

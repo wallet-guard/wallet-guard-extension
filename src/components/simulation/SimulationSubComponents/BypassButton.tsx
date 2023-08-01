@@ -36,7 +36,6 @@ export const BypassedSimulationButton = ({ storedSimulation }: { storedSimulatio
               onClick={() => {
                 posthog.capture('bypassed simulation rejected', {
                   recommendedAction: storedSimulation.simulation?.recommendedAction,
-                  warningType: storedSimulation.simulation?.warningType,
                   storedSimulation: storedSimulation,
                 });
                 updateSimulationState(id, StoredSimulationState.Rejected);

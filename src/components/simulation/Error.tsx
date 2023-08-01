@@ -1,10 +1,9 @@
 import { posthog } from 'posthog-js';
 import React from 'react';
-import { StoredSimulation, StoredSimulationState } from '../../lib/simulation/storage';
-import { ErrorType, SimulationWarningType } from '../../models/simulation/Transaction';
+import { StoredSimulation } from '../../lib/simulation/storage';
+import { ErrorType } from '../../models/simulation/Transaction';
 import { ConfirmSimulationButton } from './SimulationButton';
 import { SimulationHeader } from './SimulationHeader';
-import { SimulationOverview } from './SimulationOverview';
 import { BypassedSimulationButton } from './SimulationSubComponents/BypassButton';
 import GeneralErrorComponent from './SimulationSubComponents/errors/GeneralError';
 import InsufficientFundsComponent from './SimulationSubComponents/errors/InsufficientFundsError';
@@ -49,21 +48,6 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
   return (
     <div>
       <SimulationHeader />
-
-      <div>
-        {((currentSimulation.state === StoredSimulationState.Success &&
-          currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
-          currentSimulation.simulation?.warningType === SimulationWarningType.Info ||
-          currentSimulation.simulation?.error) && (
-          <div>
-            <SimulationOverview
-              warningType={currentSimulation.simulation.warningType}
-              message={currentSimulation.simulation.message || []}
-              method={currentSimulation.simulation.method}
-            />
-          </div>
-        )}
-      </div>
 
       <div className="row text-center" style={{ marginTop: '65px' }}>
         <div className="col-12">

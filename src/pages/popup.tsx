@@ -21,6 +21,7 @@ import { TransactionDetails } from '../components/simulation/TransactionDetails'
 import { useSimulation } from '../lib/hooks/useSimulation';
 import { SimulationContext } from '../lib/context/context';
 import { SimulationTabs } from '../components/simulation/SimulationTabs';
+import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
@@ -104,6 +105,7 @@ const Popup = () => {
         </ChakraProvider>
         <SimulationHeader storedSimulation={currentSimulation} />
 
+        {loading && <SimulationLoading />}
         {!loading && (
           <>
             <SimulationTabs setShowChatWeb3={setShowChatWeb3} />

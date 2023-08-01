@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StoredSimulation, StoredSimulationState } from '../simulation/storage';
-import { SimulationWarningType } from '../../models/simulation/Transaction';
+import { RecommendedActionType, RiskFactor, Severity, SimulationWarningType, WarningType } from '../../models/simulation/Transaction';
 
 export function useSimulation() {
   const [currentSimulation, setCurrentSimulation] = useState<StoredSimulation>();
@@ -42,11 +42,18 @@ export function useSimulation() {
 
     if (current?.args?.bypassed) {
       if (current.simulation) {
-        current.simulation.warningType = SimulationWarningType.Warn;
-        current.simulation.message = [
-          `This transaction attempted to bypass Wallet Guard's simulation. If you continue seeing this, please open a support ticket.`,
-          ...(current.simulation.message || ''),
-        ];
+        current.simulation.recommendedAction = RecommendedActionType.Warn;
+        current.simulation.overviewMessage = current.simulation.overviewMessage ? 'We detected several risky indicator from this transaction.' : 'We detected 1 risky indicator from this transaction.'
+        const existingRiskFactors = current.simulation.riskFactors || [];
+        current.simulation.riskFactors = [
+          ...existingRiskFactors,
+          {
+            type: WarningType.Bypass,
+            message: 'This transaction attempted to bypass Wallet Guard',
+            severity: Severity.High,
+            value: 'If you continue seeing this, please open a support ticket.'
+          } as RiskFactor
+        ]
         setCurrentSimulation(current);
       }
     }

@@ -22,26 +22,26 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
     if (verified) {
       return {
         tooltipText: 'Verified by Wallet Guard',
-        iconPath: '/images/popup/green-verified.png',
+        iconPath: '/images/popup/websiteDetail/green-verified.png',
         color: '#ffffff',
       } as WebsiteIcon;
     } else if (recommendedAction === RecommendedActionType.Block) {
       return {
         tooltipText: 'Dangerous website',
-        iconPath: '/images/popup/red-danger.png',
+        iconPath: '/images/popup/websiteDetail/red-danger.png',
         color: '#F44B4C',
       } as WebsiteIcon;
     } else if (recommendedAction === RecommendedActionType.Warn) {
       return {
         tooltipText: 'Suspicious website',
-        iconPath: '/images/popup/orange-danger.png',
+        iconPath: '/images/popup/websiteDetail/orange-danger.png',
         color: '#FF783E',
       } as WebsiteIcon;
     }
 
     return {
       tooltipText: 'Unknown website',
-      iconPath: '/images/popup/unknown.png',
+      iconPath: '/images/popup/websiteDetail/unknown.png',
       color: '#ffffff',
     } as WebsiteIcon;
   }

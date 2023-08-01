@@ -57,7 +57,7 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
               className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
               borderRadius={'5px'}
             >
-              <img src="/images/popup/OpenseaVerified.svg" height={20} className="pl-2" />
+              <img src="/images/popup/websiteDetail/OpenseaVerified.svg" height={20} className="pl-2" />
             </Tooltip>
           )}
         </div>

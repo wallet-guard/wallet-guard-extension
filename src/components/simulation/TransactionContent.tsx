@@ -1,30 +1,21 @@
 import React from 'react';
-import { StoredSimulation, StoredSimulationState } from '../../lib/simulation/storage';
+import { StoredSimulation } from '../../lib/simulation/storage';
 import {
+  RecommendedActionType,
   SimulationChangeType,
   SimulationStateChange,
-  SimulationWarningType,
 } from '../../models/simulation/Transaction';
 import { ChangeTypeSection } from './SimulationSubComponents/ChangeTypeSection';
 import { NoTransactionChanges } from './SimulationSubComponents/NoTransactionChanges';
-import { SimulationLoading } from './SimulationSubComponents/SimulationLoading';
 
 export const TransactionContent = ({ storedSimulation }: { storedSimulation: StoredSimulation }) => {
-  if (storedSimulation.state === StoredSimulationState.Simulating) {
-    return <SimulationLoading />;
-  } else if (!storedSimulation.simulation) {
-    return <SimulationLoading />;
-  } else if (
-    !storedSimulation.simulation.stateChanges &&
-    storedSimulation.simulation.warningType === SimulationWarningType.None
-  ) {
-    return <NoTransactionChanges />;
-  } else if (
-    !storedSimulation.simulation.stateChanges &&
-    storedSimulation.simulation.warningType === SimulationWarningType.Warn
+  if (
+    !storedSimulation.simulation?.stateChanges &&
+    (storedSimulation.simulation?.recommendedAction === RecommendedActionType.Warn ||
+      storedSimulation.simulation?.recommendedAction === RecommendedActionType.Block)
   ) {
     return <div></div>;
-  } else if (!storedSimulation.simulation.stateChanges) {
+  } else if (!storedSimulation.simulation?.stateChanges) {
     return <NoTransactionChanges />;
   }
 
@@ -60,40 +51,40 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
 
   return (
     <>
-      {revokeStateChanges.length !== 0 && (
+      {revokeStateChanges.length > 0 && (
         <ChangeTypeSection
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={revokeStateChanges}
           title="You are revoking"
-          iconPath="images/popup/ArrowReceiving.png"
+          iconPath="images/popup/assetChanges/ArrowReceiving.png"
           gas={storedSimulation.simulation.gas}
         />
       )}
 
-      {listingStateChanges.length !== 0 && (
+      {listingStateChanges.length > 0 && (
         <ChangeTypeSection
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={listingStateChanges}
           title="You are listing"
-          iconPath="images/popup/Listing.png"
+          iconPath="images/popup/assetChanges/Listing.png"
         />
       )}
 
-      {transferAndApproveStateChanges.length !== 0 && (
+      {transferAndApproveStateChanges.length > 0 && (
         <ChangeTypeSection
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={transferAndApproveStateChanges}
           title="You are sending"
-          iconPath="images/popup/ArrowGiving.png"
+          iconPath="images/popup/assetChanges/ArrowGiving.png"
           gas={storedSimulation.simulation.gas}
         />
       )}
-      {receiveStateChanges.length !== 0 && (
+      {receiveStateChanges.length > 0 && (
         <ChangeTypeSection
           scanResult={storedSimulation.simulation.scanResult}
           stateChanges={receiveStateChanges}
           title="You are receiving"
-          iconPath="images/popup/ArrowReceiving.png"
+          iconPath="images/popup/assetChanges/ArrowReceiving.png"
         />
       )}
     </>
