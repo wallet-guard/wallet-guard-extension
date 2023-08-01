@@ -62,11 +62,8 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
     <>
       {props.simulationStateChanges.map((stateChange: SimulationStateChange) => {
         return (
-          <div className="container">
-            <div
-              className={`${styles.assetChangeRow} row justify-content-between`}
-              key={stateChange.name + stateChange.tokenID + stateChange.fiatValue}
-            >
+          <div key={stateChange.name + stateChange.tokenID + stateChange.fiatValue} className="container">
+            <div className={`${styles.assetChangeRow} row justify-content-between`}>
               {/* TODO: FIX check opensea if its is an NFT */}
               {stateChange.tokenURI ? <NFTInfo stateChange={stateChange} /> : <TokenInfo stateChange={stateChange} />}
 
