@@ -199,6 +199,7 @@
 .text-sm {
   color: #ffffff;
   font-size: 14px;
+  margin-bottom: 0px;
   font-family: "ArchivoMedium";
 }
 
@@ -215,4 +216,11 @@
   margin-bottom: 0px;
   font-family: "ArchivoSemiBold";
   text-transform: uppercase;
+}
+
+/* generic row class that uses flexbox and center vertical alignment */
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

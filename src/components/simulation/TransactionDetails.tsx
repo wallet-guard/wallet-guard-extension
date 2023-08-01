@@ -5,21 +5,27 @@ import { SimulationContext } from '../../lib/context/context';
 import { ChainDetail } from './SimulationSubComponents/transactionDetails/ChainDetail';
 import { ContractDetail } from './SimulationSubComponents/transactionDetails/ContractDetail';
 import { WebsiteDetail } from './SimulationSubComponents/transactionDetails/WebsiteDetail';
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from '@chakra-ui/react';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
+import { RiskFactors } from './SimulationSubComponents/transactionDetails/RiskFactors';
 
 export function TransactionDetails() {
   const { currentSimulation } = useContext(SimulationContext);
+
+  if (!currentSimulation) {
+    return <></>;
+  }
 
   return (
     <div className="container">
       <div
         className={
-          currentSimulation?.simulation?.riskFactors
+          currentSimulation.simulation?.riskFactors
             ? styles.transactionDetailsCardWithWarnings
             : styles.transactionDetailsCard
         }
       >
+        {/* todo: instead of setting defaults for currentsimulation undefined on every prop, simply check for it being
+        undefined at the top of the component */}
         <p className={styles['text-md']} style={{ marginBottom: '10px' }}>
           Transaction Details
         </p>
@@ -27,11 +33,11 @@ export function TransactionDetails() {
         <div className="row mb-3">
           <div className="col-6">
             <TransactionDetailLabel labelText="Chain" />
-            <ChainDetail chainId={currentSimulation?.args.chainId || '0x1'} />
+            <ChainDetail chainId={currentSimulation.args.chainId} />
           </div>
           <div className="col-6">
             <TransactionDetailLabel labelText="Contract" />
-            <ContractDetail addressDetails={currentSimulation?.simulation?.addressDetails} />
+            <ContractDetail addressDetails={currentSimulation.simulation?.addressDetails} />
           </div>
         </div>
 
@@ -39,31 +45,20 @@ export function TransactionDetails() {
           <div className="col-6">
             <TransactionDetailLabel labelText="Website" />
             <WebsiteDetail
-              verified={currentSimulation?.simulation?.scanResult.verified || false}
-              domainName={currentSimulation?.simulation?.scanResult.domainName || ''}
-              recommendedAction={currentSimulation?.simulation?.recommendedAction || RecommendedActionType.None}
+              verified={currentSimulation.simulation?.scanResult.verified || false}
+              domainName={currentSimulation.simulation?.scanResult.domainName || ''}
+              recommendedAction={currentSimulation.simulation?.recommendedAction || RecommendedActionType.None}
             />
           </div>
         </div>
       </div>
-      {/* {currentSimulation?.simulation?.riskFactors && currentSimulation?.simulation?.riskFactors.length > 0 && ( */}
-
-      {/* <Accordion allowToggle style={{ marginTop: '-15px' }}>
-        <AccordionItem background={'#FF783E'}>
-          <AccordionButton>
-            <div className="container" style={{ paddingTop: '10px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                <p className={styles['heading-md']}>Warning</p>
-                <p className={styles['text-sm']}>We detected 3 risky indicators from this website.</p>
-              </div>
-            </div>
-
-            <AccordionIcon />
-          </AccordionButton>
-          <AccordionPanel pb={4}></AccordionPanel>
-        </AccordionItem>
-      </Accordion> */}
-      {/* )} */}
+      {currentSimulation.simulation?.riskFactors && (
+        <RiskFactors
+          riskFactors={currentSimulation.simulation.riskFactors}
+          recommendedAction={currentSimulation.simulation.recommendedAction}
+          overviewMessage={currentSimulation.simulation.overviewMessage}
+        />
+      )}
     </div>
   );
 }

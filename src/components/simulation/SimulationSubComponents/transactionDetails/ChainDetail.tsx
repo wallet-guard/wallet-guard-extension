@@ -38,7 +38,7 @@ export function ChainDetail(props: ChainDetailProps) {
   const assetName = getAssetName();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <div className={styles.row}>
       <img src={assetLogo} style={{ height: '16px', marginRight: '5px' }} />
       <p className={styles['text-md']}>{assetName}</p>
     </div>

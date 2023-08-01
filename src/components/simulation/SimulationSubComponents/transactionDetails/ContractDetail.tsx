@@ -43,7 +43,7 @@ export function ContractDetail(props: ChainDetailProps) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <div className={styles.row}>
       <Tooltip
         hasArrow
         label="Copy address"
@@ -53,7 +53,7 @@ export function ContractDetail(props: ChainDetailProps) {
         borderRadius={'5px'}
         className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
       >
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <div className={styles.row}>
           <p onClick={onCopy} style={{ marginRight: '10px', cursor: 'pointer' }} className={styles['text-md']}>
             {addressName || add3DotsMiddle(addressDetails?.address || '', 6)}
           </p>

@@ -90,7 +90,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                 <SimulationActionButton
                   backgroundColor="rgb(211 211 211 / 8%)"
                   color="white"
-                  buttonText="Proceed Anyway"
+                  buttonText="Proceed anyway"
                   onClick={() => {
                     posthog.capture('simulation proceed anyway', {
                       overviewMessage: storedSimulation.simulation?.overviewMessage,

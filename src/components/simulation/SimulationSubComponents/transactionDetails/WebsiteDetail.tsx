@@ -52,7 +52,7 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
   const websiteIcon = getWebsiteIcon();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <div className={styles.row}>
       <p className={styles['text-md']} style={{ color: websiteIcon.color }}>
         {domainName}
       </p>
