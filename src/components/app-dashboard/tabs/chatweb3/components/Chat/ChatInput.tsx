@@ -130,7 +130,6 @@ export const ChatInput: FC<Props> = ({
         position: 'absolute',
         bottom: '0',
         borderTop: 'transparent',
-        background: 'linear-gradient(to bottom, #151515, #151515, #151515)',
         paddingTop: '1.5rem',
         width: '100%',
       }}

@@ -22,6 +22,7 @@ import { useSimulation } from '../lib/hooks/useSimulation';
 import { SimulationContext } from '../lib/context/context';
 import { ContractDetails } from '../components/simulation/ContractDetails';
 import { StoredSimulationState } from '../lib/simulation/storage';
+import { SimulationTabs } from '../components/simulation/SimulationTabs';
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
@@ -99,55 +100,42 @@ const Popup = () => {
 
   return (
     <SimulationContext.Provider value={{ currentSimulation, loading }}>
-      {showChatWeb3 ? (
+      <>
         <ChakraProvider theme={theme}>
-          <ChatWeb3Tab
-            showChatWeb3={showChatWeb3}
-            setShowChatWeb3={setShowChatWeb3}
-            storedSimulation={currentSimulation}
-          />
+          <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
         </ChakraProvider>
-      ) : (
-        <>
-          <ChakraProvider theme={theme}>
-            <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
-          </ChakraProvider>
-          <SimulationHeader
-            showChatWeb3={showChatWeb3}
-            setShowChatWeb3={setShowChatWeb3}
-            storedSimulation={currentSimulation}
-          />
+        <SimulationHeader
+          showChatWeb3={showChatWeb3}
+          setShowChatWeb3={setShowChatWeb3}
+          storedSimulation={currentSimulation}
+        />
 
-          <TransactionDetails />
-
-          {/* <div>
-            {((currentSimulation.state === StoredSimulationState.Success &&
-              currentSimulation.simulation?.warningType === SimulationWarningType.Warn) ||
-              currentSimulation.simulation?.warningType === SimulationWarningType.Info ||
-              currentSimulation.simulation?.error) && (
-              <div>
-                <SimulationOverview
-                  warningType={currentSimulation.simulation.warningType}
-                  message={currentSimulation.simulation.message || []}
-                  method={currentSimulation.simulation.method}
+        {!loading && (
+          <>
+            <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
+            {showChatWeb3 ? (
+              <ChakraProvider theme={theme}>
+                <ChatWeb3Tab
+                  showChatWeb3={showChatWeb3}
+                  setShowChatWeb3={setShowChatWeb3}
+                  storedSimulation={currentSimulation}
                 />
-              </div>
+              </ChakraProvider>
+            ) : (
+              <>
+                <TransactionDetails />
+                <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
+                <div style={{ height: '140px' }} />
+                {currentSimulation.args?.bypassed ? (
+                  <BypassedSimulationButton storedSimulation={currentSimulation} />
+                ) : (
+                  <ConfirmSimulationButton storedSimulation={currentSimulation} />
+                )}
+              </>
             )}
-          </div> */}
-          {/* {currentSimulation.state === StoredSimulationState.Success && (
-            <div className="pt-4">
-              <ContractDetails storedSimulation={currentSimulation} />
-            </div>
-          )} */}
-          <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
-          <div style={{ height: '140px' }} />
-          {currentSimulation.args?.bypassed ? (
-            <BypassedSimulationButton storedSimulation={currentSimulation} />
-          ) : (
-            <ConfirmSimulationButton storedSimulation={currentSimulation} />
-          )}
-        </>
-      )}
+          </>
+        )}
+      </>
     </SimulationContext.Provider>
   );
 };

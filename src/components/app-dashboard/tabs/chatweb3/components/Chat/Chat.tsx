@@ -73,18 +73,12 @@ export const Chat: FC<Props> = ({
   return (
     <div
       style={{
-        position: 'relative',
         flex: 1,
-        maxHeight: '100%',
-        minHeight: '100vh',
-        backgroundColor: '#161616',
       }}
     >
-      <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
-
       {conversation?.messages.length === 0 ? (
         <>
-          <div style={{ height: '162px', backgroundColor: '#151515' }} ref={messagesEndRef} />
+          <div style={{ height: '162px' }} ref={messagesEndRef} />
         </>
       ) : (
         <>
@@ -93,7 +87,7 @@ export const Chat: FC<Props> = ({
 
           {loading && <ChatLoader />}
 
-          <div style={{ height: '184px', backgroundColor: '#151515' }} ref={messagesEndRef} />
+          <div style={{ height: '184px' }} ref={messagesEndRef} />
         </>
       )}
       <>

@@ -261,3 +261,22 @@
 .divider:last-of-type {
   display: none;
 }
+
+.simulationTab {
+  border-bottom: 1px solid #646464;
+  width: 50%;
+  font-family: 'InterRegular';
+  font-size: 14px;
+  color: #646464;
+  cursor: pointer;
+}
+
+.simulationTabActive {
+  border-bottom: 1px solid #ffffff;
+  opacity: 100%;
+  width: 50%;
+  font-family: 'InterRegular';
+  font-size: 14px;
+  color: #ffffff;
+  cursor: pointer;
+}

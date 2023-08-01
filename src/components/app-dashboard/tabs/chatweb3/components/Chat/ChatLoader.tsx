@@ -8,8 +8,7 @@ export const ChatLoader: FC = () => {
       style={{
         color: '#F7FAFC',
         borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-        backgroundColor: '#151515',
-        overflowWrap: 'anywhere',
+        overflowWrap: 'break-word',
       }}
     >
       <div
