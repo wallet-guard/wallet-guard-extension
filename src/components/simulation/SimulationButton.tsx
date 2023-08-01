@@ -1,16 +1,16 @@
 import posthog from 'posthog-js';
-import React from 'react';
+import React, { useState } from 'react';
 import type { StoredSimulation } from '../../lib/simulation/storage';
 import { simulationNeedsAction, StoredSimulationState, updateSimulationState } from '../../lib/simulation/storage';
-import { SimulationMethodType, SimulationWarningType } from '../../models/simulation/Transaction';
-import styles from '../../styles/simulation/ConfirmSimulationButton.module.css';
+import { RecommendedActionType } from '../../models/simulation/Transaction';
+import styles from '../../styles/simulation/SimulationButton.module.css';
 
 interface SimulationActionButton {
   color?: string;
   backgroundColor?: string;
   imgSrc?: string;
   imgAlt?: string;
-  imgWidth: number;
+  imgWidth?: number;
   buttonText: string;
   onClick: () => void;
 }
@@ -29,7 +29,7 @@ const SimulationActionButton: React.FC<SimulationActionButton> = ({
       style={{ color: color, backgroundColor: backgroundColor, border: backgroundColor }}
       onClick={onClick}
     >
-      <img src={imgSrc} width={imgWidth} height={imgWidth} />
+      {imgSrc && <img src={imgSrc} width={imgWidth} height={imgWidth} />}
       {buttonText}
     </button>
   );
@@ -37,14 +37,15 @@ const SimulationActionButton: React.FC<SimulationActionButton> = ({
 
 interface ConfirmSimulationButtonProps {
   storedSimulation: StoredSimulation;
-  confirmText?: string;
 }
 
-export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = ({
-  storedSimulation,
-  confirmText = 'CONTINUE',
-}) => {
+export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = ({ storedSimulation }) => {
+  const [needsConfirm, setNeedsConfirm] = useState(true);
   const { id, signer, state } = storedSimulation;
+
+  function handleProceedAnyway() {
+    setNeedsConfirm(false);
+  }
 
   if (simulationNeedsAction(state)) {
     return (
@@ -57,9 +58,10 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                 imgSrc="/images/popup/x.png"
                 imgWidth={13}
                 color="white"
-                buttonText="REJECT"
+                buttonText="Reject"
                 onClick={() => {
                   posthog.capture('simulation rejected', {
+                    recommendedAction: storedSimulation.simulation?.recommendedAction,
                     warningType: storedSimulation.simulation?.warningType,
                     storedSimulation: storedSimulation,
                   });
@@ -68,27 +70,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
               />
             </div>
             <div className="col-6" style={{ paddingLeft: '7.5px' }}>
-              {state === StoredSimulationState.Success ||
-              state === StoredSimulationState.Revert ||
-              state === StoredSimulationState.Error ? (
-                <SimulationActionButton
-                  backgroundColor="white"
-                  imgSrc="/images/popup/ArrowRight.png"
-                  imgWidth={19}
-                  buttonText={confirmText}
-                  onClick={() => {
-                    posthog.capture('simulation confirmed', {
-                      warningType: storedSimulation.simulation?.warningType,
-                      storedSimulation: storedSimulation,
-                    });
-                    updateSimulationState(id, StoredSimulationState.Confirmed);
-                  }}
-                />
-              ) : storedSimulation.simulation &&
-                storedSimulation.simulation.method === SimulationMethodType.EthSign &&
-                storedSimulation.simulation.warningType === SimulationWarningType.Warn ? (
-                <div></div>
-              ) : (
+              {storedSimulation.state === StoredSimulationState.Simulating ? (
                 <SimulationActionButton
                   backgroundColor="white"
                   imgSrc="/images/popup/circleCheck.png"
@@ -96,7 +78,36 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   buttonText="SKIP"
                   onClick={() => {
                     posthog.alias(signer);
+                    posthog.capture('simulation skipped', {
+                      recommendedAction: storedSimulation.simulation?.recommendedAction,
+                      warningType: storedSimulation.simulation?.warningType,
+                      storedSimulation: storedSimulation,
+                    });
+                    updateSimulationState(id, StoredSimulationState.Confirmed);
+                  }}
+                />
+              ) : storedSimulation.simulation?.recommendedAction === RecommendedActionType.Block && needsConfirm ? (
+                <SimulationActionButton
+                  backgroundColor="rgb(211 211 211 / 8%)"
+                  color="white"
+                  buttonText="Proceed Anyway"
+                  onClick={() => {
+                    posthog.capture('simulation proceed anyway', {
+                      overviewMessage: storedSimulation.simulation?.overviewMessage,
+                      storedSimulation: storedSimulation,
+                    });
+                    handleProceedAnyway();
+                  }}
+                />
+              ) : (
+                <SimulationActionButton
+                  backgroundColor={'white'}
+                  imgSrc="/images/popup/ArrowRight.png"
+                  imgWidth={19}
+                  buttonText="Continue"
+                  onClick={() => {
                     posthog.capture('simulation confirmed', {
+                      recommendedAction: storedSimulation.simulation?.recommendedAction,
                       warningType: storedSimulation.simulation?.warningType,
                       storedSimulation: storedSimulation,
                     });

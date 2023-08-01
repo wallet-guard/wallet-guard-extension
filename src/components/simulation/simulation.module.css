@@ -44,18 +44,6 @@
   padding-bottom: 1.5rem !important;
 }
 
-.confirm-button {
-  min-width: 100px;
-  border-radius: .5em;
-  background-color: #ffffff;
-  border-color: #7e7e7e;
-  color: black;
-  font-weight: 500;
-  width: 90%;
-  padding-bottom: 12px;
-  padding-top: 12px;
-}
-
 .reject-button {
   min-width: 100px;
   border-radius: .5em;
