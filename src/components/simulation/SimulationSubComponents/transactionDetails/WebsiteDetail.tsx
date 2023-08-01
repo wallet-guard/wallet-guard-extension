@@ -28,8 +28,7 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
     } else if (recommendedAction === RecommendedActionType.Block) {
       return {
         tooltipText: 'Dangerous website',
-        // todo: need a red version of this
-        iconPath: '/images/popup/orange-danger.png',
+        iconPath: '/images/popup/red-danger.png',
         color: '#F44B4C',
       } as WebsiteIcon;
     } else if (recommendedAction === RecommendedActionType.Warn) {
