@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../simulation.module.css';
 import { SimulationAddressDetails } from '../../../../models/simulation/Transaction';
 import { Tooltip, useClipboard } from '@chakra-ui/react';
@@ -54,6 +54,7 @@ export function ContractDetail(props: ChainDetailProps) {
         className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
       >
         <div className={styles.row}>
+          {/* todo: add the bubble look here like the old component had */}
           <p onClick={onCopy} style={{ marginRight: '10px', cursor: 'pointer' }} className={styles['text-md']}>
             {addressName || add3DotsMiddle(addressDetails?.address || '', 6)}
           </p>

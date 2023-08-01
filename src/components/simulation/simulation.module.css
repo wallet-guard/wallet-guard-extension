@@ -47,7 +47,7 @@
 .reject-button {
   min-width: 100px;
   border-radius: .5em;
-  background-color: #0e0e0e;
+  background-color: #0b0b0b;
   border-color: white;
   font-weight: 500;
   color: white;
@@ -106,6 +106,18 @@
   font-family: "ArchivoRegular";
   src: local("ArchivoRegular"),
     url("../../fonts/Archivo-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterMedium";
+  src: local("InterMedium"),
+    url("../../fonts/Inter-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterRegular";
+  src: local("InterRegular"),
+    url("../../fonts/Inter-Regular.ttf") format("truetype");
 }
 
 .font-archivo-medium {
@@ -223,4 +235,29 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.riskFactorHeader {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 0px;
+  font-family: "InterMedium";
+}
+
+.riskFactorValue {
+  color: #646464;
+  font-size: 14px;
+  margin-bottom: 0px;
+  font-family: "InterRegular";
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #646464;
+  opacity: 50%;
+}
+
+.divider:last-of-type {
+  display: none;
 }

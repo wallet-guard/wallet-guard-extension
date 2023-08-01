@@ -33,7 +33,7 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
   const headerColor = getHeaderColor();
 
   return (
-    <div style={{ background: '#0e0e0e' }}>
+    <div style={{ background: '#0b0b0b' }}>
       {/* todo: add glow here */}
       <div style={{ height: '2px', width: '100%', background: headerColor }} />
       <div className="justify-content-between" style={{ display: 'flex' }}>
