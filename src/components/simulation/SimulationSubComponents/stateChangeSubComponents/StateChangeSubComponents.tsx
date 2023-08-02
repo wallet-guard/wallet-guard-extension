@@ -1,6 +1,6 @@
 import { Tooltip } from '@chakra-ui/tooltip';
 import React from 'react';
-import { SimulationStateChange } from '../../../../models/simulation/Transaction';
+import { StateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 
 function roundNumberIfNeccessary(num: string): string {
@@ -29,13 +29,7 @@ export const RevokeApprovalForAll = () => {
   );
 };
 
-export const SetTokenApproval = ({
-  stateChange,
-  verified,
-}: {
-  stateChange: SimulationStateChange;
-  verified?: boolean;
-}) => {
+export const SetTokenApproval = ({ stateChange, verified }: { stateChange: StateChange; verified?: boolean }) => {
   return (
     <>
       <h3
@@ -99,7 +93,7 @@ type TransferType = 'send' | 'receive';
 
 interface TransferAssetProps {
   type: TransferType;
-  stateChange: SimulationStateChange;
+  stateChange: StateChange;
 }
 
 export const TransferNFT = (props: TransferAssetProps) => {

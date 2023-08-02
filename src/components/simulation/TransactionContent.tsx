@@ -1,10 +1,6 @@
 import React from 'react';
 import { StoredSimulation } from '../../lib/simulation/storage';
-import {
-  RecommendedActionType,
-  SimulationChangeType,
-  SimulationStateChange,
-} from '../../models/simulation/Transaction';
+import { RecommendedActionType, SimulationChangeType, StateChange } from '../../models/simulation/Transaction';
 import { ChangeTypeSection } from './SimulationSubComponents/ChangeTypeSection';
 import { NoTransactionChanges } from './SimulationSubComponents/NoTransactionChanges';
 
@@ -20,7 +16,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
   }
 
   const transferAndApproveStateChanges = storedSimulation.simulation.stateChanges.filter(
-    (val: SimulationStateChange) =>
+    (val: StateChange) =>
       val.changeType === SimulationChangeType.ChangeTypeTransfer ||
       val.changeType === SimulationChangeType.ChangeTypeLooksRareBidOffer ||
       val.changeType === SimulationChangeType.ChangeTypeApprovalForAll ||
@@ -28,7 +24,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
   );
 
   const listingStateChanges = storedSimulation.simulation.stateChanges.filter(
-    (val: SimulationStateChange) =>
+    (val: StateChange) =>
       val.changeType === SimulationChangeType.ChangeTypeOpenSeaListing ||
       val.changeType === SimulationChangeType.ChangeTypeLooksRareAskListing ||
       val.changeType === SimulationChangeType.ChangeTypeListingTransfer ||
@@ -36,7 +32,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
   );
 
   const receiveStateChanges = storedSimulation.simulation.stateChanges.filter(
-    (val: SimulationStateChange) =>
+    (val: StateChange) =>
       val.changeType === SimulationChangeType.ChangeTypeReceive ||
       val.changeType === SimulationChangeType.ChangeTypeOpenSeaReceive ||
       val.changeType === SimulationChangeType.ChangeTypeLooksRareBidReceive ||
@@ -46,7 +42,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
   );
 
   const revokeStateChanges = storedSimulation.simulation.stateChanges.filter(
-    (val: SimulationStateChange) => val.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll
+    (val: StateChange) => val.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll
   );
 
   return (

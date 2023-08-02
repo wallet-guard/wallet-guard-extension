@@ -1,5 +1,3 @@
-import { PhishingResponse } from '../PhishingResponse';
-
 export interface Transaction {
   from: string;
   to: string;
@@ -7,13 +5,10 @@ export interface Transaction {
   value?: string;
 }
 
-export type Response = {
-  readonly type: ResponseType;
-  // Only set on success.
-  readonly simulation?: SimulationResponse;
-  // Might be set on error.
-  readonly error?: SimulationError;
-};
+export enum TransactionType {
+  Transaction = 'Transaction',
+  Signature = 'Signature'
+}
 
 export enum ResponseType {
   Success = 'success',
@@ -76,18 +71,35 @@ interface RequestArgs {
   bypassed?: boolean;
 }
 
-export type SimulationResponse = {
+export type SimulationResponse =
+  | SimulationSuccessResponse
+  | SimulationErrorResponse;
+
+export type SimulationErrorResponse = {
+  error: SimulationError;
+};
+
+export type SimulationSuccessResponse = {
   recommendedAction: RecommendedActionType;
   overviewMessage: string;
-  // warningType: SimulationWarningType; // Deprecated in favor of RecommendedAction
-  // message?: string[]; // Deprecated in favor of OverviewMessage
-  stateChanges: SimulationStateChange[] | null;
+  stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
+  decodedMessage?: string; // Only present on signatures
   riskFactors: RiskFactor[] | null;
-  decodedMessage?: string; // only present on signatures
   gas?: SimulatedGas; // Only present on transactions
-  scanResult: PhishingResponse;
+  error: null;
+};
+
+export type SimulationApiResponse = {
+  recommendedAction: RecommendedActionType;
+  overviewMessage: string;
+  stateChanges: StateChange[] | null;
+  addressDetails: SimulationAddressDetails;
+  method: SimulationMethodType | string;
+  decodedMessage?: string; // Only present on signatures
+  riskFactors: RiskFactor[] | null;
+  gas?: SimulatedGas; // Only present on transactions
   error: SimulationError | null;
 };
 
@@ -134,10 +146,6 @@ export enum Severity {
   Low = 'LOW',
   High = 'HIGH',
   Critical = 'CRITICAL',
-}
-
-export type SimulationErrorResponse = {
-  error: SimulationError;
 }
 
 export type SimulationError = {
@@ -225,7 +233,7 @@ export type Verified = {
   sourcify?: boolean;
 };
 
-export type SimulationStateChange = {
+export type StateChange = {
   assetType: SimulationAssetTypes;
   changeType: SimulationChangeType;
   address: string;

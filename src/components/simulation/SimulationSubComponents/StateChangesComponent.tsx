@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  SimulationAssetTypes,
-  SimulationChangeType,
-  SimulationStateChange,
-} from '../../../models/simulation/Transaction';
+import { SimulationAssetTypes, SimulationChangeType, StateChange } from '../../../models/simulation/Transaction';
 import { NFTInfo } from './stateChangeSubComponents/NFTInfo';
 import {
   RevokeApprovalForAll,
@@ -18,7 +14,7 @@ import { PhishingResponse } from '../../../models/PhishingResponse';
 import styles from '../simulation.module.css';
 
 export interface StateChangesComponentProps {
-  simulationStateChanges: SimulationStateChange[];
+  simulationStateChanges: StateChange[];
   scanResult: PhishingResponse;
 }
 
@@ -32,7 +28,7 @@ export const add3Dots = (string: string, limit: number) => {
 };
 
 export const StateChangesComponent = (props: StateChangesComponentProps) => {
-  const isTransfer = (stateChange: SimulationStateChange) => {
+  const isTransfer = (stateChange: StateChange) => {
     if (
       stateChange.changeType === SimulationChangeType.ChangeTypeTransfer ||
       stateChange.changeType === SimulationChangeType.ChangeTypeOpenSeaListing ||
@@ -45,7 +41,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
     }
   };
 
-  const isReceive = (stateChange: SimulationStateChange) => {
+  const isReceive = (stateChange: StateChange) => {
     if (
       stateChange.changeType === SimulationChangeType.ChangeTypeReceive ||
       stateChange.changeType === SimulationChangeType.ChangeTypeOpenSeaReceive ||
@@ -60,7 +56,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
 
   return (
     <>
-      {props.simulationStateChanges.map((stateChange: SimulationStateChange) => {
+      {props.simulationStateChanges.map((stateChange: StateChange) => {
         return (
           <div key={stateChange.name + stateChange.tokenID + stateChange.fiatValue} className="container">
             <div className={`${styles.assetChangeRow} row justify-content-between`}>

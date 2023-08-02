@@ -1,4 +1,4 @@
-import { getSignatureEndpoint, getSimulationEndpoint } from '../lib/simulation/server';
+import { getSignatureEndpoint, getTransactionEndpoint } from '../lib/simulation/server';
 
 describe('Server URLs', () => {
   describe('Signature endpoints', () => {
@@ -24,20 +24,20 @@ describe('Server URLs', () => {
 
   describe('Transaction endpoints', () => {
     it('Ethereum signature base URL', () => {
-      const baseURL = getSimulationEndpoint('1');
-      const baseURLHex = getSimulationEndpoint('0x1');
+      const baseURL = getTransactionEndpoint('1');
+      const baseURLHex = getTransactionEndpoint('0x1');
       expect(baseURL).toEqual('https://api.walletguard.app/extension/v0/eth/mainnet/transaction');
       expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/eth/mainnet/transaction');
     });
     it('Polygon signature base URL', () => {
-      const baseURL = getSimulationEndpoint('137');
-      const baseURLHex = getSimulationEndpoint('0x89');
+      const baseURL = getTransactionEndpoint('137');
+      const baseURLHex = getTransactionEndpoint('0x89');
       expect(baseURL).toEqual('https://api.walletguard.app/extension/v0/polygon/mainnet/transaction');
       expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/polygon/mainnet/transaction');
     });
     it('Arbitrum signature base URL', () => {
-      const baseURL = getSimulationEndpoint('42161');
-      const baseURLHex = getSimulationEndpoint('0xa4b1');
+      const baseURL = getTransactionEndpoint('42161');
+      const baseURLHex = getTransactionEndpoint('0xa4b1');
       expect(baseURL).toEqual('https://api.walletguard.app/extension/v0/arb/mainnet/transaction');
       expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/arb/mainnet/transaction');
     });

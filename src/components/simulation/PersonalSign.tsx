@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StoredSimulation } from '../../lib/simulation/storage';
+import React, { useEffect, useState } from 'react';
+import { CompletedSuccessfulSimulation } from '../../lib/simulation/storage';
 import { DappLogoWithChain } from './DappLogoWithChain';
 import styles from '../../styles/simulation/PersonalSign/PersonalSign.module.css';
 import animations from '../../styles/CommonAnimations.module.css';
 import { CDN_URL_PROD } from '../../lib/environment';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
-import { SimulationContext } from '../../lib/context/context';
 
 interface Metadata {
   name: string;
@@ -19,8 +18,12 @@ const defaultMetadata: Metadata = {
   color: 'green',
 };
 
-export const PersonalSign: React.FC = () => {
-  const { currentSimulation } = useContext(SimulationContext);
+interface PersonalSignProps {
+  currentSimulation: CompletedSuccessfulSimulation;
+}
+
+export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignProps) => {
+  const { currentSimulation } = props;
   const [metadata, setMetadata] = useState<Metadata>(defaultMetadata);
   const [chainLogoPath, setChainLogoPath] = useState<string>('/images/asset_logos/eth-mainnet.png');
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -88,7 +91,7 @@ export const PersonalSign: React.FC = () => {
             <p>Account</p>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
               <p>Your account</p>
-              <p className={styles['c-grey']}>{formatEthereumAddress(currentSimulation?.signer || '')}</p>
+              <p className={styles['c-grey']}>{formatEthereumAddress(currentSimulation.signer || '')}</p>
             </div>
           </div>
 
@@ -101,7 +104,7 @@ export const PersonalSign: React.FC = () => {
               >
                 <img className={`${hideOnLoading}`} src={metadata.logo} />
               </div>
-              <p>{getDomainNameFromURL(currentSimulation?.args.origin || '')}</p>
+              <p>{getDomainNameFromURL(currentSimulation.args.origin || '')}</p>
             </div>
           </div>
 
@@ -111,7 +114,7 @@ export const PersonalSign: React.FC = () => {
           >
             <p>You are signing</p>
             <p className={`${styles['scrollable']} ${styles['c-grey']}`}>
-              {currentSimulation?.simulation?.decodedMessage || ''}
+              {currentSimulation.simulation.decodedMessage || ''}
             </p>
           </div>
         </div>

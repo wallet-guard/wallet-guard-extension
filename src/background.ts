@@ -1,5 +1,5 @@
 import logger from './lib/logger';
-import { StoredSimulation, StoredSimulationState, updateSimulationState } from './lib/simulation/storage';
+import { StoredSimulation, StoredSimulationState, updateSimulationAction } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
 import { TransactionArgs } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
@@ -165,7 +165,7 @@ chrome.windows.onRemoved.addListener((windowId: number) => {
       // Reject the simulation
       if (res && res.length > 0) {
         const id = res[0].id;
-        updateSimulationState(id, StoredSimulationState.Rejected);
+        updateSimulationAction(id, StoredSimulationState.Rejected);
       }
     });
   }

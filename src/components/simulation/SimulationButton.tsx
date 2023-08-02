@@ -1,7 +1,7 @@
 import posthog from 'posthog-js';
 import React, { useState } from 'react';
 import type { StoredSimulation } from '../../lib/simulation/storage';
-import { simulationNeedsAction, StoredSimulationState, updateSimulationState } from '../../lib/simulation/storage';
+import { simulationNeedsAction, StoredSimulationState, updateSimulationAction } from '../../lib/simulation/storage';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/SimulationButton.module.css';
 
@@ -64,7 +64,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                     recommendedAction: storedSimulation.simulation?.recommendedAction,
                     storedSimulation: storedSimulation,
                   });
-                  updateSimulationState(id, StoredSimulationState.Rejected);
+                  updateSimulationAction(id, StoredSimulationState.Rejected);
                 }}
               />
             </div>
@@ -81,7 +81,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                       recommendedAction: storedSimulation.simulation?.recommendedAction,
                       storedSimulation: storedSimulation,
                     });
-                    updateSimulationState(id, StoredSimulationState.Confirmed);
+                    updateSimulationAction(id, StoredSimulationState.Confirmed);
                   }}
                 />
               ) : storedSimulation.simulation?.recommendedAction === RecommendedActionType.Block && needsConfirm ? (
@@ -108,7 +108,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                       recommendedAction: storedSimulation.simulation?.recommendedAction,
                       storedSimulation: storedSimulation,
                     });
-                    updateSimulationState(id, StoredSimulationState.Confirmed);
+                    updateSimulationAction(id, StoredSimulationState.Confirmed);
                   }}
                 />
               )}
