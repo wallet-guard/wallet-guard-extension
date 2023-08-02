@@ -207,9 +207,6 @@ chrome.storage.onChanged.addListener((changes, area) => {
       'New storage values'
     );
 
-    console.log(oldFiltered);
-    console.log(newFiltered);
-
     chrome.windows.getCurrent().then((current) => {
       if (current && !oldFiltered.length && !newFiltered.length) {
         chrome.windows.remove(current.id || 0);

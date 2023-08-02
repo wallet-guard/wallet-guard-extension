@@ -7,14 +7,26 @@ import { SimulationBaseProps } from '../../pages/popup';
 export const TransactionContent = (props: SimulationBaseProps) => {
   const { currentSimulation } = props;
 
-  if (
-    !currentSimulation.simulation.stateChanges &&
-    (currentSimulation.simulation.recommendedAction === RecommendedActionType.Warn ||
-      currentSimulation.simulation.recommendedAction === RecommendedActionType.Block)
-  ) {
-    return <div></div>;
-  } else if (!currentSimulation.simulation.stateChanges) {
-    return <NoTransactionChanges />;
+  if (!currentSimulation.simulation.stateChanges) {
+    if (currentSimulation.simulation.gas) {
+      return (
+        <ChangeTypeSection
+          scanResult={currentSimulation.simulation.scanResult}
+          // todo: consider adding a gas stateChange here
+          stateChanges={[]}
+          title="You are sending"
+          iconPath="images/popup/assetChanges/ArrowGiving.png"
+          gas={currentSimulation.simulation.gas}
+        />
+      );
+    } else if (
+      currentSimulation.simulation.recommendedAction === RecommendedActionType.Warn ||
+      currentSimulation.simulation.recommendedAction === RecommendedActionType.Block
+    ) {
+      return <div></div>;
+    } else {
+      return <NoTransactionChanges />;
+    }
   }
 
   const transferAndApproveStateChanges = currentSimulation.simulation.stateChanges.filter(
@@ -33,7 +45,7 @@ export const TransactionContent = (props: SimulationBaseProps) => {
       val.changeType === SimulationChangeType.ChangeTypePermitTransfer
   );
 
-  const receiveStateChanges = currentSimulation.simulation.stateChanges.filter(
+  const receiveStateChanges = currentSimulation.simulation.stateChanges?.filter(
     (val: StateChange) =>
       val.changeType === SimulationChangeType.ChangeTypeReceive ||
       val.changeType === SimulationChangeType.ChangeTypeOpenSeaReceive ||
@@ -43,7 +55,7 @@ export const TransactionContent = (props: SimulationBaseProps) => {
       val.changeType === SimulationChangeType.ChangeTypePermitReceive
   );
 
-  const revokeStateChanges = currentSimulation.simulation.stateChanges.filter(
+  const revokeStateChanges = currentSimulation.simulation.stateChanges?.filter(
     (val: StateChange) => val.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll
   );
 
@@ -77,6 +89,7 @@ export const TransactionContent = (props: SimulationBaseProps) => {
           gas={currentSimulation.simulation.gas}
         />
       )}
+
       {receiveStateChanges.length > 0 && (
         <ChangeTypeSection
           scanResult={currentSimulation.simulation.scanResult}
