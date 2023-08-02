@@ -207,6 +207,15 @@ chrome.storage.onChanged.addListener((changes, area) => {
       'New storage values'
     );
 
+    console.log(oldFiltered);
+    console.log(newFiltered);
+
+    chrome.windows.getCurrent().then((current) => {
+      if (current && !oldFiltered.length && !newFiltered.length) {
+        chrome.windows.remove(current.id || 0);
+      }
+    })
+
     if (!currentPopup && (!oldFiltered || newFiltered.length > oldFiltered.length)) {
       // Indicate we're creating a popup so we don't have many.
       currentPopup = -1;
