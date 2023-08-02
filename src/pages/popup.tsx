@@ -19,7 +19,6 @@ import theme from '../lib/theme';
 import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/components/Chat/WelcomeModal';
 import { TransactionDetails } from '../components/simulation/TransactionDetails';
 import { useSimulation } from '../lib/hooks/useSimulation';
-import { SimulationContext } from '../lib/context/context';
 import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
@@ -100,37 +99,35 @@ const Popup = () => {
   }
 
   return (
-    <SimulationContext.Provider value={{ currentSimulation, loading }}>
-      <>
+    <>
+      <ChakraProvider theme={theme}>
+        <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
+      </ChakraProvider>
+
+      <SimulationHeader recommendedAction={currentSimulation.simulation.recommendedAction} />
+      <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
+
+      {showChatWeb3 ? (
         <ChakraProvider theme={theme}>
-          <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
+          <ChatWeb3Tab
+            showChatWeb3={showChatWeb3}
+            setShowChatWeb3={setShowChatWeb3}
+            storedSimulation={currentSimulation}
+          />
         </ChakraProvider>
-
-        <SimulationHeader recommendedAction={currentSimulation.simulation.recommendedAction} />
-        <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
-
-        {showChatWeb3 ? (
-          <ChakraProvider theme={theme}>
-            <ChatWeb3Tab
-              showChatWeb3={showChatWeb3}
-              setShowChatWeb3={setShowChatWeb3}
-              storedSimulation={currentSimulation}
-            />
-          </ChakraProvider>
-        ) : (
-          <>
-            <TransactionDetails />
-            <TransactionContent storedSimulation={currentSimulation && currentSimulation} />
-            <div style={{ height: '140px' }} />
-            {currentSimulation.args?.bypassed ? (
-              <BypassedSimulationButton storedSimulation={currentSimulation} />
-            ) : (
-              <ConfirmSimulationButton storedSimulation={currentSimulation} />
-            )}
-          </>
-        )}
-      </>
-    </SimulationContext.Provider>
+      ) : (
+        <>
+          <TransactionDetails currentSimulation={successfulSimulation} />
+          <TransactionContent storedSimulation={currentSimulation} />
+          <div style={{ height: '140px' }} />
+          {currentSimulation.args?.bypassed ? (
+            <BypassedSimulationButton storedSimulation={currentSimulation} />
+          ) : (
+            <ConfirmSimulationButton storedSimulation={currentSimulation} />
+          )}
+        </>
+      )}
+    </>
   );
 };
 

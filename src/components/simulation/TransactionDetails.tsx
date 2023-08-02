@@ -1,15 +1,19 @@
 import React, { useContext } from 'react';
 import styles from './simulation.module.css';
 import { TransactionDetailLabel } from './SimulationSubComponents/transactionDetails/TransactionDetailLabel';
-import { SimulationContext } from '../../lib/context/context';
 import { ChainDetail } from './SimulationSubComponents/transactionDetails/ChainDetail';
 import { ContractDetail } from './SimulationSubComponents/transactionDetails/ContractDetail';
 import { WebsiteDetail } from './SimulationSubComponents/transactionDetails/WebsiteDetail';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 import { RiskFactors } from './SimulationSubComponents/transactionDetails/RiskFactors';
+import { CompletedSuccessfulSimulation } from '../../lib/simulation/storage';
 
-export function TransactionDetails() {
-  const { currentSimulation } = useContext(SimulationContext);
+interface TransactionDetailsProps {
+  currentSimulation: CompletedSuccessfulSimulation;
+}
+
+export function TransactionDetails(props: TransactionDetailsProps) {
+  const { currentSimulation } = props;
 
   if (!currentSimulation) {
     return <></>;
@@ -19,7 +23,7 @@ export function TransactionDetails() {
     <div className="container">
       <div
         className={
-          currentSimulation.simulation?.riskFactors
+          currentSimulation.simulation.riskFactors
             ? styles.transactionDetailsCardWithWarnings
             : styles.transactionDetailsCard
         }
@@ -37,7 +41,7 @@ export function TransactionDetails() {
           </div>
           <div className="col-6">
             <TransactionDetailLabel labelText="Contract" />
-            <ContractDetail addressDetails={currentSimulation.simulation?.addressDetails} />
+            <ContractDetail addressDetails={currentSimulation.simulation.addressDetails} />
           </div>
         </div>
 
@@ -45,14 +49,14 @@ export function TransactionDetails() {
           <div className="col-6">
             <TransactionDetailLabel labelText="Website" />
             <WebsiteDetail
-              verified={currentSimulation.simulation?.scanResult.verified || false}
-              domainName={currentSimulation.simulation?.scanResult.domainName || ''}
-              recommendedAction={currentSimulation.simulation?.recommendedAction || RecommendedActionType.None}
+              verified={currentSimulation.simulation.scanResult.verified || false}
+              domainName={currentSimulation.simulation.scanResult.domainName || ''}
+              recommendedAction={currentSimulation.simulation.recommendedAction || RecommendedActionType.None}
             />
           </div>
         </div>
       </div>
-      {currentSimulation.simulation?.riskFactors && (
+      {currentSimulation.simulation.riskFactors && (
         <RiskFactors
           riskFactors={currentSimulation.simulation.riskFactors}
           recommendedAction={currentSimulation.simulation.recommendedAction}

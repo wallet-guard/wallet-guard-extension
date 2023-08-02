@@ -1,3 +1,5 @@
+import { PhishingResponse } from '../PhishingResponse';
+
 export interface Transaction {
   from: string;
   to: string;
@@ -86,6 +88,7 @@ export type SimulationSuccessResponse = {
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
+  scanResult: PhishingResponse;
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: null;
@@ -98,6 +101,7 @@ export type SimulationApiResponse = {
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
+  scanResult: PhishingResponse;
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: SimulationError | null;
