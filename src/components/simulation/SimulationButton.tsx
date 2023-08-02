@@ -77,7 +77,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   backgroundColor="white"
                   imgSrc="/images/popup/ArrowRight.png"
                   imgWidth={19}
-                  buttonText="SKIP"
+                  buttonText="Skip"
                   onClick={() => {
                     posthog.alias(signer);
                     posthog.capture('simulation skipped', {
