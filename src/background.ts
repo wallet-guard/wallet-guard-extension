@@ -157,30 +157,40 @@ chrome.runtime.onStartup.addListener(() => {
   checkAllWalletsAndCreateAlerts();
 });
 
-// Remove Simulation Popup
+// Reject the current transaction if we close the simulation popup
 chrome.windows.onRemoved.addListener((windowId: number) => {
+  localStorageHelpers.get<StoredSimulation[]>(WgKeys.Simulations).then((res) => {
+    // Reject the simulation
+    if (res && res.length > 0) {
+      const id = res[0].id;
+      updateSimulationAction(id, StoredSimulationState.Rejected);
+    }
+  });
+
+  // If the user waits 30s before closing the window, the service worker loses context of the currentPopup so we may not always have this.
   if (currentPopup && currentPopup === windowId) {
     currentPopup = undefined;
-    localStorageHelpers.get<StoredSimulation[]>(WgKeys.Simulations).then((res) => {
-      // Reject the simulation
-      if (res && res.length > 0) {
-        const id = res[0].id;
-        updateSimulationAction(id, StoredSimulationState.Rejected);
-      }
-    });
   }
 });
 
+// Reset the currentChatWeb3Popup if the user closes the window
+chrome.windows.onRemoved.addListener((windowId: number) => {
+  if (currentChatWeb3Popup && currentChatWeb3Popup === windowId) {
+    currentChatWeb3Popup = undefined;
+  }
+});
+
+// TODO: Organize this. This is where that rejection bug happens
 chrome.storage.onChanged.addListener((changes, area) => {
   console.log('found localStorage changes');
-  if (area === 'local' && changes['simulations']?.newValue) {
-    const oldSimulations = changes['simulations'].oldValue;
-    const newSimulations = changes['simulations'].newValue;
+  if (area === 'local' && changes[WgKeys.Simulations]?.newValue) {
+    const oldSimulations: StoredSimulation[] = changes[WgKeys.Simulations].oldValue || [];
+    const newSimulations: StoredSimulation[] = changes[WgKeys.Simulations].newValue || [];
 
-    const oldFiltered = oldSimulations?.filter((storedSimulation: StoredSimulation) => {
+    const oldFiltered = oldSimulations.filter((storedSimulation) => {
       return simulationNeedsAction(storedSimulation.state);
     });
-    const newFiltered = newSimulations.filter((storedSimulation: StoredSimulation) => {
+    const newFiltered = newSimulations.filter((storedSimulation) => {
       return simulationNeedsAction(storedSimulation.state);
     });
 
@@ -201,16 +211,14 @@ chrome.storage.onChanged.addListener((changes, area) => {
       // Indicate we're creating a popup so we don't have many.
       currentPopup = -1;
 
-      chrome.windows
-        .create({
-          url: 'popup.html',
-          type: 'popup',
-          width: 420,
-          height: 840,
-        })
-        .then((createdWindow) => {
-          currentPopup = createdWindow?.id;
-        });
+      chrome.windows.create({
+        url: 'popup.html',
+        type: 'popup',
+        width: 420,
+        height: 840,
+      }).then((createdWindow) => {
+        currentPopup = createdWindow.id;
+      });
 
       return;
     }
@@ -218,6 +226,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
     if (newFiltered.length === 0 && oldFiltered.length === 1 && currentPopup && currentPopup !== -1) {
       const closeId = currentPopup;
       currentPopup = undefined;
+      console.log(closeId);
       chrome.windows.remove(closeId);
 
       return;
@@ -277,12 +286,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
       return;
     }
-  }
-});
-
-chrome.windows.onRemoved.addListener((windowId: number) => {
-  if (currentChatWeb3Popup && currentChatWeb3Popup === windowId) {
-    currentChatWeb3Popup = undefined;
   }
 });
 

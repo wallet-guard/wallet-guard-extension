@@ -72,13 +72,18 @@ const Popup = () => {
     });
   }, []);
 
+  // Return an empty page because we don't want any other UIs to flash in the few ms before we finish pulling from localStorage
+  if (loading) {
+    return <></>;
+  }
+
   // No Active Transaction Screen
   if (!currentSimulation) {
     return <NoSimulation />;
   }
 
   // Loading Screen
-  if (loading || currentSimulation.state === StoredSimulationState.Simulating) {
+  if (currentSimulation.state === StoredSimulationState.Simulating) {
     return (
       <>
         <SimulationLoading />;

@@ -72,7 +72,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
               />
             </div>
             <div className="col-6" style={{ paddingLeft: '7.5px' }}>
-              {storedSimulation.state === StoredSimulationState.Simulating ? (
+              {!storedSimulation || storedSimulation.state === StoredSimulationState.Simulating ? (
                 <SimulationActionButton
                   backgroundColor="white"
                   imgSrc="/images/popup/ArrowRight.png"

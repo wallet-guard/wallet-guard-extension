@@ -25,7 +25,7 @@ interface PersonalSignProps {
 export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignProps) => {
   const { currentSimulation } = props;
   const [metadata, setMetadata] = useState<Metadata>(defaultMetadata);
-  const [chainLogoPath, setChainLogoPath] = useState<string>('/images/asset_logos/eth-mainnet.png');
+  const [chainLogoPath, setChainLogoPath] = useState<string>('/images/asset_logos/ethereum.png');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const formatEthereumAddress = (address: string): string => {
