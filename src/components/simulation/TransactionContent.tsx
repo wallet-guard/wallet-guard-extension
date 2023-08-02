@@ -1,21 +1,23 @@
 import React from 'react';
-import { StoredSimulation } from '../../lib/simulation/storage';
 import { RecommendedActionType, SimulationChangeType, StateChange } from '../../models/simulation/Transaction';
 import { ChangeTypeSection } from './SimulationSubComponents/ChangeTypeSection';
 import { NoTransactionChanges } from './SimulationSubComponents/NoTransactionChanges';
+import { SimulationBaseProps } from '../../pages/popup';
 
-export const TransactionContent = ({ storedSimulation }: { storedSimulation: StoredSimulation }) => {
+export const TransactionContent = (props: SimulationBaseProps) => {
+  const { currentSimulation } = props;
+
   if (
-    !storedSimulation.simulation?.stateChanges &&
-    (storedSimulation.simulation?.recommendedAction === RecommendedActionType.Warn ||
-      storedSimulation.simulation?.recommendedAction === RecommendedActionType.Block)
+    !currentSimulation.simulation.stateChanges &&
+    (currentSimulation.simulation.recommendedAction === RecommendedActionType.Warn ||
+      currentSimulation.simulation.recommendedAction === RecommendedActionType.Block)
   ) {
     return <div></div>;
-  } else if (!storedSimulation.simulation?.stateChanges) {
+  } else if (!currentSimulation.simulation.stateChanges) {
     return <NoTransactionChanges />;
   }
 
-  const transferAndApproveStateChanges = storedSimulation.simulation.stateChanges.filter(
+  const transferAndApproveStateChanges = currentSimulation.simulation.stateChanges.filter(
     (val: StateChange) =>
       val.changeType === SimulationChangeType.ChangeTypeTransfer ||
       val.changeType === SimulationChangeType.ChangeTypeLooksRareBidOffer ||
@@ -23,7 +25,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
       val.changeType === SimulationChangeType.ChangeTypeApprove
   );
 
-  const listingStateChanges = storedSimulation.simulation.stateChanges.filter(
+  const listingStateChanges = currentSimulation.simulation.stateChanges.filter(
     (val: StateChange) =>
       val.changeType === SimulationChangeType.ChangeTypeOpenSeaListing ||
       val.changeType === SimulationChangeType.ChangeTypeLooksRareAskListing ||
@@ -31,7 +33,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
       val.changeType === SimulationChangeType.ChangeTypePermitTransfer
   );
 
-  const receiveStateChanges = storedSimulation.simulation.stateChanges.filter(
+  const receiveStateChanges = currentSimulation.simulation.stateChanges.filter(
     (val: StateChange) =>
       val.changeType === SimulationChangeType.ChangeTypeReceive ||
       val.changeType === SimulationChangeType.ChangeTypeOpenSeaReceive ||
@@ -41,7 +43,7 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
       val.changeType === SimulationChangeType.ChangeTypePermitReceive
   );
 
-  const revokeStateChanges = storedSimulation.simulation.stateChanges.filter(
+  const revokeStateChanges = currentSimulation.simulation.stateChanges.filter(
     (val: StateChange) => val.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll
   );
 
@@ -49,17 +51,17 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
     <>
       {revokeStateChanges.length > 0 && (
         <ChangeTypeSection
-          scanResult={storedSimulation.simulation.scanResult}
+          scanResult={currentSimulation.simulation.scanResult}
           stateChanges={revokeStateChanges}
           title="You are revoking"
           iconPath="images/popup/assetChanges/ArrowReceiving.png"
-          gas={storedSimulation.simulation.gas}
+          gas={currentSimulation.simulation.gas}
         />
       )}
 
       {listingStateChanges.length > 0 && (
         <ChangeTypeSection
-          scanResult={storedSimulation.simulation.scanResult}
+          scanResult={currentSimulation.simulation.scanResult}
           stateChanges={listingStateChanges}
           title="You are listing"
           iconPath="images/popup/assetChanges/Listing.png"
@@ -68,16 +70,16 @@ export const TransactionContent = ({ storedSimulation }: { storedSimulation: Sto
 
       {transferAndApproveStateChanges.length > 0 && (
         <ChangeTypeSection
-          scanResult={storedSimulation.simulation.scanResult}
+          scanResult={currentSimulation.simulation.scanResult}
           stateChanges={transferAndApproveStateChanges}
           title="You are sending"
           iconPath="images/popup/assetChanges/ArrowGiving.png"
-          gas={storedSimulation.simulation.gas}
+          gas={currentSimulation.simulation.gas}
         />
       )}
       {receiveStateChanges.length > 0 && (
         <ChangeTypeSection
-          scanResult={storedSimulation.simulation.scanResult}
+          scanResult={currentSimulation.simulation.scanResult}
           stateChanges={receiveStateChanges}
           title="You are receiving"
           iconPath="images/popup/assetChanges/ArrowReceiving.png"

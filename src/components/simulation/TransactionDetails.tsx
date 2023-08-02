@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from './simulation.module.css';
 import { TransactionDetailLabel } from './SimulationSubComponents/transactionDetails/TransactionDetailLabel';
 import { ChainDetail } from './SimulationSubComponents/transactionDetails/ChainDetail';
@@ -6,13 +6,9 @@ import { ContractDetail } from './SimulationSubComponents/transactionDetails/Con
 import { WebsiteDetail } from './SimulationSubComponents/transactionDetails/WebsiteDetail';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 import { RiskFactors } from './SimulationSubComponents/transactionDetails/RiskFactors';
-import { CompletedSuccessfulSimulation } from '../../lib/simulation/storage';
+import { SimulationBaseProps } from '../../pages/popup';
 
-interface TransactionDetailsProps {
-  currentSimulation: CompletedSuccessfulSimulation;
-}
-
-export function TransactionDetails(props: TransactionDetailsProps) {
+export function TransactionDetails(props: SimulationBaseProps) {
   const { currentSimulation } = props;
 
   if (!currentSimulation) {

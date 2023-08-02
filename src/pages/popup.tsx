@@ -23,6 +23,10 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 
+export interface SimulationBaseProps {
+  currentSimulation: CompletedSuccessfulSimulation;
+}
+
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
   const [tutorialComplete, setTutorialComplete] = useState<boolean>(true);
@@ -75,7 +79,12 @@ const Popup = () => {
 
   // Loading Screen
   if (loading || currentSimulation.state === StoredSimulationState.Simulating) {
-    return <SimulationLoading />;
+    return (
+      <>
+        <SimulationLoading />;
+        <ConfirmSimulationButton storedSimulation={currentSimulation} />
+      </>
+    );
   }
 
   // Error Screen
@@ -90,9 +99,7 @@ const Popup = () => {
   if (currentSimulation.args.method === SimulationMethodType.PersonalSign) {
     return (
       <>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <PersonalSign currentSimulation={successfulSimulation} />
-        </div>
+        <PersonalSign currentSimulation={successfulSimulation} />
         <ConfirmSimulationButton storedSimulation={currentSimulation} />
       </>
     );
@@ -118,9 +125,9 @@ const Popup = () => {
       ) : (
         <>
           <TransactionDetails currentSimulation={successfulSimulation} />
-          <TransactionContent storedSimulation={currentSimulation} />
+          <TransactionContent currentSimulation={successfulSimulation} />
           <div style={{ height: '140px' }} />
-          {currentSimulation.args?.bypassed ? (
+          {currentSimulation.args.bypassed ? (
             <BypassedSimulationButton storedSimulation={currentSimulation} />
           ) : (
             <ConfirmSimulationButton storedSimulation={currentSimulation} />

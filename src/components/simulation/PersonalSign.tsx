@@ -38,7 +38,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignPro
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const domainName = getDomainNameFromURL(currentSimulation?.args.origin || '');
+      const domainName = getDomainNameFromURL(currentSimulation.args.origin || '');
       const response = await fetch(CDN_URL_PROD + `/url/metadata/${domainName}.json`);
       if (response.ok) {
         const data = await response.json();
@@ -54,7 +54,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignPro
 
   // Set the chain logo path
   useEffect(() => {
-    switch (currentSimulation?.args.chainId || '') {
+    switch (currentSimulation.args.chainId || '') {
       case '1':
       case '0x1':
         setChainLogoPath('/images/asset_logos/ethereum.png');
@@ -76,51 +76,53 @@ export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignPro
   const shimmer = isLoading ? animations['shimmer'] : '';
 
   return (
-    <div className={styles['parent']}>
-      <DappLogoWithChain
-        name={metadata.name}
-        logoPath={metadata.logo}
-        chainLogoPath={chainLogoPath}
-        color={metadata.color}
-        isLoading={isLoading}
-      />
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className={styles['parent']}>
+        <DappLogoWithChain
+          name={metadata.name}
+          logoPath={metadata.logo}
+          chainLogoPath={chainLogoPath}
+          color={metadata.color}
+          isLoading={isLoading}
+        />
 
-      <div className={hideOnLoading}>
-        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-          <div className={`${unveil} ${hideOnLoading} ${styles['row']}`} style={{ textAlign: 'right' }}>
-            <p>Account</p>
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-              <p>Your account</p>
-              <p className={styles['c-grey']}>{formatEthereumAddress(currentSimulation.signer || '')}</p>
-            </div>
-          </div>
-
-          <div className={`${unveil}  ${styles['row']}`}>
-            <p>Signing into</p>
-            <div className={styles['df-ac-g5']}>
-              <div
-                className={`${hideOnLoading} ${shimmer}`}
-                style={{ display: 'flex', height: '15px', width: '15px', borderRadius: '50%' }}
-              >
-                <img className={`${hideOnLoading}`} src={metadata.logo} />
+        <div className={hideOnLoading}>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+            <div className={`${unveil} ${hideOnLoading} ${styles['row']}`} style={{ textAlign: 'right' }}>
+              <p>Account</p>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                <p>Your account</p>
+                <p className={styles['c-grey']}>{formatEthereumAddress(currentSimulation.signer || '')}</p>
               </div>
-              <p>{getDomainNameFromURL(currentSimulation.args.origin || '')}</p>
             </div>
-          </div>
 
-          <div
-            className={`${unveil} ${hideOnLoading} ${styles['row']}`}
-            style={{ flexDirection: 'column', textAlign: 'left', gap: '10px', height: '180px' }}
-          >
-            <p>You are signing</p>
-            <p className={`${styles['scrollable']} ${styles['c-grey']}`}>
-              {currentSimulation.simulation.decodedMessage || ''}
-            </p>
+            <div className={`${unveil}  ${styles['row']}`}>
+              <p>Signing into</p>
+              <div className={styles['df-ac-g5']}>
+                <div
+                  className={`${hideOnLoading} ${shimmer}`}
+                  style={{ display: 'flex', height: '15px', width: '15px', borderRadius: '50%' }}
+                >
+                  <img className={`${hideOnLoading}`} src={metadata.logo} />
+                </div>
+                <p>{getDomainNameFromURL(currentSimulation.args.origin || '')}</p>
+              </div>
+            </div>
+
+            <div
+              className={`${unveil} ${hideOnLoading} ${styles['row']}`}
+              style={{ flexDirection: 'column', textAlign: 'left', gap: '10px', height: '180px' }}
+            >
+              <p>You are signing</p>
+              <p className={`${styles['scrollable']} ${styles['c-grey']}`}>
+                {currentSimulation.simulation.decodedMessage || ''}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className={`${hideOnLoading} ${unveil}`}></div>
+        <div className={`${hideOnLoading} ${unveil}`}></div>
+      </div>
     </div>
   );
 };
