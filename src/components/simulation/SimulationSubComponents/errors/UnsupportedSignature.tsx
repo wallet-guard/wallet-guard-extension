@@ -139,7 +139,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                   alt=""
                   width={25}
                   className="pl-2 "
-                  style={{ marginTop: '-14px', alignSelf: 'center' }}
+                  style={{ marginTop: '-15px', alignSelf: 'center' }}
                 />
               </Tooltip>
             )
