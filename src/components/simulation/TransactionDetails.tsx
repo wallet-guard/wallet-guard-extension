@@ -26,7 +26,7 @@ export function TransactionDetails(props: SimulationBaseProps) {
       >
         {/* todo: instead of setting defaults for currentsimulation undefined on every prop, simply check for it being
         undefined at the top of the component */}
-        <p className={styles['text-md']} style={{ marginBottom: '10px' }}>
+        <p className={styles['heading-md']} style={{ marginBottom: '10px', textTransform: 'none' }}>
           Transaction Details
         </p>
 

@@ -207,8 +207,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
       'New storage values'
     );
 
+    // todo: this has an inintended bug where closing out other popups closes the simulator window
     chrome.windows.getCurrent().then((current) => {
-      if (current && !oldFiltered.length && !newFiltered.length) {
+      if (current.type === 'popup' && !oldFiltered.length && !newFiltered.length) {
         chrome.windows.remove(current.id || 0);
       }
     })
