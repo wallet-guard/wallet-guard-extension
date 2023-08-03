@@ -85,7 +85,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
             Website:
           </p>
           <p className={`${styles['font-archivo-medium']}`} style={{ color: 'white' }}>
-            <b>{scanResult?.domainName ? scanResult.domainName : '-'}</b>
+            <b>{scanResult?.domainName ? scanResult.domainName : 'n/a'}</b>
           </p>
           {scanResult?.domainName && scanResult.verified ? (
             <Tooltip
