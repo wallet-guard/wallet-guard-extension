@@ -4,6 +4,9 @@ import { StateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 
 function roundNumberIfNeccessary(num: string): string {
+  if (num.length > 15) {
+    return 'ALL';
+  }
   let result = Number(num).toFixed(4);
 
   // Remove any trailing 0s
@@ -36,7 +39,7 @@ export const SetTokenApproval = ({ stateChange, verified }: { stateChange: State
         style={{ color: verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        Approval to <br /> withdraw {stateChange.amount} {stateChange.symbol}
+        Approval to <br /> withdraw {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
       </h3>
     </>
   );
