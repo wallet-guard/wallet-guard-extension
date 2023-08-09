@@ -202,9 +202,14 @@ export enum SimulationAssetTypes {
   Native = 'NATIVE',
 }
 
+export enum AddressType {
+  EOA = 'EOA',
+  Contract = 'CONTRACT'
+}
+
 export type SimulationAddressDetails = {
   address: string;
-  addressType: string;
+  addressType: AddressType;
   etherscanVerified: boolean;
   etherscanLink: string;
   addressName: string;
