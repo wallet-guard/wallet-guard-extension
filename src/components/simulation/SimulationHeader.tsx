@@ -2,16 +2,15 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { TwitterShareButton } from 'react-share';
-import { StoredSimulation } from '../../lib/simulation/storage';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 
 interface SimulationHeaderProps {
-  storedSimulation?: StoredSimulation;
+  recommendedAction?: RecommendedActionType;
 }
 
-export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ storedSimulation }) => {
+export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ recommendedAction }) => {
   function getHeaderColor() {
-    switch (storedSimulation?.simulation?.recommendedAction) {
+    switch (recommendedAction) {
       case RecommendedActionType.None:
         return '#19FF00';
       case RecommendedActionType.Warn:

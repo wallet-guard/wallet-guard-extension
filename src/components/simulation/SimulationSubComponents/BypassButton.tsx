@@ -4,7 +4,7 @@ import {
   simulationNeedsAction,
   StoredSimulation,
   StoredSimulationState,
-  updateSimulationState,
+  updateSimulationAction,
 } from '../../../lib/simulation/storage';
 import styles from '../simulation.module.css';
 
@@ -35,10 +35,9 @@ export const BypassedSimulationButton = ({ storedSimulation }: { storedSimulatio
               style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}
               onClick={() => {
                 posthog.capture('bypassed simulation rejected', {
-                  recommendedAction: storedSimulation.simulation?.recommendedAction,
                   storedSimulation: storedSimulation,
                 });
-                updateSimulationState(id, StoredSimulationState.Rejected);
+                updateSimulationAction(id, StoredSimulationState.Rejected);
               }}
             >
               <img

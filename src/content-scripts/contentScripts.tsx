@@ -59,7 +59,7 @@ listenToRequest(async (request: TransactionArgs) => {
     }
 
     // Page has sent an event, start listening to storage changes.
-    // This ensures we don't listen to storage changes on every singel webpage.
+    // This ensures we don't listen to storage changes on every single webpage.
     chrome.storage.onChanged.addListener((changes, area) => {
       if (area === 'local' && changes['simulations']?.newValue) {
         const newSimulations = changes['simulations'].newValue;

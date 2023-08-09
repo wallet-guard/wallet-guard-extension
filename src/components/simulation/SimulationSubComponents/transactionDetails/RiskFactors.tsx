@@ -15,7 +15,13 @@ function mapRiskFactorValue(riskFactor: RiskFactor): string {
     const daysAgo = Math.round(parseFloat(riskFactor.value || '') / 24);
     return `Created ${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
   } else if (riskFactor.type === WarningType.MLInference) {
-    return `Likely a phishing attempt of ${riskFactor.value}`;
+    return `Likely a phishing attempt on ${riskFactor.value}`;
+  } else if (
+    riskFactor.type === WarningType.BlurListing ||
+    riskFactor.type === WarningType.OpenseaListing ||
+    riskFactor.type == WarningType.LooksrareListing
+  ) {
+    return 'This website should NOT be able to list your assets.';
   } else if (riskFactor.type == WarningType.Bypass) {
     return riskFactor.value || '';
   }
@@ -32,12 +38,15 @@ function getWarningIcon(riskFactor: RiskFactor) {
     case Severity.Critical:
       riskTooltipMessage = 'Critical risk';
       riskColor = '#F44B4C';
+      break;
     case Severity.High:
       riskTooltipMessage = 'High risk';
       riskColor = '#FF783E';
+      break;
     case Severity.Low:
       riskTooltipMessage = 'Low risk';
       riskColor = '#FFEF5C';
+      break;
   }
 
   return (
@@ -127,7 +136,7 @@ function RiskFactorsWarn(props: RiskFactorsProps) {
                 <>
                   <div key={riskFactor.message} className={styles.row} style={{ height: '67px', marginLeft: '10px' }}>
                     {getWarningIcon(riskFactor)}
-                    <div>
+                    <div key={riskFactor.message}>
                       <p className={styles.riskFactorHeader}>{riskFactor.message}</p>
                       {mappedValue !== '' && <p className={styles.riskFactorValue}>{mappedValue}</p>}
                     </div>
@@ -167,6 +176,7 @@ function RiskFactorsBlock(props: RiskFactorsProps) {
                 <p className={styles['heading-md']} style={{ letterSpacing: '.75px' }}>
                   Dangerous
                 </p>
+                <AccordionIcon fontSize={'22px'} style={{ position: 'absolute', right: '30px' }} />
               </div>
               <p className={styles['text-md']} style={{ fontFamily: 'ArchivoRegular' }}>
                 {overviewMessage}
@@ -188,7 +198,7 @@ function RiskFactorsBlock(props: RiskFactorsProps) {
                 <>
                   <div key={riskFactor.message} className={styles.row} style={{ height: '67px', marginLeft: '10px' }}>
                     {getWarningIcon(riskFactor)}
-                    <div>
+                    <div key={riskFactor.message}>
                       <p className={styles.riskFactorHeader}>{riskFactor.message}</p>
                       {mappedValue !== '' && <p className={styles.riskFactorValue}>{mappedValue}</p>}
                     </div>

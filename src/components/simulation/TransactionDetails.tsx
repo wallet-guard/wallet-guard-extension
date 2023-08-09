@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from './simulation.module.css';
 import { TransactionDetailLabel } from './SimulationSubComponents/transactionDetails/TransactionDetailLabel';
-import { SimulationContext } from '../../lib/context/context';
 import { ChainDetail } from './SimulationSubComponents/transactionDetails/ChainDetail';
 import { ContractDetail } from './SimulationSubComponents/transactionDetails/ContractDetail';
 import { WebsiteDetail } from './SimulationSubComponents/transactionDetails/WebsiteDetail';
-import { RecommendedActionType } from '../../models/simulation/Transaction';
+import { AddressType, RecommendedActionType } from '../../models/simulation/Transaction';
 import { RiskFactors } from './SimulationSubComponents/transactionDetails/RiskFactors';
+import { SimulationBaseProps } from '../../pages/popup';
 
-export function TransactionDetails() {
-  const { currentSimulation } = useContext(SimulationContext);
+export function TransactionDetails(props: SimulationBaseProps) {
+  const { currentSimulation } = props;
 
   if (!currentSimulation) {
     return <></>;
@@ -19,14 +19,14 @@ export function TransactionDetails() {
     <div className="container">
       <div
         className={
-          currentSimulation.simulation?.riskFactors
+          currentSimulation.simulation.riskFactors
             ? styles.transactionDetailsCardWithWarnings
             : styles.transactionDetailsCard
         }
       >
         {/* todo: instead of setting defaults for currentsimulation undefined on every prop, simply check for it being
         undefined at the top of the component */}
-        <p className={styles['text-md']} style={{ marginBottom: '10px' }}>
+        <p className={styles['heading-md']} style={{ marginBottom: '10px', textTransform: 'none' }}>
           Transaction Details
         </p>
 
@@ -36,8 +36,14 @@ export function TransactionDetails() {
             <ChainDetail chainId={currentSimulation.args.chainId} />
           </div>
           <div className="col-6">
-            <TransactionDetailLabel labelText="Contract" />
-            <ContractDetail addressDetails={currentSimulation.simulation?.addressDetails} />
+            <TransactionDetailLabel
+              labelText={
+                currentSimulation.simulation.addressDetails.addressType === AddressType.Contract
+                  ? 'Contract'
+                  : 'Address'
+              }
+            />
+            <ContractDetail addressDetails={currentSimulation.simulation.addressDetails} />
           </div>
         </div>
 
@@ -45,14 +51,14 @@ export function TransactionDetails() {
           <div className="col-6">
             <TransactionDetailLabel labelText="Website" />
             <WebsiteDetail
-              verified={currentSimulation.simulation?.scanResult.verified || false}
-              domainName={currentSimulation.simulation?.scanResult.domainName || ''}
-              recommendedAction={currentSimulation.simulation?.recommendedAction || RecommendedActionType.None}
+              verified={currentSimulation.simulation.scanResult.verified || false}
+              domainName={currentSimulation.simulation.scanResult.domainName || ''}
+              recommendedAction={currentSimulation.simulation.recommendedAction || RecommendedActionType.None}
             />
           </div>
         </div>
       </div>
-      {currentSimulation.simulation?.riskFactors && (
+      {currentSimulation.simulation.riskFactors && (
         <RiskFactors
           riskFactors={currentSimulation.simulation.riskFactors}
           recommendedAction={currentSimulation.simulation.recommendedAction}

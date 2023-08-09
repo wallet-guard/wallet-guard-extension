@@ -1,8 +1,12 @@
 import posthog from 'posthog-js';
 import React, { useState } from 'react';
-import type { StoredSimulation } from '../../lib/simulation/storage';
-import { simulationNeedsAction, StoredSimulationState, updateSimulationState } from '../../lib/simulation/storage';
-import { RecommendedActionType } from '../../models/simulation/Transaction';
+import {
+  simulationNeedsAction,
+  StoredSimulation,
+  StoredSimulationState,
+  updateSimulationAction,
+} from '../../lib/simulation/storage';
+import { RecommendedActionType, SimulationSuccessResponse } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/SimulationButton.module.css';
 
 interface SimulationActionButton {
@@ -61,37 +65,36 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                 buttonText="Reject"
                 onClick={() => {
                   posthog.capture('simulation rejected', {
-                    recommendedAction: storedSimulation.simulation?.recommendedAction,
                     storedSimulation: storedSimulation,
                   });
-                  updateSimulationState(id, StoredSimulationState.Rejected);
+                  updateSimulationAction(id, StoredSimulationState.Rejected);
                 }}
               />
             </div>
             <div className="col-6" style={{ paddingLeft: '7.5px' }}>
-              {storedSimulation.state === StoredSimulationState.Simulating ? (
+              {!storedSimulation || storedSimulation.state === StoredSimulationState.Simulating ? (
                 <SimulationActionButton
                   backgroundColor="white"
                   imgSrc="/images/popup/ArrowRight.png"
                   imgWidth={19}
-                  buttonText="SKIP"
+                  buttonText="Skip"
                   onClick={() => {
                     posthog.alias(signer);
                     posthog.capture('simulation skipped', {
-                      recommendedAction: storedSimulation.simulation?.recommendedAction,
                       storedSimulation: storedSimulation,
                     });
-                    updateSimulationState(id, StoredSimulationState.Confirmed);
+                    updateSimulationAction(id, StoredSimulationState.Confirmed);
                   }}
                 />
-              ) : storedSimulation.simulation?.recommendedAction === RecommendedActionType.Block && needsConfirm ? (
+              ) : !storedSimulation.simulation.error &&
+                storedSimulation.simulation.recommendedAction === RecommendedActionType.Block &&
+                needsConfirm ? (
                 <SimulationActionButton
                   backgroundColor="rgb(211 211 211 / 8%)"
                   color="white"
                   buttonText="Proceed anyway"
                   onClick={() => {
                     posthog.capture('simulation proceed anyway', {
-                      overviewMessage: storedSimulation.simulation?.overviewMessage,
                       storedSimulation: storedSimulation,
                     });
                     handleProceedAnyway();
@@ -105,10 +108,9 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   buttonText="Continue"
                   onClick={() => {
                     posthog.capture('simulation confirmed', {
-                      recommendedAction: storedSimulation.simulation?.recommendedAction,
                       storedSimulation: storedSimulation,
                     });
-                    updateSimulationState(id, StoredSimulationState.Confirmed);
+                    updateSimulationAction(id, StoredSimulationState.Confirmed);
                   }}
                 />
               )}

@@ -1,12 +1,12 @@
 import { Tooltip } from '@chakra-ui/react';
 import React from 'react';
-import { SimulationStateChange } from '../../../../models/simulation/Transaction';
+import { StateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 import { add3Dots } from '../StateChangesComponent';
 import { AssetChangeImage } from './AssetChangeImage';
 
 export interface StateChangesComponentProps {
-  stateChange: SimulationStateChange;
+  stateChange: StateChange;
 }
 
 export const TokenInfo = (props: StateChangesComponentProps) => {

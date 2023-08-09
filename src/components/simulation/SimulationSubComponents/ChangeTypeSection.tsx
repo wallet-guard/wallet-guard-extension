@@ -1,11 +1,11 @@
 import React from 'react';
-import { SimulatedGas, SimulationStateChange } from '../../../models/simulation/Transaction';
+import { SimulatedGas, StateChange } from '../../../models/simulation/Transaction';
 import { StateChangesComponent } from './StateChangesComponent';
 import { PhishingResponse } from '../../../models/PhishingResponse';
 import { ChangeTypeHeading } from './stateChangeSubComponents/StateChangeTypeHeading';
 
 export interface ChangeTypeSectionProps {
-  stateChanges?: SimulationStateChange[];
+  stateChanges?: StateChange[];
   title: string;
   scanResult: PhishingResponse;
   iconPath: string;

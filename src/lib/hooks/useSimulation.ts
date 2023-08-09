@@ -41,7 +41,7 @@ export function useSimulation() {
     }
 
     if (current?.args?.bypassed) {
-      if (current.simulation) {
+      if (current.state !== StoredSimulationState.Simulating && !current.simulation.error) {
         current.simulation.recommendedAction = RecommendedActionType.Warn;
         current.simulation.overviewMessage = current.simulation.overviewMessage ? 'We detected several risky indicator from this transaction.' : 'We detected 1 risky indicator from this transaction.'
         const existingRiskFactors = current.simulation.riskFactors || [];
