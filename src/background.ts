@@ -233,7 +233,6 @@ chrome.storage.onChanged.addListener((changes, area) => {
     if (newFiltered.length === 0 && oldFiltered.length === 1 && currentPopup && currentPopup !== -1) {
       const closeId = currentPopup;
       currentPopup = undefined;
-      console.log(closeId);
       chrome.windows.remove(closeId);
 
       return;
