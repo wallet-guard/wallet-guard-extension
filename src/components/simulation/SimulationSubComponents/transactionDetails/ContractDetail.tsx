@@ -57,7 +57,7 @@ export function ContractDetail(props: ChainDetailProps) {
         <div className={styles.row}>
           {/* todo: add the bubble look here like the old component had */}
           <p onClick={onCopy} style={{ marginRight: '10px', cursor: 'pointer' }} className={styles['text-md']}>
-            {add3Dots(addressName, 15) || add3DotsMiddle(addressDetails?.address || '', 6)}
+            {add3Dots(addressName, 10) || add3DotsMiddle(addressDetails?.address || '', 6)}
           </p>
           {hasCopied ? (
             <AiOutlineCheck color="#19FF00" fontSize={'16px'} style={{ marginRight: '6px' }} />
