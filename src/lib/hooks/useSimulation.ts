@@ -43,15 +43,18 @@ export function useSimulation() {
     if (current?.args?.bypassed) {
       if (current.state !== StoredSimulationState.Simulating && !current.simulation.error) {
         current.simulation.recommendedAction = RecommendedActionType.Warn;
-        current.simulation.overviewMessage = current.simulation.overviewMessage ? 'We detected several risky indicator from this transaction.' : 'We detected 1 risky indicator from this transaction.'
+        current.simulation.overviewMessage = current.simulation.overviewMessage ? 'We detected several risky indicators from this transaction.' : 'We detected 1 risky indicator from this transaction.'
+
         const existingRiskFactors = current.simulation.riskFactors || [];
+
+        if (existingRiskFactors.find((riskFactor) => riskFactor.type === WarningType.Bypass)) return;
+
         current.simulation.riskFactors = [
           ...existingRiskFactors,
           {
             type: WarningType.Bypass,
-            message: 'This transaction attempted to bypass Wallet Guard',
+            message: 'This transaction attempted to bypass Wallet Guard.',
             severity: Severity.High,
-            value: 'If you continue seeing this, please open a support ticket.'
           } as RiskFactor
         ]
         setCurrentSimulation(current);

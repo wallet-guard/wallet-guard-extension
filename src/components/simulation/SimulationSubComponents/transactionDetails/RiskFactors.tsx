@@ -22,8 +22,6 @@ function mapRiskFactorValue(riskFactor: RiskFactor): string {
     riskFactor.type == WarningType.LooksrareListing
   ) {
     return 'This website should NOT be able to list your assets.';
-  } else if (riskFactor.type == WarningType.Bypass) {
-    return riskFactor.value || '';
   }
 
   return '';
