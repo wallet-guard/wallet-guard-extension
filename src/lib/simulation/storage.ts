@@ -1,6 +1,6 @@
 // Storage wrapper for updating the storage.
 import { fetchTransaction } from './server';
-import { SimulationErrorResponse, SimulationResponse, SimulationSuccessResponse, TransactionArgs, TransactionType } from '../../models/simulation/Transaction';
+import { SimulationResponse, SimulationSuccessResponse, TransactionArgs, TransactionType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType } from '../helpers/chrome/messageHandler';
 import { SUPPORTED_CHAINS } from '../config/features';

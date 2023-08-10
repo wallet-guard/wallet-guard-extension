@@ -26,7 +26,7 @@ export default function UnsupportedSignatureComponent(props: ErrorComponentProps
       <div className="row text-center pl-4 pr-4" style={{ justifyContent: 'center' }}>
         {!requestedProject ? (
           <UnsupportedProjectComponent
-            scanResult={currentSimulation.simulation?.scanResult}
+            scanResult={currentSimulation.simulation.scanResult}
             votedSuccessfullyCB={handleSubmission}
           />
         ) : (

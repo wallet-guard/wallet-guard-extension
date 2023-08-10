@@ -79,6 +79,7 @@ export type SimulationResponse =
 
 export type SimulationErrorResponse = {
   error: SimulationError;
+  scanResult?: PhishingResponse;
 };
 
 export type SimulationSuccessResponse = {

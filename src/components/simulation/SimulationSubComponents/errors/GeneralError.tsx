@@ -1,10 +1,10 @@
 import React from 'react';
-import { StoredSimulation } from '../../../../lib/simulation/storage';
+import { CompletedSimulation, StoredSimulation } from '../../../../lib/simulation/storage';
 import styles from '../../simulation.module.css';
 import ErrorTextComponent from './ErrorText';
 
 export interface ErrorComponentProps {
-  currentSimulation: StoredSimulation;
+  currentSimulation: CompletedSimulation;
 }
 
 export default function GeneralErrorComponent(props: ErrorComponentProps) {

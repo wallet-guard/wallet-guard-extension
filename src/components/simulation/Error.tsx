@@ -1,6 +1,6 @@
 import { posthog } from 'posthog-js';
 import React from 'react';
-import { StoredSimulation } from '../../lib/simulation/storage';
+import { CompletedSimulation, StoredSimulation } from '../../lib/simulation/storage';
 import { ErrorType } from '../../models/simulation/Transaction';
 import { ConfirmSimulationButton } from './SimulationButton';
 import { SimulationHeader } from './SimulationHeader';
@@ -13,7 +13,7 @@ import RateLimitedError from './SimulationSubComponents/errors/RateLimitedError'
 import UnsupportedSignatureComponent from './SimulationSubComponents/errors/UnsupportedSignature';
 
 interface ErrorComponentProps {
-  currentSimulation: StoredSimulation;
+  currentSimulation: CompletedSimulation;
   type: ErrorType;
 }
 
