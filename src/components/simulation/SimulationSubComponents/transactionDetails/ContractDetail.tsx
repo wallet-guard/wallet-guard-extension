@@ -60,7 +60,7 @@ export function ContractDetail(props: ChainDetailProps) {
             {add3Dots(addressName, 10) || add3DotsMiddle(addressDetails?.address || '', 6)}
           </p>
           {hasCopied ? (
-            <AiOutlineCheck color="#19FF00" fontSize={'16px'} style={{ marginRight: '6px' }} />
+            <AiOutlineCheck color="#19FF00" fontSize={'16px'} style={{ marginRight: '8px' }} />
           ) : (
             <AiFillCopy
               fontSize={'16px'}

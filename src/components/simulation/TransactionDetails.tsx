@@ -11,10 +11,6 @@ import { SimulationBaseProps } from '../../pages/popup';
 export function TransactionDetails(props: SimulationBaseProps) {
   const { currentSimulation } = props;
 
-  if (!currentSimulation) {
-    return <></>;
-  }
-
   return (
     <div className="container">
       <div
@@ -24,8 +20,6 @@ export function TransactionDetails(props: SimulationBaseProps) {
             : styles.transactionDetailsCard
         }
       >
-        {/* todo: instead of setting defaults for currentsimulation undefined on every prop, simply check for it being
-        undefined at the top of the component */}
         <p className={styles['heading-md']} style={{ marginBottom: '10px', textTransform: 'none' }}>
           Transaction Details
         </p>

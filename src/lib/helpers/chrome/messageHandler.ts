@@ -33,7 +33,7 @@ export const PortIdentifiers = {
 };
 
 export type PortMessage = {
-  data: TransactionArgs; // todo: extend this type when if/when we add more use cases to postMessage
+  data: TransactionArgs; // extend this type when if/when we add more use cases to postMessage
 };
 
 export function findApprovedTransaction(approvedTxns: TransactionArgs[], txn: TransactionArgs) {
