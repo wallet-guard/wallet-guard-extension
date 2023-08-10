@@ -50,19 +50,19 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ recommendedA
 
         <div style={{ display: 'flex', float: 'right' }}>
           {/* TODO: Make this go back to the dashboard */}
-          <button className={styles['buttonWithIcon']} style={{ marginRight: '10px' }}>
+          <div className={styles['buttonWithIcon']} style={{ marginRight: '10px' }}>
             <BsBellFill />
-          </button>
+          </div>
 
           <TwitterShareButton
             url={'https://walletguard.app'}
             title={'Join myself and 20,000+ others who are protecting our assets with Wallet Guard'}
             via={'wallet_guard'}
           >
-            <button className={styles['buttonWithIcon']}>
+            <div className={styles['buttonWithIcon']}>
               Share
               <FaTwitter style={{ marginLeft: '5px' }} />
-            </button>
+            </div>
           </TwitterShareButton>
         </div>
       </div>

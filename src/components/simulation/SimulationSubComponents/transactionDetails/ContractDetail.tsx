@@ -3,6 +3,7 @@ import styles from '../../simulation.module.css';
 import { SimulationAddressDetails } from '../../../../models/simulation/Transaction';
 import { Tooltip, useClipboard } from '@chakra-ui/react';
 import { AiFillCopy, AiOutlineCheck } from 'react-icons/ai';
+import { add3Dots } from '../StateChangesComponent';
 
 interface ChainDetailProps {
   addressDetails: SimulationAddressDetails | undefined;
@@ -56,7 +57,7 @@ export function ContractDetail(props: ChainDetailProps) {
         <div className={styles.row}>
           {/* todo: add the bubble look here like the old component had */}
           <p onClick={onCopy} style={{ marginRight: '10px', cursor: 'pointer' }} className={styles['text-md']}>
-            {addressName || add3DotsMiddle(addressDetails?.address || '', 6)}
+            {add3Dots(addressName, 15) || add3DotsMiddle(addressDetails?.address || '', 6)}
           </p>
           {hasCopied ? (
             <AiOutlineCheck color="#19FF00" fontSize={'16px'} style={{ marginRight: '6px' }} />

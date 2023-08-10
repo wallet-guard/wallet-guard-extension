@@ -239,6 +239,7 @@
   background-color: #0b0b0b;
   border-radius: 4px;
   font-family: 'ArchivoBold';
+  cursor: pointer;
 }
 
 /* generic row class that uses flexbox and center vertical alignment */
