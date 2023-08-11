@@ -30,8 +30,8 @@ function roundNumberIfNeccessary(num: string): string {
 export const RevokeApprovalForAll = () => {
   return (
     <>
-      <h3 style={{ color: '#17FE00', fontSize: '16px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
-        Revoking approval <br /> to withdraw ALL
+      <h3 style={{ color: 'white', fontSize: '16px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
+        Revoking approval
       </h3>
     </>
   );
@@ -44,8 +44,11 @@ export const SetTokenApproval = ({ stateChange, verified }: { stateChange: State
         style={{ color: verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        Approval to <br /> withdraw {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
+        Giving approval
       </h3>
+      <p style={{ color: '#646464', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
+        {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
+      </p>
     </>
   );
 };
