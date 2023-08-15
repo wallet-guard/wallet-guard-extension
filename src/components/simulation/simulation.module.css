@@ -78,8 +78,13 @@
   background-color: #3E3E3E;
 }
 
+.zoom {
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+  transform: scale(1);
+}
+
 .zoom:hover {
-  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  transform: scale(1.25);
 }
 
 @font-face {
@@ -175,14 +180,6 @@
   flex-shrink: 1;
   padding-right: 15px;
   max-width: 40%;
-}
-
-.transactionHeadingFixed {
-  position: fixed;
-  z-index: 1000;
-  background-color: #0b0b0b;
-  top: 0;
-  width: 100%;
 }
 
 .reportButton {
@@ -347,4 +344,17 @@
   font-size: 14px;
   color: #ffffff;
   cursor: pointer;
+}
+
+.reportFlag {
+  cursor: pointer;
+  margin-right: 5px;
+  font-size: 14px;
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+  transform: scale(1);
+}
+
+.reportFlag:hover {
+  color: #fb4b4b;
+  transform: scale(1.25);
 }

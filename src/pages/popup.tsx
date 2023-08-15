@@ -22,7 +22,7 @@ import { useSimulation } from '../lib/hooks/useSimulation';
 import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
-import styles from '../components/simulation/simulation.module.css';
+import styles from '../styles.module.css';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -107,7 +107,7 @@ const Popup = () => {
         <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
       </ChakraProvider>
 
-      <div className={styles['transactionHeadingFixed']}>
+      <div className={styles.transactionHeadingFixed}>
         <SimulationHeader recommendedAction={currentSimulation.simulation.recommendedAction} />
         <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
       </div>

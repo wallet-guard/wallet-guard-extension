@@ -62,7 +62,7 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
         borderRadius={'5px'}
         className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
       >
-        <img src={websiteIcon.iconPath} width={25} className="pl-2" />
+        <img src={websiteIcon.iconPath} width={25} className={styles.zoom + ' pl-2'} />
       </Tooltip>
     </div>
   );

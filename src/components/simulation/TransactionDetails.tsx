@@ -64,26 +64,28 @@ export function TransactionDetails(props: SimulationBaseProps) {
             Transaction Details
           </p>
 
-          <BsThreeDots style={{ cursor: 'pointer' }} onClick={toggleReportButton} />
+          <BsFlagFill className={styles.reportFlag} onClick={() => setShowReportMenu(true)} />
+          {/* <BsThreeDots style={{ cursor: 'pointer' }} onClick={toggleReportButton} />
 
           <div id='reportButton' className={styles.reportButton} onClick={() => setShowReportMenu(true)}>
             <BsFlagFill style={{ marginRight: '5px' }} />
             <p>Report Transaction</p>
-          </div>
+          </div> */}
         </div>
 
-        <Modal isOpen={true} onClose={() => { }} isCentered>
+        <Modal isOpen={showReportMenu} onClose={() => { }} isCentered>
           <ModalOverlay backdropFilter="blur(1px)" />
           <ModalContent>
-            <ModalHeader>Are you sure?</ModalHeader>
-            <ModalCloseButton />
             <ModalBody>
-              <div style={{ width: '300px', marginLeft: '65px', position: 'absolute', top: '50%', left: '', height: '100px', background: '#212121', borderRadius: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Select placeholder='Select an issue' onSelect={handleSelectOption}>
-                  <option value='incorrect state changes'>Incorrect state changes</option>
-                  <option value='false positive'>False positive on warnings</option>
+              <div style={{ width: '300px', marginLeft: '65px', position: 'absolute', top: '50%', left: '', height: '100px', background: '#212121', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <p>Report an issue</p>
+                <Select placeholder='Select an issue' onChange={handleSelectOption}>
+                  <option value='malicious transaction'>Malicious transaction</option>
+                  <option value='incorrect state changes'>Incorrect asset changes</option>
+                  <option value='false positive'>False positive</option>
                   <option value='other issue'>Other issue</option>
                 </Select>
+                <button>Submit</button>
               </div>
             </ModalBody>
           </ModalContent>
