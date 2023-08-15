@@ -143,7 +143,13 @@
 .assetChangeRow {
   margin-bottom: 0.5rem;
   height: 70px;
-  background: #161616;
+  background: linear-gradient(to right, #141414, #0d0d0d00);
+  border-top: 1px solid #303030;  border-left: 1px solid #272727;
+  border-left: 1px solid #272727;
+  border-right: 1px solid #272727;
+  border-bottom: 1px solid #1f1f1f;
+  /* background: #161616; */
+  /* background: linear-gradient(to bottom, #1d1d1d, #161616); */
   border-radius: 16px;
 }
 
@@ -179,8 +185,47 @@
   width: 100%;
 }
 
+.reportButton {
+  position: absolute;
+  right: 35px;
+  margin-top: 50px;
+  padding: 8px;
+  background: #212121;
+  border-radius: 8px;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0px;
+  color: #F44B4C;
+  cursor: pointer;
+
+  /* animation */
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: top right;
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+}
+
+.reportButton.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reportButton > p {
+  margin-bottom: 0;
+}
+
 .transactionDetailsCard {
-  background-color: #161616;
+  /* background: linear-gradient(to bottom, #1d1d1d, #161616); */
+  /* background: #161616; */
+  /* background-color: ; */
+  background: linear-gradient(to right, #141414, #0d0d0d00);
+  /* border: 1px solid #303030; */
+  border-top: 1px solid #303030;
+  border-left: 1px solid #272727;
+  border-right: 1px solid #272727;
+  border-bottom: 1px solid #1f1f1f;
   border-radius: 16px;
   padding-left: 20px;
   padding-right: 20px;
@@ -190,7 +235,9 @@
 }
 
 .transactionDetailsCardWithWarnings {
-  background-color: #161616;
+  /* background: linear-gradient(to bottom, #1d1d1d, #161616); */
+  /* border: 1px solid  */
+  background: #161616;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding-left: 20px;
