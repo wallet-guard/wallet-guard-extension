@@ -171,6 +171,14 @@
   max-width: 40%;
 }
 
+.transactionHeadingFixed {
+  position: fixed;
+  z-index: 1000;
+  background-color: #0b0b0b;
+  top: 0;
+  width: 100%;
+}
+
 .transactionDetailsCard {
   background-color: #161616;
   border-radius: 16px;

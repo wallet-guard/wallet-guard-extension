@@ -12,7 +12,8 @@ export function TransactionDetails(props: SimulationBaseProps) {
   const { currentSimulation } = props;
 
   return (
-    <div className="container">
+    // margin top accounts for the heading + tabs
+    <div className="container" style={{ marginTop: '118px' }}>
       <div
         className={
           currentSimulation.simulation.riskFactors

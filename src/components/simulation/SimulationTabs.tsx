@@ -18,7 +18,7 @@ export function SimulationTabs(props: SimulationTabsProps) {
   }
 
   return (
-    <div className="container text-center mb-3">
+    <div className="container text-center">
       <div className={styles.row}>
         <div
           onClick={() => handleTabSwitch('Transaction')}

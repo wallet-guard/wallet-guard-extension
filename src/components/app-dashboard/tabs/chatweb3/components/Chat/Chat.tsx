@@ -76,7 +76,10 @@ export const Chat: FC<Props> = ({
         flex: 1,
       }}
     >
-      <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
+      {/* only show this navbar when there is no simulation. if this is true, the source of the request was the hotkey */}
+      {!storedSimulation && (
+        <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
+      )}
       {conversation?.messages.length === 0 ? (
         <>
           <div style={{ height: '162px' }} ref={messagesEndRef} />
@@ -84,7 +87,7 @@ export const Chat: FC<Props> = ({
       ) : (
         <>
           {conversation?.messages &&
-            conversation?.messages.map((message, index) => <ChatMessage key={index} message={message} index={index} />)}
+            conversation?.messages.map((message, index) => <ChatMessage key={index} message={message} index={index} source={storedSimulation ? 'simulation' : 'hotkey'} />)}
 
           {loading && <ChatLoader />}
 

@@ -11,12 +11,14 @@ import { IconRobot, IconUser } from '@tabler/icons-react';
 interface Props {
   message: Message;
   index: number;
+  source: 'simulation' | 'hotkey';
 }
 
-export const ChatMessage: FC<Props> = ({ message, index }) => {
+export const ChatMessage: FC<Props> = ({ message, index, source }) => {
   return (
     <div
       style={{
+        marginTop: index === 0 ? source === 'simulation' ? '118px' : '64px' : '',
         color: '#F7FAFC',
         borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
         backgroundColor: message.role === 'assistant' ? '#0b0b0b' : '#282828',
