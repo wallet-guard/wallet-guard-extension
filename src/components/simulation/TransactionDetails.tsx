@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactEventHandler, useState } from 'react';
 import styles from './simulation.module.css';
 import { TransactionDetailLabel } from './SimulationSubComponents/transactionDetails/TransactionDetailLabel';
 import { ChainDetail } from './SimulationSubComponents/transactionDetails/ChainDetail';
@@ -8,11 +8,13 @@ import { AddressType, RecommendedActionType } from '../../models/simulation/Tran
 import { RiskFactors } from './SimulationSubComponents/transactionDetails/RiskFactors';
 import { SimulationBaseProps } from '../../pages/popup';
 import { BsFlagFill, BsThreeDots } from 'react-icons/bs';
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/react';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select } from '@chakra-ui/react';
+import { posthog } from 'posthog-js';
 
 export function TransactionDetails(props: SimulationBaseProps) {
   const { currentSimulation } = props;
   const [showReportButton, setShowReportButton] = useState(false);
+  const [showReportMenu, setShowReportMenu] = useState(false);
 
   function toggleReportButton() {
     if (showReportButton) {
@@ -38,6 +40,15 @@ export function TransactionDetails(props: SimulationBaseProps) {
     setShowReportButton(false);
   }
 
+  function handleSelectOption(e: any) {
+    console.log(e);
+    console.log(e.target.value);
+
+    // posthog.capture('simulation issue reported', {
+    //   reason: e
+    // })
+  }
+
   return (
     // margin top accounts for the heading + tabs
     <div className="container" style={{ marginTop: '118px' }}>
@@ -55,24 +66,28 @@ export function TransactionDetails(props: SimulationBaseProps) {
 
           <BsThreeDots style={{ cursor: 'pointer' }} onClick={toggleReportButton} />
 
-          <div id='reportButton' className={styles.reportButton}>
+          <div id='reportButton' className={styles.reportButton} onClick={() => setShowReportMenu(true)}>
             <BsFlagFill style={{ marginRight: '5px' }} />
             <p>Report Transaction</p>
           </div>
         </div>
 
-        {/* <Modal isOpen={true} onClose={() => { }} isCentered>
+        <Modal isOpen={true} onClose={() => { }} isCentered>
           <ModalOverlay backdropFilter="blur(1px)" />
           <ModalContent>
             <ModalHeader>Are you sure?</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <div style={{ width: '300px', marginLeft: '65px', position: 'absolute', top: '50%', left: '', height: '100px', background: '#212121', borderRadius: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                testing
+                <Select placeholder='Select an issue' onSelect={handleSelectOption}>
+                  <option value='incorrect state changes'>Incorrect state changes</option>
+                  <option value='false positive'>False positive on warnings</option>
+                  <option value='other issue'>Other issue</option>
+                </Select>
               </div>
             </ModalBody>
           </ModalContent>
-        </Modal> */}
+        </Modal>
 
         <div className="row mb-3">
           <div className="col-6">
