@@ -2,14 +2,9 @@ import { IconChevronRight } from '@tabler/icons-react';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import {
-  Button,
-  CloseButton,
   Kbd,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
 import { Modal } from '@chakra-ui/react';

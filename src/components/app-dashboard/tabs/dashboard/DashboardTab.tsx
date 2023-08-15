@@ -2,19 +2,8 @@ import { RepeatIcon } from '@chakra-ui/icons';
 import {
   Button,
   Heading,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalOverlay,
   Skeleton,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Tooltip,
-  useDisclosure,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { FiBell, FiBellOff } from 'react-icons/fi';
@@ -32,11 +21,6 @@ import { ChecklistItem } from './subComponents/ChecklistItem';
 import GoodStandingComponent from './subComponents/GoodStanding';
 import UnreadAlertComponent from './subComponents/UnreadAlertWarning';
 import styles from '../../../../styles.module.css';
-import tutorialStyles from './DashboardTab.module.css';
-import { OnboardingWelcome } from './onboarding/OnboardingWelcome';
-import { OnboardingSimulation } from './onboarding/OnboardingSimulation';
-import { OnboardingCommunity } from './onboarding/OnboardingCommunity';
-import { OnboardingPhishing } from './onboarding/OnboardingPhishing';
 import { posthog } from 'posthog-js';
 import { openGuide } from '../../../../lib/helpers/linkHelper';
 import { WelcomeModal } from '../chatweb3/components/Chat/WelcomeModal';
@@ -85,17 +69,7 @@ export function DashboardTab() {
       }
 
       chrome.storage.local.set({ [WgKeys.ChatWeb3Onboarding]: true });
-
-      posthog.onFeatureFlags(() => {
-        const onboardingFeatureEnabled = posthog.getFeatureFlagPayload('show-onboarding') as boolean;
-
-        if (onboardingFeatureEnabled) {
-          posthog.capture('showChatWeb3Onboarding');
-          setTutorialComplete(false);
-        } else {
-          setTutorialComplete(true);
-        }
-      });
+      setTutorialComplete(false);
     });
   }, []);
 

@@ -58,17 +58,7 @@ const Popup = () => {
       }
 
       chrome.storage.local.set({ [WgKeys.ChatWeb3Onboarding]: true });
-
-      posthog.onFeatureFlags(() => {
-        const onboardingFeatureEnabled = posthog.getFeatureFlagPayload('show-onboarding') as boolean;
-
-        if (onboardingFeatureEnabled) {
-          posthog.capture('showChatWeb3Onboarding');
-          setTutorialComplete(false);
-        } else {
-          setTutorialComplete(true);
-        }
-      });
+      setTutorialComplete(false);
     });
   }, []);
 
