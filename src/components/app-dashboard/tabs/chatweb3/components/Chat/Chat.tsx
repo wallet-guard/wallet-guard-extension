@@ -76,6 +76,7 @@ export const Chat: FC<Props> = ({
         flex: 1,
       }}
     >
+      <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
       {conversation?.messages.length === 0 ? (
         <>
           <div style={{ height: '162px' }} ref={messagesEndRef} />

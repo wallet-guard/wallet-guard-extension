@@ -2,8 +2,8 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import { TwitterShareButton } from 'react-share';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { FaTwitter } from 'react-icons/fa';
+import styles from '../../styles/hotkey.module.css';
 
 export const Navbar = ({
   showChatWeb3,
@@ -34,7 +34,7 @@ export const Navbar = ({
   return (
     <div
       style={{
-        backgroundColor: '#232323',
+        backgroundColor: '#0b0b0b',
         height: '4rem',
         display: 'flex',
         alignItems: 'center',
@@ -97,12 +97,10 @@ export const Navbar = ({
           title={'Join myself and 20,000+ others who are protecting our assets with Wallet Guard'}
           via={'wallet_guard'}
         >
-          <a style={{ color: 'white' }} className="btn btn-dark">
-            <div>
-              <b className={`pr-2`}>Share</b>
-              <FontAwesomeIcon icon={faTwitter} size="lg" />
-            </div>
-          </a>
+          <div className={styles['buttonWithIcon']}>
+            Share
+            <FaTwitter style={{ marginLeft: '5px' }} />
+          </div>
         </TwitterShareButton>
       )}
     </div>
