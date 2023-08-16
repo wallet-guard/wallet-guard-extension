@@ -153,8 +153,6 @@
   border-left: 1px solid #272727;
   border-right: 1px solid #272727;
   border-bottom: 1px solid #1f1f1f;
-  /* background: #161616; */
-  /* background: linear-gradient(to bottom, #1d1d1d, #161616); */
   border-radius: 16px;
 }
 
@@ -214,11 +212,7 @@
 }
 
 .transactionDetailsCard {
-  /* background: linear-gradient(to bottom, #1d1d1d, #161616); */
-  /* background: #161616; */
-  /* background-color: ; */
   background: linear-gradient(to right, #141414, #0d0d0d00);
-  /* border: 1px solid #303030; */
   border-top: 1px solid #303030;
   border-left: 1px solid #272727;
   border-right: 1px solid #272727;
@@ -232,9 +226,11 @@
 }
 
 .transactionDetailsCardWithWarnings {
-  /* background: linear-gradient(to bottom, #1d1d1d, #161616); */
-  /* border: 1px solid  */
-  background: #161616;
+  background: linear-gradient(to right, #141414, #0d0d0d00);
+  border-top: 1px solid #303030;
+  border-left: 1px solid #272727;
+  border-right: 1px solid #272727;
+  border-bottom: 1px solid #1f1f1f;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   padding-left: 20px;
@@ -357,4 +353,14 @@
 .reportFlag:hover {
   color: #fb4b4b;
   transform: scale(1.25);
+}
+
+.submitButton {
+  font-size: '14px';
+  width: 75px;
+  padding: 8px;
+  color: black;
+  background: white;
+  border-radius: 6px;
+  font-family: 'ArchivoMedium';
 }

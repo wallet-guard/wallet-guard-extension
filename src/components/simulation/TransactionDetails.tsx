@@ -8,37 +8,40 @@ import { AddressType, RecommendedActionType } from '../../models/simulation/Tran
 import { RiskFactors } from './SimulationSubComponents/transactionDetails/RiskFactors';
 import { SimulationBaseProps } from '../../pages/popup';
 import { BsFlagFill, BsThreeDots } from 'react-icons/bs';
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select } from '@chakra-ui/react';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, useDisclosure } from '@chakra-ui/react';
 import { posthog } from 'posthog-js';
 
 export function TransactionDetails(props: SimulationBaseProps) {
   const { currentSimulation } = props;
-  const [showReportButton, setShowReportButton] = useState(false);
+  // const [showReportButton, setShowReportButton] = useState(false);
   const [showReportMenu, setShowReportMenu] = useState(false);
+  const [sentReport, setSentReport] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
-  function toggleReportButton() {
-    if (showReportButton) {
-      closeReportButton();
-    } else {
-      openReportButton();
-    }
 
-    setTimeout(() => {
-      closeReportButton();
-    }, 3000);
-  }
+  // function toggleReportButton() {
+  //   if (showReportButton) {
+  //     closeReportButton();
+  //   } else {
+  //     openReportButton();
+  //   }
 
-  function openReportButton() {
-    const reportButton = document.querySelector('#reportButton');
-    reportButton?.classList.add(styles.visible);
-    setShowReportButton(true);
-  }
+  //   setTimeout(() => {
+  //     closeReportButton();
+  //   }, 3000);
+  // }
 
-  function closeReportButton() {
-    const reportButton = document.querySelector('#reportButton');
-    reportButton?.classList.remove(styles.visible);
-    setShowReportButton(false);
-  }
+  // function openReportButton() {
+  //   const reportButton = document.querySelector('#reportButton');
+  //   reportButton?.classList.add(styles.visible);
+  //   setShowReportButton(true);
+  // }
+
+  // function closeReportButton() {
+  //   const reportButton = document.querySelector('#reportButton');
+  //   reportButton?.classList.remove(styles.visible);
+  //   setShowReportButton(false);
+  // }
 
   function handleSelectOption(e: any) {
     console.log(e);
@@ -64,28 +67,29 @@ export function TransactionDetails(props: SimulationBaseProps) {
             Transaction Details
           </p>
 
-          <BsFlagFill className={styles.reportFlag} onClick={() => setShowReportMenu(true)} />
-          {/* <BsThreeDots style={{ cursor: 'pointer' }} onClick={toggleReportButton} />
-
-          <div id='reportButton' className={styles.reportButton} onClick={() => setShowReportMenu(true)}>
-            <BsFlagFill style={{ marginRight: '5px' }} />
-            <p>Report Transaction</p>
-          </div> */}
+          <BsFlagFill className={styles.reportFlag} onClick={onOpen} />
         </div>
 
-        <Modal isOpen={showReportMenu} onClose={() => { }} isCentered>
+        <Modal closeOnOverlayClick isOpen={isOpen} onClose={onClose} isCentered>
           <ModalOverlay backdropFilter="blur(1px)" />
           <ModalContent>
             <ModalBody>
-              <div style={{ width: '300px', marginLeft: '65px', position: 'absolute', top: '50%', left: '', height: '100px', background: '#212121', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <p>Report an issue</p>
-                <Select placeholder='Select an issue' onChange={handleSelectOption}>
-                  <option value='malicious transaction'>Malicious transaction</option>
-                  <option value='incorrect state changes'>Incorrect asset changes</option>
-                  <option value='false positive'>False positive</option>
-                  <option value='other issue'>Other issue</option>
-                </Select>
-                <button>Submit</button>
+              <div style={{ width: '300px', marginLeft: '65px', position: 'absolute', top: '50%', left: '', height: '150px', background: '#212121', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <img src='/images/popup/x.png' width={13} style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }} onClick={onClose} />
+                <p className={styles['heading-md']} style={{ textTransform: 'none' }}>Report an issue</p>
+                {!sentReport ? (
+                  <>
+                    <select placeholder='Select an issue' onChange={handleSelectOption}>
+                      <option value='malicious transaction'>Malicious transaction</option>
+                      <option value='incorrect state changes'>Incorrect asset changes</option>
+                      <option value='false positive'>False positive</option>
+                      <option value='other issue'>Other issue</option>
+                    </select>
+                    <button onClick={() => setSentReport(true)} className={styles.submitButton} style={{ marginTop: '30px' }}>Submit</button>
+                  </>
+                ) : (
+                  <p style={{ color: '#19ff00' }}>We will look into this, thank you!</p>
+                )}
               </div>
             </ModalBody>
           </ModalContent>
