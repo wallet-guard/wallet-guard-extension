@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
 import { IconChevronLeft } from '@tabler/icons-react';
 import { NavbarShareButton } from '../../../../../common/NavbarShareButton';
-import styles from '../../../../dashboard.module.css';
 
 export const Navbar = ({
   showChatWeb3,
@@ -32,7 +31,6 @@ export const Navbar = ({
 
   return (
     <div
-      className={styles['font-archivo-bold']}
       style={{
         backgroundColor: '#0b0b0b',
         height: '4rem',
@@ -43,6 +41,7 @@ export const Navbar = ({
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)',
         width: '100%', // temp
         position: 'fixed', // temp
+        fontWeight: 'bold',
       }}
     >
       <div>
@@ -58,7 +57,6 @@ export const Navbar = ({
                   color: 'white',
                   fontSize: '1.25rem',
                   marginLeft: '0.15rem',
-                  fontWeight: 'bold',
                   marginTop: '6px',
                 }}
               >
