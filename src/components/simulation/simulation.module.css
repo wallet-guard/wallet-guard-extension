@@ -278,6 +278,7 @@
   text-transform: uppercase;
 }
 
+/* todo: remove */
 .buttonWithIcon {
   display: flex;
   align-items: center;
