@@ -41,7 +41,7 @@ export interface SimulateRequestArgs extends RequestArgs {
 
 export interface SignatureRequestArgs extends RequestArgs {
   // Domain for this signature request.
-  domain: any;
+  domain: any; // TODO: add types here?
   // Message to be signed for this signature request.
   message: any;
   // Primary type for this message.

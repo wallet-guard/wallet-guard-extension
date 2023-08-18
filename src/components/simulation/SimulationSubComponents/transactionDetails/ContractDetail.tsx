@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../simulation.module.css';
-import { SimulationAddressDetails } from '../../../../models/simulation/Transaction';
+import { AddressType, SimulationAddressDetails } from '../../../../models/simulation/Transaction';
 import { Tooltip, useClipboard } from '@chakra-ui/react';
 import { AiFillCopy, AiOutlineCheck } from 'react-icons/ai';
 import { add3Dots } from '../StateChangesComponent';
@@ -73,7 +73,7 @@ export function ContractDetail(props: ChainDetailProps) {
       </Tooltip>
       <Tooltip
         hasArrow
-        label={addressDetails.etherscanVerified ? 'Verified contract' : 'Unverified contract'}
+        label={addressDetails.addressType === AddressType.Contract ? addressDetails.etherscanVerified ? 'Verified contract' : 'Unverified contract' : ''}
         bg="#212121"
         placement="left"
         color="white"
