@@ -47,7 +47,7 @@ export function ContractDetail(props: ChainDetailProps) {
     <div className={styles.row}>
       <Tooltip
         hasArrow
-        label="Copy address"
+        label={addressName}
         bg="#212121"
         placement="top"
         color="white"

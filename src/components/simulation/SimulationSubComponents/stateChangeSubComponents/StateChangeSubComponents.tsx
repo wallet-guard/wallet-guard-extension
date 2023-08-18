@@ -54,7 +54,8 @@ export const SetTokenApproval = ({ stateChange, verified }: { stateChange: State
 };
 
 interface ApprovalProps {
-  verified?: boolean;
+  verified: boolean;
+  symbol: string;
 }
 
 export const SetApprovalForAll = (props: ApprovalProps) => {
@@ -73,8 +74,11 @@ export const SetApprovalForAll = (props: ApprovalProps) => {
         style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        Approval to <br /> withdraw ALL
+        Giving approval
       </h3>
+      <p style={{ color: props.verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
+        ALL {props.symbol}
+      </p>
     </>
   );
 };
@@ -90,11 +94,13 @@ export const SetApproval = (props: ApprovalProps) => {
           style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
         />
       )}
+
+      {/* todo: add amount here */}
       <h3
         style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        Approval to <br /> withdraw NFT
+        Approval to <br /> withdraw {props.symbol}
       </h3>
     </>
   );

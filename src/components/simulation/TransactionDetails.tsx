@@ -27,7 +27,7 @@ export function TransactionDetails(props: SimulationBaseProps) {
     posthog.capture('simulation issue reported', {
       reason: selectedReportOption,
       currentSimulation
-    })
+    });
   }
 
   return (

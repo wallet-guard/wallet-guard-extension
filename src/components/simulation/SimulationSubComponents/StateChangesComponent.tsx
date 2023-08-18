@@ -67,18 +67,18 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                 <>
                   {/* IF NFT ELSE TOKEN */}
                   {stateChange.assetType !== SimulationAssetTypes.Native &&
-                  stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
+                    stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
                     <div className={styles.assetChangeRightColumn}>
                       {isTransfer(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <SetApprovalForAll verified={props.scanResult.verified} />
+                        <SetApprovalForAll verified={props.scanResult.verified} symbol={stateChange.symbol} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="receive" />
                       ) : (
-                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && <SetApproval />
+                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && <SetApproval verified={props.scanResult.verified} symbol={stateChange.symbol} />
                       )}
                     </div>
                   ) : (
@@ -86,7 +86,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <SetApprovalForAll verified={props.scanResult.verified} />
+                        <SetApprovalForAll verified={props.scanResult.verified} symbol={stateChange.symbol} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
