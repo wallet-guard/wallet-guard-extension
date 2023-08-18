@@ -3,6 +3,7 @@ import { RecommendedActionType } from '../../models/simulation/Transaction';
 import styles from '../simulation/simulation.module.css';
 import { BsBellFill } from 'react-icons/bs';
 import { NavbarShareButton } from '../common/NavbarShareButton';
+import { NavbarNotifications } from '../common/NavbarNotifications';
 
 interface SimulationHeaderProps {
   recommendedAction?: RecommendedActionType;
@@ -48,11 +49,7 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ recommendedA
         <img src="/images/wg_logos/logo_official.png" alt="" />
 
         <div style={{ display: 'flex', float: 'right', fontFamily: 'ArchivoBold' }}>
-          {/* TODO: Make this go back to the dashboard */}
-          <div className={styles['buttonWithIcon']} style={{ marginRight: '10px' }}>
-            <BsBellFill />
-          </div>
-
+          <NavbarNotifications />
           <NavbarShareButton />
         </div>
       </div>

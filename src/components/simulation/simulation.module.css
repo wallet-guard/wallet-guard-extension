@@ -278,20 +278,6 @@
   text-transform: uppercase;
 }
 
-/* todo: remove */
-.buttonWithIcon {
-  display: flex;
-  align-items: center;
-  height: 35px;
-  padding: 8px;
-  border: 1px solid #5a5a5a;
-  background-color: #0b0b0b;
-  border-radius: 5px;
-  font-family: 'ArchivoBold';
-  cursor: pointer;
-  color: white;
-}
-
 /* generic row class that uses flexbox and center vertical alignment */
 .row {
   display: flex;
