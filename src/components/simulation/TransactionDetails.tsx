@@ -13,43 +13,21 @@ import { posthog } from 'posthog-js';
 
 export function TransactionDetails(props: SimulationBaseProps) {
   const { currentSimulation } = props;
-  // const [showReportButton, setShowReportButton] = useState(false);
-  const [showReportMenu, setShowReportMenu] = useState(false);
+  const [selectedReportOption, setSelectedOption] = useState('malicious transaction');
   const [sentReport, setSentReport] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-
-  // function toggleReportButton() {
-  //   if (showReportButton) {
-  //     closeReportButton();
-  //   } else {
-  //     openReportButton();
-  //   }
-
-  //   setTimeout(() => {
-  //     closeReportButton();
-  //   }, 3000);
-  // }
-
-  // function openReportButton() {
-  //   const reportButton = document.querySelector('#reportButton');
-  //   reportButton?.classList.add(styles.visible);
-  //   setShowReportButton(true);
-  // }
-
-  // function closeReportButton() {
-  //   const reportButton = document.querySelector('#reportButton');
-  //   reportButton?.classList.remove(styles.visible);
-  //   setShowReportButton(false);
-  // }
-
   function handleSelectOption(e: any) {
-    console.log(e);
-    console.log(e.target.value);
+    setSelectedOption(e.target.value);
+  }
 
-    // posthog.capture('simulation issue reported', {
-    //   reason: e
-    // })
+  function handleSubmitReport() {
+    setSentReport(true);
+
+    posthog.capture('simulation issue reported', {
+      reason: selectedReportOption,
+      currentSimulation
+    })
   }
 
   return (
@@ -75,17 +53,20 @@ export function TransactionDetails(props: SimulationBaseProps) {
           <ModalContent>
             <ModalBody>
               <div style={{ width: '300px', marginLeft: '65px', position: 'absolute', top: '50%', left: '', height: '150px', background: '#212121', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <img src='/images/popup/x.png' width={13} style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }} onClick={onClose} />
+                <img src='/images/popup/x.png' width={12} style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }} onClick={onClose} />
                 <p className={styles['heading-md']} style={{ textTransform: 'none' }}>Report an issue</p>
                 {!sentReport ? (
                   <>
-                    <select placeholder='Select an issue' onChange={handleSelectOption}>
+                    <select value={selectedReportOption}
+                      style={{ borderRadius: '5px', padding: '5px', marginTop: '5px' }}
+                      placeholder='Select an issue'
+                      onChange={handleSelectOption}>
                       <option value='malicious transaction'>Malicious transaction</option>
                       <option value='incorrect state changes'>Incorrect asset changes</option>
                       <option value='false positive'>False positive</option>
                       <option value='other issue'>Other issue</option>
                     </select>
-                    <button onClick={() => setSentReport(true)} className={styles.submitButton} style={{ marginTop: '30px' }}>Submit</button>
+                    <button onClick={handleSubmitReport} className={styles.submitButton} style={{ marginTop: '20px' }}>Submit</button>
                   </>
                 ) : (
                   <p style={{ color: '#19ff00' }}>We will look into this, thank you!</p>
