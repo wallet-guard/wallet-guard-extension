@@ -71,23 +71,26 @@ export function ContractDetail(props: ChainDetailProps) {
           )}
         </div>
       </Tooltip>
-      <Tooltip
-        hasArrow
-        label={addressDetails.addressType === AddressType.Contract ? addressDetails.etherscanVerified ? 'Verified contract' : 'Unverified contract' : ''}
-        bg="#212121"
-        placement="left"
-        color="white"
-        borderRadius={'5px'}
-        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-      >
-        <a href={addressDetails.etherscanLink} className={styles.zoom} target="_blank">
-          {addressDetails.etherscanVerified ? (
-            <img src="/images/popup/websiteDetail/EtherscanVerified.svg" height={20} />
-          ) : (
-            <img src="/images/popup/websiteDetail/EtherscanUnverified.svg" height={20} />
-          )}
-        </a>
-      </Tooltip>
+      {addressDetails.etherscanLink && (
+        <Tooltip
+          hasArrow
+          label={addressDetails.addressType === AddressType.Contract ? addressDetails.etherscanVerified ? 'Verified contract' : 'Unverified contract' : 'View on Etherscan'}
+          bg="#212121"
+          placement="left"
+          color="white"
+          borderRadius={'5px'}
+          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+        >
+          <a href={addressDetails.etherscanLink} className={styles.zoom} target="_blank">
+            {addressDetails.etherscanVerified ? (
+              <img src="/images/popup/websiteDetail/EtherscanVerified.svg" height={20} />
+            ) : (
+              <img src="/images/popup/websiteDetail/EtherscanUnverified.svg" height={20} />
+            )}
+          </a>
+        </Tooltip>
+      )}
+
     </div>
   );
 }
