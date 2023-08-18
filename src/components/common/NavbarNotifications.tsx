@@ -10,5 +10,4 @@ export function NavbarNotifications() {
       <BsBellFill />
     </div>
   )
-
 }

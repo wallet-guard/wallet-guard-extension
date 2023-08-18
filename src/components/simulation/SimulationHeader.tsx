@@ -49,7 +49,7 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ recommendedA
         <img src="/images/wg_logos/logo_official.png" alt="" />
 
         <div style={{ display: 'flex', float: 'right', fontFamily: 'ArchivoBold' }}>
-          <NavbarNotifications />
+          {/* <NavbarNotifications /> */}
           <NavbarShareButton />
         </div>
       </div>
