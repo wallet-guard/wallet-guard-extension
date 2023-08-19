@@ -27,10 +27,10 @@ export function ChainDetail(props: ChainDetailProps) {
         return 'images/asset_logos/ethereum.png';
       case '42161':
       case '0xa4b1':
-        return 'images/asset_logos/polygon.png';
+        return 'images/asset_logos/arbitrum.png';
       case '137':
       case '0x89':
-        return 'images/asset_logos/arbitrum.png';
+        return 'images/asset_logos/matic.png';
     }
   }
 
@@ -39,7 +39,7 @@ export function ChainDetail(props: ChainDetailProps) {
 
   return (
     <div className={styles.row}>
-      <img src={assetLogo} style={{ height: '16px', marginRight: '5px' }} />
+      <img src={assetLogo} style={{ height: '18px', marginRight: '5px' }} />
       <p className={styles['text-md']}>{assetName}</p>
     </div>
   );
