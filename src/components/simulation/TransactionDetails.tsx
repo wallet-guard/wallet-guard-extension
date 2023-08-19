@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useState } from 'react';
+import React from 'react';
 import styles from './simulation.module.css';
 import { TransactionDetailLabel } from './SimulationSubComponents/transactionDetails/TransactionDetailLabel';
 import { ChainDetail } from './SimulationSubComponents/transactionDetails/ChainDetail';
@@ -16,7 +16,7 @@ export function TransactionDetails(props: SimulationBaseProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    // margin top accounts for the heading + tabs
+    // margin top accounts for the heading + tabs which are fixed position
     <div className="container" style={{ marginTop: '118px' }}>
       <div
         className={

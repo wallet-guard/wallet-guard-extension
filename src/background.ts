@@ -149,6 +149,13 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
     openDashboard('install');
   }
+
+  // Create a context menu item
+  chrome.contextMenus.create({
+    id: 'ask-chatweb3',
+    title: 'Ask ChatWeb3',
+    contexts: ['all'],
+  });
 });
 
 // STARTUP
@@ -158,14 +165,16 @@ chrome.runtime.onStartup.addListener(() => {
 });
 
 // Reject the current transaction if we close the simulation popup
-chrome.windows.onRemoved.addListener((windowId: number) => {
-  localStorageHelpers.get<StoredSimulation[]>(WgKeys.Simulations).then((res) => {
-    // Reject the simulation
-    if (res && res.length > 0) {
-      const id = res[0].id;
-      updateSimulationAction(id, StoredSimulationState.Rejected);
-    }
-  });
+chrome.windows.onRemoved.addListener(async (windowId: number) => {
+  if (currentPopup === windowId) {
+    localStorageHelpers.get<StoredSimulation[]>(WgKeys.Simulations).then((res) => {
+      // Reject the simulation
+      if (res && res.length > 0) {
+        const id = res[0].id;
+        updateSimulationAction(id, StoredSimulationState.Rejected);
+      }
+    });
+  }
 
   // If the user waits 30s before closing the window, the service worker loses context of the currentPopup so we may not always have this.
   if (currentPopup && currentPopup === windowId) {
@@ -180,7 +189,6 @@ chrome.windows.onRemoved.addListener((windowId: number) => {
   }
 });
 
-// TODO: Organize this. This is where that rejection bug happens
 chrome.storage.onChanged.addListener((changes, area) => {
   console.log('found localStorage changes');
   if (area === 'local' && changes[WgKeys.Simulations]?.newValue) {
@@ -207,12 +215,14 @@ chrome.storage.onChanged.addListener((changes, area) => {
       'New storage values'
     );
 
-    // todo: this has an inintended bug where closing out other popups closes the simulator window
     chrome.windows.getCurrent().then((current) => {
-      if (current.type === 'popup' && !oldFiltered.length && !newFiltered.length) {
+      if (!current || !current.width || !current.height) return;
+
+      if (current.type === 'popup' && !oldFiltered.length && !newFiltered.length && current.width === 420 && current.height === 840) {
         chrome.windows.remove(current.id || 0);
       }
-    })
+      return;
+    });
 
     if (!currentPopup && (!oldFiltered || newFiltered.length > oldFiltered.length)) {
       // Indicate we're creating a popup so we don't have many.
@@ -251,15 +261,6 @@ Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) =
   if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {
     remotePort.onMessage.addListener(contentScriptMessageHandler);
   }
-});
-
-chrome.runtime.onInstalled.addListener(() => {
-  // Create a context menu item
-  chrome.contextMenus.create({
-    id: 'ask-chatweb3',
-    title: 'Ask ChatWeb3',
-    contexts: ['all'],
-  });
 });
 
 // Listen for when the user clicks on the context menu item
