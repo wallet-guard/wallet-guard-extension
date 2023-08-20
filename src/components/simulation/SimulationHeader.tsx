@@ -1,26 +1,32 @@
 import React from 'react';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
-import styles from '../simulation/simulation.module.css';
-import { BsBellFill } from 'react-icons/bs';
 import { NavbarShareButton } from '../common/NavbarShareButton';
 import { NavbarNotifications } from '../common/NavbarNotifications';
 
 interface SimulationHeaderProps {
-  recommendedAction?: RecommendedActionType;
+  // Details are all or nothing
+  details?: {
+    recommendedAction: RecommendedActionType;
+    verified: boolean;
+  }
 }
 
-export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ recommendedAction }) => {
+export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ details }) => {
+  const recommendedAction = details?.recommendedAction || undefined;
+  const verified = details?.verified || false;
+
   function getHeaderColor() {
-    switch (recommendedAction) {
-      case RecommendedActionType.None:
-        return '#19FF00';
-      case RecommendedActionType.Warn:
-        return '#FF783E';
-      case RecommendedActionType.Block:
-        return '#F44B4C';
-      default:
-        return '#0b0b0b';
+    if (verified) {
+      return '#19FF00';
+    } else if (recommendedAction === RecommendedActionType.Block) {
+      return '#F44B4C';
+    } else if (recommendedAction === RecommendedActionType.Warn) {
+      return '#FF783E';
+    } else if (recommendedAction === RecommendedActionType.None) {
+      return '#646464'
     }
+
+    return '#0b0b0b';
   }
 
   const headerColor = getHeaderColor();

@@ -108,7 +108,7 @@ const Popup = () => {
       </ChakraProvider>
 
       <div className={styles.transactionHeadingFixed}>
-        <SimulationHeader recommendedAction={currentSimulation.simulation.recommendedAction} />
+        <SimulationHeader details={{ recommendedAction: currentSimulation.simulation.recommendedAction, verified: currentSimulation.simulation.scanResult.verified }} />
         <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
       </div>
 
