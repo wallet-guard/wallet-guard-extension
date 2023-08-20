@@ -6,6 +6,7 @@ import animations from '../../styles/CommonAnimations.module.css';
 import { CDN_URL_PROD } from '../../lib/environment';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
 import { getAssetLogo } from '../../lib/helpers/chainMappings';
+import { WebsiteVerificationBadge } from './SimulationSubComponents/WebsiteVerificationBadge';
 
 interface Metadata {
   name: string;
@@ -39,7 +40,7 @@ export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignPro
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const domainName = getDomainNameFromURL(currentSimulation.args.origin || '');
+      const domainName = getDomainNameFromURL(currentSimulation.args.origin);
       const response = await fetch(CDN_URL_PROD + `/url/metadata/${domainName}.json`);
       if (response.ok) {
         const data = await response.json();
@@ -91,9 +92,9 @@ export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignPro
                   className={`${hideOnLoading} ${shimmer}`}
                   style={{ display: 'flex', height: '15px', width: '15px', borderRadius: '50%' }}
                 >
-                  <img className={`${hideOnLoading}`} src={metadata.logo} />
+                  <WebsiteVerificationBadge verified={currentSimulation.simulation.scanResult.verified} recommendedAction={currentSimulation.simulation.recommendedAction} tooltipPosition='left' />
                 </div>
-                <p>{getDomainNameFromURL(currentSimulation.args.origin || '')}</p>
+                <p className='pl-1'>{getDomainNameFromURL(currentSimulation.args.origin)}</p>
               </div>
             </div>
 

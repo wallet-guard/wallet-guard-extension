@@ -101,14 +101,14 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                 src="/images/popup/green-verified.png"
                 alt=""
                 width={25}
-                className="pl-2 "
+                className="pl-2"
                 style={{ marginTop: '-15px', alignSelf: 'center' }}
               />
             </Tooltip>
           ) : scanResult?.domainName && scanResult.phishing === PhishingResult.Phishing ? (
             <Tooltip
               hasArrow
-              label={'Low Trust Website'}
+              label={'Potentially dangerous website'}
               bg="#212121"
               color="white"
               placement="right"
