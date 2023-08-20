@@ -2,10 +2,8 @@ import React from 'react';
 import { SimulationAssetTypes, SimulationChangeType, StateChange } from '../../../models/simulation/Transaction';
 import { NFTInfo } from './stateChangeSubComponents/NFTInfo';
 import {
+  ApprovalChange,
   RevokeApprovalForAll,
-  SetApproval,
-  SetApprovalForAll,
-  SetTokenApproval,
   TransferNFT,
   TransferToken,
 } from './stateChangeSubComponents/StateChangeSubComponents';
@@ -72,13 +70,13 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <SetApprovalForAll verified={props.scanResult.verified} symbol={stateChange.symbol} />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount='ALL' />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="receive" />
                       ) : (
-                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && <SetApproval verified={props.scanResult.verified} symbol={stateChange.symbol} />
+                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount={stateChange.amount} />
                       )}
                     </div>
                   ) : (
@@ -86,14 +84,14 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <SetApprovalForAll verified={props.scanResult.verified} symbol={stateChange.symbol} />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount='ALL' />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="receive" />
                       ) : (
                         stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
-                          <SetTokenApproval stateChange={stateChange} verified={props.scanResult.verified} />
+                          <ApprovalChange symbol={stateChange.symbol} verified={props.scanResult.verified} amount={stateChange.amount} />
                         )
                       )}
                     </div>

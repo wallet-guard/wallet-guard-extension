@@ -8,6 +8,7 @@ import { Spinner } from '@chakra-ui/react';
 import { chatWeb3QuestionsRefactored } from '../../../../../../lib/helpers/chatweb3/questions';
 import posthog from 'posthog-js';
 import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
+import { getCurrentSite } from '../../../../../../services/phishing/currentSiteService';
 
 interface Props {
   messageIsStreaming: boolean;
@@ -36,6 +37,10 @@ export const ChatInput: FC<Props> = ({
   useEffect(() => {
     if (storedSimulation) {
       setCurrentUrl(storedSimulation.simulation.scanResult.domainName);
+    } else {
+      getCurrentSite().then((current) => {
+        setCurrentUrl(current.domainName);
+      });
     }
   }, []);
 

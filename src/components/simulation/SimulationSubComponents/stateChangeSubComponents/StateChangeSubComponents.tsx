@@ -37,8 +37,16 @@ export const RevokeApprovalForAll = () => {
   );
 };
 
-// todo: convert this to ApprovalProps
-export const SetTokenApproval = ({ stateChange, verified }: { stateChange: StateChange; verified?: boolean }) => {
+
+interface ApprovalProps {
+  verified: boolean;
+  symbol: string;
+  amount: string;
+}
+
+export const ApprovalChange = (props: ApprovalProps) => {
+  const { verified, symbol, amount } = props;
+
   return (
     <>
       <h3
@@ -48,43 +56,8 @@ export const SetTokenApproval = ({ stateChange, verified }: { stateChange: State
         Giving approval
       </h3>
       <p style={{ color: verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
-        {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
+        {roundNumberIfNeccessary(amount)} {symbol}
       </p>
-    </>
-  );
-};
-
-interface ApprovalProps {
-  verified: boolean;
-  symbol: string;
-}
-
-export const SetApprovalForAll = (props: ApprovalProps) => {
-  return (
-    <>
-      <h3
-        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
-        className={`${styles['font-archivo-bold']}`}
-      >
-        Giving approval
-      </h3>
-      <p style={{ color: props.verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
-        ALL {props.symbol}
-      </p>
-    </>
-  );
-};
-
-export const SetApproval = (props: ApprovalProps) => {
-  return (
-    <>
-      {/* todo: add amount here */}
-      <h3
-        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
-        className={`${styles['font-archivo-bold']}`}
-      >
-        Approval to <br /> withdraw {props.symbol}
-      </h3>
     </>
   );
 };
