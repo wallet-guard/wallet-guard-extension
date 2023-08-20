@@ -34,11 +34,11 @@ export function ReportTransactionModal(props: ReportTransactionProps) {
 
   return (
     <ChakraProvider>
-      <Modal closeOnOverlayClick isOpen={isOpen} onClose={onClose}>
+      <Modal isCentered closeOnOverlayClick isOpen={isOpen} onClose={onClose}>
         <ModalOverlay backdropFilter="blur(1px)" />
 
-        <ModalContent>
-          <div style={{ width: '300px', marginLeft: '65px', position: 'absolute', top: '200px', left: '', height: '150px', background: '#212121', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <ModalContent alignItems={'center'}>
+          <div style={{ width: '300px', position: 'absolute', top: '-100px', height: '150px', background: '#212121', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <img src='/images/popup/x.png'
               width={12}
               style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }}

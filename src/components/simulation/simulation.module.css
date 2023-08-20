@@ -319,6 +319,11 @@
   cursor: pointer;
 }
 
+.simulationTab:hover {
+  color: #888888;
+  border-bottom: 1px solid #888888;
+}
+
 .simulationTabActive {
   border-bottom: 1px solid #ffffff;
   opacity: 100%;
