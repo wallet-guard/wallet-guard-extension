@@ -90,11 +90,11 @@ export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignPro
               <div className={styles['df-ac-g5']}>
                 <div
                   className={`${hideOnLoading} ${shimmer}`}
-                  style={{ display: 'flex', height: '15px', width: '15px', borderRadius: '50%' }}
+                  style={{ display: 'flex', height: '18px', width: '18px' }}
                 >
                   <WebsiteVerificationBadge verified={currentSimulation.simulation.scanResult.verified} recommendedAction={currentSimulation.simulation.recommendedAction} tooltipPosition='left' />
                 </div>
-                <p className='pl-1'>{getDomainNameFromURL(currentSimulation.args.origin)}</p>
+                <p className='ml-1'>{getDomainNameFromURL(currentSimulation.args.origin)}</p>
               </div>
             </div>
 
