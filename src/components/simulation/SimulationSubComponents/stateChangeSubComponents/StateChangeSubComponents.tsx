@@ -37,6 +37,7 @@ export const RevokeApprovalForAll = () => {
   );
 };
 
+// todo: convert this to ApprovalProps
 export const SetTokenApproval = ({ stateChange, verified }: { stateChange: StateChange; verified?: boolean }) => {
   return (
     <>
@@ -46,7 +47,7 @@ export const SetTokenApproval = ({ stateChange, verified }: { stateChange: State
       >
         Giving approval
       </h3>
-      <p style={{ color: '#646464', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
+      <p style={{ color: verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
         {roundNumberIfNeccessary(stateChange.amount)} {stateChange.symbol}
       </p>
     </>
@@ -61,15 +62,6 @@ interface ApprovalProps {
 export const SetApprovalForAll = (props: ApprovalProps) => {
   return (
     <>
-      {!props.verified && (
-        <img
-          src="/images/popup/websiteDetail/orange-danger.png"
-          alt=""
-          width={33}
-          style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
-        />
-      )}
-
       <h3
         style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
@@ -86,15 +78,6 @@ export const SetApprovalForAll = (props: ApprovalProps) => {
 export const SetApproval = (props: ApprovalProps) => {
   return (
     <>
-      {!props.verified && (
-        <img
-          src="/images/popup/websiteDetail/orange-danger.png"
-          alt=""
-          width={33}
-          style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
-        />
-      )}
-
       {/* todo: add amount here */}
       <h3
         style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
