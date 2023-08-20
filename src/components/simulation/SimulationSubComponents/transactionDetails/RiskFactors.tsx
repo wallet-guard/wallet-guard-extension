@@ -16,12 +16,6 @@ function mapRiskFactorValue(riskFactor: RiskFactor): string {
     return `Created ${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
   } else if (riskFactor.type === WarningType.MLInference) {
     return `Likely a phishing attempt on ${riskFactor.value}`;
-  } else if (
-    riskFactor.type === WarningType.BlurListing ||
-    riskFactor.type === WarningType.OpenseaListing ||
-    riskFactor.type == WarningType.LooksrareListing
-  ) {
-    return 'This website should NOT be able to list your assets.';
   }
 
   return '';

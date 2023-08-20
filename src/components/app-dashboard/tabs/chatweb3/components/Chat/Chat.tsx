@@ -7,7 +7,7 @@ import { Regenerate } from './Regenerate';
 import React from 'react';
 import '../../styles/chatweb3.css';
 import { Navbar } from './ChatWeb3Navbar';
-import { StoredSimulation } from '../../../../../../lib/simulation/storage';
+import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
 
 interface Props {
   conversation: Conversation;
@@ -17,12 +17,12 @@ interface Props {
   messageError: boolean;
   loading: boolean;
   lightMode: 'dark';
-  onSend: (message: Message, isResend: boolean, storedSimulation?: StoredSimulation) => void;
+  onSend: (message: Message, isResend: boolean, storedSimulation?: CompletedSuccessfulSimulation) => void;
   onUpdateConversation: (conversation: Conversation, data: KeyValuePair) => void;
   stopConversationRef: MutableRefObject<boolean>;
   showChatWeb3?: boolean;
   setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
-  storedSimulation?: StoredSimulation;
+  storedSimulation?: CompletedSuccessfulSimulation;
 }
 
 export const Chat: FC<Props> = ({
@@ -106,6 +106,7 @@ export const Chat: FC<Props> = ({
         ) : (
           <ChatInput
             stopConversationRef={stopConversationRef}
+            storedSimulation={storedSimulation}
             messageIsStreaming={messageIsStreaming}
             textareaRef={textareaRef}
             showChatWeb3={showChatWeb3}

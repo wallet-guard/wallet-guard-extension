@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useChat } from '../../../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
-import { StoredSimulation } from '../../../../../../lib/simulation/storage';
+import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
 import posthog from 'posthog-js';
 
 export const ChatWeb3Tab = ({
@@ -11,7 +11,7 @@ export const ChatWeb3Tab = ({
 }: {
   showChatWeb3?: boolean | undefined;
   setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
-  storedSimulation?: StoredSimulation | undefined;
+  storedSimulation?: CompletedSuccessfulSimulation | undefined;
 }) => {
   const [lightMode, setLightMode] = useState<'dark'>('dark');
   const {

@@ -6,7 +6,7 @@ import {
   StoredSimulationState,
   updateSimulationAction,
 } from '../../lib/simulation/storage';
-import { RecommendedActionType, SimulationSuccessResponse } from '../../models/simulation/Transaction';
+import { RecommendedActionType } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/SimulationButton.module.css';
 
 interface SimulationActionButton {

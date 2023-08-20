@@ -253,7 +253,7 @@ export const chatWeb3QuestionsRefactored: ChatWeb3QuestionsRefactored = {
   'opensea.io': [
     { original: 'What is Opensea?', reformatted: 'Can you explain to me what Opensea is?' },
     { original: 'How to list an NFT?', reformatted: 'How can I list an item on opensea?' },
-    { original: 'What are gas fees?', reformatted: 'What are gas gees on opensea?' },
+    { original: 'What is Seaport?', reformatted: 'What is Seaport?' },
     { original: 'What is NFT rarity?', reformatted: 'What is NFT rarity on opensea?' },
   ],
   'galxe.com': [
