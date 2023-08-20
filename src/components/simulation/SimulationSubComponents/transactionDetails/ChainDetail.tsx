@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styles from '../../simulation.module.css';
+import { getAssetLogo } from '../../../../lib/helpers/chainMappings';
 
 interface ChainDetailProps {
   chainId: string;
@@ -20,21 +21,7 @@ export function ChainDetail(props: ChainDetailProps) {
     }
   }
 
-  function getAssetLogo() {
-    switch (props.chainId) {
-      case '0x1':
-      case '1':
-        return 'images/asset_logos/ethereum.png';
-      case '42161':
-      case '0xa4b1':
-        return 'images/asset_logos/arbitrum.png';
-      case '137':
-      case '0x89':
-        return 'images/asset_logos/matic.png';
-    }
-  }
-
-  const assetLogo = getAssetLogo();
+  const assetLogo = getAssetLogo(props.chainId);
   const assetName = getAssetName();
 
   return (

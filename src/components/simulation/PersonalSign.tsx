@@ -5,6 +5,7 @@ import styles from '../../styles/simulation/PersonalSign/PersonalSign.module.css
 import animations from '../../styles/CommonAnimations.module.css';
 import { CDN_URL_PROD } from '../../lib/environment';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
+import { getAssetLogo } from '../../lib/helpers/chainMappings';
 
 interface Metadata {
   name: string;
@@ -25,7 +26,7 @@ interface PersonalSignProps {
 export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignProps) => {
   const { currentSimulation } = props;
   const [metadata, setMetadata] = useState<Metadata>(defaultMetadata);
-  const [chainLogoPath, setChainLogoPath] = useState<string>('/images/asset_logos/ethereum.png');
+  const [chainLogoPath, setChainLogoPath] = useState<string>('images/asset_logos/ethereum.png');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const formatEthereumAddress = (address: string): string => {
@@ -54,21 +55,8 @@ export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignPro
 
   // Set the chain logo path
   useEffect(() => {
-    switch (currentSimulation.args.chainId || '') {
-      case '1':
-      case '0x1':
-        setChainLogoPath('/images/asset_logos/ethereum.png');
-        break;
-      case '42161':
-      case '0xa4b1':
-      case '0xA4B1':
-        setChainLogoPath('/images/asset_logos/arbitrum.png');
-        break;
-      case '137':
-      case '0x89':
-        setChainLogoPath('/images/asset_logos/matic.png');
-        break;
-    }
+    const logoPath = getAssetLogo(currentSimulation.args.chainId);
+    setChainLogoPath(logoPath);
   }, []);
 
   const unveil = isLoading ? '' : animations['unveil'];
