@@ -161,7 +161,7 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'Why does this transaction need approvals?'
+                          ? 'What are approvals?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                             ? chatWeb3QuestionsRefactored[currentUrl][0].reformatted
                             : "What's a NFT?"
