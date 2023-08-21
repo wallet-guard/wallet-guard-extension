@@ -3,22 +3,12 @@ import styles from '../../simulation.module.css';
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Tooltip } from '@chakra-ui/react';
 import { RecommendedActionType, RiskFactor, Severity, WarningType } from '../../../../models/simulation/Transaction';
 import { WarningTwoIcon } from '@chakra-ui/icons';
+import { mapRiskFactorValue } from '../../../../lib/helpers/riskFactorsMapper';
 
 interface RiskFactorsProps {
   recommendedAction: RecommendedActionType;
   riskFactors: RiskFactor[];
   overviewMessage: string;
-}
-
-function mapRiskFactorValue(riskFactor: RiskFactor): string {
-  if (riskFactor.type === WarningType.RecentlyCreated) {
-    const daysAgo = Math.round(parseFloat(riskFactor.value || '') / 24);
-    return `Created ${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
-  } else if (riskFactor.type === WarningType.MLInference) {
-    return `Likely a phishing attempt on ${riskFactor.value}`;
-  }
-
-  return '';
 }
 
 function getWarningIcon(riskFactor: RiskFactor) {
@@ -51,7 +41,7 @@ function getWarningIcon(riskFactor: RiskFactor) {
       className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
       borderRadius={'5px'}
     >
-      <WarningTwoIcon color={riskColor} fontSize={'30px'} marginRight={'20px'} />
+      <WarningTwoIcon className={styles.zoom} color={riskColor} fontSize={'30px'} marginRight={'20px'} />
     </Tooltip>
   );
 }
