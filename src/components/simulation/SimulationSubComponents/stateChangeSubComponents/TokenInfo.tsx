@@ -1,4 +1,3 @@
-import { Tooltip } from '@chakra-ui/react';
 import React from 'react';
 import { StateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
@@ -12,7 +11,7 @@ export interface StateChangesComponentProps {
 export const TokenInfo = (props: StateChangesComponentProps) => {
   return (
     <div className={styles.assetChangeLeftColumn}>
-      <AssetChangeImage imageURL={props.stateChange.logo} />
+      <AssetChangeImage imageURL={props.stateChange.logo || props.stateChange.tokenURI} />
       {props.stateChange.coinmarketcapLink ? (
         <a href={props.stateChange.coinmarketcapLink} target="_blank" className={`${styles['links']}`}>
           <h3

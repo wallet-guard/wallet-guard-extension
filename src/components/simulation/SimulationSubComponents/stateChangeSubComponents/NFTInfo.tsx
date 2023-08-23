@@ -12,7 +12,7 @@ export interface StateChangesComponentProps {
 export const NFTInfo = (props: StateChangesComponentProps) => {
   return (
     <div className={styles.assetChangeLeftColumn}>
-      <AssetChangeImage imageURL={props.stateChange.tokenURI} />
+      <AssetChangeImage imageURL={props.stateChange.tokenURI || props.stateChange.logo} />
       <div>
         {props.stateChange.openSeaLink ? (
           <a href={props.stateChange.openSeaLink} target="_blank" className={`${styles['links']}`}>
@@ -23,8 +23,8 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
               {props.stateChange.tokenName
                 ? add3Dots(props.stateChange.tokenName, 18)
                 : props.stateChange.tokenID
-                ? props.stateChange.tokenID
-                : 'Unknown'}
+                  ? props.stateChange.tokenID
+                  : 'Unknown'}
             </p>
           </a>
         ) : (
@@ -35,8 +35,8 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
             {props.stateChange.tokenName
               ? add3Dots(props.stateChange.tokenName, 18)
               : props.stateChange.tokenID
-              ? props.stateChange.tokenID
-              : 'Unknown'}
+                ? props.stateChange.tokenID
+                : 'Unknown'}
           </p>
         )}
 

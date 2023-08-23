@@ -4,14 +4,14 @@ import { StateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 
 function roundNumberIfNeccessary(num: string): string {
-  if (num.includes('ALL')) return num; // we include ALL on some transactions
+  if (num.includes('ALL')) return num; // we include ALL on some transactions. this is a bit hacky but it works for now
 
   // if the integer part of the number is very large, we can assume it is ALL
   const findDecimal = num.indexOf('.');
-
   if (num.substring(0, findDecimal).length > 15) {
     return 'ALL';
   }
+
   let result = Number(num).toFixed(4);
 
   // Remove any trailing 0s
