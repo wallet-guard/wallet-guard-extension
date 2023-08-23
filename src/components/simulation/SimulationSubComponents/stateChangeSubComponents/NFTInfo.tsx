@@ -15,7 +15,9 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
     <div className={styles.assetChangeLeftColumn}>
       <AssetChangeImage imageURL={props.stateChange.tokenURI || props.stateChange.logo} />
       <div>
-        {props.stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ?
+        {props.stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ||
+          props.stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ||
+          props.stateChange.changeType === SimulationChangeType.ChangeTypeApprove ?
           <RevokingNFTApproval stateChange={props.stateChange} />
           : <NFTInfoAssetChange stateChange={props.stateChange} />
         }
@@ -32,7 +34,7 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
         className={`${styles['font-archivo-bold']} pl-3`}
       >
         {props.stateChange.tokenName
-          ? add3Dots(props.stateChange.tokenName, 18)
+          ? add3Dots(props.stateChange.tokenName, 13)
           : props.stateChange.tokenID
             ? props.stateChange.tokenID
             : 'Unknown'}

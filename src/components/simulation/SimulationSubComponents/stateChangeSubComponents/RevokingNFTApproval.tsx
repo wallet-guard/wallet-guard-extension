@@ -36,7 +36,7 @@ function RevokingHeader({ name }: { name: string }) {
       style={{ color: 'white', fontSize: '18px', marginBottom: 0 }}
       className={`${styles['font-archivo-bold']} pl-3`}
     >
-      {name ? add3Dots(name, 18) : 'Unknown'}
+      {name ? add3Dots(name, 13) : 'Unknown'}
     </p>
   )
 }
