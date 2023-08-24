@@ -7,7 +7,7 @@ import { Regenerate } from './Regenerate';
 import React from 'react';
 import '../../styles/chatweb3.css';
 import { Navbar } from './ChatWeb3Navbar';
-import { StoredSimulation } from '../../../../../../lib/simulation/storage';
+import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
 
 interface Props {
   conversation: Conversation;
@@ -17,12 +17,12 @@ interface Props {
   messageError: boolean;
   loading: boolean;
   lightMode: 'dark';
-  onSend: (message: Message, isResend: boolean, storedSimulation?: StoredSimulation) => void;
+  onSend: (message: Message, isResend: boolean, storedSimulation?: CompletedSuccessfulSimulation) => void;
   onUpdateConversation: (conversation: Conversation, data: KeyValuePair) => void;
   stopConversationRef: MutableRefObject<boolean>;
   showChatWeb3?: boolean;
   setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
-  storedSimulation?: StoredSimulation;
+  storedSimulation?: CompletedSuccessfulSimulation;
 }
 
 export const Chat: FC<Props> = ({
@@ -73,27 +73,25 @@ export const Chat: FC<Props> = ({
   return (
     <div
       style={{
-        position: 'relative',
         flex: 1,
-        maxHeight: '100%',
-        minHeight: '100vh',
-        backgroundColor: '#161616',
       }}
     >
-      <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
-
+      {/* only show this navbar when there is no simulation. if this is true, the source of the request was the hotkey */}
+      {!storedSimulation && (
+        <Navbar showChatWeb3={showChatWeb3} setShowChatWeb3={setShowChatWeb3} />
+      )}
       {conversation?.messages.length === 0 ? (
         <>
-          <div style={{ height: '162px', backgroundColor: '#151515' }} ref={messagesEndRef} />
+          <div style={{ height: '162px' }} ref={messagesEndRef} />
         </>
       ) : (
         <>
           {conversation?.messages &&
-            conversation?.messages.map((message, index) => <ChatMessage key={index} message={message} index={index} />)}
+            conversation?.messages.map((message, index) => <ChatMessage key={index} message={message} index={index} source={storedSimulation ? 'simulation' : 'hotkey'} />)}
 
           {loading && <ChatLoader />}
 
-          <div style={{ height: '184px', backgroundColor: '#151515' }} ref={messagesEndRef} />
+          <div style={{ height: '184px' }} ref={messagesEndRef} />
         </>
       )}
       <>
@@ -108,6 +106,7 @@ export const Chat: FC<Props> = ({
         ) : (
           <ChatInput
             stopConversationRef={stopConversationRef}
+            storedSimulation={storedSimulation}
             messageIsStreaming={messageIsStreaming}
             textareaRef={textareaRef}
             showChatWeb3={showChatWeb3}

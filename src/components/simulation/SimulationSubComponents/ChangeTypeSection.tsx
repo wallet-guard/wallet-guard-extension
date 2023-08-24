@@ -1,47 +1,26 @@
 import React from 'react';
-import { SimulationStateChange } from '../../../models/simulation/Transaction';
+import { SimulatedGas, StateChange } from '../../../models/simulation/Transaction';
 import { StateChangesComponent } from './StateChangesComponent';
-import styles from '../simulation.module.css';
 import { PhishingResponse } from '../../../models/PhishingResponse';
+import { ChangeTypeHeading } from './stateChangeSubComponents/StateChangeTypeHeading';
 
 export interface ChangeTypeSectionProps {
-  stateChanges?: SimulationStateChange[];
+  stateChanges?: StateChange[];
   title: string;
   scanResult: PhishingResponse;
+  iconPath: string;
+  gas?: SimulatedGas;
 }
 
 export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
   return (
-    <div>
-      <div className="pl-3 pr-3 pt-3 pb-2 container">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <h5
-                className={`${styles['font-archivo-medium']} card-title pb-1`}
-                style={{ color: '#a8a8a8', fontSize: '20px', marginTop: '-4px' }}
-              >
-                {props.title}
-              </h5>
-            </div>
-          </div>
-        </div>
-        <div
-          className="card"
-          style={{
-            width: '100%',
-            backgroundColor: '#2b2b2b',
-            borderRadius: '.5em',
-            borderColor: '#515151',
-          }}
-        >
-          <div className="card-body">
-            {props.stateChanges && (
-              <StateChangesComponent simulationStateChanges={props.stateChanges} scanResult={props.scanResult} />
-            )}
-          </div>
-        </div>
+    <>
+      <div className="px-3 pt-3">
+        <ChangeTypeHeading title={props.title} iconPath={props.iconPath} gas={props.gas} />
+        {props.stateChanges && (
+          <StateChangesComponent simulationStateChanges={props.stateChanges} scanResult={props.scanResult} />
+        )}
       </div>
-    </div>
+    </>
   );
 };

@@ -1,65 +1,64 @@
-import { faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { Dispatch, SetStateAction } from 'react';
-import { TwitterShareButton } from 'react-share';
-import styles from './simulation.module.css';
-import { StoredSimulation } from '../../lib/simulation/storage';
+import React from 'react';
+import { RecommendedActionType } from '../../models/simulation/Transaction';
+import { NavbarShareButton } from '../common/NavbarShareButton';
+import { NavbarNotifications } from '../common/NavbarNotifications';
 
 interface SimulationHeaderProps {
-  storedSimulation?: StoredSimulation;
-  showChatWeb3?: boolean | undefined;
-  setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
+  // Details are all or nothing
+  details?: {
+    recommendedAction: RecommendedActionType;
+    verified: boolean;
+  }
 }
 
-export const SimulationHeader: React.FC<SimulationHeaderProps> = ({
-  showChatWeb3,
-  setShowChatWeb3,
-  storedSimulation,
-}) => {
+export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ details }) => {
+  const recommendedAction = details?.recommendedAction || undefined;
+  const verified = details?.verified || false;
+
+  function getHeaderColor() {
+    if (verified) {
+      return '#19FF00';
+    } else if (recommendedAction === RecommendedActionType.Block) {
+      return '#F44B4C';
+    } else if (recommendedAction === RecommendedActionType.Warn) {
+      return '#FF783E';
+    } else if (recommendedAction === RecommendedActionType.None) {
+      return '#646464'
+    }
+
+    return '#0b0b0b';
+  }
+
+  const headerColor = getHeaderColor();
+
   return (
-    <>
-      <div className="justify-content-between" style={{ display: 'flex' }}>
-        <div>
-          <img src="/images/wg_logos/Wallpaper-Transparent.png" alt="" width={'175px'} />
-        </div>
+    <div className="container">
+      <div
+        style={{
+          height: '2px',
+          width: '100vw',
+          position: 'absolute',
+          left: 0,
+          background: headerColor,
+          boxShadow: `0 2px 10px ${headerColor}`,
+          opacity: '80%',
+        }}
+      />
+      <div
+        className="justify-content-between"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          height: '70px',
+        }}
+      >
+        <img src="/images/wg_logos/logo_official.png" alt="" />
 
-        <div style={{ float: 'right', paddingTop: '30px', paddingRight: '20px' }}>
-          <TwitterShareButton
-            url={'https://walletguard.app'}
-            title={'Join myself and 20,000+ others who are protecting our assets with Wallet Guard'}
-            via={'wallet_guard'}
-          >
-            <a style={{ color: 'white' }} className="btn btn-dark">
-              <div>
-                <FontAwesomeIcon icon={faTwitter} size="lg" />
-              </div>
-            </a>
-          </TwitterShareButton>
-
-          {setShowChatWeb3 && (
-            <button
-              style={{ color: 'white' }}
-              className="btn btn-dark ml-2"
-              onClick={() => {
-                setShowChatWeb3(!showChatWeb3);
-              }}
-            >
-              <div style={{ display: 'flex' }}>
-                <img
-                  src="/images/wg_logos/Logo-Large-Transparent.png"
-                  alt=""
-                  width={'18px'}
-                  style={{ alignSelf: 'center', marginRight: '1px' }}
-                />
-
-                <b className={`${styles['font-archivo-medium']} pr-2 pl-1`} style={{ fontWeight: 'normal' }}>
-                  ChatWeb3
-                </b>
-              </div>
-            </button>
-          )}
+        <div style={{ display: 'flex', float: 'right', fontFamily: 'ArchivoBold' }}>
+          {/* <NavbarNotifications /> */}
+          <NavbarShareButton />
         </div>
       </div>
-    </>
+    </div>
   );
 };

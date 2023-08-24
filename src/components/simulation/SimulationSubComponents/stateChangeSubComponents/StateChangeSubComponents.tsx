@@ -1,9 +1,17 @@
 import { Tooltip } from '@chakra-ui/tooltip';
 import React from 'react';
-import { SimulationStateChange } from '../../../../models/simulation/Transaction';
+import { StateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 
 function roundNumberIfNeccessary(num: string): string {
+  if (num.includes('ALL')) return num; // we include ALL on some transactions. this is a bit hacky but it works for now
+
+  // if the integer part of the number is very large, we can assume it is ALL
+  const findDecimal = num.indexOf('.');
+  if (num.substring(0, findDecimal).length > 15) {
+    return 'ALL';
+  }
+
   let result = Number(num).toFixed(4);
 
   // Remove any trailing 0s
@@ -22,105 +30,54 @@ function roundNumberIfNeccessary(num: string): string {
 export const RevokeApprovalForAll = () => {
   return (
     <>
-      <h3 style={{ color: '#17FE00', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        <b>
-          Revoking permission <br /> to withdraw ALL
-        </b>
+      <h3 style={{ color: 'white', fontSize: '16px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
+        Revoking approval
       </h3>
     </>
   );
 };
 
-export const SetTokenApproval = ({ stateChange }: { stateChange: SimulationStateChange }) => {
-  return (
-    <>
-      <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        <b>
-          Permission to <br /> withdraw {stateChange.symbol}
-        </b>
-      </h3>
-    </>
-  );
-};
 
-interface SetApprovalForAllProps {
-  verified?: boolean;
+interface ApprovalProps {
+  verified: boolean;
+  symbol: string;
+  amount: string;
 }
 
-export const SetApprovalForAll = (props: SetApprovalForAllProps) => {
+export const ApprovalChange = (props: ApprovalProps) => {
+  const { verified, symbol, amount } = props;
+
   return (
     <>
-      {!props.verified && (
-        <img
-          src="/images/popup/orange-danger.png"
-          alt=""
-          width={33}
-          style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
-        />
-      )}
-
       <h3
-        style={{ color: props.verified ? 'white' : '#fb4b4b', fontSize: '16px' }}
+        style={{ color: verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        <b>
-          Permission to <br /> withdraw ALL
-        </b>
+        Giving approval
       </h3>
+      <p style={{ color: verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
+        {roundNumberIfNeccessary(amount)} {symbol}
+      </p>
     </>
   );
 };
 
-export const SetApproval = () => {
-  return (
-    <>
-      <img
-        src="/images/popup/orange-danger.png"
-        alt=""
-        width={33}
-        style={{ alignSelf: 'center', paddingRight: '10px', marginBottom: '10px' }}
-      />
-      <h3 style={{ color: '#fb4b4b', fontSize: '16px' }} className={`${styles['font-archivo-bold']}`}>
-        <b>
-          Permission to <br /> withdraw NFT
-        </b>
-      </h3>
-    </>
-  );
-};
+type TransferType = 'send' | 'receive';
 
 interface TransferAssetProps {
-  type: 'send' | 'receive';
-  stateChange: SimulationStateChange;
+  type: TransferType;
+  stateChange: StateChange;
 }
 
 export const TransferNFT = (props: TransferAssetProps) => {
   return (
     <>
-      <h3
-        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
-        className={`${styles['font-archivo-bold']}`}
-      >
-        <b>{props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}</b>
-      </h3>
-      {props.stateChange.fiatValue !== '' && (
-        <Tooltip
-          hasArrow
-          label="OpenSea floor price"
-          placement="left"
-          bg="#212121"
-          color="white"
-          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-          style={{ borderRadius: '2em' }}
-        >
-          <p
-            style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0 }}
-            className={`${styles['font-archivo-medium']}`}
-          >
-            <b>${Number(props.stateChange.fiatValue).toFixed(2)}</b>
-          </p>
-        </Tooltip>
-      )}
+      <TransferValueHeading
+        title={props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}
+        type={props.type}
+      />
+
+      <TransferValueSubHeading type={props.type} fiatValue={props.stateChange.fiatValue} isNFT />
     </>
   );
 };
@@ -128,22 +85,56 @@ export const TransferNFT = (props: TransferAssetProps) => {
 export const TransferToken = (props: TransferAssetProps) => {
   return (
     <>
-      <h3
-        style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
-        className={`${styles['font-archivo-bold']}`}
-      >
-        <b>
-          {roundNumberIfNeccessary(props.stateChange.amount)} {props.stateChange.symbol}
-        </b>
-      </h3>
-      {props.stateChange.fiatValue !== '' && (
-        <p
-          style={{ color: props.type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0 }}
-          className={`${styles['font-archivo-medium']}`}
-        >
-          <b>${Number(props.stateChange.fiatValue).toFixed(2)}</b>
-        </p>
-      )}
+      <TransferValueHeading
+        title={`${roundNumberIfNeccessary(props.stateChange.amount)} ${props.stateChange.symbol}`}
+        type={props.type}
+      />
+      <TransferValueSubHeading type={props.type} fiatValue={props.stateChange.fiatValue} />
     </>
   );
 };
+
+function TransferValueHeading({ title, type }: { title: string; type: TransferType }) {
+  return (
+    <h3
+      style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
+      className={`${styles['font-archivo-bold']}`}
+    >
+      {title}
+    </h3>
+  );
+}
+
+function TransferValueSubHeading({
+  fiatValue,
+  type,
+  isNFT,
+}: {
+  fiatValue: string;
+  type: TransferType;
+  isNFT?: boolean;
+}) {
+  if (!fiatValue) return <></>;
+
+  return (
+    <>
+      <Tooltip
+        hidden={!isNFT}
+        hasArrow
+        label="OpenSea floor price"
+        placement="left"
+        bg="#212121"
+        color="white"
+        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+        borderRadius={'5px'}
+      >
+        <p
+          style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '16px' }}
+          className={`${styles['font-archivo-medium']}`}
+        >
+          ${Number(fiatValue).toFixed(2)}
+        </p>
+      </Tooltip>
+    </>
+  );
+}

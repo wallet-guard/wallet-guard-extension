@@ -191,7 +191,7 @@ export function PhishingWarning() {
               </Button>
             )}
             <Button variant="link" onClick={openProceedAnyway}>
-              Proceed Anyway
+              Proceed anyway
             </Button>
           </Stack>
           <Tooltip

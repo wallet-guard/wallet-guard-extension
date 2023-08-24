@@ -3,7 +3,7 @@ import styles from '../../simulation.module.css';
 import { posthog } from 'posthog-js';
 import { ErrorComponentProps } from './GeneralError';
 import { SimulationHeader } from '../../SimulationHeader';
-import { ConfirmSimulationButton } from '../../ConfirmSimulationButton';
+import { ConfirmSimulationButton } from '../../SimulationButton';
 import { BypassedSimulationButton } from '../BypassButton';
 import { PhishingResponse, PhishingResult } from '../../../../models/PhishingResponse';
 import { Tooltip } from '@chakra-ui/react';
@@ -26,7 +26,7 @@ export default function UnsupportedSignatureComponent(props: ErrorComponentProps
       <div className="row text-center pl-4 pr-4" style={{ justifyContent: 'center' }}>
         {!requestedProject ? (
           <UnsupportedProjectComponent
-            scanResult={currentSimulation.simulation?.scanResult}
+            scanResult={currentSimulation.simulation.scanResult}
             votedSuccessfullyCB={handleSubmission}
           />
         ) : (
@@ -101,14 +101,14 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                 src="/images/popup/green-verified.png"
                 alt=""
                 width={25}
-                className="pl-2 "
+                className="pl-2"
                 style={{ marginTop: '-15px', alignSelf: 'center' }}
               />
             </Tooltip>
           ) : scanResult?.domainName && scanResult.phishing === PhishingResult.Phishing ? (
             <Tooltip
               hasArrow
-              label={'Low Trust Website'}
+              label={'Potentially dangerous website'}
               bg="#212121"
               color="white"
               placement="right"

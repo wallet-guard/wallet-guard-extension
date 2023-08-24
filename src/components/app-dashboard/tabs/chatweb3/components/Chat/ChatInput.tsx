@@ -1,14 +1,15 @@
 import { IconSend } from '@tabler/icons-react';
-import { FC, KeyboardEvent, MutableRefObject, useEffect, useRef, useState } from 'react';
+import { FC, KeyboardEvent, MutableRefObject, useEffect, useState } from 'react';
 import React from 'react';
 import { Button, ButtonGroup } from '@chakra-ui/react';
 import { Message, OpenAIModel, OpenAIModelID } from '../../../../../../models/chatweb3/chatweb3';
 import '../../styles/chatweb3.css';
-
 import { Spinner } from '@chakra-ui/react';
-import { getDomainNameFromURL } from '../../../../../../lib/helpers/phishing/parseDomainHelper';
 import { chatWeb3QuestionsRefactored } from '../../../../../../lib/helpers/chatweb3/questions';
 import posthog from 'posthog-js';
+import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
+import { getCurrentSite } from '../../../../../../services/phishing/currentSiteService';
+
 interface Props {
   messageIsStreaming: boolean;
   onSend: (message: Message) => void;
@@ -16,6 +17,7 @@ interface Props {
   stopConversationRef: MutableRefObject<boolean>;
   textareaRef: MutableRefObject<HTMLTextAreaElement | null>;
   showChatWeb3?: boolean;
+  storedSimulation?: CompletedSuccessfulSimulation;
 }
 
 export const ChatInput: FC<Props> = ({
@@ -25,19 +27,21 @@ export const ChatInput: FC<Props> = ({
   stopConversationRef,
   textareaRef,
   showChatWeb3,
+  storedSimulation
 }) => {
   const [content, setContent] = useState<string>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [currentUrl, setCurrentUrl] = useState<string | undefined>('');
-
   const [hideOnLargeScreens, setHideOnLargeScreens] = useState(false);
 
   useEffect(() => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: false }, function (tabs) {
-      if (tabs && tabs[0] && tabs[0].url) {
-        setCurrentUrl(getDomainNameFromURL(tabs[0].url));
-      }
-    });
+    if (storedSimulation) {
+      setCurrentUrl(storedSimulation.simulation.scanResult.domainName);
+    } else {
+      getCurrentSite().then((current) => {
+        setCurrentUrl(current.domainName);
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -130,7 +134,6 @@ export const ChatInput: FC<Props> = ({
         position: 'absolute',
         bottom: '0',
         borderTop: 'transparent',
-        background: 'linear-gradient(to bottom, #151515, #151515, #151515)',
         paddingTop: '1.5rem',
         width: '100%',
       }}
@@ -158,18 +161,18 @@ export const ChatInput: FC<Props> = ({
                     onClick={() => {
                       handleSend(
                         showChatWeb3
-                          ? 'Why does this transaction need approvals?'
+                          ? 'What are approvals?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
-                          ? chatWeb3QuestionsRefactored[currentUrl][0].reformatted
-                          : "What's a NFT?"
+                            ? chatWeb3QuestionsRefactored[currentUrl][0].reformatted
+                            : "What's a NFT?"
                       );
                     }}
                   >
                     {showChatWeb3
-                      ? 'Tx needs approvals?'
+                      ? 'What are approvals?'
                       : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
-                      ? chatWeb3QuestionsRefactored[currentUrl][0].original
-                      : "What's a NFT?"}
+                        ? chatWeb3QuestionsRefactored[currentUrl][0].original
+                        : "What's a NFT?"}
                   </Button>
                   <Button
                     onClick={() => {
@@ -177,16 +180,16 @@ export const ChatInput: FC<Props> = ({
                         showChatWeb3
                           ? 'What risk metrics are associated with this transaction?'
                           : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
-                          ? chatWeb3QuestionsRefactored[currentUrl][1].reformatted
-                          : "What's a DApp?"
+                            ? chatWeb3QuestionsRefactored[currentUrl][1].reformatted
+                            : "What's a DApp?"
                       );
                     }}
                   >
                     {showChatWeb3
-                      ? 'Is this suspicious?'
+                      ? 'Explain this transaction'
                       : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
-                      ? chatWeb3QuestionsRefactored[currentUrl][1].original
-                      : "What's a DApp?"}
+                        ? chatWeb3QuestionsRefactored[currentUrl][1].original
+                        : "What's a DApp?"}
                   </Button>
                 </ButtonGroup>
               </div>
@@ -195,38 +198,28 @@ export const ChatInput: FC<Props> = ({
                   <Button
                     onClick={() => {
                       handleSend(
-                        showChatWeb3
-                          ? 'What assets are being sent in this transaction?'
-                          : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                        currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][2].reformatted
                           : 'Define smart contracts?'
                       );
                     }}
                   >
-                    {showChatWeb3
-                      ? 'Sending & receiving?'
-                      : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                    {currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                       ? chatWeb3QuestionsRefactored[currentUrl][2].original
                       : 'Define smart contracts?'}
                   </Button>
                   <Button
                     onClick={() => {
                       handleSend(
-                        showChatWeb3
-                          ? 'What are the state changes in this transaction?'
-                          : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                        currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][3].reformatted
                           : "What's gas fees?"
                       );
                     }}
                   >
-                    {showChatWeb3
-                      ? 'Asset Changes?'
-                      : currentUrl && chatWeb3QuestionsRefactored[currentUrl]
+                    {currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                       ? chatWeb3QuestionsRefactored[currentUrl][3].original
                       : "What's gas fees?"}
-
-                    {/* Approval significance? */}
                   </Button>
                 </ButtonGroup>
               </div>

@@ -1,0 +1,11 @@
+.buttonWithIcon {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  padding: 8px;
+  border: 1px solid #5a5a5a;
+  background-color: #0b0b0b;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}

@@ -44,22 +44,10 @@
   padding-bottom: 1.5rem !important;
 }
 
-.confirm-button {
-  min-width: 100px;
-  border-radius: .5em;
-  background-color: #ffffff;
-  border-color: #7e7e7e;
-  color: black;
-  font-weight: 500;
-  width: 90%;
-  padding-bottom: 12px;
-  padding-top: 12px;
-}
-
 .reject-button {
   min-width: 100px;
   border-radius: .5em;
-  background-color: #0e0e0e;
+  background-color: #0b0b0b;
   border-color: white;
   font-weight: 500;
   color: white;
@@ -90,8 +78,13 @@
   background-color: #3E3E3E;
 }
 
+.zoom {
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+  transform: scale(1);
+}
+
 .zoom:hover {
-  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  transform: scale(1.25);
 }
 
 @font-face {
@@ -99,70 +92,267 @@
   src: local("ArchivoBold"),
    url("../../fonts/Archivo-Bold.ttf") format("truetype");
   font-weight: bold;
-  }
+}
 
-  @font-face {
-    font-family: "ArchivoMedium";
-    src: local("ArchivoMedium"),
-     url("../../fonts/Archivo-Medium.ttf") format("truetype");
-  }
+@font-face {
+  font-family: "ArchivoSemiBold";
+  src: local("ArchivoSemiBold"),
+    url("../../fonts/Archivo-SemiBold.ttf") format("truetype");
+  font-weight: bold;
+}
 
-  @font-face {
-    font-family: "ArchivoSemiBold";
-    src: local("ArchivoSemiBold"),
-      url("../../fonts/Archivo-SemiBold.ttf") format("truetype");
-  }
+@font-face {
+  font-family: "ArchivoMedium";
+  src: local("ArchivoMedium"),
+    url("../../fonts/Archivo-Medium.ttf") format("truetype");
+}
 
-  .font-archivo-medium {
-    font-family: "ArchivoMedium";
-  }
+@font-face {
+  font-family: "ArchivoRegular";
+  src: local("ArchivoRegular"),
+    url("../../fonts/Archivo-Regular.ttf") format("truetype");
+}
 
-  .font-archivo-bold {
-    font-family: "ArchivoBold";
-  }
+@font-face {
+  font-family: "InterMedium";
+  src: local("InterMedium"),
+    url("../../fonts/Inter-Medium.ttf") format("truetype");
+}
 
-  .font-archivo-semibold {
-    font-family: "ArchivoSemiBold";
-  }
+@font-face {
+  font-family: "InterRegular";
+  src: local("InterRegular"),
+    url("../../fonts/Inter-Regular.ttf") format("truetype");
+}
 
-  .links:hover {
-    text-decoration: underline solid #ffffff;
-  }
+.font-archivo-medium {
+  font-family: "ArchivoMedium";
+}
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
+.font-archivo-semibold {
+  font-family: "ArchivoSemiBold";
+}
 
-  .assetChangeRow {
-    margin-bottom: 20px;
-  }
+.font-archivo-bold {
+  font-family: "ArchivoBold";
+}
 
-  .assetChangeRow:last-child {
-    margin-bottom: 0px;
-  }
+.links:hover {
+  text-decoration: underline solid #ffffff;
+}
 
-  /* Takes up the remaining space left by assetChangeRightColumn */
-  .assetChangeLeftColumn {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-basis: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+::-webkit-scrollbar {
+  display: none;
+}
 
-  /* Takes up 100% of width depending on the content, up to 40% of the row */
-  .assetChangeRightColumn {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: right;
-    flex-basis: auto;
-    flex-grow: 0;
-    flex-shrink: 1;
-    padding-left: 15px;
-    padding-right: 15px;
-    max-width: 40%;
-  }
+.assetChangeRow {
+  margin-bottom: 0.5rem;
+  height: 70px;
+  background: linear-gradient(to right, #141414, #0d0d0d00);
+  border-top: 1px solid #303030;  border-left: 1px solid #272727;
+  border-left: 1px solid #272727;
+  border-right: 1px solid #272727;
+  border-bottom: 1px solid #1f1f1f;
+  border-radius: 16px;
+}
+
+/* Takes up the remaining space left by assetChangeRightColumn */
+.assetChangeLeftColumn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding-left: 15px;
+}
+
+/* Takes up 100% of width depending on the content, up to 50% of the row */
+.assetChangeRightColumn {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: right;
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 1;
+  padding-right: 15px;
+  max-width: 50%;
+}
+
+.reportButton {
+  position: absolute;
+  right: 35px;
+  margin-top: 50px;
+  padding: 8px;
+  background: #212121;
+  border-radius: 8px;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 0px;
+  color: #F44B4C;
+  cursor: pointer;
+
+  /* animation */
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: top right;
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+}
+
+.reportButton.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reportButton > p {
+  margin-bottom: 0;
+}
+
+.transactionDetailsCard {
+  background: linear-gradient(to right, #141414, #0d0d0d00);
+  border-top: 1px solid #303030;
+  border-left: 1px solid #272727;
+  border-right: 1px solid #272727;
+  border-bottom: 1px solid #1f1f1f;
+  border-radius: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.transactionDetailsCardWithWarnings {
+  background: linear-gradient(to right, #141414, #0d0d0d00);
+  border-top: 1px solid #303030;
+  border-left: 1px solid #272727;
+  border-right: 1px solid #272727;
+  border-bottom: 1px solid #1f1f1f;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.label-sm {
+  color: #646464;
+  font-size: 12px;
+  margin-bottom: 5px;
+  font-family: "ArchivoRegular";
+  text-transform: uppercase;
+}
+
+.label-md {
+  color: #646464;
+  font-size: 14px;
+  margin-bottom: 0px;
+  font-family: "ArchivoRegular";
+  text-transform: uppercase;
+}
+
+.text-sm {
+  color: #ffffff;
+  font-size: 14px;
+  margin-bottom: 0px;
+  font-family: "ArchivoMedium";
+}
+
+.text-md {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 0px;
+  font-family: "ArchivoMedium";
+}
+
+.heading-md {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 0px;
+  font-family: "ArchivoSemiBold";
+  text-transform: uppercase;
+}
+
+/* generic row class that uses flexbox and center vertical alignment */
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.riskFactorHeader {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 0px;
+  font-family: "InterMedium";
+}
+
+.riskFactorValue {
+  color: #646464;
+  font-size: 14px;
+  margin-bottom: 0px;
+  font-family: "InterRegular";
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: #646464;
+  opacity: 50%;
+}
+
+.divider:last-of-type {
+  display: none;
+}
+
+.simulationTab {
+  border-bottom: 1px solid #646464;
+  width: 50%;
+  font-family: 'InterRegular';
+  font-size: 14px;
+  color: #646464;
+  cursor: pointer;
+}
+
+.simulationTab:hover {
+  color: #888888;
+  border-bottom: 1px solid #888888;
+}
+
+.simulationTabActive {
+  border-bottom: 1px solid #ffffff;
+  opacity: 100%;
+  width: 50%;
+  font-family: 'InterRegular';
+  font-size: 14px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.reportFlag {
+  cursor: pointer;
+  margin-right: 5px;
+  font-size: 14px;
+  transition: transform 100ms ease-out, opacity 100ms ease-out;
+  transform: scale(1);
+}
+
+.reportFlag:hover {
+  color: #fb4b4b;
+  transform: scale(1.25);
+}
+
+.submitButton {
+  font-size: '14px';
+  width: 75px;
+  padding: 8px;
+  color: black;
+  background: white;
+  border-radius: 6px;
+  font-family: 'ArchivoMedium';
+}

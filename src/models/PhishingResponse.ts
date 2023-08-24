@@ -6,6 +6,7 @@ export interface PhishingResponse {
   warnings: Warning[] | null; // Deprecated in favor of riskFactors
   verified: boolean;
   riskFactors: RiskFactor[] | null;
+  status: 'IN_PROGRESS' | 'COMPLETE';
 }
 
 

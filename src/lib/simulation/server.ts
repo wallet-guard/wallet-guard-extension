@@ -2,17 +2,18 @@ import {
   ErrorType,
   SimulationErrorResponse,
   SimulationResponse,
+  SimulationApiResponse,
   TransactionArgs,
+  TransactionType,
 } from '../../models/simulation/Transaction';
-import { Response, ResponseType } from '../../models/simulation/Transaction';
 import { SERVER_URL_PROD } from '../environment';
 
-// TODO: add unit tests for these 2 functions
-export const fetchSimulate = async (args: TransactionArgs): Promise<Response> => {
+export const fetchTransaction = async (args: TransactionArgs, type: TransactionType): Promise<SimulationResponse> => {
   try {
-    const simulationURL = getSimulationEndpoint(args.chainId);
+    const simulationURL = type === TransactionType.Transaction ?
+      getTransactionEndpoint(args.chainId) : getSignatureEndpoint(args.chainId);
 
-    const result: globalThis.Response = await fetch(simulationURL, {
+    const response: globalThis.Response = await fetch(simulationURL, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -21,124 +22,55 @@ export const fetchSimulate = async (args: TransactionArgs): Promise<Response> =>
       body: JSON.stringify(args),
     });
 
-    if (result.status === 200) {
-      const data: SimulationResponse = await result.json();
+    if (response.status === 200) {
+      const data: SimulationApiResponse = await response.json();
 
-      if (data.error?.type === ErrorType.Revert) {
-        return {
-          type: ResponseType.Revert,
-          error: data.error,
-        };
-      }
-
-      return {
-        type: ResponseType.Success,
-        simulation: data,
-      };
-    }
-
-    if (result.status === 403) {
-      return {
-        type: ResponseType.Error,
+      return data;
+    } else if (response.status === 403) {
+      const result: SimulationErrorResponse = {
         error: {
           type: ErrorType.Unauthorized,
           message: 'Unauthorized',
           extraData: null,
         },
       };
-    } else if (result.status === 429) {
-      return {
-        type: ResponseType.Error,
+
+      return result;
+    } else if (response.status === 429) {
+      const result: SimulationErrorResponse = {
         error: {
           type: ErrorType.TooManyRequests,
-          message: 'TooManyRequests',
+          message: 'Rate limit hit',
           extraData: null,
         },
       };
+
+      return result;
     }
 
-    const data: SimulationErrorResponse = await result.json();
-    return { type: ResponseType.Error, error: data.error };
+    const result: SimulationErrorResponse = {
+      error: {
+        type: ErrorType.GeneralError,
+        message: 'Unrecognized status code returned',
+        extraData: null,
+      },
+    };
+
+    return result;
   } catch (e: any) {
-    // if data.error is undefined it is most likely a network error
-    console.log('ERROR: ', e);
-    return {
+    const result: SimulationErrorResponse = {
       error: {
         type: ErrorType.UnknownError,
-        message: 'An unknown error occurred',
-        extraData: e,
+        message: 'an unknown error has occurred',
+        extraData: null,
       },
-      type: ResponseType.Error,
     };
+
+    return result;
   }
 };
 
-export const fetchSignature = async (args: TransactionArgs): Promise<Response> => {
-  try {
-    const signatureURL = getSignatureEndpoint(args.chainId);
-
-    const result: globalThis.Response = await fetch(signatureURL, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(args),
-    });
-
-    if (result.status === 200) {
-      const data: SimulationResponse = await result.json();
-
-      if (data.error?.type === ErrorType.Revert) {
-        return {
-          type: ResponseType.Revert,
-          error: data.error,
-        };
-      }
-
-      return {
-        type: ResponseType.Success,
-        simulation: data,
-      };
-    }
-
-    if (result.status === 403) {
-      return {
-        type: ResponseType.Error,
-        error: {
-          type: ErrorType.Unauthorized,
-          message: 'Unauthorized',
-          extraData: null,
-        },
-      };
-    } else if (result.status === 429) {
-      return {
-        type: ResponseType.Error,
-        error: {
-          type: ErrorType.TooManyRequests,
-          message: 'TooManyRequests',
-          extraData: null,
-        },
-      };
-    }
-
-    const data: SimulationErrorResponse = await result.json();
-    return { type: ResponseType.Error, error: data.error };
-  } catch (e: any) {
-    // if data.error is undefined it is most likely a network error
-    console.log('ERROR: ', e);
-    return {
-      error: {
-        type: ErrorType.UnknownError,
-        message: 'An unknown error occurred',
-        extraData: e,
-      },
-      type: ResponseType.Error,
-    };
-  }
-};
-
-export function getSimulationEndpoint(chainId: string): string {
+export function getTransactionEndpoint(chainId: string): string {
   switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':

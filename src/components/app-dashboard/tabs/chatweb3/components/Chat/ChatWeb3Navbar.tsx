@@ -1,9 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
 import { IconChevronLeft } from '@tabler/icons-react';
-import { TwitterShareButton } from 'react-share';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { NavbarShareButton } from '../../../../../common/NavbarShareButton';
 
 export const Navbar = ({
   showChatWeb3,
@@ -34,7 +32,7 @@ export const Navbar = ({
   return (
     <div
       style={{
-        backgroundColor: '#232323',
+        backgroundColor: '#0b0b0b',
         height: '4rem',
         display: 'flex',
         alignItems: 'center',
@@ -43,6 +41,7 @@ export const Navbar = ({
         boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25)',
         width: '100%', // temp
         position: 'fixed', // temp
+        fontWeight: 'bold',
       }}
     >
       <div>
@@ -58,7 +57,6 @@ export const Navbar = ({
                   color: 'white',
                   fontSize: '1.25rem',
                   marginLeft: '0.15rem',
-                  fontWeight: 'bold',
                   marginTop: '6px',
                 }}
               >
@@ -92,18 +90,7 @@ export const Navbar = ({
           Hotkey: <Kbd>{isMac ? 'command' : 'control'}</Kbd> + <Kbd>shift</Kbd> + <Kbd>U</Kbd>
         </span>
       ) : (
-        <TwitterShareButton
-          url={'https://walletguard.app'}
-          title={'Join myself and 20,000+ others who are protecting our assets with Wallet Guard'}
-          via={'wallet_guard'}
-        >
-          <a style={{ color: 'white' }} className="btn btn-dark">
-            <div>
-              <b className={`pr-2`}>Share</b>
-              <FontAwesomeIcon icon={faTwitter} size="lg" />
-            </div>
-          </a>
-        </TwitterShareButton>
+        <NavbarShareButton />
       )}
     </div>
   );

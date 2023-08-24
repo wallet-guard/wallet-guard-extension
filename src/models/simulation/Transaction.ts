@@ -7,13 +7,10 @@ export interface Transaction {
   value?: string;
 }
 
-export type Response = {
-  readonly type: ResponseType;
-  // Only set on success.
-  readonly simulation?: SimulationResponse;
-  // Might be set on error.
-  readonly error?: SimulationError;
-};
+export enum TransactionType {
+  Transaction = 'Transaction',
+  Signature = 'Signature'
+}
 
 export enum ResponseType {
   Success = 'success',
@@ -44,7 +41,7 @@ export interface SimulateRequestArgs extends RequestArgs {
 
 export interface SignatureRequestArgs extends RequestArgs {
   // Domain for this signature request.
-  domain: any;
+  domain: any; // TODO: add types here?
   // Message to be signed for this signature request.
   message: any;
   // Primary type for this message.
@@ -76,18 +73,38 @@ interface RequestArgs {
   bypassed?: boolean;
 }
 
-export type SimulationResponse = {
+export type SimulationResponse =
+  | SimulationSuccessResponse
+  | SimulationErrorResponse;
+
+export type SimulationErrorResponse = {
+  error: SimulationError;
+  scanResult?: PhishingResponse;
+};
+
+export type SimulationSuccessResponse = {
   recommendedAction: RecommendedActionType;
   overviewMessage: string;
-  warningType: SimulationWarningType; // Deprecated in favor of RecommendedAction
-  message?: string[]; // Deprecated in favor of OverviewMessage
-  stateChanges: SimulationStateChange[] | null;
+  stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
-  riskFactors: RiskFactor[] | null;
-  decodedMessage?: string; // only present on signatures
-  gas?: SimulatedGas; // Only present on transactions
+  decodedMessage?: string; // Only present on signatures
   scanResult: PhishingResponse;
+  riskFactors: RiskFactor[] | null;
+  gas?: SimulatedGas; // Only present on transactions
+  error: null;
+};
+
+export type SimulationApiResponse = {
+  recommendedAction: RecommendedActionType;
+  overviewMessage: string;
+  stateChanges: StateChange[] | null;
+  addressDetails: SimulationAddressDetails;
+  method: SimulationMethodType | string;
+  decodedMessage?: string; // Only present on signatures
+  scanResult: PhishingResponse;
+  riskFactors: RiskFactor[] | null;
+  gas?: SimulatedGas; // Only present on transactions
   error: SimulationError | null;
 };
 
@@ -112,10 +129,11 @@ export type RiskFactor = {
   severity: Severity;
   type: WarningType;
   message: string;
-  value: string;
+  value?: string;
 };
 
 export enum WarningType {
+  Bypass = 'BYPASS',
   Similarity = 'SIMILARITY',
   RecentlyCreated = 'RECENTLY_CREATED',
   Malware = 'MALWARE',
@@ -133,10 +151,6 @@ export enum Severity {
   Low = 'LOW',
   High = 'HIGH',
   Critical = 'CRITICAL',
-}
-
-export type SimulationErrorResponse = {
-  error: SimulationError;
 }
 
 export type SimulationError = {
@@ -189,11 +203,19 @@ export enum SimulationAssetTypes {
   Native = 'NATIVE',
 }
 
+export enum AddressType {
+  EOA = 'EOA',
+  Contract = 'CONTRACT'
+}
+
 export type SimulationAddressDetails = {
   address: string;
-  addressType: string;
+  addressType: AddressType;
   etherscanVerified: boolean;
   etherscanLink: string;
+  addressName: string;
+  isAssociatedWithProtocol: string;
+  addressSummary: string;
 };
 
 export type TokenData = {
@@ -221,7 +243,7 @@ export type Verified = {
   sourcify?: boolean;
 };
 
-export type SimulationStateChange = {
+export type StateChange = {
   assetType: SimulationAssetTypes;
   changeType: SimulationChangeType;
   address: string;

@@ -1,9 +1,7 @@
-import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
 import { urlIsPhishingWarning } from '../../lib/helpers/util';
-import { AlertDetail } from '../../models/Alert';
 import { PhishingResult } from '../../models/PhishingResponse';
 import { RiskFactor, Severity, WarningType } from '../../models/simulation/Transaction';
 import { domainScan } from '../http/domainScan';
@@ -26,7 +24,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
 
   const recentlyCreatedWarning = pdsResponse?.riskFactors?.find(warning => warning.type === WarningType.RecentlyCreated);
   if (recentlyCreatedWarning) {
-    const daysSinceCreated = Math.round(parseFloat(recentlyCreatedWarning.value) / 24);
+    const daysSinceCreated = Math.round(parseFloat(recentlyCreatedWarning.value || '') / 24) || 0;
 
     if (recentlyCreatedWarning.severity === Severity.Critical) {
       chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
@@ -42,7 +40,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
     } else if (recentlyCreatedWarning.severity === Severity.High) {
       chrome.notifications.create('', {
         title: 'Suspicious Activity Detected',
-        message: `This website was updated ${daysSinceCreated} days ago.\nPlease proceed with caution and double-check any approval requests`,
+        message: `This website was created ${daysSinceCreated} days ago.\nPlease proceed with caution and double-check any approval requests`,
         iconUrl: '../images/wg_logos/Logo-Large-Transparent.png', // todo: check if dimensions need to be 128x128 & that this looks good
         type: 'basic'
       });
@@ -66,15 +64,6 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
           reason,
       });
     }
-
-    const activityInfo = {
-      name: 'Suspicious Site Detected',
-      category: criticalRiskFactor?.type,
-      details: `${tab.url}`,
-      key: `${new Date()}`,
-    } as AlertDetail;
-
-    AlertHandler.create(activityInfo);
   }
 }
 

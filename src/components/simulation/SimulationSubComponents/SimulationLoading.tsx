@@ -3,7 +3,7 @@ import styles from '../simulation.module.css';
 
 export const SimulationLoading = () => {
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div className="row text-center" style={{ marginTop: '50%' }}>
         <div className="col" style={{ display: 'flex', justifyContent: 'center' }}>
           <img src="/images/popup/RunMichaelK.gif" alt="" width={150} />

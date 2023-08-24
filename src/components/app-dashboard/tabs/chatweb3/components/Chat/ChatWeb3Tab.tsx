@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useChat } from '../../../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
-import { StoredSimulation } from '../../../../../../lib/simulation/storage';
+import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
 import posthog from 'posthog-js';
 
 export const ChatWeb3Tab = ({
@@ -11,7 +11,7 @@ export const ChatWeb3Tab = ({
 }: {
   showChatWeb3?: boolean | undefined;
   setShowChatWeb3?: Dispatch<SetStateAction<boolean>> | undefined;
-  storedSimulation?: StoredSimulation | undefined;
+  storedSimulation?: CompletedSuccessfulSimulation | undefined;
 }) => {
   const [lightMode, setLightMode] = useState<'dark'>('dark');
   const {
@@ -37,8 +37,8 @@ export const ChatWeb3Tab = ({
   return (
     <>
       {selectedConversation && (
-        <div className={`d-flex flex-column text-white`} style={{ fontSize: '0.875rem', height: '100%' }}>
-          <div className="d-flex h-100 w-100 pt-0">
+        <div className={`d-flex flex-column text-white`} style={{ fontSize: '0.875rem', height: '100%', minHeight: '100vh' }}>
+          <div className="d-flex h-100 w-100">
             <Chat
               conversation={selectedConversation}
               messageIsStreaming={messageIsStreaming}
