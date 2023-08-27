@@ -5,7 +5,14 @@ export const supportedWallets = {
   metamask: 'nkbihfbeogaeaoehlefnkodbefgpgknn',
   phantom: 'bfnaelmomeimhlpmgjnjophhpkkoljpa',
   trustwallet: 'egjidjbpglichdcondbcbdnbeeppgdph',
-  binance: 'fhbohimaelbohpjbbldcngcnapndodjp'
+  binance: 'fhbohimaelbohpjbbldcngcnapndodjp',
+  // rabby wallet https://chrome.google.com/webstore/detail/rabby-wallet/acmacodkjbdgmoleebolmdjonilkdbch
+  // argentx
+  // keplr
+  // coinbase wallet
+  // nami wallet?
+  // sui wallet https://chrome.google.com/webstore/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil
+  // metamask - edge?
 } as const;
 
 export const SUPPORTED_CHAINS = [

@@ -37,6 +37,7 @@ async function checkWallet(wallet: WalletType) {
 
   const walletInfo: WalletInfo = {
     name: wallet,
+    id: extensionId,
     localVersion: local,
     latestVersion: latest,
     lastCheckedAt: Date.now()
@@ -79,4 +80,16 @@ export async function checkAllWalletsAndCreateAlerts() {
       } as AlertDetail);
     });
   }
+}
+
+export async function fetchAllWallets() {
+  const supported = Object.keys(supportedWallets);
+  const wallets: WalletInfo[] = [];
+
+  for (let wallet of supported) {
+    const walletCheck = await checkWallet(wallet as WalletType);
+    wallets.push(walletCheck);
+  }
+
+  return wallets;
 }
