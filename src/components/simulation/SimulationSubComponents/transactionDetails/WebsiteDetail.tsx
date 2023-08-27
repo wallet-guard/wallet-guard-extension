@@ -32,7 +32,7 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
         {domainName}
       </p>
 
-      <div style={{ height: '18px', width: '18px' }}>
+      <div style={{ height: '18px', width: '18px', minWidth: '18px' }}>
         <WebsiteVerificationBadge verified={verified} recommendedAction={recommendedAction} tooltipPosition='right' />
       </div>
 
