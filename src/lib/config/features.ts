@@ -12,6 +12,7 @@ export const supportedWallets = {
   argentx: 'dlcobpjiigpikoobohmabehhmhfoodbb',
   xverse: 'idnnbdplmphpflfnlkomgpfbpcgelopg',
   sui: 'opcgpfmipidbgpenhmajoajpbobppdil',
+  martian: 'efbglgofoippbgcjepnhiblaibcnclgk'
 } as const;
 
 export const SUPPORTED_CHAINS = [

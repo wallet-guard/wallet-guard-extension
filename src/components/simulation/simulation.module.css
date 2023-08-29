@@ -79,7 +79,7 @@
 }
 
 .zoom {
-  transition: transform 100ms ease-out, opacity 100ms ease-out;
+  transition: transform 100ms ease-in-out;
   transform: scale(1);
 }
 
