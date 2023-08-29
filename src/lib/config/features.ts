@@ -6,13 +6,12 @@ export const supportedWallets = {
   phantom: 'bfnaelmomeimhlpmgjnjophhpkkoljpa',
   trustwallet: 'egjidjbpglichdcondbcbdnbeeppgdph',
   binance: 'fhbohimaelbohpjbbldcngcnapndodjp',
-  // rabby wallet https://chrome.google.com/webstore/detail/rabby-wallet/acmacodkjbdgmoleebolmdjonilkdbch
-  // argentx
-  // keplr
-  // coinbase wallet
-  // nami wallet?
-  // sui wallet https://chrome.google.com/webstore/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil
-  // metamask - edge?
+  rabby: 'acmacodkjbdgmoleebolmdjonilkdbch',
+  coinbase: 'hnfanknocfeofbddgcijnmhnfnkdnaad',
+  keplr: 'dmkamcknogkgcdfhhbddcghachkejeap',
+  argentx: 'dlcobpjiigpikoobohmabehhmhfoodbb',
+  xverse: 'idnnbdplmphpflfnlkomgpfbpcgelopg',
+  sui: 'opcgpfmipidbgpenhmajoajpbobppdil',
 } as const;
 
 export const SUPPORTED_CHAINS = [

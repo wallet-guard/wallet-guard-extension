@@ -139,10 +139,12 @@ export function DashboardTab() {
   async function getVersionFromLocalStorage() {
     const requests: Promise<WalletInfo | null>[] = [];
     const supportedWalletKeys = Object.keys(supportedWallets) as WalletType[];
+    const supportedWalletIds = Object.values(supportedWallets) as string[];
 
     function getDefaultWalletInfo(i: number): WalletInfo {
       return {
         name: supportedWalletKeys[i],
+        id: supportedWalletIds[i],
         lastCheckedAt: 0,
         latestVersion: 'n/a',
         localVersion: 'n/a',
