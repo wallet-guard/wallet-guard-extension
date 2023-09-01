@@ -348,5 +348,14 @@ chrome.runtime.onMessageExternal.addListener(async (request: DashboardMessageBod
   if (request.type === DashboardMessageCommands.GetWalletVersions) {
     const wallets = await fetchAllWallets();
     sendResponse(wallets);
+  } else if (request.type === DashboardMessageCommands.GetSettings) {
+    const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
+    sendResponse(settings);
+  } else if (request.type === DashboardMessageCommands.UpdateSettings) {
+    const newSettings = request.data as Settings;
+    chrome.storage.local.set({ settings: newSettings });
+  } else if (request.type === DashboardMessageCommands.GetAlertHistory) {
+    const alerts = await localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory);
+    sendResponse(alerts);
   }
 });

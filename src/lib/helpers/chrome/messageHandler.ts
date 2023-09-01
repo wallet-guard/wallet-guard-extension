@@ -52,6 +52,9 @@ export function findApprovedTransaction(approvedTxns: TransactionArgs[], txn: Tr
 
 export enum DashboardMessageCommands {
   GetWalletVersions = 'GET_WALLET_VERSIONS',
+  GetSettings = 'GET_SETTINGS',
+  UpdateSettings = 'UPDATE_SETTINGS',
+  GetAlertHistory = 'GET_ALERT_HISTORY'
 }
 
 export interface DashboardMessageBody {
