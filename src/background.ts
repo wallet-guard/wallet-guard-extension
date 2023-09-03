@@ -342,20 +342,24 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));
 };
 
-chrome.runtime.onMessageExternal.addListener(async (request: DashboardMessageBody, sender, sendResponse) => {
+chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sender, sendResponse) => {
   if (!request?.type) return;
 
   if (request.type === DashboardMessageCommands.GetWalletVersions) {
-    const wallets = await fetchAllWallets();
-    sendResponse(wallets);
+    fetchAllWallets().then((wallets) => sendResponse(wallets));
+    // sendResponse(wallets);
   } else if (request.type === DashboardMessageCommands.GetSettings) {
-    const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
-    sendResponse(settings);
+    // const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
+    // sendResponse(settings);
+    localStorageHelpers.get<Settings>(WgKeys.Settings).then((settings) => sendResponse(settings));
   } else if (request.type === DashboardMessageCommands.UpdateSettings) {
     const newSettings = request.data as Settings;
     chrome.storage.local.set({ settings: newSettings });
   } else if (request.type === DashboardMessageCommands.GetAlertHistory) {
-    const alerts = await localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory);
-    sendResponse(alerts);
+    localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory).then((alerts) => sendResponse(alerts));
+    // const alerts = await localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory);
+    // sendResponse(alerts);
   }
+
+  return true;
 });
