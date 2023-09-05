@@ -59,7 +59,7 @@ export type CompletedSuccessfulSimulation = CompletedSimulation & {
 
 // Thank you Pocket Universe for leading the way in proxying transactions
 // https://github.com/jqphu/PocketUniverse
-export const addSimulation = async (simulation: LoadingSimulation) => {
+export const addSimulation = async (simulation: StoredSimulation) => {
   const data = await chrome.storage.local.get('simulations');
   const simulations: StoredSimulation[] = data.simulations || [];
 
@@ -139,7 +139,14 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
 
   // Automatically skip if chain id is incorrect. This prevents the popup.
   if (!SUPPORTED_CHAINS.includes(args.chainId)) {
-    return skipSimulation(args.id);
+    state = StoredSimulationState.Confirmed;
+
+    return addSimulation({
+      id: args.id,
+      signer: args.signer,
+      args,
+      state,
+    } as StoredSimulation);
   }
 
   console.log('args', args);
