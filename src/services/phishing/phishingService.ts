@@ -23,6 +23,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   chrome.storage.local.set({ currentSite: pdsResponse });
 
   const recentlyCreatedWarning = pdsResponse?.riskFactors?.find(warning => warning.type === WarningType.RecentlyCreated);
+
   if (recentlyCreatedWarning) {
     const daysSinceCreated = Math.round(parseFloat(recentlyCreatedWarning.value || '') / 24) || 0;
 
@@ -45,28 +46,26 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
         type: 'basic'
       });
     }
+  }
 
-    const shouldBlock = pdsResponse?.phishing === PhishingResult.Phishing;
-    const criticalRiskFactor: RiskFactor | undefined = pdsResponse?.riskFactors?.find(warning => warning.severity === Severity.Critical);
+  const shouldBlock = pdsResponse?.phishing === PhishingResult.Phishing;
+  const criticalRiskFactor: RiskFactor | undefined = pdsResponse?.riskFactors?.find(warning => warning.severity === Severity.Critical);
+  if (shouldBlock && criticalRiskFactor) {
+    const safeURL = criticalRiskFactor.value || 'null';
+    const reason = criticalRiskFactor.type || 'null';
 
-    if (shouldBlock && criticalRiskFactor) {
-      const safeURL = criticalRiskFactor.value || 'null';
-      const reason = criticalRiskFactor.type || 'null';
-
-      chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
-        url:
-          chrome.runtime.getURL('phish.html') +
-          '?safe=' +
-          safeURL +
-          '&proceed=' +
-          tab.url +
-          '&reason=' +
-          reason,
-      });
-    }
+    chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
+      url:
+        chrome.runtime.getURL('phish.html') +
+        '?safe=' +
+        safeURL +
+        '&proceed=' +
+        tab.url +
+        '&reason=' +
+        reason,
+    });
   }
 }
-
 
 function hasBrowserPrefix(input: string): boolean {
   const isChrome = input.startsWith('chrome://') || input.startsWith('chrome-extension://');
