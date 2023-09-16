@@ -3,11 +3,11 @@ import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
 import { BrowserMessageType, RunSimulationMessageType } from '../lib/helpers/chrome/messageHandler';
 import logger from '../lib/logger';
-import { Settings } from '../lib/settings';
 import { dispatchResponse, listenToRequest, Response } from '../lib/simulation/requests';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { removeSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import { TransactionArgs } from '../models/simulation/Transaction';
+import { ExtensionSettings } from '../lib/settings';
 
 // Function to inject scripts into browser
 const addScript = (url: string) => {
@@ -47,7 +47,7 @@ listenToRequest(async (request: TransactionArgs) => {
   }
 
   // Get User Settings
-  localStorageHelpers.get<Settings>(WgKeys.Settings).then((settings) => {
+  localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings).then((settings) => {
     if (!settings || !settings.simulationEnabled) {
       // Immediately respond continue.
       dispatchResponse({

@@ -1,10 +1,7 @@
 import { WalletType, supportedWallets } from '../../lib/config/features';
 import { SERVER_URL_PROD } from '../../lib/environment';
 import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
-import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
-import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 import { capitalizeFirstLetter } from '../../lib/helpers/stringUtil';
-import { Settings } from '../../lib/settings';
 import { AlertCategory, AlertDetail } from '../../models/Alert';
 import { WalletInfo } from '../../models/VersionChecker';
 import * as httpClient from '../clients/httpClient';
@@ -55,14 +52,11 @@ export async function checkAllWalletsAndCreateAlerts() {
 
   for (let wallet of supported) {
     const walletCheck = await checkWallet(wallet as WalletType);
-    const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
-    const isMuted = settings?.walletVersionNotifications
 
     if (
       walletCheck.localVersion &&
       walletCheck.latestVersion &&
-      walletCheck.localVersion !== walletCheck.latestVersion &&
-      isMuted !== false
+      walletCheck.localVersion !== walletCheck.latestVersion
     ) {
       expiredWallets.push(walletCheck);
     }

@@ -1,6 +1,6 @@
 export enum WgKeys {
   PersonalWhitelist = 'personalWhitelist',
-  Settings = 'settings',
+  ExtensionSettings = 'extensionSettings',
   AlertHistory = 'wgAlertHistory',
   UnreadAlerts = 'wgUnreadAlerts',
   CurrentSite = 'currentSite',
