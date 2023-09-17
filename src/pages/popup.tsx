@@ -9,7 +9,7 @@ import { SimulationMethodType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
-import { ChatWeb3Tab } from '../components/app-dashboard/tabs/chatweb3/components/Chat/ChatWeb3Tab';
+import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
 import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
 import { PersonalSign } from '../components/simulation/PersonalSign';
@@ -22,7 +22,7 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
-import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/components/Chat/WelcomeModal';
+import { WelcomeModal } from '../components/chatweb3/components/Chat/WelcomeModal';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;

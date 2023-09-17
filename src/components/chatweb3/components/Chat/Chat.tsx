@@ -1,4 +1,4 @@
-import { Conversation, KeyValuePair, Message, OpenAIModel } from '../../../../../../models/chatweb3/chatweb3';
+import { Conversation, KeyValuePair, Message, OpenAIModel } from '../../../../models/chatweb3/chatweb3';
 import { Dispatch, FC, MutableRefObject, SetStateAction, useEffect, useRef, useState } from 'react';
 import { ChatInput } from './ChatInput';
 import { ChatLoader } from './ChatLoader';
@@ -7,7 +7,7 @@ import { Regenerate } from './Regenerate';
 import React from 'react';
 import '../../styles/chatweb3.css';
 import { Navbar } from './ChatWeb3Navbar';
-import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
+import { CompletedSuccessfulSimulation } from '../../../../lib/simulation/storage';
 
 interface Props {
   conversation: Conversation;

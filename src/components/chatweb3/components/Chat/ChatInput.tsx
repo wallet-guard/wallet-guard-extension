@@ -2,13 +2,13 @@ import { IconSend } from '@tabler/icons-react';
 import { FC, KeyboardEvent, MutableRefObject, useEffect, useState } from 'react';
 import React from 'react';
 import { Button, ButtonGroup } from '@chakra-ui/react';
-import { Message, OpenAIModel, OpenAIModelID } from '../../../../../../models/chatweb3/chatweb3';
+import { Message, OpenAIModel, OpenAIModelID } from '../../../../models/chatweb3/chatweb3';
 import '../../styles/chatweb3.css';
 import { Spinner } from '@chakra-ui/react';
-import { chatWeb3QuestionsRefactored } from '../../../../../../lib/helpers/chatweb3/questions';
+import { chatWeb3QuestionsRefactored } from '../../../../lib/helpers/chatweb3/questions';
 import posthog from 'posthog-js';
-import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
-import { getCurrentSite } from '../../../../../../services/phishing/currentSiteService';
+import { CompletedSuccessfulSimulation } from '../../../../lib/simulation/storage';
+import { getCurrentSite } from '../../../../services/phishing/currentSiteService';
 
 interface Props {
   messageIsStreaming: boolean;

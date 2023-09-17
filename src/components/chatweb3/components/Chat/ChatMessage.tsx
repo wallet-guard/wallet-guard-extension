@@ -1,4 +1,4 @@
-import { Message } from '../../../../../../models/chatweb3/chatweb3';
+import { Message } from '../../../../models/chatweb3/chatweb3';
 import { FC } from 'react';
 import remarkGfm from 'remark-gfm';
 import { CodeBlock } from '../Markdown/CodeBlock';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ChatWeb3Tab } from '../components/app-dashboard/tabs/chatweb3/components/Chat/ChatWeb3Tab';
+import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../lib/theme';
 

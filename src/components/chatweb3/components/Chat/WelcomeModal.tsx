@@ -8,7 +8,7 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { Modal } from '@chakra-ui/react';
-import { openDashboard } from '../../../../../../lib/helpers/linkHelper';
+import { openDashboard } from '../../../../lib/helpers/linkHelper';
 import styles from './WelcomeModal.module.css';
 import { AiOutlineSecurityScan } from 'react-icons/ai';
 import { BsListCheck } from 'react-icons/bs';
