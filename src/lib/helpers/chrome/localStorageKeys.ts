@@ -10,4 +10,5 @@ export enum WgKeys {
   ChatWeb3Onboarding = 'chatWeb3Onboarding',
   Simulations = 'simulations',
   SurveyComplete = 'surveyComplete',
+  DashboardOnboarding = 'dashboardOnboarding'
 }

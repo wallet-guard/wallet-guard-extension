@@ -22,6 +22,7 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
+import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/components/Chat/WelcomeModal';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -51,13 +52,13 @@ const Popup = () => {
   });
 
   useEffect(() => {
-    localStorageHelpers.get<boolean>(WgKeys.ChatWeb3Onboarding).then((tutorialIsComplete) => {
+    localStorageHelpers.get<boolean | null>(WgKeys.DashboardOnboarding).then((tutorialIsComplete) => {
       if (tutorialIsComplete) {
         setTutorialComplete(true);
         return;
       }
 
-      chrome.storage.local.set({ [WgKeys.ChatWeb3Onboarding]: true });
+      chrome.storage.local.set({ [WgKeys.DashboardOnboarding]: true });
       setTutorialComplete(false);
     });
   }, []);
@@ -102,6 +103,10 @@ const Popup = () => {
 
   return (
     <>
+      <ChakraProvider theme={theme}>
+        <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
+      </ChakraProvider>
+
       <div className={styles.transactionHeadingFixed}>
         <SimulationHeader details={{ recommendedAction: currentSimulation.simulation.recommendedAction, verified: currentSimulation.simulation.scanResult.verified }} />
         <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
