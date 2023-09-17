@@ -40,8 +40,6 @@ async function checkWallet(wallet: WalletType) {
     lastCheckedAt: Date.now()
   };
 
-  chrome.storage.local.set({ [wallet]: walletInfo });
-
   return walletInfo;
 }
 
@@ -63,7 +61,6 @@ export async function checkAllWalletsAndCreateAlerts() {
   }
 
   if (expiredWallets.length > 0) {
-    chrome.storage.local.set({ expiredWallets });
     expiredWallets.forEach(wallet => {
       AlertHandler.create({
         name: `${capitalizeFirstLetter(wallet.name)} Version`,
