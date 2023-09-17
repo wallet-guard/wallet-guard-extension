@@ -12,6 +12,7 @@ import { openDashboard } from '../../../../../../lib/helpers/linkHelper';
 import styles from './WelcomeModal.module.css';
 import { AiOutlineSecurityScan } from 'react-icons/ai';
 import { BsListCheck } from 'react-icons/bs';
+import posthog from 'posthog-js';
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -38,7 +39,13 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
   });
 
   function tryDashboard() {
+    posthog.capture('click dashboard promo');
     openDashboard('simulation_promo', true);
+    onClose();
+  }
+
+  function ignoreDashboard() {
+    posthog.capture('ignore dashboard promo');
     onClose();
   }
 
@@ -182,7 +189,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       fontSize: '1rem',
                       outline: 'none',
                     }}
-                    onClick={onClose}
+                    onClick={ignoreDashboard}
                   >
                     Skip for now
                   </button>

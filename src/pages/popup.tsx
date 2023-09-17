@@ -30,14 +30,8 @@ export interface SimulationBaseProps {
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
-  const [tutorialComplete, setTutorialComplete] = useState<boolean>(true);
-  const [chatweb3Welcome, setChatWeb3Welcome] = useState<boolean>(true);
+  const [dashboardWelcome, setDashboardWelcome] = useState<boolean>(true);
   const { currentSimulation, loading } = useSimulation();
-
-  function toggleChatWeb3WelcomeModal() {
-    setChatWeb3Welcome(!chatweb3Welcome);
-    setTutorialComplete(!tutorialComplete);
-  }
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
     api_host: 'https://app.posthog.com',
@@ -54,14 +48,18 @@ const Popup = () => {
   useEffect(() => {
     localStorageHelpers.get<boolean | null>(WgKeys.DashboardOnboarding).then((tutorialIsComplete) => {
       if (tutorialIsComplete) {
-        setTutorialComplete(true);
+        setDashboardWelcome(true);
         return;
       }
 
       chrome.storage.local.set({ [WgKeys.DashboardOnboarding]: true });
-      setTutorialComplete(false);
+      setDashboardWelcome(false);
     });
   }, []);
+
+  function toggleDashboardWelcomeModal() {
+    setDashboardWelcome(!dashboardWelcome);
+  }
 
   // Return an empty page because we don't want any other UIs to flash in the few ms before we finish pulling from localStorage
   if (loading) {
@@ -104,7 +102,7 @@ const Popup = () => {
   return (
     <>
       <ChakraProvider theme={theme}>
-        <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
+        <WelcomeModal isOpen={!dashboardWelcome} onClose={toggleDashboardWelcomeModal} />
       </ChakraProvider>
 
       <div className={styles.transactionHeadingFixed}>
