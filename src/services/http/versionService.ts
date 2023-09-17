@@ -73,6 +73,7 @@ export async function checkAllWalletsAndCreateAlerts() {
   }
 }
 
+// TODO: make this a Promise.all in the future - it may be slow if you have a lot of wallets
 export async function fetchAllWallets() {
   const supported = Object.keys(supportedWallets);
   const wallets: WalletInfo[] = [];
