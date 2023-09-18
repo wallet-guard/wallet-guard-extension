@@ -18,7 +18,11 @@ import {
 } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
+<<<<<<< HEAD
 import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS, isValidExtensionSettings } from './lib/settings';
+=======
+import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS } from './lib/settings';
+>>>>>>> c82069a23d18eec032dd045870f40bba9b455d72
 import { AlertCategory, AlertDetail } from './models/Alert';
 import { getCurrentSite } from './services/phishing/currentSiteService';
 import { checkUrlForPhishing } from './services/phishing/phishingService';
