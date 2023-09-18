@@ -54,7 +54,8 @@ export enum DashboardMessageCommands {
   GetWalletVersions = 'GET_WALLET_VERSIONS',
   GetSettings = 'GET_SETTINGS',
   UpdateSettings = 'UPDATE_SETTINGS',
-  GetAlertHistory = 'GET_ALERT_HISTORY'
+  GetAlertHistory = 'GET_ALERT_HISTORY',
+  HasWalletGuardExtension = 'HAS_WALLET_GUARD_EXTENSION',
 }
 
 export interface DashboardMessageBody {
