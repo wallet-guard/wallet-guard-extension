@@ -2,6 +2,7 @@ import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
 import { urlIsPhishingWarning } from '../../lib/helpers/util';
+import { ExtensionSettings } from '../../lib/settings';
 import { PhishingResult } from '../../models/PhishingResponse';
 import { RiskFactor, Severity, WarningType } from '../../models/simulation/Transaction';
 import { domainScan } from '../http/domainScan';
@@ -48,7 +49,9 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
     }
   }
 
-  const shouldBlock = pdsResponse?.phishing === PhishingResult.Phishing;
+  const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
+
+  const shouldBlock = (pdsResponse?.phishing === PhishingResult.Phishing) && (settings?.phishingDetection);
   const criticalRiskFactor: RiskFactor | undefined = pdsResponse?.riskFactors?.find(warning => warning.severity === Severity.Critical);
   if (shouldBlock && criticalRiskFactor) {
     const safeURL = criticalRiskFactor.value || 'null';

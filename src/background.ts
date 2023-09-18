@@ -18,7 +18,7 @@ import {
 } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
-import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
+import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS } from './lib/settings';
 import { AlertCategory, AlertDetail } from './models/Alert';
 import { getCurrentSite } from './services/phishing/currentSiteService';
 import { checkUrlForPhishing } from './services/phishing/phishingService';
@@ -90,7 +90,7 @@ chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendRespo
 
 // EXTENSION DETECTION
 chrome.management.onInstalled.addListener(async (extensionInfo) => {
-  const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
+  const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
 
   if (extensionInfo.installType === 'development' && settings?.maliciousExtensionDetection) {
     chrome.management.setEnabled(extensionInfo.id, false);
@@ -133,10 +133,10 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     // TODO: Signin Anonymously
   }
 
-  localStorageHelpers.get<Settings>(WgKeys.Settings).then((res) => {
+  localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings).then((res) => {
     // if the user don't have any settings, set the default settings
     if (!res) {
-      chrome.storage.local.set({ settings: WG_DEFAULT_SETTINGS });
+      chrome.storage.local.set({ [WgKeys.ExtensionSettings]: WG_EXTENSION_DEFAULT_SETTINGS });
     }
   });
 
@@ -328,7 +328,7 @@ chrome.commands.onCommand.addListener((command) => {
 
 const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (!SUPPORTED_CHAINS.includes(message.data.chainId)) return;
-  const settings = await localStorageHelpers.get<Settings>(WgKeys.Settings);
+  const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
   if (!settings?.simulationEnabled) return;
 
   // Check if the transaction was already simulated and confirmed
@@ -348,10 +348,10 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
   if (request.type === DashboardMessageCommands.GetWalletVersions) {
     fetchAllWallets().then((wallets) => sendResponse(wallets));
   } else if (request.type === DashboardMessageCommands.GetSettings) {
-    localStorageHelpers.get<Settings>(WgKeys.Settings).then((settings) => sendResponse(settings));
+    localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings).then((settings) => sendResponse(settings));
   } else if (request.type === DashboardMessageCommands.UpdateSettings) {
-    const newSettings = request.data as Settings;
-    chrome.storage.local.set({ settings: newSettings });
+    const newSettings = request.data as ExtensionSettings;
+    chrome.storage.local.set({ [WgKeys.ExtensionSettings]: newSettings });
   } else if (request.type === DashboardMessageCommands.GetAlertHistory) {
     localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory).then((alerts) => sendResponse(alerts));
   }

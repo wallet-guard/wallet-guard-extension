@@ -1,15 +1,13 @@
-export interface Settings {
-  blockPunycode: boolean;
-  blockSuspiciousDNS: boolean; // todo: deprecated
-  maliciousExtensionDetection: boolean;
+export interface ExtensionSettings {
+  phishingDetection: boolean;
   simulationEnabled: boolean;
-  walletVersionNotifications: boolean;
+  maliciousExtensionDetection: boolean;
+  approvalNotifications: boolean;
 }
 
-export const WG_DEFAULT_SETTINGS: Settings = {
-  blockPunycode: true,
-  blockSuspiciousDNS: true,
-  maliciousExtensionDetection: true,
+export const WG_EXTENSION_DEFAULT_SETTINGS: ExtensionSettings = {
+  phishingDetection: true,
   simulationEnabled: true,
-  walletVersionNotifications: true
+  maliciousExtensionDetection: true,
+  approvalNotifications: true,
 };
