@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useChat } from '../../../../../../lib/hooks/useChat';
+import { useChat } from '../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
-import { CompletedSuccessfulSimulation } from '../../../../../../lib/simulation/storage';
+import { CompletedSuccessfulSimulation } from '../../../../lib/simulation/storage';
 import posthog from 'posthog-js';
 
 export const ChatWeb3Tab = ({

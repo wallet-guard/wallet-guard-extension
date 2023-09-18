@@ -8,6 +8,11 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { Modal } from '@chakra-ui/react';
+import { openDashboard } from '../../../../lib/helpers/linkHelper';
+import styles from './WelcomeModal.module.css';
+import { AiOutlineSecurityScan } from 'react-icons/ai';
+import { BsListCheck } from 'react-icons/bs';
+import posthog from 'posthog-js';
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -33,18 +38,29 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
     }
   });
 
+  function tryDashboard() {
+    posthog.capture('click dashboard promo');
+    openDashboard('simulation_promo', true);
+    onClose();
+  }
+
+  function ignoreDashboard() {
+    posthog.capture('ignore dashboard promo');
+    onClose();
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
       <ModalOverlay backdropFilter="blur(1px)" />
       <ModalContent
-        style={{ padding: 0, backgroundColor: '#232323', marginBottom: !isLargeScreen ? '0px' : '4rem' }}
+        style={{ padding: 0, backgroundColor: '#0b0b0b', marginBottom: !isLargeScreen ? '0px' : '4rem' }}
         containerProps={{ alignItems: isLargeScreen ? 'center' : 'flex-end' }}
       >
         <ModalBody style={{ padding: 0, paddingBottom: '2rem' }}>
           <div>
             <div>
               <img
-                src="/images/chatweb3/welcomeChatWeb3.png"
+                src="/images/chatweb3/dashboardWelcome.png"
                 alt=""
                 style={{
                   width: '100%',
@@ -76,7 +92,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       textAlign: 'center',
                     }}
                   >
-                    Introducing <span style={{ color: '#19FF00' }}>ChatWeb3</span>
+                    Run your first<span style={{ color: '#19FF00' }}> security scan</span>
                   </h1>
                   <p
                     style={{
@@ -87,7 +103,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       textAlign: 'center',
                     }}
                   >
-                    Your personal web3 security companion to help onboard and educate you as you navigate the space.
+                    Our new security dashboard automates your wallet security, so you can degen safely.
                   </p>
                   <hr style={{ width: '100%', borderColor: 'gray', maxWidth: '650px', paddingBottom: '0.75rem' }} />
                 </div>
@@ -96,7 +112,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                     style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '0.75rem' }}
                   >
                     <div style={{ marginBottom: '1rem' }}>
-                      <img src="/images/chatweb3/choice.png" alt="" width={35} height={35} />
+                      <AiOutlineSecurityScan color='#19ff00' fontSize={'35px'} />
                     </div>
                     <h2
                       style={{
@@ -107,10 +123,10 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                         textAlign: 'center',
                       }}
                     >
-                      Hotkey Support
+                      Run your security scan
                     </h2>
                     <p style={{ color: 'gray', textAlign: 'center', maxWidth: isLargeScreen ? '230px' : '270px' }}>
-                      <Kbd>{isMac ? 'command' : 'control'} + shift + U</Kbd> or try right click and Ask ChatWeb3
+                      Runs in seconds. Alerts you to any risks.
                     </p>
                   </div>
                   <div
@@ -128,7 +144,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                     style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: '0.75rem' }}
                   >
                     <div style={{ marginBottom: '1rem' }}>
-                      <img src="/images/chatweb3/asking.png" alt="" width={35} height={35} />
+                      <BsListCheck color='#19ff00' fontSize={'35px'} />
                     </div>
                     <h2
                       style={{
@@ -139,14 +155,14 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                         textAlign: 'center',
                       }}
                     >
-                      Ask Questions
+                      Revoke open approvals
                     </h2>
                     <p style={{ fontSize: '1rem', color: 'gray', textAlign: 'center', maxWidth: '230px' }}>
-                      Access ChatWeb3 from anywhere on the web
+                      Open approvals can put your assets at risk.
                     </p>
                   </div>
                 </div>
-                <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
+                <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <button
                     style={{
                       backgroundColor: 'white',
@@ -158,9 +174,25 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       fontSize: '1rem',
                       outline: 'none',
                     }}
-                    onClick={onClose}
+                    className={styles.tryButton}
+                    onClick={tryDashboard}
                   >
-                    Continue
+                    Scan Now
+                  </button>
+                  <button
+                    className={styles.skipButton}
+                    style={{
+                      backgroundColor: '#fff0',
+                      fontWeight: '600',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '0.25rem',
+                      width: '200px',
+                      fontSize: '1rem',
+                      outline: 'none',
+                    }}
+                    onClick={ignoreDashboard}
+                  >
+                    Skip for now
                   </button>
                 </div>
               </div>

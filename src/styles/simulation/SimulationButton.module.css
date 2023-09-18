@@ -13,6 +13,7 @@
 
 .button:hover {
     cursor: pointer;
+    filter: brightness(90%);
 }
 
 .footer-container {

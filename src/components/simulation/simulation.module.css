@@ -38,8 +38,9 @@
 
 .footer-container {
   position: fixed;
+  border-top: .5px solid #3F3F3F;
   bottom: 0;
-  background-color: #232323;
+  background-color: #0b0b0b;
   width: 100%;
   padding-bottom: 1.5rem !important;
 }
@@ -54,6 +55,10 @@
   width: 90%;
   padding-bottom: 12px;
   padding-top: 12px;
+}
+
+.reject-button:hover {
+  background-color: rgb(20, 20, 20);
 }
 
 .close {

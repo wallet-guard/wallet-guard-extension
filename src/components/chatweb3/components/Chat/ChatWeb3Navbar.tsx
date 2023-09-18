@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Kbd } from '@chakra-ui/react';
 import { IconChevronLeft } from '@tabler/icons-react';
-import { NavbarShareButton } from '../../../../../common/NavbarShareButton';
+import { NavbarShareButton } from '../../../common/NavbarShareButton';
 
 export const Navbar = ({
   showChatWeb3,

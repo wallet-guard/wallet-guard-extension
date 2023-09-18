@@ -183,7 +183,7 @@ export function PhishingWarning() {
             )}
             {safeUrl === 'null' && (
               <Button
-                onClick={() => openDashboard('phishing_page_my_dashboard', true)}
+                onClick={() => openDashboard('phishing_page_my_dashboard')}
                 variant="primary"
                 rightIcon={<CheckIcon />}
               >

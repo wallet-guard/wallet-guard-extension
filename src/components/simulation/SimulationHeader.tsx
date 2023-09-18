@@ -23,7 +23,7 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ details }) =
     } else if (recommendedAction === RecommendedActionType.Warn) {
       return '#FF783E';
     } else if (recommendedAction === RecommendedActionType.None) {
-      return '#646464'
+      return '#646464';
     }
 
     return '#0b0b0b';

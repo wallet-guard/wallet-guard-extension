@@ -4,9 +4,12 @@ export function openGuide() {
   });
 }
 
-export function openDashboard(source: string, updateCurrentURL = false) {
-  if (updateCurrentURL) {
-    chrome.tabs.update({ url: 'https://dashboard.walletguard.app/?client=extension&source=' + source });
+export function openDashboard(source: string, isSimulator = false) {
+  if (isSimulator) {
+    chrome.tabs.create({
+      url: 'https://dashboard.walletguard.app/?client=extension&source=' + source
+    });
+    return;
   }
 
   if (source === 'install') {
