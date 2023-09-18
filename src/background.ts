@@ -357,5 +357,7 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
     }
   } else if (request.type === DashboardMessageCommands.GetAlertHistory) {
     localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory).then((alerts) => sendResponse(alerts));
+  } else if (request.type === DashboardMessageCommands.HasWalletGuardExtension) {
+    sendResponse(true);
   }
 });
