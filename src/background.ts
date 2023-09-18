@@ -18,7 +18,7 @@ import {
 } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
-import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS } from './lib/settings';
+import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS, isValidExtensionSettings } from './lib/settings';
 import { AlertCategory, AlertDetail } from './models/Alert';
 import { getCurrentSite } from './services/phishing/currentSiteService';
 import { checkUrlForPhishing } from './services/phishing/phishingService';
@@ -334,7 +334,6 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   // Check if the transaction was already simulated and confirmed
   const isApproved = findApprovedTransaction(approvedTxns, message.data);
   if (isApproved) return;
-
   // Wait for Metamask to popup first because otherwise Chrome will create both popups in the same coordinates
   await new Promise((resolve) => setTimeout(resolve, 200));
 
@@ -350,8 +349,12 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
   } else if (request.type === DashboardMessageCommands.GetSettings) {
     localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings).then((settings) => sendResponse(settings));
   } else if (request.type === DashboardMessageCommands.UpdateSettings) {
-    const newSettings = request.data as ExtensionSettings;
-    chrome.storage.local.set({ [WgKeys.ExtensionSettings]: newSettings });
+    if (isValidExtensionSettings(request.data)) {
+      const newSettings = request.data;
+      chrome.storage.local.set({ [WgKeys.ExtensionSettings]: newSettings });
+    } else {
+      console.error('invalid settings update request', request);
+    }
   } else if (request.type === DashboardMessageCommands.GetAlertHistory) {
     localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory).then((alerts) => sendResponse(alerts));
   }

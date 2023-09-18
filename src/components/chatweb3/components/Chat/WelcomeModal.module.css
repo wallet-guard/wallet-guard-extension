@@ -1,3 +1,6 @@
+.tryButton:hover {
+  filter: brightness(90%);
+}
 
 .skipButton {
   color: #c4c4c4;

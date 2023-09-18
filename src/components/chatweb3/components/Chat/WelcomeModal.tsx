@@ -53,14 +53,14 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
     <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
       <ModalOverlay backdropFilter="blur(1px)" />
       <ModalContent
-        style={{ padding: 0, backgroundColor: '#232323', marginBottom: !isLargeScreen ? '0px' : '4rem' }}
+        style={{ padding: 0, backgroundColor: '#0b0b0b', marginBottom: !isLargeScreen ? '0px' : '4rem' }}
         containerProps={{ alignItems: isLargeScreen ? 'center' : 'flex-end' }}
       >
         <ModalBody style={{ padding: 0, paddingBottom: '2rem' }}>
           <div>
             <div>
               <img
-                src="/images/chatweb3/welcomeChatWeb3.png"
+                src="/images/chatweb3/dashboardWelcome.png"
                 alt=""
                 style={{
                   width: '100%',
@@ -126,7 +126,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       Run your security scan
                     </h2>
                     <p style={{ color: 'gray', textAlign: 'center', maxWidth: isLargeScreen ? '230px' : '270px' }}>
-                      Runs in seconds. Alerts you to any risk.
+                      Runs in seconds. Alerts you to any risks.
                     </p>
                   </div>
                   <div
@@ -174,9 +174,10 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       fontSize: '1rem',
                       outline: 'none',
                     }}
+                    className={styles.tryButton}
                     onClick={tryDashboard}
                   >
-                    Try it out
+                    Scan Now
                   </button>
                   <button
                     className={styles.skipButton}
