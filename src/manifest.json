@@ -12,6 +12,9 @@
     "page": "dashboard.html",
     "open_in_tab": true
   },
+  "externally_connectable": {
+    "matches": ["https://*.walletguard.app/*"]
+  },
   "action": {
     "default_icon": "images/wg_logos/logo_16x16.png"
   },

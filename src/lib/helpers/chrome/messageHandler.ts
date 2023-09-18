@@ -47,3 +47,17 @@ export function findApprovedTransaction(approvedTxns: TransactionArgs[], txn: Tr
     return approvedTxns.find((x: any) => x.hash === txn.hash);
   }
 }
+
+// DASHBOARD MESSAGE HANDLING
+
+export enum DashboardMessageCommands {
+  GetWalletVersions = 'GET_WALLET_VERSIONS',
+  GetSettings = 'GET_SETTINGS',
+  UpdateSettings = 'UPDATE_SETTINGS',
+  GetAlertHistory = 'GET_ALERT_HISTORY'
+}
+
+export interface DashboardMessageBody {
+  type: DashboardMessageCommands;
+  data?: unknown;
+}

@@ -13,6 +13,8 @@ import {
   ProceedAnywayMessageType,
   ApprovedTxnMessageType,
   RunSimulationMessageType,
+  DashboardMessageBody,
+  DashboardMessageCommands,
 } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
@@ -20,7 +22,7 @@ import { Settings, WG_DEFAULT_SETTINGS } from './lib/settings';
 import { AlertCategory, AlertDetail } from './models/Alert';
 import { getCurrentSite } from './services/phishing/currentSiteService';
 import { checkUrlForPhishing } from './services/phishing/phishingService';
-import { checkAllWalletsAndCreateAlerts } from './services/http/versionService';
+import { checkAllWalletsAndCreateAlerts, fetchAllWallets } from './services/http/versionService';
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
@@ -339,3 +341,18 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   // Run the simulation
   clearOldSimulations().then(() => fetchSimulationAndUpdate(message.data));
 };
+
+chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sender, sendResponse) => {
+  if (!request?.type) return;
+
+  if (request.type === DashboardMessageCommands.GetWalletVersions) {
+    fetchAllWallets().then((wallets) => sendResponse(wallets));
+  } else if (request.type === DashboardMessageCommands.GetSettings) {
+    localStorageHelpers.get<Settings>(WgKeys.Settings).then((settings) => sendResponse(settings));
+  } else if (request.type === DashboardMessageCommands.UpdateSettings) {
+    const newSettings = request.data as Settings;
+    chrome.storage.local.set({ settings: newSettings });
+  } else if (request.type === DashboardMessageCommands.GetAlertHistory) {
+    localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory).then((alerts) => sendResponse(alerts));
+  }
+});

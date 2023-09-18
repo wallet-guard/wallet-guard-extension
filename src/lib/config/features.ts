@@ -5,7 +5,14 @@ export const supportedWallets = {
   metamask: 'nkbihfbeogaeaoehlefnkodbefgpgknn',
   phantom: 'bfnaelmomeimhlpmgjnjophhpkkoljpa',
   trustwallet: 'egjidjbpglichdcondbcbdnbeeppgdph',
-  binance: 'fhbohimaelbohpjbbldcngcnapndodjp'
+  binance: 'fhbohimaelbohpjbbldcngcnapndodjp',
+  rabby: 'acmacodkjbdgmoleebolmdjonilkdbch',
+  coinbase: 'hnfanknocfeofbddgcijnmhnfnkdnaad',
+  keplr: 'dmkamcknogkgcdfhhbddcghachkejeap',
+  argentx: 'dlcobpjiigpikoobohmabehhmhfoodbb',
+  xverse: 'idnnbdplmphpflfnlkomgpfbpcgelopg',
+  sui: 'opcgpfmipidbgpenhmajoajpbobppdil',
+  martian: 'efbglgofoippbgcjepnhiblaibcnclgk'
 } as const;
 
 export const SUPPORTED_CHAINS = [

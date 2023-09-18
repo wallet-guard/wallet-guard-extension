@@ -6,10 +6,12 @@ export function openGuide() {
 
 export function openDashboard(source: string, updateCurrentURL = false) {
   if (updateCurrentURL) {
-    chrome.tabs.update({ url: 'chrome-extension://pdgbckgdncnhihllonhnjbdoighgpimk/dashboard.html?source=' + source });
+    chrome.tabs.update({ url: 'https://dashboard.walletguard.app/?client=extension&source=' + source });
+  }
+
+  if (source === 'install') {
+    chrome.tabs.update({ url: 'https://dashboard.walletguard.app/onboarding/welcome/?client=extension&source=install' });
   } else {
-    chrome.tabs.create({
-      url: 'chrome-extension://pdgbckgdncnhihllonhnjbdoighgpimk/dashboard.html?source=' + source
-    });
+    chrome.tabs.update({ url: 'https://dashboard.walletguard.app/?client=extension&source=' + source });
   }
 }
