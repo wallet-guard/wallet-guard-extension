@@ -8,9 +8,8 @@
     "128": "images/wg_logos/logo_128x128.png"
   },
   "offline_enabled": false,
-  "options_ui": {
-    "page": "dashboard.html",
-    "open_in_tab": true
+  "externally_connectable": {
+    "matches": ["https://*.walletguard.app/*", "http://localhost:5173/*"]
   },
   "externally_connectable": {
     "matches": ["https://*.walletguard.app/*"]

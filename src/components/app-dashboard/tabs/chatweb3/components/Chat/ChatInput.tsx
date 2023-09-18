@@ -158,6 +158,8 @@ export const ChatInput: FC<Props> = ({
               <div className="pb-2" style={{ textAlign: 'left' }}>
                 <ButtonGroup variant="outline" size="sm" spacing="2">
                   <Button
+                    _hover={{ background: 'rgb(255,255,255,.08)' }}
+                    borderColor='rgb(255,255,255,.16)'
                     onClick={() => {
                       handleSend(
                         showChatWeb3
@@ -175,6 +177,8 @@ export const ChatInput: FC<Props> = ({
                         : "What's a NFT?"}
                   </Button>
                   <Button
+                    _hover={{ background: 'rgb(255,255,255,.08)' }}
+                    borderColor='rgb(255,255,255,.16)'
                     onClick={() => {
                       handleSend(
                         showChatWeb3
@@ -196,6 +200,8 @@ export const ChatInput: FC<Props> = ({
               <div className="pb-2" style={{ textAlign: 'left' }}>
                 <ButtonGroup variant="outline" size="sm" spacing="2">
                   <Button
+                    _hover={{ background: 'rgb(255,255,255,.08)' }}
+                    borderColor='rgb(255,255,255,.16)'
                     onClick={() => {
                       handleSend(
                         currentUrl && chatWeb3QuestionsRefactored[currentUrl]
@@ -209,7 +215,8 @@ export const ChatInput: FC<Props> = ({
                       : 'Define smart contracts?'}
                   </Button>
                   <Button
-                    onClick={() => {
+                    _hover={{ background: 'rgb(255,255,255,.08)' }}
+                    borderColor='rgb(255,255,255,.16)' onClick={() => {
                       handleSend(
                         currentUrl && chatWeb3QuestionsRefactored[currentUrl]
                           ? chatWeb3QuestionsRefactored[currentUrl][3].reformatted

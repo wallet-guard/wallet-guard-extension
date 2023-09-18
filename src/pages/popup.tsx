@@ -16,7 +16,6 @@ import { PersonalSign } from '../components/simulation/PersonalSign';
 import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../lib/theme';
-import { WelcomeModal } from '../components/app-dashboard/tabs/chatweb3/components/Chat/WelcomeModal';
 import { TransactionDetails } from '../components/simulation/TransactionDetails';
 import { useSimulation } from '../lib/hooks/useSimulation';
 import { SimulationTabs } from '../components/simulation/SimulationTabs';
@@ -103,10 +102,6 @@ const Popup = () => {
 
   return (
     <>
-      <ChakraProvider theme={theme}>
-        <WelcomeModal isOpen={!tutorialComplete} onClose={toggleChatWeb3WelcomeModal} />
-      </ChakraProvider>
-
       <div className={styles.transactionHeadingFixed}>
         <SimulationHeader details={{ recommendedAction: currentSimulation.simulation.recommendedAction, verified: currentSimulation.simulation.scanResult.verified }} />
         <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
