@@ -7,7 +7,6 @@ import { SimulationHeader } from '../components/simulation/SimulationHeader';
 import { TransactionContent } from '../components/simulation/TransactionContent';
 import { SimulationMethodType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
 import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
 import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
@@ -42,7 +41,7 @@ const Popup = () => {
 
   Sentry.init({
     dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
-    integrations: [new BrowserTracing()],
+    integrations: [new Sentry.BrowserTracing()],
   });
 
   useEffect(() => {
