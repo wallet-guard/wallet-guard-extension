@@ -1,4 +1,3 @@
-const { sentryWebpackPlugin } = require('@sentry/webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -79,12 +78,5 @@ module.exports = {
       process: 'process/browser.js',
     }),
     new DotenvPlugin(),
-    sentryWebpackPlugin({
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: 'wallet-guard',
-      project: 'wallet-guard-extension',
-    }),
   ],
-
-  devtool: 'source-map',
 };
