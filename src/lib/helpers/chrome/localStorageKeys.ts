@@ -6,5 +6,6 @@ export enum WgKeys {
   CurrentSite = 'currentSite',
   Simulations = 'simulations',
   SurveyComplete = 'surveyComplete',
-  DashboardOnboarding = 'dashboardOnboarding'
+  DashboardOnboarding = 'dashboardOnboarding',
+  PosthogUser = 'ph_phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD_posthog'
 }

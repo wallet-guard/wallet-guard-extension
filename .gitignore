@@ -7,3 +7,5 @@ src/scripts/cmc_import
 
 .DS_Store
 .env
+
+.env.sentry-build-plugin

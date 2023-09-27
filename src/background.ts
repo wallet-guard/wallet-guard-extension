@@ -15,10 +15,12 @@ import {
   RunSimulationMessageType,
   DashboardMessageBody,
   DashboardMessageCommands,
+  isValidExtensionSettings,
+  isValidPosthogUser,
 } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
-import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS, isValidExtensionSettings } from './lib/settings';
+import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS } from './lib/settings';
 import { AlertCategory, AlertDetail } from './models/Alert';
 import { getCurrentSite } from './services/phishing/currentSiteService';
 import { checkUrlForPhishing } from './services/phishing/phishingService';
@@ -27,6 +29,7 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
+import { PosthogUser } from './models/PosthogData';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -137,6 +140,14 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     // if the user don't have any settings, set the default settings
     if (!res) {
       chrome.storage.local.set({ [WgKeys.ExtensionSettings]: WG_EXTENSION_DEFAULT_SETTINGS });
+    }
+  });
+
+  localStorageHelpers.get<PosthogUser>(WgKeys.PosthogUser).then((res) => {
+    if (!res) {
+      chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall');
+    } else {
+      chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall?id=' + res);
     }
   });
 
@@ -359,5 +370,26 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
     localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory).then((alerts) => sendResponse(alerts));
   } else if (request.type === DashboardMessageCommands.HasWalletGuardExtension) {
     sendResponse(true);
+  } else if (request.type === DashboardMessageCommands.GetPosthogId) {
+    localStorageHelpers.get<string | null>(WgKeys.PosthogUser).then((data) => {
+      if (!data) return;
+
+      const posthogData: PosthogUser = JSON.parse(data);
+      sendResponse({
+        distinct_id: posthogData.distinct_id
+      } as PosthogUser);
+    });
+  } else if (request.type === DashboardMessageCommands.CreatePosthogId) {
+    localStorageHelpers.get<string | null>(WgKeys.PosthogUser).then((posthogUser) => {
+      // Do not override the user if one already exists
+      if (posthogUser) return;
+
+      if (isValidPosthogUser(request.data)) {
+        const user = request.data;
+        chrome.storage.local.set({ [WgKeys.PosthogUser]: user.distinct_id });
+      } else {
+        console.error('invalid posthog user creation request', request);
+      }
+    });
   }
 });
