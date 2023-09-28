@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev:chrome": "cross-env TARGET_BROWSER=chrome webpack --config webpack/webpack.dev.js --watch",
+    "staging:chrome": "npm run clean && cross-env TARGET_BROWSER=chrome webpack --config webpack/webpack.staging.js",
     "build:chrome": "npm run clean && cross-env TARGET_BROWSER=chrome webpack --config webpack/webpack.prod.js",
     "zip:chrome": "web-ext build -s dist/chrome -a dist -n chrome.zip -o",
     "clean": "rimraf dist",
