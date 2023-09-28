@@ -16,7 +16,6 @@ import {
   DashboardMessageBody,
   DashboardMessageCommands,
   isValidExtensionSettings,
-  isValidPosthogUser,
 } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
@@ -29,7 +28,6 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
-import { PosthogUser } from './models/PosthogData';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -143,13 +141,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     }
   });
 
-  localStorageHelpers.get<PosthogUser>(WgKeys.PosthogUser).then((res) => {
-    if (!res) {
-      chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall');
-    } else {
-      chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall?id=' + res);
-    }
-  });
+  chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall');
 
   const ONE_DAY_AS_MINUTES = 1440;
   chrome.alarms.create('checkVersions', {
@@ -370,34 +362,5 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
     localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory).then((alerts) => sendResponse(alerts));
   } else if (request.type === DashboardMessageCommands.HasWalletGuardExtension) {
     sendResponse(true);
-  } else if (request.type === DashboardMessageCommands.GetPosthogId) {
-    localStorageHelpers.get<string | null>(WgKeys.PosthogUser).then((data) => {
-      console.log('testtest', data)
-      if (!data) return;
-
-      console.log('ph data', data);
-
-      const posthogData: PosthogUser = JSON.parse(data);
-      sendResponse({
-        distinct_id: posthogData.distinct_id
-      } as PosthogUser);
-    });
-  } else if (request.type === DashboardMessageCommands.CreatePosthogId) {
-    localStorageHelpers.get<string | null>(WgKeys.PosthogUser).then((posthogUser) => {
-      // Do not override the user if one already exists
-      console.log('hit')
-      if (posthogUser) return;
-
-      console.log('setting id to', request.data);
-
-      if (isValidPosthogUser(request.data)) {
-        const user = request.data;
-        // this might be a bad idea- posthog sets a lot of metadata along with this
-        chrome.storage.local.set({ [WgKeys.PosthogUser]: JSON.stringify({ distinct_id: user.distinct_id } as PosthogUser) });
-        chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall?id=' + user.distinct_id);
-      } else {
-        console.error('invalid posthog user creation request', request);
-      }
-    });
   }
 });

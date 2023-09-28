@@ -1,4 +1,3 @@
-import { PosthogUser } from '../../../models/PosthogData';
 import { TransactionArgs } from '../../../models/simulation/Transaction';
 import { ExtensionSettings } from '../../settings';
 var equal = require('deep-equal');
@@ -58,8 +57,6 @@ export enum DashboardMessageCommands {
   UpdateSettings = 'UPDATE_SETTINGS',
   GetAlertHistory = 'GET_ALERT_HISTORY',
   HasWalletGuardExtension = 'HAS_WALLET_GUARD_EXTENSION',
-  GetPosthogId = 'GET_POSTHOG_ID',
-  CreatePosthogId = 'CREATE_POSTHOG_ID'
 }
 
 export interface DashboardMessageBody {
@@ -75,13 +72,5 @@ export function isValidExtensionSettings(obj: any): obj is ExtensionSettings {
     typeof obj.simulationEnabled === "boolean" &&
     typeof obj.maliciousExtensionDetection === "boolean" &&
     typeof obj.approvalNotifications === "boolean"
-  );
-}
-
-export function isValidPosthogUser(obj: any): obj is PosthogUser {
-  return (
-    typeof obj === "object" &&
-    obj !== null &&
-    typeof obj.distinct_id === "string"
   );
 }
