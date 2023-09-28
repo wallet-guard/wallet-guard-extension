@@ -28,4 +28,4 @@ jobs:
         run: npm run test
 
       - name: Build step
-        run: npm run build:chrome
+        run: npm run staging:chrome

@@ -26,7 +26,6 @@ import { standardizeUrl } from '../lib/helpers/util';
 import theme from '../lib/theme';
 import styles from '../styles.module.css';
 import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
 import { WarningType } from '../models/simulation/Transaction';
 
 export function PhishingWarning() {
@@ -50,7 +49,7 @@ export function PhishingWarning() {
 
     Sentry.init({
       dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
-      integrations: [new BrowserTracing()],
+      integrations: [new Sentry.BrowserTracing()],
     });
     posthog.capture('show phishing screen', { phishingWebsite: proceedAnywayUrl, reason });
   }, []);

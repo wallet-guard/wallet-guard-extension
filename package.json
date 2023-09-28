@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev:chrome": "cross-env TARGET_BROWSER=chrome webpack --config webpack/webpack.dev.js --watch",
+    "staging:chrome": "npm run clean && cross-env TARGET_BROWSER=chrome webpack --config webpack/webpack.staging.js",
     "build:chrome": "npm run clean && cross-env TARGET_BROWSER=chrome webpack --config webpack/webpack.prod.js",
     "zip:chrome": "web-ext build -s dist/chrome -a dist -n chrome.zip -o",
     "clean": "rimraf dist",
@@ -16,8 +17,9 @@
     "@emotion/styled": "^11.10.5",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@sentry/react": "^7.37.1",
+    "@sentry/react": "^7.70.0",
     "@sentry/tracing": "^7.37.1",
+    "@sentry/webpack-plugin": "^2.7.1",
     "@tabler/icons-react": "^2.11.0",
     "deep-equal": "^2.2.0",
     "eth-rpc-errors": "^4.0.3",
