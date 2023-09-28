@@ -28,6 +28,9 @@ import styles from '../styles.module.css';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { WarningType } from '../models/simulation/Transaction';
+import localStorageHelpers from '../lib/helpers/chrome/localStorage';
+import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
+import { PosthogUser } from '../models/PosthogData';
 
 export function PhishingWarning() {
   const [isFalsePositive, setIsFalsePositive] = useState(false);
@@ -46,6 +49,14 @@ export function PhishingWarning() {
       persistence: 'localStorage',
       autocapture: false,
       capture_pageleave: false,
+      loaded: () => {
+        localStorageHelpers.get<PosthogUser | null>(WgKeys.PosthogUser).then((res) => {
+          if (!res) return;
+          if (posthog.get_distinct_id() === res.distinct_id) return;
+
+          posthog.alias(res.distinct_id);
+        });
+      }
     });
 
     Sentry.init({

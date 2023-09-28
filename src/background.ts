@@ -372,7 +372,10 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
     sendResponse(true);
   } else if (request.type === DashboardMessageCommands.GetPosthogId) {
     localStorageHelpers.get<string | null>(WgKeys.PosthogUser).then((data) => {
+      console.log('testtest', data)
       if (!data) return;
+
+      console.log('ph data', data);
 
       const posthogData: PosthogUser = JSON.parse(data);
       sendResponse({
@@ -382,11 +385,16 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
   } else if (request.type === DashboardMessageCommands.CreatePosthogId) {
     localStorageHelpers.get<string | null>(WgKeys.PosthogUser).then((posthogUser) => {
       // Do not override the user if one already exists
+      console.log('hit')
       if (posthogUser) return;
+
+      console.log('setting id to', request.data);
 
       if (isValidPosthogUser(request.data)) {
         const user = request.data;
-        chrome.storage.local.set({ [WgKeys.PosthogUser]: user.distinct_id });
+        // this might be a bad idea- posthog sets a lot of metadata along with this
+        chrome.storage.local.set({ [WgKeys.PosthogUser]: JSON.stringify({ distinct_id: user.distinct_id } as PosthogUser) });
+        chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall?id=' + user.distinct_id);
       } else {
         console.error('invalid posthog user creation request', request);
       }
