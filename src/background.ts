@@ -15,10 +15,11 @@ import {
   RunSimulationMessageType,
   DashboardMessageBody,
   DashboardMessageCommands,
+  isValidExtensionSettings,
 } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
-import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS, isValidExtensionSettings } from './lib/settings';
+import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS } from './lib/settings';
 import { AlertCategory, AlertDetail } from './models/Alert';
 import { getCurrentSite } from './services/phishing/currentSiteService';
 import { checkUrlForPhishing } from './services/phishing/phishingService';
@@ -139,6 +140,8 @@ chrome.runtime.onInstalled.addListener(async (details) => {
       chrome.storage.local.set({ [WgKeys.ExtensionSettings]: WG_EXTENSION_DEFAULT_SETTINGS });
     }
   });
+
+  chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall');
 
   const ONE_DAY_AS_MINUTES = 1440;
   chrome.alarms.create('checkVersions', {

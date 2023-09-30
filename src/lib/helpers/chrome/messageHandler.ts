@@ -1,4 +1,5 @@
 import { TransactionArgs } from '../../../models/simulation/Transaction';
+import { ExtensionSettings } from '../../settings';
 var equal = require('deep-equal');
 
 export enum BrowserMessageType {
@@ -61,4 +62,15 @@ export enum DashboardMessageCommands {
 export interface DashboardMessageBody {
   type: DashboardMessageCommands;
   data?: unknown;
+}
+
+export function isValidExtensionSettings(obj: any): obj is ExtensionSettings {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    typeof obj.phishingDetection === "boolean" &&
+    typeof obj.simulationEnabled === "boolean" &&
+    typeof obj.maliciousExtensionDetection === "boolean" &&
+    typeof obj.approvalNotifications === "boolean"
+  );
 }
