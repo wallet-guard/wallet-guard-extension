@@ -10,26 +10,10 @@ export class AlertHandler {
   // Example use cases: 1. notifs from the API 2. wallet version alerts 3. malicious urls/extension installs
   // feature of this: wallet notifs will not be shown twice for the same version
   static create(alertData: AlertDetail) {
-    let mappedData: AlertDetail = alertData
-
-    // If it doesnt come from the server :)
-    // !alertData.createdAt
-    if (!alertData.createdAt) {
-      mappedData = {
-        ...alertData,
-        createdAt: new Date().toLocaleString()
-      };
-    } else {
-      mappedData = {
-        ...alertData,
-        createdAt: new Date(alertData.createdAt).toLocaleString()
-      };
-    }
-
     this.hasAlert(alertData.key)
       .then(alertExists => {
         if (!alertExists) {
-          localStorageHelpers.upsertAlert(mappedData);
+          localStorageHelpers.upsertAlert(alertData);
           this.incrementNotifications();
         }
       });
@@ -39,7 +23,7 @@ export class AlertHandler {
     const mappedData: AlertDetail[] = alertData.map((_alert) => {
       return {
         ..._alert,
-        createdAt: new Date(_alert.createdAt).toLocaleString()
+        createdAt: new Date(_alert.createdAt).toISOString()
       };
     });
 

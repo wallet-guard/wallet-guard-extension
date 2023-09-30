@@ -1,8 +1,10 @@
+import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
 import { urlIsPhishingWarning } from '../../lib/helpers/util';
 import { ExtensionSettings } from '../../lib/settings';
+import { AlertDetail } from '../../models/Alert';
 import { PhishingResult } from '../../models/PhishingResponse';
 import { RiskFactor, Severity, WarningType } from '../../models/simulation/Transaction';
 import { domainScan } from '../http/domainScan';
@@ -67,6 +69,16 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
         '&reason=' +
         reason,
     });
+
+    const activityInfo: AlertDetail = {
+      name: 'Suspicious Site Detected',
+      category: criticalRiskFactor?.type,
+      details: `${tab.url}`,
+      key: tab.url || '',
+      createdAt: new Date().toISOString()
+    };
+
+    AlertHandler.create(activityInfo);
   }
 }
 
