@@ -29,7 +29,7 @@ export interface SimulationBaseProps {
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
-  const [dashboardWelcome, setDashboardWelcome] = useState<boolean>(true);
+  const [showDashboardWelcome, updateShowDashboardWelcome] = useState<boolean>(false);
   const { currentSimulation, loading } = useSimulation();
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
@@ -45,19 +45,24 @@ const Popup = () => {
   });
 
   useEffect(() => {
-    localStorageHelpers.get<boolean | null>(WgKeys.DashboardOnboarding).then((tutorialIsComplete) => {
-      if (tutorialIsComplete) {
-        setDashboardWelcome(true);
-        return;
-      }
+    posthog.onFeatureFlags(() => {
+      const showPromo = posthog.isFeatureEnabled('show-dashboard-promo');
+      if (!showPromo) return;
 
-      chrome.storage.local.set({ [WgKeys.DashboardOnboarding]: true });
-      setDashboardWelcome(false);
+      localStorageHelpers.get<boolean | null>(WgKeys.DashboardOnboarding).then((hasShownDashboardPromo) => {
+        if (hasShownDashboardPromo) {
+          updateShowDashboardWelcome(false);
+          return;
+        }
+
+        chrome.storage.local.set({ [WgKeys.DashboardOnboarding]: true });
+        updateShowDashboardWelcome(true);
+      });
     });
   }, []);
 
   function toggleDashboardWelcomeModal() {
-    setDashboardWelcome(!dashboardWelcome);
+    updateShowDashboardWelcome(!showDashboardWelcome);
   }
 
   // Return an empty page because we don't want any other UIs to flash in the few ms before we finish pulling from localStorage
@@ -101,7 +106,7 @@ const Popup = () => {
   return (
     <>
       <ChakraProvider theme={theme}>
-        <WelcomeModal isOpen={!dashboardWelcome} onClose={toggleDashboardWelcomeModal} />
+        <WelcomeModal isOpen={showDashboardWelcome} onClose={toggleDashboardWelcomeModal} />
       </ChakraProvider>
 
       <div className={styles.transactionHeadingFixed}>
