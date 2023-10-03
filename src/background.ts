@@ -359,8 +359,11 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
       console.error('invalid settings update request', request);
     }
   } else if (request.type === DashboardMessageCommands.GetAlertHistory) {
-    localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory).then((alerts) => sendResponse(alerts));
+    AlertHandler.getAllAlerts().then((alerts) => sendResponse(alerts));
   } else if (request.type === DashboardMessageCommands.HasWalletGuardExtension) {
     sendResponse(true);
+  } else if (request.type === DashboardMessageCommands.ReadAllAlerts) {
+    AlertHandler.clearNotifications();
+    AlertHandler.removeAllUnreadAlerts();
   }
 });

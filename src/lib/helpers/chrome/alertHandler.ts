@@ -64,7 +64,7 @@ export class AlertHandler {
   }
 
   static async getAllAlerts(): Promise<AlertDetail[]> {
-    const alerts = await localStorageHelpers.get<AlertDetail[]>(WgKeys.AlertHistory);
+    const alerts = await localStorageHelpers.get<AlertDetail[] | null>(WgKeys.AlertHistory);
     return alerts || [];
   }
 
