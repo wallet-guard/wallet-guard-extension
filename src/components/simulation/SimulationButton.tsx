@@ -64,6 +64,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                 color="white"
                 buttonText="Reject"
                 onClick={() => {
+                  posthog.identify(signer);
                   posthog.capture('simulation rejected', {
                     storedSimulation: storedSimulation,
                   });
@@ -79,7 +80,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   imgWidth={19}
                   buttonText="Skip"
                   onClick={() => {
-                    posthog.alias(signer);
+                    posthog.identify(signer);
                     posthog.capture('simulation skipped', {
                       storedSimulation: storedSimulation,
                     });
@@ -94,6 +95,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   color="white"
                   buttonText="Proceed anyway"
                   onClick={() => {
+                    posthog.identify(signer);
                     posthog.capture('simulation proceed anyway', {
                       storedSimulation: storedSimulation,
                     });
@@ -107,6 +109,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   imgWidth={19}
                   buttonText="Continue"
                   onClick={() => {
+                    posthog.identify(signer);
                     posthog.capture('simulation confirmed', {
                       storedSimulation: storedSimulation,
                     });
