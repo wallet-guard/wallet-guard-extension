@@ -7,4 +7,5 @@ export enum WgKeys {
   Simulations = 'simulations',
   SurveyComplete = 'surveyComplete',
   DashboardOnboarding = 'dashboardOnboarding',
+  AddressList = 'addressList',
 }
