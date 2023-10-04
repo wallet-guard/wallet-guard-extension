@@ -15,13 +15,23 @@ import { BsListCheck } from 'react-icons/bs';
 import posthog from 'posthog-js';
 
 interface WelcomeModalProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
-export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {
+type ButtonColor = 'green' | undefined;
+
+export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
   const [isMac, setIsMac] = useState(false);
+  const [buttonColor, setButtonColor] = useState<ButtonColor>();
+
+  useEffect(() => {
+    posthog.capture('show dashboard promo');
+    posthog.onFeatureFlags(() => {
+      const color = posthog.getFeatureFlagPayload('dashboard-promo-button-color') as ButtonColor;
+      setButtonColor(color);
+    });
+  }, []);
 
   const updateScreenSize = () => {
     setIsLargeScreen(window.innerWidth >= 768);
@@ -38,19 +48,19 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
     }
   });
 
-  function tryDashboard() {
-    posthog.capture('click dashboard promo');
-    openDashboard('simulation_promo', true);
+  function promptDashboard(converted: boolean) {
+    posthog.capture('dashboard promo interaction', {
+      converted,
+    });
     onClose();
-  }
 
-  function ignoreDashboard() {
-    posthog.capture('ignore dashboard promo');
-    onClose();
+    if (converted) {
+      openDashboard('simulation_promo', true);
+    }
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
+    <Modal isOpen={true} onClose={onClose} size={'5xl'}>
       <ModalOverlay backdropFilter="blur(1px)" />
       <ModalContent
         style={{ padding: 0, backgroundColor: '#0b0b0b', marginBottom: !isLargeScreen ? '0px' : '4rem' }}
@@ -165,7 +175,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                 <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <button
                     style={{
-                      backgroundColor: 'white',
+                      backgroundColor: buttonColor === 'green' ? '#19ff00' : 'white',
                       color: 'black',
                       fontWeight: '600',
                       padding: '0.5rem 1rem',
@@ -175,7 +185,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       outline: 'none',
                     }}
                     className={styles.tryButton}
-                    onClick={tryDashboard}
+                    onClick={() => promptDashboard(true)}
                   >
                     Scan Now
                   </button>
@@ -190,7 +200,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
                       fontSize: '1rem',
                       outline: 'none',
                     }}
-                    onClick={ignoreDashboard}
+                    onClick={() => promptDashboard(false)}
                   >
                     Skip for now
                   </button>

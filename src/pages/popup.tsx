@@ -106,7 +106,9 @@ const Popup = () => {
   return (
     <>
       <ChakraProvider theme={theme}>
-        <WelcomeModal isOpen={showDashboardWelcome} onClose={toggleDashboardWelcomeModal} />
+        {showDashboardWelcome && (
+          <WelcomeModal onClose={toggleDashboardWelcomeModal} />
+        )}
       </ChakraProvider>
 
       <div className={styles.transactionHeadingFixed}>

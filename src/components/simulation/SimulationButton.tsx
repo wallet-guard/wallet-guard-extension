@@ -1,5 +1,5 @@
 import posthog from 'posthog-js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   simulationNeedsAction,
   StoredSimulation,
@@ -8,6 +8,8 @@ import {
 } from '../../lib/simulation/storage';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/SimulationButton.module.css';
+import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
+import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 
 interface SimulationActionButton {
   color?: string;
@@ -51,6 +53,24 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
     setNeedsConfirm(false);
   }
 
+  function handlePosthogIds() {
+    localStorageHelpers.get<string[] | null>(WgKeys.AddressList).then((res) => {
+      const addresses = res || [];
+
+      if (posthog.persistence.get_user_state() === 'anonymous') {
+        posthog.identify(signer);
+        chrome.storage.local.set({ [WgKeys.AddressList]: [...addresses, signer] });
+      } else if (posthog.persistence.get_user_state() === 'identified' && !addresses.includes(signer)) {
+        posthog.alias(signer, posthog.get_distinct_id());
+        chrome.storage.local.set({ [WgKeys.AddressList]: [...addresses, signer] });
+      }
+    });
+  }
+
+  useEffect(() => {
+    handlePosthogIds();
+  }, []);
+
   if (simulationNeedsAction(state)) {
     return (
       <div className={`${styles['footer-container']}`}>
@@ -79,7 +99,6 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   imgWidth={19}
                   buttonText="Skip"
                   onClick={() => {
-                    posthog.alias(signer);
                     posthog.capture('simulation skipped', {
                       storedSimulation: storedSimulation,
                     });
