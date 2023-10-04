@@ -51,6 +51,14 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
     setNeedsConfirm(false);
   }
 
+  function handleIdentify() {
+    if (posthog.persistence.user_state === 'anonymous') {
+      posthog.identify(signer);
+    } else if (posthog.persistence.user_state === 'identified' && posthog.get_distinct_id() !== signer) {
+      posthog.alias(signer, posthog.get_distinct_id());
+    }
+  }
+
   if (simulationNeedsAction(state)) {
     return (
       <div className={`${styles['footer-container']}`}>
@@ -64,7 +72,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                 color="white"
                 buttonText="Reject"
                 onClick={() => {
-                  posthog.identify(signer);
+                  handleIdentify();
                   posthog.capture('simulation rejected', {
                     storedSimulation: storedSimulation,
                   });
@@ -80,7 +88,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   imgWidth={19}
                   buttonText="Skip"
                   onClick={() => {
-                    posthog.alias(signer);
+                    handleIdentify();
                     posthog.capture('simulation skipped', {
                       storedSimulation: storedSimulation,
                     });
@@ -95,7 +103,6 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   color="white"
                   buttonText="Proceed anyway"
                   onClick={() => {
-                    posthog.alias(signer);
                     posthog.capture('simulation proceed anyway', {
                       storedSimulation: storedSimulation,
                     });
@@ -109,7 +116,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                   imgWidth={19}
                   buttonText="Continue"
                   onClick={() => {
-                    posthog.alias(signer);
+                    handleIdentify();
                     posthog.capture('simulation confirmed', {
                       storedSimulation: storedSimulation,
                     });
