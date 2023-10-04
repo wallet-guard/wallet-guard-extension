@@ -115,16 +115,16 @@ function RiskFactorsWarn(props: RiskFactorsProps) {
             {riskFactors.map((riskFactor) => {
               const mappedValue = mapRiskFactorValue(riskFactor);
               return (
-                <>
-                  <div key={riskFactor.message} className={styles.row} style={{ height: '67px', marginLeft: '10px' }}>
+                <div key={riskFactor.message}>
+                  <div className={styles.row} style={{ height: '67px', marginLeft: '10px' }}>
                     {getWarningIcon(riskFactor)}
-                    <div key={riskFactor.message}>
+                    <div>
                       <p className={styles.riskFactorHeader}>{riskFactor.message}</p>
                       {mappedValue !== '' && <p className={styles.riskFactorValue}>{mappedValue}</p>}
                     </div>
                   </div>
                   <div className={styles.divider} />
-                </>
+                </div>
               );
             })}
           </div>
@@ -177,7 +177,7 @@ function RiskFactorsBlock(props: RiskFactorsProps) {
             {riskFactors.map((riskFactor) => {
               const mappedValue = mapRiskFactorValue(riskFactor);
               return (
-                <>
+                <div key={riskFactor.message}>
                   <div key={riskFactor.message} className={styles.row} style={{ height: '67px', marginLeft: '10px' }}>
                     {getWarningIcon(riskFactor)}
                     <div key={riskFactor.message}>
@@ -186,7 +186,7 @@ function RiskFactorsBlock(props: RiskFactorsProps) {
                     </div>
                   </div>
                   <div className={styles.divider} />
-                </>
+                </div>
               );
             })}
           </div>
