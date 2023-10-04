@@ -22,6 +22,7 @@ import { SimulationLoading } from '../components/simulation/SimulationSubCompone
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
 import { WelcomeModal } from '../components/chatweb3/components/Chat/WelcomeModal';
+import { isEmptyObject } from '../lib/helpers/util';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -106,7 +107,9 @@ const Popup = () => {
   return (
     <>
       <ChakraProvider theme={theme}>
-        <WelcomeModal isOpen={showDashboardWelcome} onClose={toggleDashboardWelcomeModal} />
+        {showDashboardWelcome && (
+          <WelcomeModal onClose={toggleDashboardWelcomeModal} />
+        )}
       </ChakraProvider>
 
       <div className={styles.transactionHeadingFixed}>

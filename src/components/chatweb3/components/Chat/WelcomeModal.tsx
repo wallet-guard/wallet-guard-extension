@@ -15,13 +15,12 @@ import { BsListCheck } from 'react-icons/bs';
 import posthog from 'posthog-js';
 
 interface WelcomeModalProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
 type ButtonColor = 'green' | undefined;
 
-export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) => {
+export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
   const [isMac, setIsMac] = useState(false);
   const [buttonColor, setButtonColor] = useState<ButtonColor>();
@@ -61,7 +60,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ isOpen, onClose }) =
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={'5xl'}>
+    <Modal isOpen={true} onClose={onClose} size={'5xl'}>
       <ModalOverlay backdropFilter="blur(1px)" />
       <ModalContent
         style={{ padding: 0, backgroundColor: '#0b0b0b', marginBottom: !isLargeScreen ? '0px' : '4rem' }}
