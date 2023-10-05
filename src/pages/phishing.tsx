@@ -45,6 +45,7 @@ export function PhishingWarning() {
       persistence: 'localStorage',
       autocapture: false,
       capture_pageleave: false,
+      disable_session_recording: true,
     });
 
     Sentry.init({
