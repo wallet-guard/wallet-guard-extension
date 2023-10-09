@@ -20,6 +20,12 @@ describe('Server URLs', () => {
       expect(baseURL).toEqual('https://api.walletguard.app/extension/v0/arb/mainnet/signature');
       expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/arb/mainnet/signature');
     });
+    it('Optimism signature base URL', () => {
+      const baseURL = getTransactionEndpoint('10');
+      const baseURLHex = getTransactionEndpoint('0xa');
+      expect(baseURL).toEqual('https://api.walletguard.app/extension/v0/optimism/mainnet/signature');
+      expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/optimism/mainnet/signature');
+    });
   });
 
   describe('Transaction endpoints', () => {
@@ -40,6 +46,12 @@ describe('Server URLs', () => {
       const baseURLHex = getTransactionEndpoint('0xa4b1');
       expect(baseURL).toEqual('https://api.walletguard.app/extension/v0/arb/mainnet/transaction');
       expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/arb/mainnet/transaction');
+    });
+    it('Optimism signature base URL', () => {
+      const baseURL = getTransactionEndpoint('10');
+      const baseURLHex = getTransactionEndpoint('0xa');
+      expect(baseURL).toEqual('https://api.walletguard.app/extension/v0/optimism/mainnet/transaction');
+      expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/optimism/mainnet/transaction');
     });
   });
 });
