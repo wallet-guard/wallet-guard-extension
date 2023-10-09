@@ -13,9 +13,10 @@ export function standardizeUrl(url: string): string {
   return url;
 }
 
-export function isEmptyObject(obj: object): boolean {
+export function isNullOrEmptyObject(obj: object): boolean {
+  if (!obj) return true;
   if (typeof obj !== 'object') {
-    return false;
+    return true;
   }
 
   return Object.keys(obj).length === 0;
