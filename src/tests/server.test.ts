@@ -21,8 +21,8 @@ describe('Server URLs', () => {
       expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/arb/mainnet/signature');
     });
     it('Optimism signature base URL', () => {
-      const baseURL = getTransactionEndpoint('10');
-      const baseURLHex = getTransactionEndpoint('0xa');
+      const baseURL = getSignatureEndpoint('10');
+      const baseURLHex = getSignatureEndpoint('0xa');
       expect(baseURL).toEqual('https://api.walletguard.app/extension/v0/optimism/mainnet/signature');
       expect(baseURLHex).toEqual('https://api.walletguard.app/extension/v0/optimism/mainnet/signature');
     });
