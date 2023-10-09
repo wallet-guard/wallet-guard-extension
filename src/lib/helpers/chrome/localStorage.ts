@@ -1,12 +1,12 @@
 import { AlertDetail } from '../../../models/Alert';
-import { isEmptyObject } from '../util';
+import { isNullOrEmptyObject } from '../util';
 import { WgKeys } from './localStorageKeys';
 
 const localStorageHelpers = {
   get: async function <T>(key: WgKeys): Promise<T | null> {
     const data = await chrome.storage.local.get(key);
 
-    if (isEmptyObject(data)) {
+    if (isNullOrEmptyObject(data)) {
       return null;
     }
 

@@ -13,8 +13,10 @@ export function openDashboard(source: string, isSimulator = false) {
   }
 
   if (source === 'install') {
-    chrome.tabs.update({ url: 'https://dashboard.walletguard.app/onboarding/welcome/?client=extension&source=install' });
-  } else {
+    chrome.tabs.create({ url: 'https://dashboard.walletguard.app/onboarding/welcome/?client=extension&source=install' });
+  } else if (source === 'phishing_page_my_dashboard') {
     chrome.tabs.update({ url: 'https://dashboard.walletguard.app/?client=extension&source=' + source });
+  } else {
+    chrome.tabs.create({ url: 'https://dashboard.walletguard.app/?client=extension&source=' + source });
   }
 }
