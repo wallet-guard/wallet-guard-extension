@@ -9,6 +9,9 @@ export function getAssetLogo(chainId: string) {
     case '137':
     case '0x89':
       return 'images/asset_logos/matic.png';
+    case '10':
+    case '0xa':
+      return 'images/asset_logos/optimism.png';
     default:
       return 'images/asset_logos/ethereum.png';
   }
