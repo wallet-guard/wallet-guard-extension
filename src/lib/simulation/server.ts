@@ -81,6 +81,9 @@ export function getTransactionEndpoint(chainId: string): string {
     case '0x89':
     case '137':
       return `${SERVER_URL_PROD}/polygon/mainnet/transaction`;
+    case '0xa':
+    case '10':
+      return `${SERVER_URL_PROD}/optimism/mainnet/transaction`;
     default:
       return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
   }
@@ -97,6 +100,9 @@ export function getSignatureEndpoint(chainId: string): string {
     case '0x89':
     case '137':
       return `${SERVER_URL_PROD}/polygon/mainnet/signature`;
+    case '0xa':
+    case '10':
+      return `${SERVER_URL_PROD}/optimism/mainnet/signature`;
     default:
       return `${SERVER_URL_PROD}/eth/mainnet/signature`;
   }

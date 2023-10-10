@@ -18,6 +18,9 @@ export function ChainDetail(props: ChainDetailProps) {
       case '137':
       case '0x89':
         return 'Polygon';
+      case '10':
+      case '0xa':
+        return 'Optimism';
     }
   }
 
