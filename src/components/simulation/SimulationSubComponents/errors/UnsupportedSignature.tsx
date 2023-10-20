@@ -98,7 +98,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
               style={{ borderRadius: '2em' }}
             >
               <img
-                src="/images/popup/green-verified.png"
+                src="/images/popup/websiteDetail/green-verified.png"
                 alt=""
                 width={25}
                 className="pl-2"
@@ -116,7 +116,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
               style={{ borderRadius: '2em' }}
             >
               <img
-                src="/images/popup/orange-danger.png"
+                src="/images/popup/websiteDetail/orange-danger.png"
                 alt=""
                 width={25}
                 className="pl-2 "
@@ -135,7 +135,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                 style={{ borderRadius: '2em' }}
               >
                 <img
-                  src="/images/popup/unknown.png"
+                  src="/images/popup/websiteDetail/unknown.png"
                   alt=""
                   width={25}
                   className="pl-2 "
@@ -189,7 +189,7 @@ function VotedSuccessfullyComponent() {
       <div className="row text-center">
         <img
           style={{ marginTop: '75px', marginBottom: '-60px', pointerEvents: 'none' }}
-          src="/images/popup/green_check.png"
+          src="/images/popup/websiteDetail/green_check.png"
           alt="a green checkmark"
         />
       </div>
