@@ -18,7 +18,7 @@ interface VerificationBadge {
 export function WebsiteVerificationBadge(props: WebsiteVerificationBadgeProps) {
   const { verified, recommendedAction, tooltipPosition } = props;
 
-  function getWebsiteIcon(): VerificationBadge {
+  function getWebsiteIcon(): VerificationBadge | null {
     if (verified) {
       return {
         tooltipText: 'Verified by Wallet Guard',
@@ -36,10 +36,8 @@ export function WebsiteVerificationBadge(props: WebsiteVerificationBadgeProps) {
       } as VerificationBadge;
     }
 
-    return {
-      tooltipText: 'Unknown website',
-      iconPath: '/images/popup/websiteDetail/unknown.png',
-    } as VerificationBadge;
+
+    return null;
   }
 
   const websiteIcon = getWebsiteIcon();
@@ -48,14 +46,14 @@ export function WebsiteVerificationBadge(props: WebsiteVerificationBadgeProps) {
     <>
       <Tooltip
         hasArrow
-        label={websiteIcon.tooltipText}
+        label={websiteIcon?.tooltipText}
         bg="#212121"
         color="white"
         placement={tooltipPosition}
         borderRadius={'5px'}
         className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
       >
-        <img src={websiteIcon.iconPath} width={25} className={styles.zoom} />
+        <img src={websiteIcon?.iconPath} width={25} className={styles.zoom} />
       </Tooltip>
     </>
 

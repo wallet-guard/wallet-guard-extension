@@ -123,27 +123,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                 style={{ marginTop: '-15px', alignSelf: 'center' }}
               />
             </Tooltip>
-          ) : (
-            scanResult?.domainName && (
-              <Tooltip
-                hasArrow
-                label="This is an unknown website"
-                bg="#212121"
-                color="white"
-                placement="right"
-                className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-                style={{ borderRadius: '2em' }}
-              >
-                <img
-                  src="/images/popup/websiteDetail/unknown.png"
-                  alt=""
-                  width={25}
-                  className="pl-2 "
-                  style={{ marginTop: '-15px', alignSelf: 'center' }}
-                />
-              </Tooltip>
-            )
-          )}
+          ) : <></>}
         </div>
 
         <p className={`${styles['font-archivo-medium']}`} style={{ color: '#a8a8a8', marginBottom: 0 }}>
