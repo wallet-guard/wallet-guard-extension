@@ -29,7 +29,7 @@ export function WebsiteDetail(props: WebsiteDetailProps) {
   return (
     <div className={styles.row}>
       <p className={styles['text-md'] + ' mr-2'} style={{ color: color }}>
-        {domainName}
+        {domainName || 'Unknown site'}
       </p>
 
       <div style={{ height: '18px', width: '18px', minWidth: '18px' }}>
