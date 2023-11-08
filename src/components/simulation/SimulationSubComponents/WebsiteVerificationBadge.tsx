@@ -36,7 +36,6 @@ export function WebsiteVerificationBadge(props: WebsiteVerificationBadgeProps) {
       } as VerificationBadge;
     }
 
-
     return null;
   }
 
