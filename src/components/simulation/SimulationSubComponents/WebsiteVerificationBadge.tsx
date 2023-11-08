@@ -3,7 +3,6 @@ import { RecommendedActionType } from '../../../models/simulation/Transaction';
 import { PlacementWithLogical, Tooltip } from '@chakra-ui/react';
 import styles from '../simulation.module.css';
 
-
 interface WebsiteVerificationBadgeProps {
   verified: boolean;
   recommendedAction: RecommendedActionType;
@@ -40,6 +39,10 @@ export function WebsiteVerificationBadge(props: WebsiteVerificationBadgeProps) {
   }
 
   const websiteIcon = getWebsiteIcon();
+
+  if (!websiteIcon) {
+    return <></>;
+  }
 
   return (
     <>
