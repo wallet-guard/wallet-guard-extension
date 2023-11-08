@@ -108,7 +108,7 @@ const addWalletGuardProxy = (provider: any) => {
         response = await REQUEST_MANAGER.request({
           chainId: await provider.request({ method: 'eth_chainId' }),
           signer: request.params[0].from,
-          transaction: request.params[0], // this is type safe
+          transaction: convertObjectValuesToString(request.params[0]),
           method: request.method,
         });
 
@@ -245,7 +245,7 @@ const addWalletGuardProxy = (provider: any) => {
             return REQUEST_MANAGER.request({
               chainId,
               signer: request.params[0].from,
-              transaction: request.params[0], // this is type safe
+              transaction: convertObjectValuesToString(request.params[0]),
               method: request.method,
             });
           })
