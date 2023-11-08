@@ -101,7 +101,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                 src="/images/popup/websiteDetail/green-verified.png"
                 alt=""
                 width={25}
-                className="pl-2"
+                className={styles.zoom + " pl-2"}
                 style={{ marginTop: '-15px', alignSelf: 'center' }}
               />
             </Tooltip>
@@ -119,7 +119,7 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                 src="/images/popup/websiteDetail/orange-danger.png"
                 alt=""
                 width={25}
-                className="pl-2 "
+                className={styles.zoom + " pl-2"}
                 style={{ marginTop: '-15px', alignSelf: 'center' }}
               />
             </Tooltip>
