@@ -89,7 +89,6 @@ export const PersonalSign: React.FC<PersonalSignProps> = (props: PersonalSignPro
               <p>Signing into</p>
               <div className={styles['df-ac-g5']}>
                 <div
-                  className={`${hideOnLoading} ${shimmer}`}
                   style={{ display: 'flex', height: '18px', width: '18px', minWidth: '18px' }}
                 >
                   <WebsiteVerificationBadge verified={currentSimulation.simulation.scanResult.verified} recommendedAction={currentSimulation.simulation.recommendedAction} tooltipPosition='left' />

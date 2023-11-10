@@ -3,7 +3,6 @@ import { RecommendedActionType } from '../../../models/simulation/Transaction';
 import { PlacementWithLogical, Tooltip } from '@chakra-ui/react';
 import styles from '../simulation.module.css';
 
-
 interface WebsiteVerificationBadgeProps {
   verified: boolean;
   recommendedAction: RecommendedActionType;
@@ -41,18 +40,22 @@ export function WebsiteVerificationBadge(props: WebsiteVerificationBadgeProps) {
 
   const websiteIcon = getWebsiteIcon();
 
+  if (!websiteIcon) {
+    return <></>;
+  }
+
   return (
     <>
       <Tooltip
         hasArrow
-        label={websiteIcon?.tooltipText}
+        label={websiteIcon.tooltipText}
         bg="#212121"
         color="white"
         placement={tooltipPosition}
         borderRadius={'5px'}
         className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
       >
-        <img src={websiteIcon?.iconPath} width={25} className={styles.zoom} />
+        <img src={websiteIcon.iconPath} width={25} className={styles.zoom} />
       </Tooltip>
     </>
 
