@@ -1,12 +1,7 @@
 import { IconChevronRight } from '@tabler/icons-react';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import {
-  Kbd,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-} from '@chakra-ui/react';
+import { Kbd, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { Modal } from '@chakra-ui/react';
 import { openDashboard } from '../../../../lib/helpers/linkHelper';
 import styles from './WelcomeModal.module.css';
@@ -55,7 +50,9 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
     onClose();
 
     if (converted) {
-      openDashboard('simulation_promo', true);
+      chrome.tabs.create({
+        url: 'https://dashboard.walletguard.app/mint/?client=extension&source=' + 'simulation_promo',
+      });
     }
   }
 
@@ -70,7 +67,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
           <div>
             <div>
               <img
-                src="/images/chatweb3/dashboardWelcome.png"
+                src="/images/popup/bluematrixlg.gif"
                 alt=""
                 style={{
                   width: '100%',
@@ -78,6 +75,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
                   objectPosition: 'center',
                   borderRadius: '0.375rem 0.375rem 0 0',
                   height: '25%',
+                  marginTop: '500px',
                 }}
                 width={1004}
                 height={370}
@@ -89,10 +87,9 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
                     flexDirection: 'column',
                     alignItems: 'center',
                     marginBottom: '1rem',
-                    marginTop: '-25%',
+                    paddingTop: '1rem',
                   }}
                 >
-                  <img src="/images/chatweb3/wave.png" alt="" style={{ maxWidth: '70px' }} width={60} height={60} />
                   <h1
                     style={{
                       fontSize: isLargeScreen ? '42px' : '40px',
@@ -102,7 +99,11 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
                       textAlign: 'center',
                     }}
                   >
-                    Run your first<span style={{ color: '#19FF00' }}> security scan</span>
+                    Mint your free
+                    <span style={{ color: '#19FF00' }}>
+                      {' '}
+                      Wallet Guard x <br /> Nyan Cat NFT
+                    </span>
                   </h1>
                   <p
                     style={{
@@ -113,65 +114,11 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
                       textAlign: 'center',
                     }}
                   >
-                    Our new security dashboard automates your wallet security, so you can degen safely.
+                    We are collaborating with Nyan Cat to bring wallet safety to you. This is a free mint, with no gas
+                    necessary.
                   </p>
-                  <hr style={{ width: '100%', borderColor: 'gray', maxWidth: '650px', paddingBottom: '0.75rem' }} />
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-                  <div
-                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginRight: '0.75rem' }}
-                  >
-                    <div style={{ marginBottom: '1rem' }}>
-                      <AiOutlineSecurityScan color='#19ff00' fontSize={'35px'} />
-                    </div>
-                    <h2
-                      style={{
-                        fontSize: isLargeScreen ? '28px' : '24px',
-                        fontWeight: 'bold',
-                        marginBottom: '0.5rem',
-                        color: 'white',
-                        textAlign: 'center',
-                      }}
-                    >
-                      Run your security scan
-                    </h2>
-                    <p style={{ color: 'gray', textAlign: 'center', maxWidth: isLargeScreen ? '230px' : '270px' }}>
-                      Runs in seconds. Alerts you to any risks.
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      margin: '0 1.5rem',
-                      marginTop: '55px',
-                    }}
-                  >
-                    <IconChevronRight color="white" />
-                  </div>
-                  <div
-                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: '0.75rem' }}
-                  >
-                    <div style={{ marginBottom: '1rem' }}>
-                      <BsListCheck color='#19ff00' fontSize={'35px'} />
-                    </div>
-                    <h2
-                      style={{
-                        fontSize: isLargeScreen ? '28px' : '24px',
-                        fontWeight: 'bold',
-                        marginBottom: '0.5rem',
-                        color: 'white',
-                        textAlign: 'center',
-                      }}
-                    >
-                      Revoke open approvals
-                    </h2>
-                    <p style={{ fontSize: '1rem', color: 'gray', textAlign: 'center', maxWidth: '230px' }}>
-                      Open approvals can put your assets at risk.
-                    </p>
-                  </div>
-                </div>
+
                 <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <button
                     style={{
@@ -187,7 +134,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
                     className={styles.tryButton}
                     onClick={() => promptDashboard(true)}
                   >
-                    Scan Now
+                    Mint for free
                   </button>
                   <button
                     className={styles.skipButton}

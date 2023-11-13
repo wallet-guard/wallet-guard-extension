@@ -47,16 +47,13 @@ const Popup = () => {
 
   useEffect(() => {
     posthog.onFeatureFlags(() => {
-      const showPromo = posthog.isFeatureEnabled('show-dashboard-promo');
-      if (!showPromo) return;
-
-      localStorageHelpers.get<boolean | null>(WgKeys.DashboardOnboarding).then((hasShownDashboardPromo) => {
+      localStorageHelpers.get<boolean | null>(WgKeys.MintOnboarding).then((hasShownDashboardPromo) => {
         if (hasShownDashboardPromo) {
           updateShowDashboardWelcome(false);
           return;
         }
 
-        chrome.storage.local.set({ [WgKeys.DashboardOnboarding]: true });
+        chrome.storage.local.set({ [WgKeys.MintOnboarding]: true });
         updateShowDashboardWelcome(true);
       });
     });
@@ -106,14 +103,15 @@ const Popup = () => {
 
   return (
     <>
-      <ChakraProvider theme={theme}>
-        {showDashboardWelcome && (
-          <WelcomeModal onClose={toggleDashboardWelcomeModal} />
-        )}
-      </ChakraProvider>
+      <ChakraProvider theme={theme}>{true && <WelcomeModal onClose={toggleDashboardWelcomeModal} />}</ChakraProvider>
 
       <div className={styles.transactionHeadingFixed}>
-        <SimulationHeader details={{ recommendedAction: currentSimulation.simulation.recommendedAction, verified: currentSimulation.simulation.scanResult.verified }} />
+        <SimulationHeader
+          details={{
+            recommendedAction: currentSimulation.simulation.recommendedAction,
+            verified: currentSimulation.simulation.scanResult.verified,
+          }}
+        />
         <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
       </div>
 
