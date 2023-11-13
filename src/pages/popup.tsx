@@ -103,7 +103,9 @@ const Popup = () => {
 
   return (
     <>
-      <ChakraProvider theme={theme}>{true && <WelcomeModal onClose={toggleDashboardWelcomeModal} />}</ChakraProvider>
+      <ChakraProvider theme={theme}>
+        {showDashboardWelcome && <WelcomeModal onClose={toggleDashboardWelcomeModal} />}
+      </ChakraProvider>
 
       <div className={styles.transactionHeadingFixed}>
         <SimulationHeader
