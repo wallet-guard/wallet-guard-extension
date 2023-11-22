@@ -1,4 +1,4 @@
-import { ethErrors } from 'eth-rpc-errors';
+import { EthereumProviderError, ethErrors } from 'eth-rpc-errors';
 import logger from '../lib/logger';
 import { RequestManager, Response } from '../lib/simulation/requests';
 
@@ -83,6 +83,8 @@ const addWalletGuardProxy = (provider: any) => {
       }
 
       if (
+        request.method !== 'eth_signTypedData' &&
+        request.method !== 'eth_signTypedData_v1' &&
         request.method !== 'eth_signTypedData_v3' &&
         request.method !== 'eth_signTypedData_v4' &&
         request.method !== 'eth_sendTransaction' &&
@@ -115,44 +117,69 @@ const addWalletGuardProxy = (provider: any) => {
         if (response === Response.Reject) {
           log.info('Reject');
           // Based on EIP-1103
-          // eslint-disable-next-line no-throw-literal
           throw ethErrors.provider.userRejectedRequest('Wallet Guard Tx Signature: User denied transaction signature.');
         }
-      } else if (request.method === 'eth_signTypedData_v3' || request.method === 'eth_signTypedData_v4') {
-        if (request.params.length < 2) {
-          // Forward the request anyway.
-          log.warn('Unexpected argument length.');
-          return Reflect.apply(target, thisArg, args);
-        }
+      } else if (
+        request.method === 'eth_signTypedData' ||
+        request.method === 'eth_signTypedData_v1' ||
+        request.method === 'eth_signTypedData_v3' ||
+        request.method === 'eth_signTypedData_v4') {
+        try {
+          if (request.params.length < 2) {
+            // Forward the request anyway.
+            log.warn('Unexpected argument length.');
+            return Reflect.apply(target, thisArg, args);
+          }
 
-        const params = JSON.parse(request.params[1]);
-        log.info({ params }, 'Request being sent');
+          const params = JSON.parse(request.params[1]);
+          log.info({ params }, 'Request being sent');
 
-        let signer: string = params[0];
+          let signer: string = params[0];
 
-        if (!signer) {
-          signer = request.params[0];
-        }
+          if (!signer) {
+            signer = request.params[0];
+          }
 
-        const domain = convertObjectValuesToString(params.domain);
-        const message = convertObjectValuesToString(params.message);
+          const domain = convertObjectValuesToString(params.domain);
+          const message = convertObjectValuesToString(params.message);
 
-        // Sending response.
-        response = await REQUEST_MANAGER.request({
-          chainId: await provider.request({ method: 'eth_chainId' }),
-          signer: signer,
-          domain: domain,
-          message: message,
-          primaryType: params['primaryType'],
-          method: request.method,
-        });
+          // Sending response.
+          response = await REQUEST_MANAGER.request({
+            chainId: await provider.request({ method: 'eth_chainId' }),
+            signer: signer,
+            domain: domain,
+            message: message,
+            primaryType: params['primaryType'],
+            method: request.method,
+          });
 
-        if (response === Response.Reject) {
-          log.info('Reject');
-          // NOTE: Be cautious when changing this name. 1inch behaves strangely when the error message diverges.
-          throw ethErrors.provider.userRejectedRequest(
-            'Wallet Guard Message Signature: User denied message signature.'
-          );
+          if (response === Response.Reject) {
+            log.info('Reject');
+            // NOTE: Be cautious when changing this name. 1inch behaves strangely when the error message diverges.
+            throw ethErrors.provider.userRejectedRequest(
+              'Wallet Guard Message Signature: User denied message signature.'
+            );
+          }
+        } catch (e: EthereumProviderError<unknown> | unknown) {
+          // Forward on the thrown error because the user rejected the request
+          if (e instanceof EthereumProviderError) {
+            throw e;
+          }
+
+          // Request does not conform to EIP-712 - pass along the params
+          response = await REQUEST_MANAGER.request({
+            ...request.params,
+            chainId: await provider.request({ method: 'eth_chainId' }),
+            method: request.method,
+          });
+
+          if (response === Response.Reject) {
+            log.info('Reject');
+            // NOTE: Be cautious when changing this name. 1inch behaves strangely when the error message diverges.
+            throw ethErrors.provider.userRejectedRequest(
+              'Wallet Guard Message Signature: User denied message signature.'
+            );
+          }
         }
       } else if (request.method === 'eth_sign') {
         log.info('EthSign Request');
@@ -206,9 +233,7 @@ const addWalletGuardProxy = (provider: any) => {
         throw new Error('Show never reach here');
       }
 
-      // For error, we just continue, to make sure we don't block the user!
-      // we should also implement auto continue on errors (server response isn't mapped properly)
-      if (response === Response.Continue || response === Response.Error) {
+      if (response === Response.Continue) {
         return Reflect.apply(target, thisArg, args);
       }
     },
@@ -222,6 +247,8 @@ const addWalletGuardProxy = (provider: any) => {
       }
 
       if (
+        request.method !== 'eth_signTypedData' &&
+        request.method !== 'eth_signTypedData_v1' &&
         request.method !== 'eth_signTypedData_v3' &&
         request.method !== 'eth_signTypedData_v4' &&
         request.method !== 'eth_sendTransaction' &&
@@ -253,7 +280,6 @@ const addWalletGuardProxy = (provider: any) => {
             if (response === Response.Reject) {
               log.info('Reject');
               // Based on EIP-1103
-              // eslint-disable-next-line no-throw-literal
               const error = ethErrors.provider.userRejectedRequest(
                 'Wallet Guard Tx Signature: User denied transaction signature.'
               );
@@ -263,62 +289,98 @@ const addWalletGuardProxy = (provider: any) => {
                 error,
               };
               callback(error, response);
-              // For error, we just continue, to make sure we don't block the user!
-            } else if (response === Response.Continue || response === Response.Error) {
-              log.info(response, 'Continue | Error');
+            } else if (response === Response.Continue) {
+              log.info(response, 'Continue');
               return Reflect.apply(target, thisArg, args);
             }
           });
-      } else if (request.method === 'eth_signTypedData_v3' || request.method === 'eth_signTypedData_v4') {
-        if (request.params.length < 2) {
-          // Forward the request anyway.
-          log.warn('Unexpected argument length.');
-          return Reflect.apply(target, thisArg, args);
-        }
+      } else if (
+        request.method === 'eth_signTypedData' ||
+        request.method === 'eth_signTypedData_v1' ||
+        request.method === 'eth_signTypedData_v3' ||
+        request.method === 'eth_signTypedData_v4') {
+        try {
 
-        const params = JSON.parse(request.params[1]);
-        log.info({ params }, 'Request being sent');
+          if (request.params.length < 2) {
+            // Forward the request anyway.
+            log.warn('Unexpected argument length.');
+            return Reflect.apply(target, thisArg, args);
+          }
 
-        let signer: string = params[0];
+          const params = JSON.parse(request.params[1]);
+          log.info({ params }, 'Request being sent');
 
-        if (!signer) {
-          signer = request.params[0];
-        }
+          let signer: string = params[0];
 
-        const domain = convertObjectValuesToString(params.domain);
-        const message = convertObjectValuesToString(params.message);
+          if (!signer) {
+            signer = request.params[0];
+          }
 
-        provider
-          .request({ method: 'eth_chainId' })
-          .then((chainId: any) => {
-            return REQUEST_MANAGER.request({
-              chainId,
-              signer: signer,
-              domain: domain,
-              message: message,
-              primaryType: params['primaryType'],
-              method: request.method,
+          const domain = convertObjectValuesToString(params.domain);
+          const message = convertObjectValuesToString(params.message);
+
+          provider
+            .request({ method: 'eth_chainId' })
+            .then((chainId: any) => {
+              return REQUEST_MANAGER.request({
+                chainId,
+                signer: signer,
+                domain: domain,
+                message: message,
+                primaryType: params['primaryType'],
+                method: request.method,
+              });
+            })
+            .then((response: any) => {
+              if (response === Response.Reject) {
+                log.info('Reject');
+                // Based on EIP-1103
+                const error = ethErrors.provider.userRejectedRequest(
+                  'Wallet Guard Message Signature: User denied message signature.'
+                );
+                const response = {
+                  id: request?.id,
+                  jsonrpc: '2.0',
+                  error,
+                };
+                callback(error, response);
+              } else if (response === Response.Continue) {
+                return Reflect.apply(target, thisArg, args);
+              }
             });
-          })
-          .then((response: any) => {
-            if (response === Response.Reject) {
-              log.info('Reject');
-              // Based on EIP-1103
-              // eslint-disable-next-line no-throw-literal
-              const error = ethErrors.provider.userRejectedRequest(
-                'Wallet Guard Message Signature: User denied message signature.'
-              );
-              const response = {
-                id: request?.id,
-                jsonrpc: '2.0',
-                error,
-              };
-              callback(error, response);
-              // For error, we just continue, to make sure we don't block the user!
-            } else if (response === Response.Continue || response === Response.Error) {
-              return Reflect.apply(target, thisArg, args);
-            }
-          });
+        } catch (e: EthereumProviderError<unknown> | unknown) {
+          // Forward on the thrown error because the user rejected the request
+          if (e instanceof EthereumProviderError) {
+            throw e;
+          }
+
+          provider
+            .request({ method: 'eth_chainId' })
+            .then((chainId: any) => {
+              return REQUEST_MANAGER.request({
+                ...request.params,
+                chainId,
+                method: request.method,
+              });
+            })
+            .then((response: any) => {
+              if (response === Response.Reject) {
+                log.info('Reject');
+                // Based on EIP-1103
+                const error = ethErrors.provider.userRejectedRequest(
+                  'Wallet Guard Message Signature: User denied message signature.'
+                );
+                const response = {
+                  id: request?.id,
+                  jsonrpc: '2.0',
+                  error,
+                };
+                callback(error, response);
+              } else if (response === Response.Continue) {
+                return Reflect.apply(target, thisArg, args);
+              }
+            });
+        }
       } else if (request.method === 'eth_sign') {
         log.info('EthSign Request');
         if (request.params.length < 2) {
@@ -344,7 +406,6 @@ const addWalletGuardProxy = (provider: any) => {
             if (response === Response.Reject) {
               log.info('Reject');
               // Based on EIP-1103
-              // eslint-disable-next-line no-throw-literal
               const error = ethErrors.provider.userRejectedRequest(
                 'Wallet Guard Message Signature: User denied message signature.'
               );
@@ -354,9 +415,8 @@ const addWalletGuardProxy = (provider: any) => {
                 error,
               };
               callback(error, response);
-              // For error, we just continue, to make sure we don't block the user!
-            } else if (response === Response.Continue || response === Response.Error) {
-              log.info(response, 'Continue | Error');
+            } else if (response === Response.Continue) {
+              log.info(response, 'Continue');
               return Reflect.apply(target, thisArg, args);
             }
           });
@@ -385,7 +445,6 @@ const addWalletGuardProxy = (provider: any) => {
             if (response === Response.Reject) {
               log.info('Reject');
               // Based on EIP-1103
-              // eslint-disable-next-line no-throw-literal
               const error = ethErrors.provider.userRejectedRequest(
                 'Wallet Guard Message Signature: User denied message signature.'
               );
@@ -395,8 +454,7 @@ const addWalletGuardProxy = (provider: any) => {
                 error,
               };
               callback(error, response);
-              // For error, we just continue, to make sure we don't block the user!
-            } else if (response === Response.Continue || response === Response.Error) {
+            } else if (response === Response.Continue) {
               return Reflect.apply(target, thisArg, args);
             }
           });
