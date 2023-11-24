@@ -300,7 +300,6 @@ const addWalletGuardProxy = (provider: any) => {
         request.method === 'eth_signTypedData_v3' ||
         request.method === 'eth_signTypedData_v4') {
         try {
-
           if (request.params.length < 2) {
             // Forward the request anyway.
             log.warn('Unexpected argument length.');
