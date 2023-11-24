@@ -41,6 +41,9 @@ export class RequestManager {
       | {
         signMessage: string;
       }
+      | {
+        [key: string]: any
+      }
     )
   ): Promise<Response> {
     return new Promise((resolve) => {
@@ -89,6 +92,13 @@ export class RequestManager {
         };
       } else {
         console.warn('Unexpected Request', args);
+        request = {
+          ...args,
+          id,
+          chainId,
+          signer,
+          origin,
+        } as any;
       }
 
       if (request != undefined) {
@@ -145,7 +155,6 @@ export const listenToRequest = (callback: (request: TransactionArgs) => void) =>
 export enum Response {
   Reject,
   Continue,
-  Error,
 }
 
 /**
