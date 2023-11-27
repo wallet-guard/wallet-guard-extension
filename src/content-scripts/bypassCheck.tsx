@@ -112,6 +112,7 @@ window.addEventListener('message', (message) => {
         signMessage = tempSigner;
       }
 
+
       const request: PersonalSignArgs = {
         id: uuid4(),
         chainId: String(chainId),
