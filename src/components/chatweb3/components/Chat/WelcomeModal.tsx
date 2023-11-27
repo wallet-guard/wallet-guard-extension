@@ -2,7 +2,6 @@ import { IconChevronRight } from '@tabler/icons-react';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import {
-  Kbd,
   ModalBody,
   ModalContent,
   ModalOverlay,
@@ -18,19 +17,12 @@ interface WelcomeModalProps {
   onClose: () => void;
 }
 
-type ButtonColor = 'green' | undefined;
-
 export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
   const [isMac, setIsMac] = useState(false);
-  const [buttonColor, setButtonColor] = useState<ButtonColor>();
 
   useEffect(() => {
     posthog.capture('show dashboard promo');
-    posthog.onFeatureFlags(() => {
-      const color = posthog.getFeatureFlagPayload('dashboard-promo-button-color') as ButtonColor;
-      setButtonColor(color);
-    });
   }, []);
 
   const updateScreenSize = () => {
@@ -175,7 +167,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
                 <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <button
                     style={{
-                      backgroundColor: buttonColor === 'green' ? '#19ff00' : 'white',
+                      backgroundColor: 'white',
                       color: 'black',
                       fontWeight: '600',
                       padding: '0.5rem 1rem',
