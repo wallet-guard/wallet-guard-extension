@@ -1,5 +1,5 @@
 import posthog from 'posthog-js';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ConfirmSimulationButton } from '../components/simulation/SimulationButton';
 import { NoSimulation } from '../components/simulation/NoSimulation';
@@ -10,9 +10,7 @@ import * as Sentry from '@sentry/react';
 import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
 import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
-import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
 import { PersonalSign } from '../components/simulation/PersonalSign';
-import localStorageHelpers from '../lib/helpers/chrome/localStorage';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../lib/theme';
 import { TransactionDetails } from '../components/simulation/TransactionDetails';
@@ -21,7 +19,6 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
-import { WelcomeModal } from '../components/chatweb3/components/Chat/WelcomeModal';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -29,7 +26,6 @@ export interface SimulationBaseProps {
 
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
-  const [showDashboardWelcome, updateShowDashboardWelcome] = useState<boolean>(false);
   const { currentSimulation, loading } = useSimulation();
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
@@ -44,27 +40,6 @@ const Popup = () => {
     dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
     integrations: [new Sentry.BrowserTracing()],
   });
-
-  useEffect(() => {
-    posthog.onFeatureFlags(() => {
-      const showPromo = posthog.isFeatureEnabled('show-dashboard-promo');
-      if (!showPromo) return;
-
-      localStorageHelpers.get<boolean | null>(WgKeys.DashboardOnboarding).then((hasShownDashboardPromo) => {
-        if (hasShownDashboardPromo) {
-          updateShowDashboardWelcome(false);
-          return;
-        }
-
-        chrome.storage.local.set({ [WgKeys.DashboardOnboarding]: true });
-        updateShowDashboardWelcome(true);
-      });
-    });
-  }, []);
-
-  function toggleDashboardWelcomeModal() {
-    updateShowDashboardWelcome(!showDashboardWelcome);
-  }
 
   // Return an empty page because we don't want any other UIs to flash in the few ms before we finish pulling from localStorage
   if (loading) {
@@ -106,12 +81,6 @@ const Popup = () => {
 
   return (
     <>
-      <ChakraProvider theme={theme}>
-        {showDashboardWelcome && (
-          <WelcomeModal onClose={toggleDashboardWelcomeModal} />
-        )}
-      </ChakraProvider>
-
       <div className={styles.transactionHeadingFixed}>
         <SimulationHeader details={{ recommendedAction: currentSimulation.simulation.recommendedAction, verified: currentSimulation.simulation.scanResult.verified }} />
         <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
