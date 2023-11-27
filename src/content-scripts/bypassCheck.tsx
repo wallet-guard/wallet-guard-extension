@@ -32,7 +32,7 @@ window.addEventListener('message', (message) => {
 
   if (target === PortIdentifiers.METAMASK_CONTENT_SCRIPT) {
     if (data.method === 'eth_sendTransaction') {
-      const transaction: Transaction = data.params[0];
+      const transaction: Transaction = convertObjectValuesToString(data.params[0]);
       const request: SimulateRequestArgs = {
         id: uuid4(),
         chainId: String(chainId),
@@ -46,7 +46,11 @@ window.addEventListener('message', (message) => {
       // Forward received messages to background.js
       const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
       sendMessageToPort(contentScriptPort, request);
-    } else if (data.method === 'eth_signTypedData_v3' || data.method === 'eth_signTypedData_v4') {
+    } else if (
+      data.method === 'eth_signTypedData' ||
+      data.method === 'eth_signTypedData_v1' ||
+      data.method === 'eth_signTypedData_v3' ||
+      data.method === 'eth_signTypedData_v4') {
       if (data.params.length < 2) {
         console.warn('Unexpected argument length.');
         return;
@@ -83,8 +87,15 @@ window.addEventListener('message', (message) => {
         return;
       }
 
-      const signer: string = data.params[1];
-      const signMessage: string = data.params[0];
+      let signer: string = data.params[1];
+      let signMessage: string = data.params[0];
+
+      // Some DApps send these params in reverse
+      if (signer.substring(0, 2) !== '0x' && signMessage.substring(0, 2) === '0x') {
+        const tempSigner = signer;
+        signer = signMessage
+        signMessage = tempSigner;
+      }
 
       const request: PersonalSignArgs = {
         id: uuid4(),
