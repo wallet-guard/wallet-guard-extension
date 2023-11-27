@@ -33,6 +33,7 @@ window.addEventListener('message', (message) => {
   if (target === PortIdentifiers.METAMASK_CONTENT_SCRIPT) {
     if (data.method === 'eth_sendTransaction') {
       const transaction: Transaction = convertObjectValuesToString(data.params[0]);
+
       const request: SimulateRequestArgs = {
         id: uuid4(),
         chainId: String(chainId),
@@ -51,36 +52,51 @@ window.addEventListener('message', (message) => {
       data.method === 'eth_signTypedData_v1' ||
       data.method === 'eth_signTypedData_v3' ||
       data.method === 'eth_signTypedData_v4') {
-      if (data.params.length < 2) {
-        console.warn('Unexpected argument length.');
-        return;
+      try {
+        if (data.params.length < 2) {
+          console.warn('Unexpected argument length.');
+          return;
+        }
+
+        const params = JSON.parse(data.params[1]);
+        let signer: string = params[0];
+
+        if (!signer) {
+          signer = data.params[0];
+        }
+
+        const domain = convertObjectValuesToString(params.domain);
+        const message = convertObjectValuesToString(params.message);
+
+        const request: SignatureRequestArgs = {
+          id: uuid4(),
+          chainId: String(chainId),
+          signer,
+          domain: domain,
+          message: message,
+          primaryType: params['primaryType'],
+          method: data.method,
+          origin: href,
+          bypassed,
+        };
+
+        // Forward received messages to background.js
+        const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+        sendMessageToPort(contentScriptPort, request);
+      } catch (e) {
+        const request: SignatureRequestArgs = {
+          ...data.params,
+          id: uuid4(),
+          chainId: String(chainId),
+          method: data.method,
+          origin: href,
+          bypassed,
+        };
+
+        // Forward received messages to background.js
+        const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+        sendMessageToPort(contentScriptPort, request);
       }
-
-      const params = JSON.parse(data.params[1]);
-      let signer: string = params[0];
-
-      if (!signer) {
-        signer = data.params[0];
-      }
-
-      const domain = convertObjectValuesToString(params.domain);
-      const message = convertObjectValuesToString(params.message);
-
-      const request: SignatureRequestArgs = {
-        id: uuid4(),
-        chainId: String(chainId),
-        signer,
-        domain: domain,
-        message: message,
-        primaryType: params['primaryType'],
-        method: data.method,
-        origin: href,
-        bypassed,
-      };
-
-      // Forward received messages to background.js
-      const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-      sendMessageToPort(contentScriptPort, request);
     } else if (data.method === 'personal_sign') {
       if (data.params.length < 2) {
         console.warn('Unexpected argument length.');
