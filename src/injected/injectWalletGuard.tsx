@@ -211,8 +211,15 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
-        const signer: string = request.params[1];
-        const signMessage: string = request.params[0];
+        let signer: string = request.params[1];
+        let signMessage: string = request.params[0];
+
+        // Some DApps send these params in reverse
+        if (signer.substring(0, 2) !== '0x' && signMessage.substring(0, 2) === '0x') {
+          const tempSigner = signer;
+          signer = signMessage
+          signMessage = tempSigner;
+        }
 
         // Sending response.
         response = await REQUEST_MANAGER.request({
@@ -427,8 +434,15 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
-        const signer: string = request.params[1];
-        const signMessage: string = request.params[0];
+        let signer: string = request.params[1];
+        let signMessage: string = request.params[0];
+
+        // Some DApps send these params in reverse
+        if (signer.substring(0, 2) !== '0x' && signMessage.substring(0, 2) === '0x') {
+          const tempSigner = signer;
+          signer = signMessage
+          signMessage = tempSigner;
+        }
 
         provider
           .request({ method: 'eth_chainId' })
