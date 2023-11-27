@@ -9,7 +9,7 @@ import {
 } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
 import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
-import { convertObjectValuesToString } from '../injected/injectWalletGuard';
+import { convertObjectValuesToString, shouldSwapPersonalSignArgs } from '../injected/injectWalletGuard';
 
 let metamaskChainId = 1;
 const bypassed = true;
@@ -106,8 +106,7 @@ window.addEventListener('message', (message) => {
       let signer: string = data.params[1];
       let signMessage: string = data.params[0];
 
-      // Some DApps send these params in reverse
-      if (signer.substring(0, 2) !== '0x' && signMessage.substring(0, 2) === '0x') {
+      if (shouldSwapPersonalSignArgs(signer, signMessage)) {
         const tempSigner = signer;
         signer = signMessage
         signMessage = tempSigner;

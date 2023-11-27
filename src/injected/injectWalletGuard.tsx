@@ -8,6 +8,11 @@ declare global {
   }
 }
 
+// Some DApps send these params in reverse
+export function shouldSwapPersonalSignArgs(signer: string, signMessage: string) {
+  return signer.substring(0, 2) !== '0x' && signMessage.substring(0, 2) === '0x';
+}
+
 // this function standardizes all values sent to the API into strings to prevent type errors
 export function convertObjectValuesToString(inputObj: any): any {
   const keys = Object.keys(inputObj);
@@ -214,8 +219,7 @@ const addWalletGuardProxy = (provider: any) => {
         let signer: string = request.params[1];
         let signMessage: string = request.params[0];
 
-        // Some DApps send these params in reverse
-        if (signer.substring(0, 2) !== '0x' && signMessage.substring(0, 2) === '0x') {
+        if (shouldSwapPersonalSignArgs(signer, signMessage)) {
           const tempSigner = signer;
           signer = signMessage
           signMessage = tempSigner;
@@ -437,8 +441,7 @@ const addWalletGuardProxy = (provider: any) => {
         let signer: string = request.params[1];
         let signMessage: string = request.params[0];
 
-        // Some DApps send these params in reverse
-        if (signer.substring(0, 2) !== '0x' && signMessage.substring(0, 2) === '0x') {
+        if (shouldSwapPersonalSignArgs(signer, signMessage)) {
           const tempSigner = signer;
           signer = signMessage
           signMessage = tempSigner;
