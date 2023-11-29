@@ -32,12 +32,16 @@ export enum SimulationMethodType {
   PersonalSign = 'personal_sign',
 }
 
-export type TransactionArgs = SimulateRequestArgs | SignatureRequestArgs | SignatureHashSignArgs | PersonalSignArgs;
+export type TransactionArgs = SimulateRequestArgs | SignatureRequestArgs | SignatureHashSignArgs | PersonalSignArgs | UnstandardizedSignatureRequestArgs;
 
 // Transaction we want to forward.
 export interface SimulateRequestArgs extends RequestArgs {
   transaction: Transaction;
 };
+
+export interface UnstandardizedSignatureRequestArgs extends RequestArgs {
+  params: any;
+}
 
 export interface SignatureRequestArgs extends RequestArgs {
   // Domain for this signature request.

@@ -173,7 +173,8 @@ const addWalletGuardProxy = (provider: any) => {
 
           // Request does not conform to EIP-712 - pass along the params
           response = await REQUEST_MANAGER.request({
-            ...request.params,
+            signer: 'unknown request type',
+            params: request.params,
             chainId: await provider.request({ method: 'eth_chainId' }),
             method: request.method,
           });
@@ -368,7 +369,8 @@ const addWalletGuardProxy = (provider: any) => {
             .request({ method: 'eth_chainId' })
             .then((chainId: any) => {
               return REQUEST_MANAGER.request({
-                ...request.params,
+                signer: 'unknown request type',
+                params: request.params,
                 chainId,
                 method: request.method,
               });
