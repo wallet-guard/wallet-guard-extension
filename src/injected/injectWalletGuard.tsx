@@ -10,7 +10,7 @@ declare global {
 
 // Some DApps send these params in reverse
 export function shouldSwapPersonalSignArgs(signer: string, signMessage: string) {
-  return signer.substring(0, 2) !== '0x' && signMessage.substring(0, 2) === '0x';
+  return (signMessage.length === 42 && signer.length !== 42);
 }
 
 // this function standardizes all values sent to the API into strings to prevent type errors
