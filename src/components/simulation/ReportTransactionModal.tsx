@@ -1,8 +1,9 @@
-import { ChakraProvider, Modal, ModalOverlay, ModalContent, UseDisclosureProps } from '@chakra-ui/react';
+import { ChakraProvider, Modal, ModalOverlay, ModalContent } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import styles from './simulation.module.css';
 import { CompletedSuccessfulSimulation } from '../../lib/simulation/storage';
 import posthog from 'posthog-js';
+import theme from '../../lib/theme';
 
 interface ReportTransactionProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -33,10 +34,9 @@ export function ReportTransactionModal(props: ReportTransactionProps) {
   }
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Modal isCentered closeOnOverlayClick isOpen={isOpen} onClose={onClose}>
         <ModalOverlay backdropFilter="blur(1px)" />
-
         <ModalContent alignItems={'center'}>
           <div style={{ width: '300px', position: 'absolute', top: '-100px', height: '150px', background: '#212121', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <img src='/images/popup/x.png'

@@ -3,6 +3,8 @@ import { useChat } from '../../../../lib/hooks/useChat';
 import { Chat } from './Chat';
 import { CompletedSuccessfulSimulation } from '../../../../lib/simulation/storage';
 import posthog from 'posthog-js';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from '../../../../lib/theme';
 
 export const ChatWeb3Tab = ({
   showChatWeb3,
@@ -35,7 +37,7 @@ export const ChatWeb3Tab = ({
   }, []);
 
   return (
-    <>
+    <ChakraProvider theme={theme}>
       {selectedConversation && (
         <div className={`d-flex flex-column text-white`} style={{ fontSize: '0.875rem', height: '100%', minHeight: '100vh' }}>
           <div className="d-flex h-100 w-100">
@@ -57,6 +59,6 @@ export const ChatWeb3Tab = ({
           </div>
         </div>
       )}
-    </>
+    </ChakraProvider>
   );
 };

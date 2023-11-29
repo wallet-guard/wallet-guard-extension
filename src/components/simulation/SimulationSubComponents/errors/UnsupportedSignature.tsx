@@ -169,7 +169,7 @@ function VotedSuccessfullyComponent() {
       <div className="row text-center">
         <img
           style={{ marginTop: '75px', marginBottom: '-60px', pointerEvents: 'none' }}
-          src="/images/popup/websiteDetail/green_check.png"
+          src="/images/popup/green_check.png"
           alt="a green checkmark"
         />
       </div>

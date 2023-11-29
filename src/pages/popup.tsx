@@ -11,8 +11,6 @@ import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
 import { BypassedSimulationButton } from '../components/simulation/SimulationSubComponents/BypassButton';
 import { PersonalSign } from '../components/simulation/PersonalSign';
-import { ChakraProvider } from '@chakra-ui/react';
-import theme from '../lib/theme';
 import { TransactionDetails } from '../components/simulation/TransactionDetails';
 import { useSimulation } from '../lib/hooks/useSimulation';
 import { SimulationTabs } from '../components/simulation/SimulationTabs';
@@ -87,13 +85,11 @@ const Popup = () => {
       </div>
 
       {showChatWeb3 ? (
-        <ChakraProvider theme={theme}>
-          <ChatWeb3Tab
-            showChatWeb3={showChatWeb3}
-            setShowChatWeb3={setShowChatWeb3}
-            storedSimulation={successfulSimulation}
-          />
-        </ChakraProvider>
+        <ChatWeb3Tab
+          showChatWeb3={showChatWeb3}
+          setShowChatWeb3={setShowChatWeb3}
+          storedSimulation={successfulSimulation}
+        />
       ) : (
         <>
           <TransactionDetails currentSimulation={successfulSimulation} />
