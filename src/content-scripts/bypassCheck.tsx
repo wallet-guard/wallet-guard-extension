@@ -6,6 +6,7 @@ import {
   SimulateRequestArgs,
   Transaction,
   TransactionArgs,
+  UnstandardizedSignatureRequestArgs,
 } from '../models/simulation/Transaction';
 import { uuid4 } from '@sentry/utils';
 import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
@@ -84,8 +85,9 @@ window.addEventListener('message', (message) => {
         const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
         sendMessageToPort(contentScriptPort, request);
       } catch (e) {
-        const request: SignatureRequestArgs = {
-          ...data.params,
+        const request: UnstandardizedSignatureRequestArgs = {
+          signer: 'unknown request type',
+          params: data.params,
           id: uuid4(),
           chainId: String(chainId),
           method: data.method,

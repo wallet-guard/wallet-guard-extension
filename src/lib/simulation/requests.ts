@@ -42,7 +42,7 @@ export class RequestManager {
         signMessage: string;
       }
       | {
-        [key: string]: any
+        params: any
       }
     )
   ): Promise<Response> {

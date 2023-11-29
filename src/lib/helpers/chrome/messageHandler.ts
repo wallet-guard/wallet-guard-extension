@@ -46,6 +46,8 @@ export function findApprovedTransaction(approvedTxns: TransactionArgs[], txn: Tr
     return approvedTxns.find((x: any) => x.signMessage === txn.signMessage);
   } else if ('hash' in txn) {
     return approvedTxns.find((x: any) => x.hash === txn.hash);
+  } else if ('params' in txn) {
+    return approvedTxns.find((x: any) => txn.signer === 'unknown request type');
   }
 }
 
