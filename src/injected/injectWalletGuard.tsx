@@ -103,7 +103,7 @@ const addWalletGuardProxy = (provider: any) => {
       let response;
 
       if (request.method === 'eth_sendTransaction') {
-        if (request.params.length !== 1) {
+        if (request.params.length < 1) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
           return Reflect.apply(target, thisArg, args);
@@ -271,7 +271,7 @@ const addWalletGuardProxy = (provider: any) => {
       }
 
       if (request.method === 'eth_sendTransaction') {
-        if (request.params.length !== 1) {
+        if (request.params.length < 1) {
           // Forward the request anyway.
           log.warn('Unexpected argument length.');
           return Reflect.apply(target, thisArg, args);

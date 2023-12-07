@@ -91,7 +91,7 @@ export class RequestManager {
           method: args.method,
         };
       } else {
-        console.warn('Unexpected Request', args);
+        console.warn('Unexpected Request');
         request = {
           ...args,
           id,
