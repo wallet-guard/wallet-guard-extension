@@ -7,7 +7,7 @@ export function NavbarShareButton() {
   return (
     <TwitterShareButton
       url={'https://walletguard.app'}
-      title={'Join myself and 20,000+ others who are protecting our assets with Wallet Guard'}
+      title={'Join myself and 100,000+ others who are protecting our assets with Wallet Guard'}
       via={'wallet_guard'}
     >
       <div className={styles['buttonWithIcon']}>
@@ -15,5 +15,5 @@ export function NavbarShareButton() {
         <FaTwitter style={{ marginLeft: '5px' }} />
       </div>
     </TwitterShareButton>
-  )
+  );
 }

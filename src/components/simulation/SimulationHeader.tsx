@@ -2,13 +2,15 @@ import React from 'react';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 import { NavbarShareButton } from '../common/NavbarShareButton';
 import { NavbarNotifications } from '../common/NavbarNotifications';
+import { CiSettings } from 'react-icons/ci';
+import { CiBellOn } from 'react-icons/ci';
 
 interface SimulationHeaderProps {
   // Details are all or nothing
   details?: {
     recommendedAction: RecommendedActionType;
     verified: boolean;
-  }
+  };
 }
 
 export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ details }) => {
@@ -57,6 +59,10 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ details }) =
         <div style={{ display: 'flex', float: 'right', fontFamily: 'ArchivoBold' }}>
           {/* <NavbarNotifications /> */}
           <NavbarShareButton />
+          {/* <CiBellOn size={28} /> */}
+          <a href="https://dashboard.walletguard.app/settings/extension" target="_blank" rel="noreferrer">
+            <CiSettings size={34} className="pl-2 text-white hover:text-white transform hover:scale-110" />
+          </a>
         </div>
       </div>
     </div>
