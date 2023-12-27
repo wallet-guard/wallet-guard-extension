@@ -8,6 +8,7 @@ import type { StoredSimulation } from '../lib/simulation/storage';
 import { removeSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import { TransactionArgs } from '../models/simulation/Transaction';
 import { ExtensionSettings } from '../lib/settings';
+import { IsOfficialMarketplace } from '../lib/simulation/skip';
 
 // Function to inject scripts into browser
 const addScript = (url: string) => {
@@ -46,9 +47,13 @@ listenToRequest(async (request: TransactionArgs) => {
     request.origin = currentTab;
   }
 
+  const isOfficialMarketplace = await IsOfficialMarketplace(request);
+
   // Get User Settings
   localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings).then((settings) => {
-    if (!settings || !settings.simulationEnabled) {
+    const shouldSkip = settings?.skipOnOfficialMarketplaces && isOfficialMarketplace;
+
+    if (!settings || !settings.simulationEnabled || shouldSkip) {
       // Immediately respond continue.
       dispatchResponse({
         id: request.id,
