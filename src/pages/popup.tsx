@@ -5,7 +5,7 @@ import { ConfirmSimulationButton } from '../components/simulation/SimulationButt
 import { NoSimulation } from '../components/simulation/NoSimulation';
 import { SimulationHeader } from '../components/simulation/SimulationHeader';
 import { TransactionContent } from '../components/simulation/TransactionContent';
-import { SimulationMethodType } from '../models/simulation/Transaction';
+import { ErrorType, SimulationMethodType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
@@ -17,6 +17,7 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
+import { LockedAssetPopup } from '../components/simulation/SimulationSubComponents/errors/LockedAssetPopup';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -95,6 +96,11 @@ const Popup = () => {
           <TransactionDetails currentSimulation={successfulSimulation} />
           <TransactionContent currentSimulation={successfulSimulation} />
           <div style={{ height: '140px' }} />
+
+          {currentSimulation.simulation.error === ErrorType.LockedAsset && (
+            <LockedAssetPopup />
+          )}
+
           {currentSimulation.args.bypassed ? (
             <BypassedSimulationButton storedSimulation={currentSimulation} />
           ) : (

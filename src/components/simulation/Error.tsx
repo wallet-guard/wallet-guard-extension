@@ -1,5 +1,5 @@
 import { posthog } from 'posthog-js';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CompletedSimulation, StoredSimulation } from '../../lib/simulation/storage';
 import { ErrorType } from '../../models/simulation/Transaction';
 import { ConfirmSimulationButton } from './SimulationButton';
@@ -20,10 +20,12 @@ interface ErrorComponentProps {
 export const ErrorComponent = (props: ErrorComponentProps) => {
   const { currentSimulation, type } = props;
 
-  posthog.capture('show simulation error', {
-    currentSimulation,
-    errorType: type,
-  });
+  useEffect(() => {
+    posthog.capture('show simulation error', {
+      currentSimulation,
+      errorType: type,
+    });
+  }, []);
 
   function getErrorComponent() {
     switch (type) {

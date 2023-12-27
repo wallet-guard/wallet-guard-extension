@@ -164,6 +164,7 @@ export type SimulationError = {
 }
 
 export enum ErrorType {
+  LockedAsset = "LOCKED_ASSET",
   Unauthorized = 'UNAUTHORIZED',
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
@@ -171,7 +172,7 @@ export enum ErrorType {
   Revert = 'REVERT',
   TooManyRequests = 'TOO_MANY_REQUESTS',
   GeneralError = 'ERROR',
-  UnknownError = "UNKNOWN_ERROR"
+  UnknownError = "UNKNOWN_ERROR",
 }
 
 export enum SimulationWarningType {
@@ -267,4 +268,5 @@ export type StateChange = {
   fiatValue: string;
   coinmarketcapLink: string;
   openSeaLink: string;
+  locked: boolean;
 };
