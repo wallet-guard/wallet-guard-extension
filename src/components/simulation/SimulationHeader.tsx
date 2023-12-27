@@ -59,7 +59,6 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ details }) =
         <div style={{ display: 'flex', float: 'right', fontFamily: 'ArchivoBold' }}>
           {/* <NavbarNotifications /> */}
           <NavbarShareButton />
-          {/* <CiBellOn size={28} /> */}
           <a href="https://dashboard.walletguard.app/settings/extension" target="_blank" rel="noreferrer">
             <CiSettings size={34} className="pl-2 text-white hover:text-white transform hover:scale-110" />
           </a>
