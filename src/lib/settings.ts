@@ -11,5 +11,5 @@ export const WG_EXTENSION_DEFAULT_SETTINGS: ExtensionSettings = {
   simulationEnabled: true,
   maliciousExtensionDetection: true,
   approvalNotifications: true,
-  skipOnOfficialMarketplaces: true,
+  skipOnOfficialMarketplaces: false,
 };
