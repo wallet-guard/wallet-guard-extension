@@ -25,7 +25,7 @@ export function useSimulation() {
   }, []);
 
 
-  function updateSimulations(simulations: StoredSimulation[]) {
+  function updateSimulations(simulations: StoredSimulation[]): void {
     const filteredSimulations = simulations?.filter(
       (simulation: StoredSimulation) =>
         simulation.state !== StoredSimulationState.Rejected && simulation.state !== StoredSimulationState.Confirmed
@@ -40,8 +40,13 @@ export function useSimulation() {
       setCurrentSimulation(undefined);
     }
 
+    isLoading(false);
+
     if (current?.args?.bypassed) {
       if (current.state !== StoredSimulationState.Simulating && !current.simulation.error) {
+        // do not show warning on verified websites
+        if (current.simulation.scanResult.verified) return;
+
         current.simulation.recommendedAction = RecommendedActionType.Warn;
         current.simulation.overviewMessage = current.simulation.overviewMessage ? 'We detected several risky indicators from this transaction.' : 'We detected 1 risky indicator from this transaction.'
 
@@ -60,8 +65,6 @@ export function useSimulation() {
         setCurrentSimulation(current);
       }
     }
-
-    isLoading(false);
   }
 
   return {
