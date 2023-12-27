@@ -1,9 +1,7 @@
 import React from 'react';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 import { NavbarShareButton } from '../common/NavbarShareButton';
-import { NavbarNotifications } from '../common/NavbarNotifications';
 import { CiSettings } from 'react-icons/ci';
-import { CiBellOn } from 'react-icons/ci';
 
 interface SimulationHeaderProps {
   // Details are all or nothing
