@@ -91,7 +91,7 @@ export function PhishingWarning() {
         <>
           <Text variant={'muted'} fontSize={'lg'}>
             The website ({proceedAnywayUrl}) you're trying to visit is on our{' '}
-            <strong>confirmed phishing blocklist</strong>
+            <strong>confirmed phishing blocklist.</strong>
           </Text>
         </>
       );
