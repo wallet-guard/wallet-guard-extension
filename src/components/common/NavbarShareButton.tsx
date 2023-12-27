@@ -1,7 +1,7 @@
 import React from 'react';
-import { FaTwitter } from 'react-icons/fa';
 import { TwitterShareButton } from 'react-share';
 import styles from './common.module.css';
+import { BsTwitterX } from 'react-icons/bs';
 
 export function NavbarShareButton() {
   return (
@@ -12,7 +12,7 @@ export function NavbarShareButton() {
     >
       <div className={styles['buttonWithIcon']}>
         Share
-        <FaTwitter style={{ marginLeft: '5px' }} />
+        <BsTwitterX style={{ marginLeft: '5px' }} />
       </div>
     </TwitterShareButton>
   );
