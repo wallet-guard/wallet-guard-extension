@@ -7,7 +7,9 @@ export function NavbarShareButton() {
   return (
     <TwitterShareButton
       url={'https://walletguard.app'}
-      title={'Join myself and 100,000+ others who are protecting our assets with Wallet Guard'}
+      title={
+        'Join 100,000+ wallets already protected using Wallet Guard. Proactively detect wallet drainers & phishing scams so you can transact confidently in your preferred wallet.'
+      }
       via={'wallet_guard'}
     >
       <div className={styles['buttonWithIcon']}>
