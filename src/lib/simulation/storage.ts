@@ -75,7 +75,9 @@ const completeSimulation = async (id: string, simulation: SimulationResponse, lo
 
   simulations.forEach((storedSimulation) => {
     if (storedSimulation.id === id) {
-      // Check for any soft locked assets
+      let isMovingLockedAsset = false;
+
+      // Check and flag any soft locked assets
       if (!simulation.error) {
         simulation.stateChanges?.forEach((stateChange, i) => {
           lockedAssetsResponse?.lockedAssets.forEach((asset) => {
@@ -84,11 +86,7 @@ const completeSimulation = async (id: string, simulation: SimulationResponse, lo
 
             if (isEqual && isTransferChangeType) {
               simulation.stateChanges![i].locked = true;
-              storedSimulation.simulation.error = {
-                type: ErrorType.LockedAsset,
-                message: "cannot proceed with transaction, locked asset detected",
-                extraData: null
-              }
+              isMovingLockedAsset = true;
             }
           });
         });
@@ -97,6 +95,15 @@ const completeSimulation = async (id: string, simulation: SimulationResponse, lo
       // Map the state to successful
       storedSimulation.state = StoredSimulationState.Success;
       storedSimulation.simulation = simulation;
+
+      // Map the soft locked error, if necessary
+      if (isMovingLockedAsset) {
+        storedSimulation.simulation.error = {
+          type: ErrorType.LockedAsset,
+          message: "cannot proceed with transaction, locked asset detected",
+          extraData: null
+        }
+      }
     }
   });
 
