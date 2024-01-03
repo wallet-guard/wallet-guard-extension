@@ -81,6 +81,36 @@ export type SimulationResponse =
   | SimulationSuccessResponse
   | SimulationErrorResponse;
 
+export type SoftLockedAssetsResponse = {
+  address: string;
+  chainID: string;
+  lockedAssets: AssetKey[];
+}
+
+type AssetKey = {
+  ownerAddress: string;
+  ERCType: string;
+  contractAddress: string;
+  tokenID: string;
+}
+
+export function AssetsEqual(assetKey: AssetKey, stateChange: StateChange): boolean {
+  return assetKey.contractAddress === stateChange.contractAddress &&
+    assetKey.ERCType === stateChange.assetType &&
+    assetKey.tokenID === stateChange.tokenID;
+}
+
+export function IsTransferChangeType(changeType: SimulationChangeType): boolean {
+  return changeType === SimulationChangeType.ChangeTypeTransfer ||
+    changeType === SimulationChangeType.ChangeTypeLooksRareBidOffer ||
+    changeType === SimulationChangeType.ChangeTypeApprovalForAll ||
+    changeType === SimulationChangeType.ChangeTypeApprove ||
+    changeType === SimulationChangeType.ChangeTypeOpenSeaListing ||
+    changeType === SimulationChangeType.ChangeTypeLooksRareAskListing ||
+    changeType === SimulationChangeType.ChangeTypeListingTransfer ||
+    changeType === SimulationChangeType.ChangeTypePermitTransfer;
+}
+
 export type SimulationErrorResponse = {
   error: SimulationError;
   scanResult?: PhishingResponse;
@@ -164,7 +194,6 @@ export type SimulationError = {
 }
 
 export enum ErrorType {
-  LockedAsset = "LOCKED_ASSET",
   Unauthorized = 'UNAUTHORIZED',
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
@@ -173,6 +202,7 @@ export enum ErrorType {
   TooManyRequests = 'TOO_MANY_REQUESTS',
   GeneralError = 'ERROR',
   UnknownError = "UNKNOWN_ERROR",
+  LockedAsset = "LOCKED_ASSET"
 }
 
 export enum SimulationWarningType {
