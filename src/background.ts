@@ -28,7 +28,6 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
-import { KNOWN_MARKETPLACES } from './lib/simulation/skip';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -343,12 +342,12 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
   if (!settings?.simulationEnabled) return;
 
-  if ('transaction' in message.data) {
-    const address = message.data.transaction?.to?.toLowerCase();
-    if (KNOWN_MARKETPLACES.includes(address)) {
-      return;
-    }
-  }
+  // if ('transaction' in message.data) {
+  //   const address = message.data.transaction?.to?.toLowerCase();
+  //   if (KNOWN_MARKETPLACES.includes(address)) {
+  //     return;
+  //   }
+  // }
 
   // Check if the transaction was already simulated and confirmed
   const isApproved = findApprovedTransaction(approvedTxns, message.data);
