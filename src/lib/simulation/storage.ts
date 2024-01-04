@@ -186,7 +186,7 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
         args,
       }),
       fetchTransaction(args, TransactionType.Transaction),
-      fetchLockedAssets(args.signer, args.chainId)
+      fetchLockedAssets(args.signer)
     ]);
     response = result[1];
     softLockedAssetsCheck = result[2];
@@ -199,7 +199,7 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
         args,
       }),
       fetchTransaction(args, TransactionType.Signature),
-      fetchLockedAssets(args.signer, args.chainId)
+      fetchLockedAssets(args.signer)
     ]);
     response = result[1];
     softLockedAssetsCheck = result[2];
@@ -212,10 +212,9 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
         args,
       }),
       fetchTransaction(args, TransactionType.Signature),
-      fetchLockedAssets(args.signer, args.chainId)
+      // do not fetch locked assets on personal_sign
     ]);
     response = result[1];
-    softLockedAssetsCheck = result[2];
   } else {
     const result = await Promise.all([
       addSimulation({
@@ -225,13 +224,12 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
         args,
       }),
       fetchTransaction(args, TransactionType.Signature),
-      fetchLockedAssets(args.signer, args.chainId)
+      fetchLockedAssets(args.signer)
     ]);
     response = result[1];
     softLockedAssetsCheck = result[2];
   }
 
-  // TODO: add soft locked assets to be merged into this fn
   return completeSimulation(args.id, response, softLockedAssetsCheck);
 };
 
