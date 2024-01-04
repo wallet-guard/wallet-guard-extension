@@ -71,10 +71,9 @@ export const fetchTransaction = async (args: TransactionArgs, type: TransactionT
   }
 };
 
-export const fetchLockedAssets = async (address: string, chainID: string): Promise<SoftLockedAssetsResponse | null> => {
+export const fetchLockedAssets = async (address: string): Promise<SoftLockedAssetsResponse | null> => {
   try {
-    // todo: consider moving this endpoint to the extension api
-    const response: globalThis.Response = await fetch(`https://api.walletguard.app/dashboard/locked-assets?address=${address}&chainID=${chainID}`, {
+    const response: globalThis.Response = await fetch(`${SERVER_URL_PROD}/soft-lock/locked-assets?address=${address}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
