@@ -3,7 +3,6 @@ export interface ExtensionSettings {
   simulationEnabled: boolean;
   maliciousExtensionDetection: boolean;
   approvalNotifications: boolean;
-  skipOnOfficialMarketplaces: boolean;
 }
 
 export const WG_EXTENSION_DEFAULT_SETTINGS: ExtensionSettings = {
@@ -11,5 +10,4 @@ export const WG_EXTENSION_DEFAULT_SETTINGS: ExtensionSettings = {
   simulationEnabled: true,
   maliciousExtensionDetection: true,
   approvalNotifications: true,
-  skipOnOfficialMarketplaces: false,
 };
