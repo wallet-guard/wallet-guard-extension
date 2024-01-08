@@ -20,7 +20,7 @@ export default function RevertComponent(props: ErrorComponentProps) {
             marginBottom: 0,
           }}
         >
-          This can occur when a transaction is no longer valid.
+          This transaction may no longer be valid.
         </p>
 
         <p
