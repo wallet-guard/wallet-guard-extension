@@ -47,7 +47,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({ onClose }) => {
     onClose();
 
     if (converted) {
-      openDashboard('simulation_promo', true);
+      openDashboard('simulation_promo');
     }
   }
 

@@ -13,3 +13,13 @@
 .buttonWithIcon:hover {
   background: rgb(20, 20, 20);
 }
+
+.settingsIcon {
+  padding-left: 0.5rem;
+  color: #c4c4c4;
+}
+
+.settingsIcon:hover {
+  color: white;
+  cursor: pointer;
+}
