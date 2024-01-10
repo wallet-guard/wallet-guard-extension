@@ -24,25 +24,37 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
       </div>
     </div>
   );
-};
+}
 
 function NFTInfoAssetChange(props: StateChangesComponentProps) {
   function NFTInfoHeader() {
     return (
-      <p
-        style={{ color: 'white', fontSize: '18px', marginBottom: 0 }}
-        className={`${styles['font-archivo-bold']} pl-3`}
-      >
-        {props.stateChange.tokenName
-          ? add3Dots(props.stateChange.tokenName, 13)
-          : props.stateChange.tokenId
-            ? props.stateChange.tokenId
-            : 'Unknown'}
-      </p>
+      <div className={styles['row']}>
+        <a href={props.stateChange.openSeaLink || 'https://opensea.io'} target="_blank" className={`${styles['links']}`}>
+          <p
+            style={{ color: 'white', fontSize: '18px', marginBottom: 0 }}
+            className={`${styles['font-archivo-bold']} pl-3`}
+          >
+            {props.stateChange.tokenName
+              ? add3Dots(props.stateChange.tokenName, 13)
+              : props.stateChange.tokenId
+                ? props.stateChange.tokenId
+                : 'Unknown'}
+          </p>
+        </a>
+        {props.stateChange.locked &&
+          <img src='/images/popup/assetLock.svg' className='pl-1' />
+        }
+      </div>
     )
+
   }
 
   function NFTInfoSubHeader() {
+    if (props.stateChange.locked) {
+
+    }
+
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <p
@@ -70,14 +82,7 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
 
   return (
     <>
-      {props.stateChange.openSeaLink ?
-        <a href={props.stateChange.openSeaLink} target="_blank" className={`${styles['links']}`}>
-          <NFTInfoHeader />
-        </a>
-        :
-        <NFTInfoHeader />
-      }
-
+      <NFTInfoHeader />
       <NFTInfoSubHeader />
     </>
   )

@@ -1,6 +1,6 @@
 // Storage wrapper for updating the storage.
 import { fetchLockedAssets, fetchTransaction } from './server';
-import { AssetsEqual, ErrorType, IsTransferChangeType, SimulationChangeType, SimulationResponse, SimulationSuccessResponse, SoftLockedAssetsResponse, TransactionArgs, TransactionType } from '../../models/simulation/Transaction';
+import { AssetsEqual, IsTransferChangeType, SimulationResponse, SimulationSuccessResponse, SoftLockedAssetsResponse, TransactionArgs, TransactionType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType } from '../helpers/chrome/messageHandler';
 import { SUPPORTED_CHAINS } from '../config/features';
@@ -97,11 +97,15 @@ const completeSimulation = async (id: string, simulation: SimulationResponse, lo
             }
           });
         });
+
+        // Sort locked assets to the top
+        simulation.stateChanges?.sort((asset) => asset.locked ? -1 : 1);
       }
 
       // Map the state to successful
       storedSimulation.state = StoredSimulationState.Success;
       storedSimulation.simulation = simulation;
+
       if (lockedAssetsResponse) {
         storedSimulation.lockedAssetsState = {
           shouldBlockTx: isMovingLockedAsset,

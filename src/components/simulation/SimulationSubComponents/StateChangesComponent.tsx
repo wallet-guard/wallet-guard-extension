@@ -10,6 +10,7 @@ import {
 import { TokenInfo } from './stateChangeSubComponents/TokenInfo';
 import { PhishingResponse } from '../../../models/PhishingResponse';
 import styles from '../simulation.module.css';
+import { AssetInfo } from './stateChangeSubComponents/AssetInfo';
 
 export interface StateChangesComponentProps {
   simulationStateChanges: StateChange[];
@@ -58,12 +59,23 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
         return (
           <div key={stateChange.name + stateChange.tokenId + stateChange.fiatValue} className="container">
             <div className={`${styles.assetChangeRow} row justify-content-between`}>
-              {stateChange.assetType !== SimulationAssetTypes.Native &&
+              <AssetInfo stateChange={stateChange} />
+              {/* {stateChange.assetType !== SimulationAssetTypes.Native &&
+                stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
+                // NFT change type
+                <AssetInfo
+                  stateChange={stateChange} />
+              ) : (
+                <AssetInfo stateChange={stateChange} />
+              )} */}
+
+              {/* <AssetInfo stateChange={stateChange} /> */}
+              {/* {stateChange.assetType !== SimulationAssetTypes.Native &&
                 stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
                 <NFTInfo stateChange={stateChange} />
               ) : (
                 <TokenInfo stateChange={stateChange} />
-              )}
+              )} */}
 
               {stateChange && (
                 <>

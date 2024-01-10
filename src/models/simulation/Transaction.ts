@@ -111,6 +111,12 @@ export function IsTransferChangeType(changeType: SimulationChangeType): boolean 
     changeType === SimulationChangeType.ChangeTypePermitTransfer;
 }
 
+export function IsApprovalChangeType(changeType: SimulationChangeType): boolean {
+  return changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ||
+    changeType === SimulationChangeType.ChangeTypeApprovalForAll ||
+    changeType === SimulationChangeType.ChangeTypeApprove;
+}
+
 export type SimulationErrorResponse = {
   error: SimulationError;
   scanResult?: PhishingResponse;
