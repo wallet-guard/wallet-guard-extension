@@ -2,6 +2,8 @@ import React from 'react';
 import { RecommendedActionType } from '../../models/simulation/Transaction';
 import { NavbarShareButton } from '../common/NavbarShareButton';
 import { CiSettings } from 'react-icons/ci';
+import { openDashboard } from '../../lib/helpers/linkHelper';
+import styles from '../common/common.module.css';
 
 interface SimulationHeaderProps {
   // Details are all or nothing
@@ -57,9 +59,11 @@ export const SimulationHeader: React.FC<SimulationHeaderProps> = ({ details }) =
         <div style={{ display: 'flex', float: 'right', fontFamily: 'ArchivoBold' }}>
           {/* <NavbarNotifications /> */}
           <NavbarShareButton />
-          <a href="https://dashboard.walletguard.app/settings/extension" target="_blank" rel="noreferrer">
-            <CiSettings size={34} className="pl-2 text-white hover:text-white transform hover:scale-110" />
-          </a>
+
+          <CiSettings
+            onClick={() => openDashboard('settings')}
+            size={34}
+            className={styles['settingsIcon']} />
         </div>
       </div>
     </div>
