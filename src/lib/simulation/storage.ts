@@ -51,7 +51,12 @@ export interface CompletedSimulation {
   // The params that were used to simulate this transaction.
   args: TransactionArgs;
 
-  lockedAssets?: SoftLockedAssetsResponse;
+  lockedAssetsState?: LockedAssetState;
+}
+
+interface LockedAssetState {
+  shouldBlockTx: boolean;
+  lockedAssets: SoftLockedAssetsResponse;
 }
 
 // This is what we pass down to all simulation components
@@ -97,7 +102,12 @@ const completeSimulation = async (id: string, simulation: SimulationResponse, lo
       // Map the state to successful
       storedSimulation.state = StoredSimulationState.Success;
       storedSimulation.simulation = simulation;
-      storedSimulation.lockedAssets = lockedAssetsResponse || undefined;
+      if (lockedAssetsResponse) {
+        storedSimulation.lockedAssetsState = {
+          shouldBlockTx: isMovingLockedAsset,
+          lockedAssets: lockedAssetsResponse
+        }
+      }
     }
   });
 

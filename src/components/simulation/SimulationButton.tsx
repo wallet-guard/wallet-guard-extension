@@ -10,6 +10,7 @@ import { RecommendedActionType } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/SimulationButton.module.css';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
+import { openDashboard } from '../../lib/helpers/linkHelper';
 
 interface SimulationActionButton {
   color?: string;
@@ -75,6 +76,7 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
     return (
       <div className={`${styles['footer-container']}`}>
         <div className={styles['button-container']}>
+          {/* todo: try adding 'container' class to 'row' here instead of the paddingLeft and paddingRight */}
           <div className="row">
             <div className="col-6" style={{ paddingRight: '7.5px' }}>
               <SimulationActionButton
@@ -119,20 +121,34 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
                     handleProceedAnyway();
                   }}
                 />
-              ) : (
-                <SimulationActionButton
-                  backgroundColor={'white'}
-                  imgSrc="/images/popup/ArrowRight.png"
-                  imgWidth={19}
-                  buttonText="Continue"
-                  onClick={() => {
-                    posthog.capture('simulation confirmed', {
-                      storedSimulation: storedSimulation,
-                    });
-                    updateSimulationAction(id, StoredSimulationState.Confirmed);
-                  }}
-                />
-              )}
+              ) : storedSimulation.lockedAssetsState?.shouldBlockTx ?
+                (
+                  <SimulationActionButton
+                    backgroundColor={'white'}
+                    buttonText="Visit Dashboard"
+                    onClick={() => {
+                      posthog.capture('simulation rejected', {
+                        storedSimulation: storedSimulation,
+                        isSoftLockedTx: true
+                      });
+                      openDashboard('lockedAsset');
+                      updateSimulationAction(id, StoredSimulationState.Rejected);
+                    }}
+                  />) :
+                (
+                  <SimulationActionButton
+                    backgroundColor={'white'}
+                    imgSrc="/images/popup/ArrowRight.png"
+                    imgWidth={19}
+                    buttonText="Continue"
+                    onClick={() => {
+                      posthog.capture('simulation confirmed', {
+                        storedSimulation: storedSimulation,
+                      });
+                      updateSimulationAction(id, StoredSimulationState.Confirmed);
+                    }}
+                  />
+                )}
             </div>
           </div>
         </div>
