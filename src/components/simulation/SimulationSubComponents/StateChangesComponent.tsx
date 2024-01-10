@@ -59,8 +59,11 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
           <div key={stateChange.name + stateChange.tokenId + stateChange.fiatValue} className="container">
             <div className={`${styles.assetChangeRow} row justify-content-between`}>
               {stateChange.assetType !== SimulationAssetTypes.Native &&
-                stateChange.assetType !== SimulationAssetTypes.ERC20 ?
-                <NFTInfo stateChange={stateChange} /> : <TokenInfo stateChange={stateChange} />}
+                stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
+                <NFTInfo stateChange={stateChange} />
+              ) : (
+                <TokenInfo stateChange={stateChange} />
+              )}
 
               {stateChange && (
                 <>
@@ -77,7 +80,13 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       ) : isReceive(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="receive" />
                       ) : (
-                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount={stateChange.amount} />
+                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
+                          <ApprovalChange
+                            verified={props.scanResult.verified}
+                            symbol={stateChange.symbol}
+                            amount={stateChange.amount}
+                          />
+                        )
                       )}
                     </div>
                   ) : (
@@ -85,14 +94,19 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount='ALL' locked={stateChange.locked} />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount="ALL" locked={stateChange.locked} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="receive" />
                       ) : (
                         stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
-                          <ApprovalChange symbol={stateChange.symbol} verified={props.scanResult.verified} amount={stateChange.amount} locked={stateChange.locked} />
+                          <ApprovalChange
+                            symbol={stateChange.symbol}
+                            verified={props.scanResult.verified}
+                            amount={stateChange.amount}
+                            locked={stateChange.locked}
+                          />
                         )
                       )}
                     </div>

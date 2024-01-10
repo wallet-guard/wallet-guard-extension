@@ -223,7 +223,13 @@ chrome.storage.onChanged.addListener((changes, area) => {
     chrome.windows.getCurrent().then((current) => {
       if (!current || !current.width || !current.height) return;
 
-      if (current.type === 'popup' && !oldFiltered.length && !newFiltered.length && current.width === 420 && current.height === 840) {
+      if (
+        current.type === 'popup' &&
+        !oldFiltered.length &&
+        !newFiltered.length &&
+        current.width === 420 &&
+        current.height === 840
+      ) {
         chrome.windows.remove(current.id || 0);
       }
       return;
@@ -233,14 +239,16 @@ chrome.storage.onChanged.addListener((changes, area) => {
       // Indicate we're creating a popup so we don't have many.
       currentPopup = -1;
 
-      chrome.windows.create({
-        url: 'popup.html',
-        type: 'popup',
-        width: 420,
-        height: 840,
-      }).then((createdWindow) => {
-        currentPopup = createdWindow.id;
-      });
+      chrome.windows
+        .create({
+          url: 'popup.html',
+          type: 'popup',
+          width: 420,
+          height: 840,
+        })
+        .then((createdWindow) => {
+          currentPopup = createdWindow.id;
+        });
 
       return;
     }
@@ -333,6 +341,13 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   if (!SUPPORTED_CHAINS.includes(message.data.chainId)) return;
   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
   if (!settings?.simulationEnabled) return;
+
+  // if ('transaction' in message.data) {
+  //   const address = message.data.transaction?.to?.toLowerCase();
+  //   if (KNOWN_MARKETPLACES.includes(address)) {
+  //     return;
+  //   }
+  // }
 
   // Check if the transaction was already simulated and confirmed
   const isApproved = findApprovedTransaction(approvedTxns, message.data);
