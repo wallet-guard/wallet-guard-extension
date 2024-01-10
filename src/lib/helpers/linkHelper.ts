@@ -4,18 +4,11 @@ export function openGuide() {
   });
 }
 
-export function openDashboard(source: string, isSimulator = false) {
-  if (isSimulator) {
-    chrome.tabs.create({
-      url: 'https://dashboard.walletguard.app/?client=extension&source=' + source
-    });
-    return;
-  }
-
-  if (source === 'install') {
+export function openDashboard(source: string) {
+  if (source === 'settings') {
+    chrome.tabs.create({ url: 'https://dashboard.walletguard.app/settings/extension/?client=extension&source=settings' });
+  } else if (source === 'install') {
     chrome.tabs.create({ url: 'https://dashboard.walletguard.app/onboarding/welcome/?client=extension&source=install' });
-  } else if (source === 'phishing_page_my_dashboard') {
-    chrome.tabs.update({ url: 'https://dashboard.walletguard.app/?client=extension&source=' + source });
   } else {
     chrome.tabs.create({ url: 'https://dashboard.walletguard.app/?client=extension&source=' + source });
   }

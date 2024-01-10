@@ -49,12 +49,12 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
     <div>
       <SimulationHeader />
 
-      <div className="row text-center" style={{ marginTop: '65px' }}>
-        <div className="col-12">
+      <div className="container" style={{ marginTop: '65px' }}>
+        <div className='flex row justify-content-center'>
           <img
             src="/images/popup/simulation_error.png"
             alt="A picture of a wallet UI with a red exclamation mark displayed in the center of the screen over an empty transaction screen representing an error"
-            width={150}
+            width={'150px'}
           />
         </div>
       </div>
