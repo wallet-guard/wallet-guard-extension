@@ -10,7 +10,7 @@ export interface StateChangesComponentProps {
 
 export const TokenInfo = (props: StateChangesComponentProps) => {
   return (
-    <div className={styles.assetChangeLeftColumn}>
+    <div className={styles.assetChangeLeftColumn} style={{ filter: props.stateChange.locked ? 'grayscale(60%)' : '' }}>
       <AssetChangeImage imageURL={props.stateChange.logo || props.stateChange.tokenURI} />
       <div className='flex column align-center pl-3'>
         <div className={styles['row']}>
@@ -30,7 +30,6 @@ export const TokenInfo = (props: StateChangesComponentProps) => {
           <p style={{ marginBottom: 0, color: '#646464' }} className={`${styles['font-archivo-medium']}`}>Locked</p>
         )}
       </div>
-
     </div>
   );
 };

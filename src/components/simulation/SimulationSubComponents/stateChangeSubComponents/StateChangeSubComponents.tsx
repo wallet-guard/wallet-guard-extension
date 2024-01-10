@@ -49,17 +49,25 @@ export const ApprovalChange = (props: ApprovalProps) => {
   const { verified, symbol, amount, locked } = props;
 
   return (
-    <div style={{ color: locked ? '#646464 !important' : '' }}>
+    <>
       <h3
-        style={{ color: verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
+        style={{
+          color: locked ? '#646464' : (verified ? 'white' : '#fb4b4b'),
+          fontSize: '16px',
+          marginBottom: 0
+        }}
         className={`${styles['font-archivo-bold']}`}
       >
         Giving approval
       </h3>
-      <p style={{ color: verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
+      <p style={{
+        color: locked ? '#646464' : (verified ? '#646464' : '#fb4b4b'),
+        marginBottom: 0,
+        fontSize: '16px'
+      }} className={`${styles['font-archivo-medium']}`}>
         {roundNumberIfNeccessary(amount)} {symbol}
       </p>
-    </div>
+    </>
   );
 };
 

@@ -71,7 +71,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount='ALL' />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount='ALL' locked={stateChange.locked} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
@@ -85,14 +85,14 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount='ALL' />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount='ALL' locked={stateChange.locked} />
                       ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="receive" />
                       ) : (
                         stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
-                          <ApprovalChange symbol={stateChange.symbol} verified={props.scanResult.verified} amount={stateChange.amount} />
+                          <ApprovalChange symbol={stateChange.symbol} verified={props.scanResult.verified} amount={stateChange.amount} locked={stateChange.locked} />
                         )
                       )}
                     </div>

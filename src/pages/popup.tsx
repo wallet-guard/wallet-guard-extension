@@ -95,7 +95,7 @@ const Popup = () => {
         <>
           <TransactionDetails currentSimulation={successfulSimulation} />
           <TransactionContent currentSimulation={successfulSimulation} />
-          <div style={{ height: '140px' }} />
+          <div style={{ height: currentSimulation.lockedAssetsState?.shouldBlockTx ? '200px' : '140px' }} />
 
           {currentSimulation.lockedAssetsState?.shouldBlockTx && (
             <LockedAssetPopup />

@@ -8,7 +8,7 @@ export function LockedAssetPopup() {
   }, []);
 
   return (
-    <div className='container'>
+    <div className='container' style={{ position: 'fixed', bottom: '100px' }}>
       <div style={{ width: '100%', borderRadius: '10px', display: 'flex', flexDirection: 'row', alignItems: 'center', background: '#2B2B2B', padding: '15px' }}>
         <img src='/images/popup/notAllowedIcon.png' alt='a not allowed icon' />
 
@@ -18,6 +18,5 @@ export function LockedAssetPopup() {
         </div>
       </div>
     </div>
-
   )
 }
