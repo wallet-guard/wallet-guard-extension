@@ -5,7 +5,7 @@ import { ConfirmSimulationButton } from '../components/simulation/SimulationButt
 import { NoSimulation } from '../components/simulation/NoSimulation';
 import { SimulationHeader } from '../components/simulation/SimulationHeader';
 import { TransactionContent } from '../components/simulation/TransactionContent';
-import { ErrorType, SimulationMethodType } from '../models/simulation/Transaction';
+import { SimulationMethodType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
@@ -97,7 +97,7 @@ const Popup = () => {
           <TransactionContent currentSimulation={successfulSimulation} />
           <div style={{ height: '140px' }} />
 
-          {currentSimulation.simulation.error === ErrorType.LockedAsset && (
+          {currentSimulation.lockedAssets && (
             <LockedAssetPopup />
           )}
 

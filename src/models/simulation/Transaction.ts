@@ -89,15 +89,15 @@ export type SoftLockedAssetsResponse = {
 
 type AssetKey = {
   ownerAddress: string;
-  ERCType: string;
+  ercType: string;
   contractAddress: string;
-  tokenID: string;
+  tokenId: string;
 }
 
 export function AssetsEqual(assetKey: AssetKey, stateChange: StateChange): boolean {
   return assetKey.contractAddress === stateChange.contractAddress &&
-    assetKey.ERCType === stateChange.assetType &&
-    assetKey.tokenID === stateChange.tokenID;
+    assetKey.ercType === stateChange.assetType &&
+    (assetKey.tokenId === stateChange.tokenId || assetKey.tokenId === 'COLLECTION');
 }
 
 export function IsTransferChangeType(changeType: SimulationChangeType): boolean {
@@ -202,7 +202,6 @@ export enum ErrorType {
   TooManyRequests = 'TOO_MANY_REQUESTS',
   GeneralError = 'ERROR',
   UnknownError = "UNKNOWN_ERROR",
-  LockedAsset = "LOCKED_ASSET"
 }
 
 export enum SimulationWarningType {
@@ -288,7 +287,7 @@ export type StateChange = {
   contractAddress: string;
   name: string;
   logo: string;
-  tokenID: string;
+  tokenId: string;
   tokenURI: string;
   tokenName: string;
   openSeaFloorPrice: number;

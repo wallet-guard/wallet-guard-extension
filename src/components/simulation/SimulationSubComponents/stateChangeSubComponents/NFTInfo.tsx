@@ -35,8 +35,8 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
       >
         {props.stateChange.tokenName
           ? add3Dots(props.stateChange.tokenName, 13)
-          : props.stateChange.tokenID
-            ? props.stateChange.tokenID
+          : props.stateChange.tokenId
+            ? props.stateChange.tokenId
             : 'Unknown'}
       </p>
     )

@@ -12,7 +12,6 @@ export const TransactionContent = (props: SimulationBaseProps) => {
       return (
         <ChangeTypeSection
           scanResult={currentSimulation.simulation.scanResult}
-          // todo: consider adding a gas stateChange here
           stateChanges={[]}
           title="You are sending"
           iconPath="images/popup/assetChanges/ArrowGiving.png"

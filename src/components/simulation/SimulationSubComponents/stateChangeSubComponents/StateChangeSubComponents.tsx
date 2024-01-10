@@ -42,7 +42,7 @@ interface ApprovalProps {
   verified: boolean;
   symbol: string;
   amount: string;
-  locked: boolean;
+  locked?: boolean;
 }
 
 export const ApprovalChange = (props: ApprovalProps) => {

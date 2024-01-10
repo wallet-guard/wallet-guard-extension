@@ -50,6 +50,8 @@ export interface CompletedSimulation {
 
   // The params that were used to simulate this transaction.
   args: TransactionArgs;
+
+  lockedAssets?: SoftLockedAssetsResponse;
 }
 
 // This is what we pass down to all simulation components
@@ -95,15 +97,7 @@ const completeSimulation = async (id: string, simulation: SimulationResponse, lo
       // Map the state to successful
       storedSimulation.state = StoredSimulationState.Success;
       storedSimulation.simulation = simulation;
-
-      // Map the soft locked error, if necessary
-      if (isMovingLockedAsset) {
-        storedSimulation.simulation.error = {
-          type: ErrorType.LockedAsset,
-          message: "cannot proceed with transaction, locked asset detected",
-          extraData: null
-        }
-      }
+      storedSimulation.lockedAssets = lockedAssetsResponse || undefined;
     }
   });
 
