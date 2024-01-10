@@ -2,8 +2,9 @@ import React from 'react';
 import styles from '../../simulation.module.css';
 import { add3Dots } from '../StateChangesComponent';
 import { AssetChangeImage } from './AssetChangeImage';
-import { IsApprovalChangeType, SimulationAssetTypes, StateChange } from '../../../../models/simulation/Transaction';
+import { SimulationAssetTypes, StateChange } from '../../../../models/simulation/Transaction';
 import { Tooltip } from '@chakra-ui/react';
+import { IsApprovalChangeType } from '../../../../models/simulation/ChangeTypeHelper';
 
 interface StateChangesComponentProps {
   stateChange: StateChange;

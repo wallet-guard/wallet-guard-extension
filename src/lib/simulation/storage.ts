@@ -1,9 +1,10 @@
 // Storage wrapper for updating the storage.
 import { fetchLockedAssets, fetchTransaction } from './server';
-import { AssetsEqual, IsTransferChangeType, SimulationResponse, SimulationSuccessResponse, SoftLockedAssetsResponse, TransactionArgs, TransactionType } from '../../models/simulation/Transaction';
+import { SimulationResponse, SimulationSuccessResponse, SoftLockedAssetsResponse, TransactionArgs, TransactionType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType } from '../helpers/chrome/messageHandler';
 import { SUPPORTED_CHAINS } from '../config/features';
+import { AssetsEqual, IsTransferChangeType } from '../../models/simulation/ChangeTypeHelper';
 
 export enum StoredSimulationState {
   // Currently in the process of simulating.

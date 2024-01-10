@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StoredSimulation, StoredSimulationState } from '../simulation/storage';
-import { RecommendedActionType, RiskFactor, Severity, SimulationWarningType, WarningType } from '../../models/simulation/Transaction';
+import { RecommendedActionType, RiskFactor, Severity, WarningType } from '../../models/simulation/Transaction';
 
 export function useSimulation() {
   const [currentSimulation, setCurrentSimulation] = useState<StoredSimulation>();

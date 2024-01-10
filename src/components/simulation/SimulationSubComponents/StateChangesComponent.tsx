@@ -1,13 +1,11 @@
 import React from 'react';
 import { SimulationAssetTypes, SimulationChangeType, StateChange } from '../../../models/simulation/Transaction';
-import { NFTInfo } from './stateChangeSubComponents/NFTInfo';
 import {
   ApprovalChange,
   RevokeApprovalForAll,
   TransferNFT,
   TransferToken,
 } from './stateChangeSubComponents/StateChangeSubComponents';
-import { TokenInfo } from './stateChangeSubComponents/TokenInfo';
 import { PhishingResponse } from '../../../models/PhishingResponse';
 import styles from '../simulation.module.css';
 import { AssetInfo } from './stateChangeSubComponents/AssetInfo';
@@ -60,22 +58,6 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
           <div key={stateChange.name + stateChange.tokenId + stateChange.fiatValue} className="container">
             <div className={`${styles.assetChangeRow} row justify-content-between`}>
               <AssetInfo stateChange={stateChange} />
-              {/* {stateChange.assetType !== SimulationAssetTypes.Native &&
-                stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
-                // NFT change type
-                <AssetInfo
-                  stateChange={stateChange} />
-              ) : (
-                <AssetInfo stateChange={stateChange} />
-              )} */}
-
-              {/* <AssetInfo stateChange={stateChange} /> */}
-              {/* {stateChange.assetType !== SimulationAssetTypes.Native &&
-                stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
-                <NFTInfo stateChange={stateChange} />
-              ) : (
-                <TokenInfo stateChange={stateChange} />
-              )} */}
 
               {stateChange && (
                 <>
