@@ -84,9 +84,14 @@ export const TransferNFT = (props: TransferAssetProps) => {
       <TransferValueHeading
         title={props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}
         type={props.type}
+        locked={props.stateChange.locked}
       />
 
-      <TransferValueSubHeading type={props.type} fiatValue={props.stateChange.fiatValue} isNFT />
+      <TransferValueSubHeading
+        type={props.type}
+        fiatValue={props.stateChange.fiatValue}
+        isNFT
+        locked={props.stateChange.locked} />
     </>
   );
 };
@@ -97,16 +102,23 @@ export const TransferToken = (props: TransferAssetProps) => {
       <TransferValueHeading
         title={`${roundNumberIfNeccessary(props.stateChange.amount)} ${props.stateChange.symbol}`}
         type={props.type}
+        locked={props.stateChange.locked}
       />
-      <TransferValueSubHeading type={props.type} fiatValue={props.stateChange.fiatValue} />
+      <TransferValueSubHeading
+        type={props.type}
+        fiatValue={props.stateChange.fiatValue}
+        locked={props.stateChange.locked}
+      />
     </>
   );
 };
 
-function TransferValueHeading({ title, type }: { title: string; type: TransferType }) {
+function TransferValueHeading({ title, type, locked }: { title: string; type: TransferType, locked?: boolean }) {
   return (
     <h3
-      style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', fontSize: '18px', marginBottom: 0 }}
+      style={{
+        color: locked ? '#646464' : (type === 'send' ? '#fb4b4b' : '#17FE00'), fontSize: '18px', marginBottom: 0
+      }}
       className={`${styles['font-archivo-bold']}`}
     >
       {title}
@@ -118,10 +130,12 @@ function TransferValueSubHeading({
   fiatValue,
   type,
   isNFT,
+  locked
 }: {
   fiatValue: string;
   type: TransferType;
   isNFT?: boolean;
+  locked?: boolean;
 }) {
   if (!fiatValue) return <></>;
 
@@ -138,12 +152,12 @@ function TransferValueSubHeading({
         borderRadius={'5px'}
       >
         <p
-          style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '16px' }}
+          style={{ color: locked ? '#646464' : type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '16px' }}
           className={`${styles['font-archivo-medium']}`}
         >
           ${Number(fiatValue).toFixed(2)}
         </p>
-      </Tooltip>
+      </Tooltip >
     </>
   );
 }
