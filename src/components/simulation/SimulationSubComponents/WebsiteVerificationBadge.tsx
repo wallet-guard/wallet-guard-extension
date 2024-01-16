@@ -30,7 +30,7 @@ export function WebsiteVerificationBadge(props: WebsiteVerificationBadgeProps) {
       } as VerificationBadge;
     } else if (recommendedAction === RecommendedActionType.Warn) {
       return {
-        tooltipText: 'Suspicious website',
+        tooltipText: '',
         iconPath: '/images/popup/websiteDetail/orange-danger.png',
       } as VerificationBadge;
     }
