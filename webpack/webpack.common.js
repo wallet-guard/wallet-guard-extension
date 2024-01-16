@@ -17,6 +17,7 @@ module.exports = {
     'content-scripts/contentScripts': path.join(srcDir, 'content-scripts', 'contentScripts.tsx'),
     'content-scripts/bypassCheck': path.join(srcDir, 'content-scripts', 'bypassCheck.tsx'),
     'injected/injectWalletGuard': path.join(srcDir, 'injected', 'injectWalletGuard.tsx'),
+    'content-scripts/googleAdBlock': path.join(srcDir, 'content-scripts', 'googleAdBlock.tsx'),
   },
 
   output: {
