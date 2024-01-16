@@ -218,8 +218,6 @@ export type SimulationAddressDetails = {
   etherscanVerified: boolean;
   etherscanLink: string;
   addressName: string;
-  isAssociatedWithProtocol: string;
-  addressSummary: string;
 };
 
 export type TokenData = {
