@@ -51,6 +51,18 @@ chrome.action.onClicked.addListener(function (tab) {
   }
 });
 
+chrome.webRequest.onBeforeRequest.addListener(req => {
+  const url = new URL(req.url);
+
+  if (url.hostname === 'walletguard.app') {
+    chrome.tabs.update(req.tabId, {
+      url: 'https://example.com/#blocked?url=' + encodeURIComponent(req.url),
+    });
+  }
+}, {
+  urls: ['<all_urls>'],
+});
+
 // MESSAGING
 chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendResponse) => {
   if (message.type === BrowserMessageType.ProceedAnyway) {
