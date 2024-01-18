@@ -1,4 +1,5 @@
 import { ParseResultListed } from 'parse-domain';
+import { REQUEST_BLOCKLIST } from '../config/blocklist';
 
 export function standardizeUrl(url: string): string {
   url = url.replace('https://', '');
@@ -78,4 +79,28 @@ export function urlIsPhishingWarning(url: string): boolean {
   }
 
   return false;
+}
+
+
+const sha256 = async (domain: string) => {
+  const hash = await crypto.subtle.digest('SHA-256', new
+    TextEncoder().encode(domain));
+  return Array.from(new Uint8Array(hash)).map(b =>
+    b.toString(16).padStart(2, '0')).join('');
+}
+
+type BlocklistCheckResponse = {
+  blocked: boolean;
+  hash: string;
+}
+
+export const isBlocked = async (urlString: string): Promise<BlocklistCheckResponse> => {
+  const url = new URL(urlString);
+  const hash = await sha256(url.hostname.toLowerCase());
+  const blocked = REQUEST_BLOCKLIST.includes(hash);
+
+  return {
+    blocked,
+    hash
+  };
 }

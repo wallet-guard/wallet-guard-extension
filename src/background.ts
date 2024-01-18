@@ -1,7 +1,7 @@
 import logger from './lib/logger';
 import { StoredSimulation, StoredSimulationState, updateSimulationAction } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
-import { TransactionArgs } from './models/simulation/Transaction';
+import { TransactionArgs, WarningType } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
 import {
@@ -28,6 +28,7 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
+import { isBlocked } from './lib/helpers/util';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -52,13 +53,24 @@ chrome.action.onClicked.addListener(function (tab) {
 });
 
 chrome.webRequest.onBeforeRequest.addListener(req => {
-  const url = new URL(req.url);
-
-  if (url.hostname === 'walletguard.app') {
-    chrome.tabs.update(req.tabId, {
-      url: 'https://example.com/#blocked?url=' + encodeURIComponent(req.url),
-    });
-  }
+  isBlocked(req.url).then(({ hash, blocked }) => {
+    if (blocked) {
+      chrome.tabs.get(req.tabId).then((tab) => {
+        chrome.tabs.update(req.tabId, {
+          url:
+            (chrome.runtime.getURL('phish.html') +
+              '?safe=' +
+              'null' +
+              '&proceed=' +
+              (tab.url || '') +
+              '&reason=' +
+              WarningType.DrainerRequest +
+              '&value=' +
+              hash)
+        });
+      });
+    }
+  });
 }, {
   urls: ['<all_urls>'],
 });
