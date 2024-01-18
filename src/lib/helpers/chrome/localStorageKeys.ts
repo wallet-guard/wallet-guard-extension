@@ -8,4 +8,5 @@ export enum WgKeys {
   SurveyComplete = 'surveyComplete',
   DashboardOnboarding = 'dashboardOnboarding',
   AddressList = 'addressList',
+  RequestsBlocklist = 'requestsBlocklist'
 }

@@ -29,6 +29,7 @@ import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
 import { isBlocked } from './lib/helpers/util';
+import { handleRequestsBlocklist } from './services/http/requestBlocklistService';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -147,6 +148,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'checkVersions') {
     checkAllWalletsAndCreateAlerts();
+  } else if (alarm.name === 'fetchRequestsBlocklist') {
+    handleRequestsBlocklist();
   }
 });
 
@@ -169,6 +172,11 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
   const ONE_DAY_AS_MINUTES = 1440;
   chrome.alarms.create('checkVersions', {
+    delayInMinutes: 0,
+    periodInMinutes: ONE_DAY_AS_MINUTES,
+  });
+
+  chrome.alarms.create('fetchRequestsBlocklist', {
     delayInMinutes: 0,
     periodInMinutes: ONE_DAY_AS_MINUTES,
   });

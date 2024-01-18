@@ -1,5 +1,6 @@
 import { ParseResultListed } from 'parse-domain';
-import { REQUEST_BLOCKLIST } from '../config/blocklist';
+import localStorageHelpers from './chrome/localStorage';
+import { WgKeys } from './chrome/localStorageKeys';
 
 export function standardizeUrl(url: string): string {
   url = url.replace('https://', '');
@@ -95,9 +96,15 @@ type BlocklistCheckResponse = {
 }
 
 export const isBlocked = async (urlString: string): Promise<BlocklistCheckResponse> => {
+  const blocklist = await localStorageHelpers.get<string[]>(WgKeys.RequestsBlocklist);
+
+  if (!blocklist) {
+    return { blocked: false, hash: '' };
+  }
+
   const url = new URL(urlString);
   const hash = await sha256(url.hostname.toLowerCase());
-  const blocked = REQUEST_BLOCKLIST.includes(hash);
+  const blocked = blocklist.includes(hash);
 
   return {
     blocked,
