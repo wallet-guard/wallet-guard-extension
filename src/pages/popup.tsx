@@ -5,7 +5,7 @@ import { ConfirmSimulationButton } from '../components/simulation/SimulationButt
 import { NoSimulation } from '../components/simulation/NoSimulation';
 import { SimulationHeader } from '../components/simulation/SimulationHeader';
 import { TransactionContent } from '../components/simulation/TransactionContent';
-import { RecommendedActionType, SimulationMethodType } from '../models/simulation/Transaction';
+import { ExtraInfoType, RecommendedActionType, SimulationMethodType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
@@ -17,6 +17,7 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
+import { UnresolveableSignatureModal } from '../components/simulation/SimulationSubComponents/UnresolveableSignatureModal';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -95,7 +96,12 @@ const Popup = () => {
         <>
           <TransactionDetails currentSimulation={successfulSimulation} />
           <TransactionContent currentSimulation={successfulSimulation} />
-          <div style={{ height: '140px' }} />
+          <div style={{ height: currentSimulation.simulation.extraInfo ? '200px' : '140px' }} />
+
+          {currentSimulation.simulation.extraInfo?.type === ExtraInfoType.UnresolveableSignature && (
+            <UnresolveableSignatureModal message={currentSimulation.simulation.extraInfo.message} />
+          )}
+
           {currentSimulation.args.bypassed ? (
             <BypassedSimulationButton storedSimulation={currentSimulation} />
           ) : (

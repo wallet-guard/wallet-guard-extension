@@ -98,7 +98,7 @@ export type SimulationSuccessResponse = {
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: null;
-  extraInfo?: ExtraInfoType;
+  extraInfo?: ExtraInfoData;
 };
 
 export type SimulationApiResponse = {
