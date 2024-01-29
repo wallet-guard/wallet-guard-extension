@@ -74,18 +74,18 @@ export function getTransactionEndpoint(chainId: string): string {
   switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':
-      return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
     case '0xa4b1':
     case '42161':
-      return `${SERVER_URL_PROD}/arb/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/v0/arb/mainnet/transaction`;
     case '0x89':
     case '137':
-      return `${SERVER_URL_PROD}/polygon/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/v0/polygon/mainnet/transaction`;
     case '0xa':
     case '10':
-      return `${SERVER_URL_PROD}/optimism/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/v0/optimism/mainnet/transaction`;
     default:
-      return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
   }
 }
 
@@ -93,17 +93,17 @@ export function getSignatureEndpoint(chainId: string): string {
   switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':
-      return `${SERVER_URL_PROD}/eth/mainnet/signature`;
+      return `${SERVER_URL_PROD}/v1/eth/mainnet/signature`;
     case '0xa4b1':
     case '42161':
-      return `${SERVER_URL_PROD}/arb/mainnet/signature`;
+      return `${SERVER_URL_PROD}/v1/arb/mainnet/signature`;
     case '0x89':
     case '137':
-      return `${SERVER_URL_PROD}/polygon/mainnet/signature`;
+      return `${SERVER_URL_PROD}/v1/polygon/mainnet/signature`;
     case '0xa':
     case '10':
-      return `${SERVER_URL_PROD}/optimism/mainnet/signature`;
+      return `${SERVER_URL_PROD}/v1/optimism/mainnet/signature`;
     default:
-      return `${SERVER_URL_PROD}/eth/mainnet/signature`;
+      return `${SERVER_URL_PROD}/v1/eth/mainnet/signature`;
   }
 }
