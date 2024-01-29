@@ -84,6 +84,7 @@ export type SimulationResponse =
 export type SimulationErrorResponse = {
   error: SimulationError;
   scanResult?: PhishingResponse;
+  extraInfo?: ExtraInfoType;
 };
 
 export type SimulationSuccessResponse = {
@@ -97,6 +98,7 @@ export type SimulationSuccessResponse = {
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: null;
+  extraInfo?: ExtraInfoType;
 };
 
 export type SimulationApiResponse = {
@@ -110,7 +112,17 @@ export type SimulationApiResponse = {
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: SimulationError | null;
+  extraInfo?: ExtraInfoType;
 };
+
+export enum ExtraInfoType {
+  UnresolveableSignature = "Unresolveable_signature",
+}
+
+export type ExtraInfoData = {
+  type: ExtraInfoType;
+  message: string;
+}
 
 export type SimulatedGas = {
   gasUsedEth: string;
@@ -195,7 +207,7 @@ export enum SimulationChangeType {
   PermitTransfer = 'PERMIT_TRANSFER',
   PermitReceive = 'PERMIT_RECEIVE',
 
-  //v1
+  // v1
   ApprovalForAll = 'APPROVAL_FOR_ALL',
   Approve = 'APPROVE',
   RevokeApprovalForAll = 'REVOKE_APPROVAL_FOR_ALL',
