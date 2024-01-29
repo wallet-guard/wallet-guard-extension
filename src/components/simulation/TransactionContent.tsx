@@ -31,32 +31,34 @@ export const TransactionContent = (props: SimulationBaseProps) => {
 
   const transferAndApproveStateChanges = currentSimulation.simulation.stateChanges.filter(
     (val: StateChange) =>
-      val.changeType === SimulationChangeType.ChangeTypeTransfer ||
-      val.changeType === SimulationChangeType.ChangeTypeLooksRareBidOffer ||
-      val.changeType === SimulationChangeType.ChangeTypeApprovalForAll ||
-      val.changeType === SimulationChangeType.ChangeTypeApprove
+      val.changeType === SimulationChangeType.Transfer ||
+      val.changeType === SimulationChangeType.LooksRareBidOffer ||
+      val.changeType === SimulationChangeType.ApprovalForAll ||
+      val.changeType === SimulationChangeType.Approve
   );
 
   const listingStateChanges = currentSimulation.simulation.stateChanges.filter(
     (val: StateChange) =>
-      val.changeType === SimulationChangeType.ChangeTypeOpenSeaListing ||
-      val.changeType === SimulationChangeType.ChangeTypeLooksRareAskListing ||
-      val.changeType === SimulationChangeType.ChangeTypeListingTransfer ||
-      val.changeType === SimulationChangeType.ChangeTypePermitTransfer
+      val.changeType === SimulationChangeType.OpenSeaListing ||
+      val.changeType === SimulationChangeType.LooksRareAskListing ||
+      val.changeType === SimulationChangeType.ListingTransfer ||
+      val.changeType === SimulationChangeType.PermitTransfer
   );
 
   const receiveStateChanges = currentSimulation.simulation.stateChanges?.filter(
     (val: StateChange) =>
-      val.changeType === SimulationChangeType.ChangeTypeReceive ||
-      val.changeType === SimulationChangeType.ChangeTypeOpenSeaReceive ||
-      val.changeType === SimulationChangeType.ChangeTypeLooksRareBidReceive ||
-      val.changeType === SimulationChangeType.ChangeTypeLooksRareAskReceive ||
-      val.changeType === SimulationChangeType.ChangeTypeListingReceive ||
-      val.changeType === SimulationChangeType.ChangeTypePermitReceive
+      val.changeType === SimulationChangeType.Receive ||
+      val.changeType === SimulationChangeType.OpenSeaReceive ||
+      val.changeType === SimulationChangeType.LooksRareBidReceive ||
+      val.changeType === SimulationChangeType.LooksRareAskReceive ||
+      val.changeType === SimulationChangeType.ListingReceive ||
+      val.changeType === SimulationChangeType.PermitReceive
   );
 
   const revokeStateChanges = currentSimulation.simulation.stateChanges?.filter(
-    (val: StateChange) => val.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll
+    (val: StateChange) =>
+      val.changeType === SimulationChangeType.RevokeApprovalForAll ||
+      val.changeType === SimulationChangeType.Revoke
   );
 
   return (
