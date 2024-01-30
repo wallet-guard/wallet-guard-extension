@@ -20,7 +20,9 @@ export const SUPPORTED_CHAINS = [
   '42161', '0xa4b1', // Arbitrum One
   '137', '0x89', // Polygon Mainnet
   '10', '0xa', // Optimism Mainnet
-  '56', '0x38', // BSC Mainnet
   '8453', '0x2105', // Base Mainnet
-  '59144', '0xe708' // Linea Mainnet
+
+  // Still exploring in QA
+  // '56', '0x38', // BSC Mainnet
+  // '59144', '0xe708' // Linea Mainnet
 ];
