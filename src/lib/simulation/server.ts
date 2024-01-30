@@ -84,6 +84,15 @@ export function getTransactionEndpoint(chainId: string): string {
     case '0xa':
     case '10':
       return `${SERVER_URL_PROD}/optimism/mainnet/transaction`;
+    case '56':
+    case '0x38':
+      return `${SERVER_URL_PROD}/bsc/mainnet/transaction`;
+    case '8453':
+    case '0x2105':
+      return `${SERVER_URL_PROD}/base/mainnet/transaction`;
+    case '59144':
+    case '0xe708':
+      return `${SERVER_URL_PROD}/linea/mainnet/transaction`;
     default:
       return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
   }
@@ -103,6 +112,15 @@ export function getSignatureEndpoint(chainId: string): string {
     case '0xa':
     case '10':
       return `${SERVER_URL_PROD}/optimism/mainnet/signature`;
+    case '56':
+    case '0x38':
+      return `${SERVER_URL_PROD}/bsc/mainnet/signature`;
+    case '8453':
+    case '0x2105':
+      return `${SERVER_URL_PROD}/base/mainnet/signature`;
+    case '59144':
+    case '0xe708':
+      return `${SERVER_URL_PROD}/linea/mainnet/signature`;
     default:
       return `${SERVER_URL_PROD}/eth/mainnet/signature`;
   }
