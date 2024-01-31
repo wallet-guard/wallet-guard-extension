@@ -7,7 +7,8 @@ import { dispatchResponse, listenToRequest, Response } from '../lib/simulation/r
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { removeSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import { TransactionArgs } from '../models/simulation/Transaction';
-import { ExtensionSettings } from '../lib/settings';
+import { ExtensionSettings, SimulationSettings } from '../lib/settings';
+import { shouldSkipBasedOnDomain } from '../lib/simulation/skip';
 
 // Function to inject scripts into browser
 const addScript = (url: string) => {
@@ -46,46 +47,53 @@ listenToRequest(async (request: TransactionArgs) => {
     request.origin = currentTab;
   }
 
-  // Get User Settings
-  localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings).then((settings) => {
-    if (!settings || !settings.simulationEnabled) {
-      // Immediately respond continue.
-      dispatchResponse({
-        id: request.id,
-        type: Response.Continue,
-      });
+  // Fetch both ExtensionSettings and SimulationSettings
+  const [settings, simulationSettings] = await Promise.all([
+    localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings),
+    localStorageHelpers.get<SimulationSettings>(WgKeys.SimulationSettings),
+  ]);
 
-      return;
-    }
+  const shouldSkipSimulation =
+    settings?.skipOnOfficialMarketplaces &&
+    simulationSettings &&
+    shouldSkipBasedOnDomain(request.origin, simulationSettings);
 
-    // Page has sent an event, start listening to storage changes.
-    // This ensures we don't listen to storage changes on every single webpage.
-    chrome.storage.onChanged.addListener((changes, area) => {
-      if (area === 'local' && changes['simulations']?.newValue) {
-        const newSimulations = changes['simulations'].newValue;
-
-        newSimulations.forEach((simulation: StoredSimulation) => {
-          // Either dispatch the corresponding event, or push the item to new simulations.
-          if (simulation.state === StoredSimulationState.Confirmed) {
-            dispatchResponse({
-              id: simulation.id,
-              type: Response.Continue,
-            });
-            maybeRemoveId(simulation.id);
-          } else if (simulation.state === StoredSimulationState.Rejected) {
-            dispatchResponse({
-              id: simulation.id,
-              type: Response.Reject,
-            });
-            maybeRemoveId(simulation.id);
-          }
-        });
-      }
+  if (!settings?.simulationEnabled || shouldSkipSimulation) {
+    // Immediately respond continue if simulation is disabled or should be skipped
+    dispatchResponse({
+      id: request.id,
+      type: Response.Continue,
     });
+    return;
+  }
 
-    chrome.runtime.sendMessage({
-      type: BrowserMessageType.RunSimulation,
-      data: request,
-    } as RunSimulationMessageType);
+  // Page has sent an event, start listening to storage changes.
+  // This ensures we don't listen to storage changes on every single webpage.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes['simulations']?.newValue) {
+      const newSimulations = changes['simulations'].newValue;
+
+      newSimulations.forEach((simulation: StoredSimulation) => {
+        // Either dispatch the corresponding event, or push the item to new simulations.
+        if (simulation.state === StoredSimulationState.Confirmed) {
+          dispatchResponse({
+            id: simulation.id,
+            type: Response.Continue,
+          });
+          maybeRemoveId(simulation.id);
+        } else if (simulation.state === StoredSimulationState.Rejected) {
+          dispatchResponse({
+            id: simulation.id,
+            type: Response.Reject,
+          });
+          maybeRemoveId(simulation.id);
+        }
+      });
+    }
   });
+
+  chrome.runtime.sendMessage({
+    type: BrowserMessageType.RunSimulation,
+    data: request,
+  } as RunSimulationMessageType);
 });

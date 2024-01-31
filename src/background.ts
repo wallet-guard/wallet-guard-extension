@@ -16,10 +16,16 @@ import {
   DashboardMessageBody,
   DashboardMessageCommands,
   isValidExtensionSettings,
+  isValidSimulationSettings,
 } from './lib/helpers/chrome/messageHandler';
 import { openDashboard } from './lib/helpers/linkHelper';
 import { domainHasChanged, getDomainNameFromURL } from './lib/helpers/phishing/parseDomainHelper';
-import { ExtensionSettings, WG_EXTENSION_DEFAULT_SETTINGS } from './lib/settings';
+import {
+  ExtensionSettings,
+  SimulationSettings,
+  WG_EXTENSION_DEFAULT_SETTINGS,
+  WG_EXTENSION_DEFAULT_SIMULATION_SETTINGS,
+} from './lib/settings';
 import { AlertCategory, AlertDetail } from './models/Alert';
 import { getCurrentSite } from './services/phishing/currentSiteService';
 import { checkUrlForPhishing } from './services/phishing/phishingService';
@@ -28,6 +34,7 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
+import { KNOWN_MARKETPLACES } from './lib/simulation/skip';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -133,6 +140,13 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   } else if (details.reason === 'update') {
     // TODO: Signin Anonymously
   }
+
+  localStorageHelpers.get<SimulationSettings>(WgKeys.SimulationSettings).then((res) => {
+    // if the user don't have any settings, set the default settings
+    if (!res) {
+      chrome.storage.local.set({ [WgKeys.SimulationSettings]: WG_EXTENSION_DEFAULT_SIMULATION_SETTINGS });
+    }
+  });
 
   localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings).then((res) => {
     // if the user don't have any settings, set the default settings
@@ -342,12 +356,12 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
   if (!settings?.simulationEnabled) return;
 
-  // if ('transaction' in message.data) {
-  //   const address = message.data.transaction?.to?.toLowerCase();
-  //   if (KNOWN_MARKETPLACES.includes(address)) {
-  //     return;
-  //   }
-  // }
+  if ('transaction' in message.data) {
+    const address = message.data.transaction?.to?.toLowerCase();
+    if (KNOWN_MARKETPLACES.includes(address)) {
+      return;
+    }
+  }
 
   // Check if the transaction was already simulated and confirmed
   const isApproved = findApprovedTransaction(approvedTxns, message.data);
@@ -380,5 +394,16 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
   } else if (request.type === DashboardMessageCommands.ReadAllAlerts) {
     AlertHandler.clearNotifications();
     AlertHandler.removeAllUnreadAlerts();
+  } else if (request.type === DashboardMessageCommands.GetSimulationSettings) {
+    localStorageHelpers.get<SimulationSettings>(WgKeys.SimulationSettings).then((simulationSettings) => {
+      sendResponse(simulationSettings || WG_EXTENSION_DEFAULT_SIMULATION_SETTINGS);
+    });
+  } else if (request.type === DashboardMessageCommands.UpdateSimulationSettings) {
+    if (isValidSimulationSettings(request.data)) {
+      const newSimulationSettings = request.data;
+      chrome.storage.local.set({ [WgKeys.SimulationSettings]: newSimulationSettings });
+    } else {
+      console.error('Invalid simulation settings update request', request);
+    }
   }
 });
