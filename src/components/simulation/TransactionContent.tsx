@@ -21,7 +21,8 @@ export const TransactionContent = (props: SimulationBaseProps) => {
       );
     } else if (
       currentSimulation.simulation.recommendedAction === RecommendedActionType.Warn ||
-      currentSimulation.simulation.recommendedAction === RecommendedActionType.Block
+      currentSimulation.simulation.recommendedAction === RecommendedActionType.Block ||
+      currentSimulation.simulation.extraInfo
     ) {
       return <div></div>;
     } else {
