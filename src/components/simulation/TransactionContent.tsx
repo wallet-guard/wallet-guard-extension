@@ -37,12 +37,18 @@ export const TransactionContent = (props: SimulationBaseProps) => {
       val.changeType === SimulationChangeType.Approve
   );
 
+  const biddingStateChanges = currentSimulation.simulation.stateChanges.filter(
+    (val: StateChange) =>
+      val.changeType === SimulationChangeType.Bidding
+  );
+
   const listingStateChanges = currentSimulation.simulation.stateChanges.filter(
     (val: StateChange) =>
       val.changeType === SimulationChangeType.OpenSeaListing ||
       val.changeType === SimulationChangeType.LooksRareAskListing ||
       val.changeType === SimulationChangeType.ListingTransfer ||
-      val.changeType === SimulationChangeType.PermitTransfer
+      val.changeType === SimulationChangeType.PermitTransfer ||
+      val.changeType === SimulationChangeType.Listing
   );
 
   const receiveStateChanges = currentSimulation.simulation.stateChanges?.filter(
@@ -70,6 +76,15 @@ export const TransactionContent = (props: SimulationBaseProps) => {
           title="You are revoking"
           iconPath="images/popup/assetChanges/ArrowReceiving.png"
           gas={currentSimulation.simulation.gas}
+        />
+      )}
+
+      {biddingStateChanges.length > 0 && (
+        <ChangeTypeSection
+          scanResult={currentSimulation.simulation.scanResult}
+          stateChanges={biddingStateChanges}
+          title="You are bidding"
+          iconPath="images/popup/assetChanges/Bidding.png"
         />
       )}
 
