@@ -84,7 +84,7 @@ export type SimulationResponse =
 export type SimulationErrorResponse = {
   error: SimulationError;
   scanResult?: PhishingResponse;
-  extraInfo?: ExtraInfoType;
+  extraInfo: ExtraInfoType | null;
 };
 
 export type SimulationSuccessResponse = {
@@ -98,7 +98,7 @@ export type SimulationSuccessResponse = {
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: null;
-  extraInfo?: ExtraInfoData;
+  extraInfo: ExtraInfoData | null;
 };
 
 export type SimulationApiResponse = {
@@ -112,7 +112,7 @@ export type SimulationApiResponse = {
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: SimulationError | null;
-  extraInfo?: ExtraInfoType;
+  extraInfo: ExtraInfoType | null;
 };
 
 export enum ExtraInfoType {
