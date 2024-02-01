@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../simulation.module.css';
+import styles from '../simulation.module.css'
 
 export function UnresolvableSignatureModal(props: { message: string }) {
   const { message } = props;
