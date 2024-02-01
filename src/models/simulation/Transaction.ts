@@ -211,7 +211,7 @@ export enum SimulationChangeType {
   ApprovalForAll = 'APPROVAL_FOR_ALL',
   Approve = 'APPROVE',
   RevokeApprovalForAll = 'REVOKE_APPROVAL_FOR_ALL',
-  Revoke = 'REVOKE',
+  Revoke = 'REVOKE_APPROVE',
   Transfer = 'TRANSFER',
   Receive = 'RECEIVE',
   Bidding = 'BIDDING',
