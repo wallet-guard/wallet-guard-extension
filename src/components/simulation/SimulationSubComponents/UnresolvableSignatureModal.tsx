@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../../simulation.module.css';
 
-export function UnresolveableSignatureModal(props: { message: string }) {
+export function UnresolvableSignatureModal(props: { message: string }) {
   const { message } = props;
 
   return (
@@ -10,7 +10,7 @@ export function UnresolveableSignatureModal(props: { message: string }) {
         <img src='/images/popup/notAllowedIcon.png' alt='a not allowed icon' />
 
         <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
-          <p style={{ fontSize: '20px', marginBottom: '0px' }} className={styles['font-archivo-semibold']}>Unresolveable Transaction</p>
+          <p style={{ fontSize: '20px', marginBottom: '0px' }} className={styles['font-archivo-semibold']}>Unresolvable Transaction</p>
           <p className={styles['softLockedWarningSubtitle']} style={{ marginBottom: '0px' }}>{message}</p>
         </div>
       </div>

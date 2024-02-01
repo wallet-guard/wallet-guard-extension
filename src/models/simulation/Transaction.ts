@@ -116,7 +116,7 @@ export type SimulationApiResponse = {
 };
 
 export enum ExtraInfoType {
-  UnresolveableSignature = "UNRESOLVEABLE_SIGNATURE",
+  UnresolvableSignature = "UNRESOLVABLE_SIGNATURE",
 }
 
 export type ExtraInfoData = {

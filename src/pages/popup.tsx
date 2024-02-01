@@ -17,7 +17,7 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
-import { UnresolveableSignatureModal } from '../components/simulation/SimulationSubComponents/UnresolveableSignatureModal';
+import { UnresolvableSignatureModal } from '../components/simulation/SimulationSubComponents/UnresolvableSignatureModal';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -98,8 +98,8 @@ const Popup = () => {
           <TransactionContent currentSimulation={successfulSimulation} />
           <div style={{ height: currentSimulation.simulation.extraInfo ? '200px' : '140px' }} />
 
-          {currentSimulation.simulation.extraInfo?.type === ExtraInfoType.UnresolveableSignature && (
-            <UnresolveableSignatureModal message={currentSimulation.simulation.extraInfo.message} />
+          {currentSimulation.simulation.extraInfo?.type === ExtraInfoType.UnresolvableSignature && (
+            <UnresolvableSignatureModal message={currentSimulation.simulation.extraInfo.message} />
           )}
 
           {currentSimulation.args.bypassed ? (
