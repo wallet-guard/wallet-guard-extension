@@ -71,6 +71,7 @@ export const TransactionContent = (props: SimulationBaseProps) => {
   return (
     <>
       {revokeStateChanges.length > 0 && (
+        // todo: you can be transferring and revoking in certain txns, which will show gas twice
         <ChangeTypeSection
           scanResult={currentSimulation.simulation.scanResult}
           stateChanges={revokeStateChanges}
@@ -109,6 +110,7 @@ export const TransactionContent = (props: SimulationBaseProps) => {
       )}
 
       {receiveStateChanges.length > 0 && (
+        // todo: we may not be showing gas if it is a free mint
         <ChangeTypeSection
           scanResult={currentSimulation.simulation.scanResult}
           stateChanges={receiveStateChanges}
