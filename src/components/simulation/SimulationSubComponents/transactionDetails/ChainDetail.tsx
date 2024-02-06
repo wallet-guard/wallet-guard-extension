@@ -21,6 +21,12 @@ export function ChainDetail(props: ChainDetailProps) {
       case '10':
       case '0xa':
         return 'Optimism';
+      case '56':
+      case '0x38':
+        return 'BNB';
+      case '8453':
+      case '0x2105':
+        return 'Base';
     }
   }
 

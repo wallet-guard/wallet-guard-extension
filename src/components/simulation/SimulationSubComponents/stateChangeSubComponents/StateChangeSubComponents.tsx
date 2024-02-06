@@ -74,7 +74,7 @@ export const TransferNFT = (props: TransferAssetProps) => {
   return (
     <>
       <TransferValueHeading
-        title={props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}
+        title={props.type === 'send' ? `-${props.stateChange.amount || 1} NFT` : `+${props.stateChange.amount || 1} NFT`}
         type={props.type}
       />
 
@@ -118,24 +118,22 @@ function TransferValueSubHeading({
   if (!fiatValue) return <></>;
 
   return (
-    <>
-      <Tooltip
-        hidden={!isNFT}
-        hasArrow
-        label="OpenSea floor price"
-        placement="left"
-        bg="#212121"
-        color="white"
-        className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
-        borderRadius={'5px'}
+    <Tooltip
+      hidden={!isNFT}
+      hasArrow
+      label="OpenSea floor price"
+      placement="left"
+      bg="#212121"
+      color="white"
+      className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+      borderRadius={'5px'}
+    >
+      <p
+        style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '16px' }}
+        className={`${styles['font-archivo-medium']}`}
       >
-        <p
-          style={{ color: type === 'send' ? '#fb4b4b' : '#17FE00', marginBottom: 0, fontSize: '16px' }}
-          className={`${styles['font-archivo-medium']}`}
-        >
-          ${Number(fiatValue).toFixed(2)}
-        </p>
-      </Tooltip>
-    </>
+        ${Number(fiatValue).toFixed(2)}
+      </p>
+    </Tooltip>
   );
 }
