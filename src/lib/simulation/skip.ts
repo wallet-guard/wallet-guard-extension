@@ -47,12 +47,12 @@ export const IsOfficialMarketplace = async (request: TransactionArgs) => {
 };
 
 // Function to check if simulation should be skipped based on domain
-export const shouldSkipBasedOnDomain = (origin: string, simulationSettings: SimulationSettings) => {
+export const shouldSkipBasedOnDomain = (domainName: string, simulationSettings: SimulationSettings) => {
   return (
-    (origin.includes('opensea.io') && simulationSettings.opensea) ||
-    (origin.includes('blur.io') && simulationSettings.blur) ||
-    (origin.includes('uniswap.org') && simulationSettings.uniswap) ||
-    (origin.includes('x2y2.io') && simulationSettings.x2y2) ||
-    (origin.includes('looksrare.com') && simulationSettings.looksrare)
+    (domainName === 'opensea.io' && simulationSettings.opensea) ||
+    (domainName === 'blur.io' && simulationSettings.blur) ||
+    (domainName === 'uniswap.org' && simulationSettings.uniswap) ||
+    (domainName === 'x2y2.io' && simulationSettings.x2y2) ||
+    (domainName === 'looksrare.com' && simulationSettings.looksrare)
   );
 };
