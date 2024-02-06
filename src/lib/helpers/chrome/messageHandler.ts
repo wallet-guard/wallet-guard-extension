@@ -80,15 +80,15 @@ export function isValidExtensionSettings(obj: any): obj is ExtensionSettings {
   );
 }
 
-export function isValidSimulationSettings(obg: any): obg is SimulationSettings {
+export function isValidSimulationSettings(obj: any): obj is SimulationSettings {
   return (
-    typeof obg === 'object' &&
-    obg !== null &&
-    typeof obg.opensea === 'boolean' &&
-    typeof obg.blur === 'boolean' &&
-    typeof obg.uniswap === 'boolean' &&
-    typeof obg.oneinch === 'boolean' &&
-    typeof obg.x2y2 === 'boolean' &&
-    typeof obg.looksrare === 'boolean'
+    typeof obj === 'object' &&
+    obj !== null &&
+    typeof obj.opensea === 'boolean' &&
+    typeof obj.blur === 'boolean' &&
+    typeof obj.uniswap === 'boolean' &&
+    typeof obj.oneinch === 'boolean' &&
+    typeof obj.x2y2 === 'boolean' &&
+    typeof obj.looksrare === 'boolean'
   );
 }
