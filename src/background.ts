@@ -356,7 +356,7 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
   if (!settings?.simulationEnabled) return;
 
-  if ('transaction' in message.data) {
+  if ('transaction' in message.data && settings.skipOnOfficialMarketplaces) {
     const address = message.data.transaction?.to?.toLowerCase();
     if (KNOWN_MARKETPLACES.includes(address)) {
       return;
