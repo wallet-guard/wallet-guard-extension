@@ -87,7 +87,6 @@ export function isValidSimulationSettings(obj: any): obj is SimulationSettings {
     typeof obj.opensea === 'boolean' &&
     typeof obj.blur === 'boolean' &&
     typeof obj.uniswap === 'boolean' &&
-    typeof obj.oneinch === 'boolean' &&
     typeof obj.x2y2 === 'boolean' &&
     typeof obj.looksrare === 'boolean'
   );
