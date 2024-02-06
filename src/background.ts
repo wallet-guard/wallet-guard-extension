@@ -34,7 +34,7 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
-import { KNOWN_MARKETPLACES } from './lib/simulation/skip';
+import { KNOWN_MARKETPLACES, shouldSkipBasedOnDomain } from './lib/simulation/skip';
 
 const log = logger.child({ component: 'Background' });
 const approvedTxns: TransactionArgs[] = [];
@@ -356,11 +356,18 @@ const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Bro
   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
   if (!settings?.simulationEnabled) return;
 
-  if ('transaction' in message.data && settings.skipOnOfficialMarketplaces) {
-    const address = message.data.transaction?.to?.toLowerCase();
-    if (KNOWN_MARKETPLACES.includes(address)) {
-      return;
-    }
+  const simulationSettings = await localStorageHelpers.get<SimulationSettings>(WgKeys.SimulationSettings);
+
+  // Degen mode is enabled, skip simulation
+  const shouldSkipSimulation =
+    settings?.skipOnOfficialMarketplaces &&
+    simulationSettings &&
+    shouldSkipBasedOnDomain(getDomainNameFromURL(message.data.origin), simulationSettings) &&
+    'transaction' in message.data &&
+    KNOWN_MARKETPLACES.includes(message.data.transaction.to.toLowerCase());
+
+  if (shouldSkipSimulation) {
+    return;
   }
 
   // Check if the transaction was already simulated and confirmed

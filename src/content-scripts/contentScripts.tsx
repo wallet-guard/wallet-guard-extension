@@ -8,7 +8,7 @@ import type { StoredSimulation } from '../lib/simulation/storage';
 import { removeSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import { TransactionArgs } from '../models/simulation/Transaction';
 import { ExtensionSettings, SimulationSettings } from '../lib/settings';
-import { shouldSkipBasedOnDomain } from '../lib/simulation/skip';
+import { KNOWN_MARKETPLACES, shouldSkipBasedOnDomain } from '../lib/simulation/skip';
 import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
 
 // Function to inject scripts into browser
@@ -54,10 +54,13 @@ listenToRequest(async (request: TransactionArgs) => {
     localStorageHelpers.get<SimulationSettings>(WgKeys.SimulationSettings),
   ]);
 
+  // Degen mode is enabled, skip simulation
   const shouldSkipSimulation =
     settings?.skipOnOfficialMarketplaces &&
     simulationSettings &&
-    shouldSkipBasedOnDomain(getDomainNameFromURL(request.origin), simulationSettings);
+    shouldSkipBasedOnDomain(getDomainNameFromURL(request.origin), simulationSettings) &&
+    'transaction' in request &&
+    KNOWN_MARKETPLACES.includes(request.transaction.to.toLowerCase());
 
   if (!settings?.simulationEnabled || shouldSkipSimulation) {
     // Immediately respond continue if simulation is disabled or should be skipped
