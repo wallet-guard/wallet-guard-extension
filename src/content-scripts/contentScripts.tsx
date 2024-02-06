@@ -9,6 +9,7 @@ import { removeSimulation, StoredSimulationState } from '../lib/simulation/stora
 import { TransactionArgs } from '../models/simulation/Transaction';
 import { ExtensionSettings, SimulationSettings } from '../lib/settings';
 import { shouldSkipBasedOnDomain } from '../lib/simulation/skip';
+import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
 
 // Function to inject scripts into browser
 const addScript = (url: string) => {
@@ -56,7 +57,7 @@ listenToRequest(async (request: TransactionArgs) => {
   const shouldSkipSimulation =
     settings?.skipOnOfficialMarketplaces &&
     simulationSettings &&
-    shouldSkipBasedOnDomain(request.origin, simulationSettings);
+    shouldSkipBasedOnDomain(getDomainNameFromURL(request.origin), simulationSettings);
 
   if (!settings?.simulationEnabled || shouldSkipSimulation) {
     // Immediately respond continue if simulation is disabled or should be skipped
