@@ -53,6 +53,6 @@ export const shouldSkipBasedOnDomain = (domainName: string, simulationSettings: 
     (domainName === 'blur.io' && simulationSettings.blur) ||
     (domainName === 'uniswap.org' && simulationSettings.uniswap) ||
     (domainName === 'x2y2.io' && simulationSettings.x2y2) ||
-    (domainName === 'looksrare.com' && simulationSettings.looksrare)
+    (domainName === 'looksrare.org' && simulationSettings.looksrare)
   );
 };
