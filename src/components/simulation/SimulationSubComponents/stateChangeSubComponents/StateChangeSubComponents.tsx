@@ -4,6 +4,7 @@ import { StateChange } from '../../../../models/simulation/Transaction';
 import styles from '../../simulation.module.css';
 
 function roundNumberIfNeccessary(num: string): string {
+  if (!num) return '1';
   if (num.includes('ALL')) return num; // we include ALL on some transactions. this is a bit hacky but it works for now
 
   // if the integer part of the number is very large, we can assume it is ALL
@@ -56,7 +57,7 @@ export const ApprovalChange = (props: ApprovalProps) => {
         Giving approval
       </h3>
       <p style={{ color: verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
-        {roundNumberIfNeccessary(amount)} {symbol}
+        {roundNumberIfNeccessary(amount)} {symbol || 'NFT'}
       </p>
     </>
   );
