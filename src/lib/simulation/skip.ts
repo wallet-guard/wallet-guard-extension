@@ -56,3 +56,13 @@ export const shouldSkipBasedOnDomain = (domainName: string, simulationSettings: 
     (domainName === 'looksrare.org' && simulationSettings.looksrare)
   );
 };
+
+export const shouldShowSkipTransactionModal = (domainName: string) => {
+  return (
+    domainName === 'opensea.io' ||
+    domainName === 'blur.io' ||
+    domainName === 'uniswap.org' ||
+    domainName === 'x2y2.io' ||
+    domainName === 'looksrare.org'
+  );
+};

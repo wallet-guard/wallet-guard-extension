@@ -9,4 +9,5 @@ export enum WgKeys {
   DashboardOnboarding = 'dashboardOnboarding',
   AddressList = 'addressList',
   SimulationSettings = 'simulationSettings',
+  SimulationSkipModal = 'simulationSkipModal',
 }
