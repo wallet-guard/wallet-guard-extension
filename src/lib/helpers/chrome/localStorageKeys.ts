@@ -9,5 +9,5 @@ export enum WgKeys {
   DashboardOnboarding = 'dashboardOnboarding',
   AddressList = 'addressList',
   SimulationSettings = 'simulationSettings',
-  SimulationSkipModal = 'simulationSkipModal',
+  SimulationSkipModal = 'simulationSkipModal', // This key is only accessible via the popup page context
 }

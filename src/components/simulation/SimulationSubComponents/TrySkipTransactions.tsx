@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WgKeys } from '../../../lib/helpers/chrome/localStorageKeys';
+import posthog from 'posthog-js';
 
 interface TrySkipTransactionsProps {
   domainName?: string;
@@ -11,7 +12,17 @@ export const TrySkipTransactions: React.FC<TrySkipTransactionsProps> = ({ domain
     return !(modalShown === 'true'); // Show modal if modalShown isn't true
   });
 
-  const handleClose = () => {
+  useEffect(() => {
+    posthog.capture('simulation_skip_modal_shown', {
+      domain: domainName,
+    });
+  }, []);
+
+  const handleClose = (source: string) => {
+    posthog.capture('simulation_skip_modal_closed', {
+      source,
+    });
+
     localStorage.setItem(WgKeys.SimulationSkipModal, 'true');
     setShowModal(false);
   };
@@ -43,7 +54,7 @@ export const TrySkipTransactions: React.FC<TrySkipTransactionsProps> = ({ domain
             right: '10px',
             cursor: 'pointer',
           }}
-          onClick={handleClose}
+          onClick={() => handleClose('close_button')}
         >
           <span style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>×</span>
         </div>
@@ -65,9 +76,9 @@ export const TrySkipTransactions: React.FC<TrySkipTransactionsProps> = ({ domain
           href="https://dashboard.walletguard.app/settings/extension/"
           target="_blank"
           rel="noopener noreferrer"
-          onClick={handleClose}
+          onClick={() => handleClose('try_now_button')}
           style={{
-            textDecoration: 'none' /* Ensures underline is not shown even before hover */,
+            textDecoration: 'none',
             color: '#18F101',
             border: 'none',
             padding: '10px',
