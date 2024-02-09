@@ -1,7 +1,7 @@
 import logger from './lib/logger';
 import { StoredSimulation, StoredSimulationState, updateSimulationAction } from './lib/simulation/storage';
 import { clearOldSimulations, fetchSimulationAndUpdate, simulationNeedsAction } from './lib/simulation/storage';
-import { TransactionArgs } from './models/simulation/Transaction';
+import { TransactionArgs, WarningType } from './models/simulation/Transaction';
 import { AlertHandler } from './lib/helpers/chrome/alertHandler';
 import localStorageHelpers from './lib/helpers/chrome/localStorage';
 import {
@@ -34,6 +34,8 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
+import { isBlocked } from './lib/helpers/util';
+import { handleRequestsBlocklist } from './services/http/requestBlocklistService';
 import { KNOWN_MARKETPLACES, shouldSkipBasedOnDomain } from './lib/simulation/skip';
 
 const log = logger.child({ component: 'Background' });
@@ -56,6 +58,29 @@ chrome.action.onClicked.addListener(function (tab) {
   } else {
     openDashboard('toolbar');
   }
+});
+
+chrome.webRequest.onBeforeRequest.addListener(req => {
+  isBlocked(req.url).then(({ hash, blocked }) => {
+    if (blocked) {
+      chrome.tabs.get(req.tabId).then((tab) => {
+        chrome.tabs.update(req.tabId, {
+          url:
+            (chrome.runtime.getURL('phish.html') +
+              '?safe=' +
+              'null' +
+              '&proceed=' +
+              (tab.url || '') +
+              '&reason=' +
+              WarningType.DrainerRequest +
+              '&value=' +
+              hash)
+        });
+      });
+    }
+  });
+}, {
+  urls: ['<all_urls>'],
 });
 
 // MESSAGING
@@ -130,6 +155,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'checkVersions') {
     checkAllWalletsAndCreateAlerts();
+  } else if (alarm.name === 'fetchRequestsBlocklist') {
+    handleRequestsBlocklist();
   }
 });
 
@@ -159,6 +186,11 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
   const ONE_DAY_AS_MINUTES = 1440;
   chrome.alarms.create('checkVersions', {
+    delayInMinutes: 0,
+    periodInMinutes: ONE_DAY_AS_MINUTES,
+  });
+
+  chrome.alarms.create('fetchRequestsBlocklist', {
     delayInMinutes: 0,
     periodInMinutes: ONE_DAY_AS_MINUTES,
   });
