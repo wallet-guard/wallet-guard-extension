@@ -1,4 +1,5 @@
 import { TransactionArgs } from '../../models/simulation/Transaction';
+import { SimulationSettings } from '../settings';
 
 /// Known Marketplaces that we can skip for hyperdrive.
 export const KNOWN_MARKETPLACES = [
@@ -43,4 +44,25 @@ export const IsOfficialMarketplace = async (request: TransactionArgs) => {
   }
 
   return false;
+};
+
+// Function to check if simulation should be skipped based on domain
+export const shouldSkipBasedOnDomain = (domainName: string, simulationSettings: SimulationSettings) => {
+  return (
+    (domainName === 'opensea.io' && simulationSettings.opensea) ||
+    (domainName === 'blur.io' && simulationSettings.blur) ||
+    (domainName === 'uniswap.org' && simulationSettings.uniswap) ||
+    (domainName === 'x2y2.io' && simulationSettings.x2y2) ||
+    (domainName === 'looksrare.org' && simulationSettings.looksrare)
+  );
+};
+
+export const shouldShowSkipTransactionModal = (domainName: string) => {
+  return (
+    domainName === 'opensea.io' ||
+    domainName === 'blur.io' ||
+    domainName === 'uniswap.org' ||
+    domainName === 'x2y2.io' ||
+    domainName === 'looksrare.org'
+  );
 };
