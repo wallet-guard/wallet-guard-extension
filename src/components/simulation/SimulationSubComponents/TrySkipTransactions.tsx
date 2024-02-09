@@ -67,6 +67,7 @@ export const TrySkipTransactions: React.FC<TrySkipTransactionsProps> = ({ domain
           rel="noopener noreferrer"
           onClick={handleClose}
           style={{
+            textDecoration: 'none' /* Ensures underline is not shown even before hover */,
             color: '#18F101',
             border: 'none',
             padding: '10px',
