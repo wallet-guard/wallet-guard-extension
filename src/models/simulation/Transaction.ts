@@ -262,7 +262,6 @@ export type StateChange = {
   openSeaFloorPrice: number;
   openSeaVerified: boolean;
   etherscanVerified: boolean;
-  message: string;
   fiatValue: string;
   coinmarketcapLink: string;
   openSeaLink: string;

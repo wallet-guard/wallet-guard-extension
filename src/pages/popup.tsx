@@ -5,7 +5,7 @@ import { ConfirmSimulationButton } from '../components/simulation/SimulationButt
 import { NoSimulation } from '../components/simulation/NoSimulation';
 import { SimulationHeader } from '../components/simulation/SimulationHeader';
 import { TransactionContent } from '../components/simulation/TransactionContent';
-import { SimulationMethodType } from '../models/simulation/Transaction';
+import { RecommendedActionType, SimulationMethodType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
@@ -53,6 +53,7 @@ const Popup = () => {
   if (currentSimulation.state === StoredSimulationState.Simulating) {
     return (
       <>
+        <SimulationHeader details={{ recommendedAction: RecommendedActionType.None, verified: false }} />
         <SimulationLoading />;
         <ConfirmSimulationButton storedSimulation={currentSimulation} />
       </>
@@ -80,7 +81,12 @@ const Popup = () => {
   return (
     <>
       <div className={styles.transactionHeadingFixed}>
-        <SimulationHeader details={{ recommendedAction: currentSimulation.simulation.recommendedAction, verified: currentSimulation.simulation.scanResult.verified }} />
+        <SimulationHeader
+          details={{
+            recommendedAction: currentSimulation.simulation.recommendedAction,
+            verified: currentSimulation.simulation.scanResult.verified,
+          }}
+        />
         <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
       </div>
 
