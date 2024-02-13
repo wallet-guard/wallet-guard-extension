@@ -3,9 +3,14 @@ import { RecommendedActionType, SimulationChangeType, StateChange } from '../../
 import { ChangeTypeSection } from './SimulationSubComponents/ChangeTypeSection';
 import { NoTransactionChanges } from './SimulationSubComponents/NoTransactionChanges';
 import { SimulationBaseProps } from '../../pages/popup';
+import { TrySkipTransactions } from './SimulationSubComponents/TrySkipTransactions';
+import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
+import { shouldShowSkipTransactionModal } from '../../lib/simulation/skip';
 
 export const TransactionContent = (props: SimulationBaseProps) => {
   const { currentSimulation } = props;
+
+  const domainName = getDomainNameFromURL(currentSimulation.args.origin);
 
   if (!currentSimulation.simulation.stateChanges) {
     if (currentSimulation.simulation.gas) {
@@ -118,6 +123,8 @@ export const TransactionContent = (props: SimulationBaseProps) => {
           iconPath="images/popup/assetChanges/ArrowReceiving.png"
         />
       )}
+
+      {shouldShowSkipTransactionModal(domainName) && <TrySkipTransactions domainName={domainName} />}
     </>
   );
 };

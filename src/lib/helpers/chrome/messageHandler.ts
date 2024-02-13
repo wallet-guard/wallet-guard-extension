@@ -1,5 +1,5 @@
 import { TransactionArgs } from '../../../models/simulation/Transaction';
-import { ExtensionSettings } from '../../settings';
+import { ExtensionSettings, SimulationSettings } from '../../settings';
 var equal = require('deep-equal');
 
 export enum BrowserMessageType {
@@ -14,7 +14,7 @@ interface BaseBrowserMessage {
 export interface ProceedAnywayMessageType extends BaseBrowserMessage {
   url: string;
   permanent: boolean;
-};
+}
 
 export interface ApprovedTxnMessageType extends BaseBrowserMessage {
   data: TransactionArgs;
@@ -60,6 +60,8 @@ export enum DashboardMessageCommands {
   GetAlertHistory = 'GET_ALERT_HISTORY',
   HasWalletGuardExtension = 'HAS_WALLET_GUARD_EXTENSION',
   ReadAllAlerts = 'READ_ALL_ALERTS',
+  GetSimulationSettings = 'GET_SIMULATION_SETTINGS',
+  UpdateSimulationSettings = 'UPDATE_SIMULATION_SETTINGS',
 }
 
 export interface DashboardMessageBody {
@@ -69,11 +71,23 @@ export interface DashboardMessageBody {
 
 export function isValidExtensionSettings(obj: any): obj is ExtensionSettings {
   return (
-    typeof obj === "object" &&
+    typeof obj === 'object' &&
     obj !== null &&
-    typeof obj.phishingDetection === "boolean" &&
-    typeof obj.simulationEnabled === "boolean" &&
-    typeof obj.maliciousExtensionDetection === "boolean" &&
-    typeof obj.approvalNotifications === "boolean"
+    typeof obj.phishingDetection === 'boolean' &&
+    typeof obj.simulationEnabled === 'boolean' &&
+    typeof obj.maliciousExtensionDetection === 'boolean' &&
+    typeof obj.approvalNotifications === 'boolean'
+  );
+}
+
+export function isValidSimulationSettings(obj: any): obj is SimulationSettings {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    typeof obj.opensea === 'boolean' &&
+    typeof obj.blur === 'boolean' &&
+    typeof obj.uniswap === 'boolean' &&
+    typeof obj.x2y2 === 'boolean' &&
+    typeof obj.looksrare === 'boolean'
   );
 }

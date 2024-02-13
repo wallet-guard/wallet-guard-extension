@@ -8,4 +8,7 @@ export enum WgKeys {
   SurveyComplete = 'surveyComplete',
   DashboardOnboarding = 'dashboardOnboarding',
   AddressList = 'addressList',
+  RequestsBlocklist = 'requestsBlocklist',
+  SimulationSettings = 'simulationSettings',
+  SimulationSkipModal = 'simulationSkipModal', // This key is only accessible via the popup page context
 }
