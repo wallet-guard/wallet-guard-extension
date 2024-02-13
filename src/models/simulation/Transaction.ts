@@ -92,7 +92,6 @@ export type SimulationSuccessResponse = {
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
-  method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
   scanResult: PhishingResponse;
   riskFactors: RiskFactor[] | null;
@@ -106,7 +105,6 @@ export type SimulationApiResponse = {
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
-  method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
   scanResult: PhishingResponse;
   riskFactors: RiskFactor[] | null;
