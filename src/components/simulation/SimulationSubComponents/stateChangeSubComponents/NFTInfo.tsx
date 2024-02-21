@@ -33,7 +33,7 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
         additional details from tokenName and tokenID */}
           {shouldShowSubtitle ?
             (props.stateChange.tokenName
-              ? add3Dots(props.stateChange.tokenName, MAX_TITLE_LENGTH)
+              ? add3Dots(props.stateChange.tokenName, 15)
               : props.stateChange.tokenID
             ) : (
               props.stateChange.name ? add3Dots(props.stateChange.name, MAX_TITLE_LENGTH) : 'Unknown'
