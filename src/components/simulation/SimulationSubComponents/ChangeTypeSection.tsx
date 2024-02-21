@@ -10,13 +10,14 @@ export interface ChangeTypeSectionProps {
   scanResult: PhishingResponse;
   iconPath: string;
   gas?: SimulatedGas;
+  isFirstChild?: boolean;
 }
 
 export const ChangeTypeSection = (props: ChangeTypeSectionProps) => {
   return (
     <>
       <div className="px-3 pt-3">
-        <ChangeTypeHeading title={props.title} iconPath={props.iconPath} gas={props.gas} />
+        <ChangeTypeHeading title={props.title} iconPath={props.iconPath} gas={props.gas} isFirstChild={props.isFirstChild || false} />
         {props.stateChanges && (
           <StateChangesComponent simulationStateChanges={props.stateChanges} scanResult={props.scanResult} />
         )}
