@@ -78,7 +78,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount="ALL" />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount="ALL" fiatValue={stateChange.fiatValue} isNFT />
                       ) : stateChange.changeType === SimulationChangeType.RevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
@@ -89,6 +89,8 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                             verified={props.scanResult.verified}
                             symbol={stateChange.symbol}
                             amount={stateChange.amount}
+                            fiatValue={stateChange.fiatValue}
+                            isNFT
                           />
                         )
                       )}
@@ -98,7 +100,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount="ALL" />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} fiatValue={stateChange.fiatValue} amount="ALL" isNFT={false} />
                       ) : stateChange.changeType === SimulationChangeType.RevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
@@ -109,6 +111,8 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                             symbol={stateChange.symbol}
                             verified={props.scanResult.verified}
                             amount={stateChange.amount}
+                            fiatValue={stateChange.fiatValue}
+                            isNFT={false}
                           />
                         )
                       )}

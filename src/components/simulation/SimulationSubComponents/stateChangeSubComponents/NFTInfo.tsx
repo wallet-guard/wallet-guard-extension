@@ -20,6 +20,7 @@ export const NFTInfo = (props: StateChangesComponentProps) => {
 
 function NFTInfoAssetChange(props: StateChangesComponentProps) {
   const shouldShowSubtitle = props.stateChange.tokenName || props.stateChange.tokenID;
+  const MAX_TITLE_LENGTH = props.stateChange.openSeaVerified ? 13 : 15;
 
   function NFTInfoHeader() {
     return (
@@ -32,10 +33,10 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
         additional details from tokenName and tokenID */}
           {shouldShowSubtitle ?
             (props.stateChange.tokenName
-              ? add3Dots(props.stateChange.tokenName, 15)
+              ? add3Dots(props.stateChange.tokenName, MAX_TITLE_LENGTH)
               : props.stateChange.tokenID
             ) : (
-              props.stateChange.name ? add3Dots(props.stateChange.name, 15) : 'Unknown'
+              props.stateChange.name ? add3Dots(props.stateChange.name, MAX_TITLE_LENGTH) : 'Unknown'
             )}
         </p>
         {(!shouldShowSubtitle && props.stateChange.openSeaVerified) && (
