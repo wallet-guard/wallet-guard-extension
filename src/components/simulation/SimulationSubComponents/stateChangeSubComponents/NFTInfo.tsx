@@ -23,7 +23,7 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
 
   function NFTInfoHeader() {
     return (
-      <>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <p
           style={{ color: 'white', fontSize: '18px', marginBottom: 0 }}
           className={`${styles['font-archivo-bold']} pl-3`}
@@ -32,10 +32,10 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
         additional details from tokenName and tokenID */}
           {shouldShowSubtitle ?
             (props.stateChange.tokenName
-              ? add3Dots(props.stateChange.tokenName, 13)
+              ? add3Dots(props.stateChange.tokenName, 15)
               : props.stateChange.tokenID
             ) : (
-              props.stateChange.name ? add3Dots(props.stateChange.name, 13) : 'Unknown'
+              props.stateChange.name ? add3Dots(props.stateChange.name, 15) : 'Unknown'
             )}
         </p>
         {(!shouldShowSubtitle && props.stateChange.openSeaVerified) && (
@@ -51,7 +51,7 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
             <img src="/images/popup/websiteDetail/OpenseaVerified.svg" height={20} className="pl-2" />
           </Tooltip>
         )}
-      </>
+      </div>
     )
   }
 
@@ -82,7 +82,7 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
   }
 
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       {props.stateChange.openSeaLink ?
         <a href={props.stateChange.openSeaLink} target="_blank" className={`${styles['links']}`}>
           <NFTInfoHeader />
@@ -94,6 +94,6 @@ function NFTInfoAssetChange(props: StateChangesComponentProps) {
       {shouldShowSubtitle && (
         <NFTInfoSubHeader />
       )}
-    </>
+    </div>
   )
 }
