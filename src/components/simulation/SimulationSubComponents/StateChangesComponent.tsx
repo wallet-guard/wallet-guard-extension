@@ -30,6 +30,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
     if (
       stateChange.changeType === SimulationChangeType.Transfer ||
       stateChange.changeType === SimulationChangeType.Listing ||
+      stateChange.changeType === SimulationChangeType.Bidding ||
       // old types
       stateChange.changeType === SimulationChangeType.OpenSeaListing ||
       stateChange.changeType === SimulationChangeType.LooksRareAskListing ||
@@ -44,7 +45,6 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
   const isReceive = (stateChange: StateChange) => {
     if (
       stateChange.changeType === SimulationChangeType.Receive ||
-      stateChange.changeType === SimulationChangeType.Bidding ||
       // old types
       stateChange.changeType === SimulationChangeType.OpenSeaReceive ||
       stateChange.changeType === SimulationChangeType.LooksRareBidReceive ||
