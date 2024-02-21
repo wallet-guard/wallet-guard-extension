@@ -159,6 +159,7 @@ export enum WarningType {
   OpenseaListing = 'OPENSEA_LISTING',
   EthSign = 'ETH_SIGN',
   LooksrareListing = 'LOOKSRARE_LISTING',
+  DrainerRequest = 'DRAINER_REQUEST'
 }
 
 export enum Severity {

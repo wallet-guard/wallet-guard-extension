@@ -34,6 +34,7 @@ export function PhishingWarning() {
   const safeUrl = queryParams.get('safe') || 'null';
   const proceedAnywayUrl = queryParams.get('proceed') || 'null';
   const reason: WarningType | string = queryParams.get('reason') || 'null';
+  const value: string = queryParams.get('value') || '';
   const mappedSafeUrl = safeUrl ? `https://${safeUrl}` : 'null';
   const isConfirmedPhishing = reason === WarningType.Blocklisted;
   const logoSrc = 'images/wg_logos/Logo-phishing-protection.png';
@@ -52,7 +53,7 @@ export function PhishingWarning() {
       dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
       integrations: [new Sentry.BrowserTracing()],
     });
-    posthog.capture('show phishing screen', { phishingWebsite: proceedAnywayUrl, reason });
+    posthog.capture('show phishing screen', { phishingWebsite: proceedAnywayUrl, reason, value });
   }, []);
 
   function openSafeLink() {
@@ -95,7 +96,7 @@ export function PhishingWarning() {
           </Text>
         </>
       );
-    } else if (reason === WarningType.Drainer) {
+    } else if (reason === WarningType.Drainer || reason === WarningType.DrainerRequest) {
       return (
         <>
           <Text variant={'muted'} fontSize={'lg'}>

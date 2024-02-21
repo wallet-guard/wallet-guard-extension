@@ -43,22 +43,39 @@ interface ApprovalProps {
   verified: boolean;
   symbol: string;
   amount: string;
+  fiatValue: string;
+  isNFT: boolean;
 }
 
 export const ApprovalChange = (props: ApprovalProps) => {
-  const { verified, symbol, amount } = props;
+  const { verified, symbol, amount, fiatValue, isNFT } = props;
+  const roundedAmount = roundNumberIfNeccessary(amount);
 
   return (
     <>
       <h3
-        style={{ color: verified ? 'white' : '#fb4b4b', fontSize: '16px', marginBottom: 0 }}
+        style={{ color: verified ? 'white' : '#fb4b4b', fontSize: '18px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        Giving approval
+        {roundedAmount} {symbol || 'NFT'}
       </h3>
-      <p style={{ color: verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
-        {roundNumberIfNeccessary(amount)} {symbol || 'NFT'}
-      </p>
+
+      {roundedAmount !== 'ALL' && (
+        <Tooltip
+          hidden={!isNFT}
+          hasArrow
+          label="OpenSea floor price"
+          placement="left"
+          bg="#212121"
+          color="white"
+          className={`${styles['font-archivo-medium']} pl-2 pr-2 pt-1 pb-1`}
+          borderRadius={'5px'}
+        >
+          <p style={{ color: verified ? '#646464' : '#fb4b4b', marginBottom: 0, fontSize: '16px' }} className={`${styles['font-archivo-medium']}`}>
+            ${Number(fiatValue).toFixed(2)}
+          </p>
+        </Tooltip>
+      )}
     </>
   );
 };

@@ -82,7 +82,12 @@ const Popup = () => {
   return (
     <>
       <div className={styles.transactionHeadingFixed}>
-        <SimulationHeader details={{ recommendedAction: currentSimulation.simulation.recommendedAction, verified: currentSimulation.simulation.scanResult.verified }} />
+        <SimulationHeader
+          details={{
+            recommendedAction: currentSimulation.simulation.recommendedAction,
+            verified: currentSimulation.simulation.scanResult.verified,
+          }}
+        />
         <SimulationTabs setShowChatWeb3={setShowChatWeb3} />
       </div>
 

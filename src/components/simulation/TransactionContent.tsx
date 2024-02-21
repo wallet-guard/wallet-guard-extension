@@ -3,16 +3,23 @@ import { RecommendedActionType, SimulationChangeType, StateChange } from '../../
 import { ChangeTypeSection } from './SimulationSubComponents/ChangeTypeSection';
 import { NoTransactionChanges } from './SimulationSubComponents/NoTransactionChanges';
 import { SimulationBaseProps } from '../../pages/popup';
+import { TrySkipTransactions } from './SimulationSubComponents/TrySkipTransactions';
+import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
+import { shouldShowSkipTransactionModal } from '../../lib/simulation/skip';
+import { Tooltip } from '@chakra-ui/react';
+import { FaGasPump } from 'react-icons/fa';
+import styles from './simulation.module.css';
 
 export const TransactionContent = (props: SimulationBaseProps) => {
   const { currentSimulation } = props;
+
+  const domainName = getDomainNameFromURL(currentSimulation.args.origin);
 
   if (!currentSimulation.simulation.stateChanges) {
     if (currentSimulation.simulation.gas) {
       return (
         <ChangeTypeSection
           scanResult={currentSimulation.simulation.scanResult}
-          // todo: consider adding a gas stateChange here
           stateChanges={[]}
           title="You are sending"
           iconPath="images/popup/assetChanges/ArrowGiving.png"
@@ -30,10 +37,14 @@ export const TransactionContent = (props: SimulationBaseProps) => {
     }
   }
 
-  const transferAndApproveStateChanges = currentSimulation.simulation.stateChanges.filter(
+  const transferStateChanges = currentSimulation.simulation.stateChanges.filter(
     (val: StateChange) =>
       val.changeType === SimulationChangeType.Transfer ||
-      val.changeType === SimulationChangeType.LooksRareBidOffer ||
+      val.changeType === SimulationChangeType.LooksRareBidOffer
+  );
+
+  const approvalStateChanges = currentSimulation.simulation.stateChanges.filter(
+    (val: StateChange) =>
       val.changeType === SimulationChangeType.ApprovalForAll ||
       val.changeType === SimulationChangeType.Approve
   );
@@ -70,14 +81,25 @@ export const TransactionContent = (props: SimulationBaseProps) => {
 
   return (
     <>
+      {approvalStateChanges.length > 0 && (
+        <ChangeTypeSection
+          scanResult={currentSimulation.simulation.scanResult}
+          stateChanges={approvalStateChanges}
+          title="You are approving"
+          iconPath="images/popup/assetChanges/ArrowGiving.png"
+          gas={currentSimulation.simulation.gas}
+          isFirstChild
+        />
+      )}
+
       {revokeStateChanges.length > 0 && (
-        // todo: you can be transferring and revoking in certain txns, which will show gas twice
         <ChangeTypeSection
           scanResult={currentSimulation.simulation.scanResult}
           stateChanges={revokeStateChanges}
           title="You are revoking"
           iconPath="images/popup/assetChanges/ArrowReceiving.png"
           gas={currentSimulation.simulation.gas}
+          isFirstChild={approvalStateChanges.length === 0}
         />
       )}
 
@@ -87,6 +109,7 @@ export const TransactionContent = (props: SimulationBaseProps) => {
           stateChanges={biddingStateChanges}
           title="You are bidding"
           iconPath="images/popup/assetChanges/Bidding.png"
+
         />
       )}
 
@@ -99,25 +122,32 @@ export const TransactionContent = (props: SimulationBaseProps) => {
         />
       )}
 
-      {transferAndApproveStateChanges.length > 0 && (
+      {transferStateChanges.length > 0 && (
         <ChangeTypeSection
           scanResult={currentSimulation.simulation.scanResult}
-          stateChanges={transferAndApproveStateChanges}
+          stateChanges={transferStateChanges}
           title="You are sending"
           iconPath="images/popup/assetChanges/ArrowGiving.png"
           gas={currentSimulation.simulation.gas}
+          isFirstChild={approvalStateChanges.length === 0 && revokeStateChanges.length === 0}
         />
       )}
 
       {receiveStateChanges.length > 0 && (
-        // todo: we may not be showing gas if it is a free mint
         <ChangeTypeSection
           scanResult={currentSimulation.simulation.scanResult}
           stateChanges={receiveStateChanges}
           title="You are receiving"
           iconPath="images/popup/assetChanges/ArrowReceiving.png"
+          gas={currentSimulation.simulation.gas}
+          isFirstChild={approvalStateChanges.length === 0 &&
+            revokeStateChanges.length === 0 &&
+            transferStateChanges.length === 0
+          }
         />
       )}
+
+      {shouldShowSkipTransactionModal(domainName) && <TrySkipTransactions domainName={domainName} />}
     </>
   );
 };
