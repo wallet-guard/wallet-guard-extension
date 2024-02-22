@@ -5,7 +5,7 @@ import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelp
 import { urlIsPhishingWarning } from '../../lib/helpers/util';
 import { ExtensionSettings } from '../../lib/settings';
 import { AlertDetail } from '../../models/Alert';
-import { PhishingResult } from '../../models/PhishingResponse';
+import { RecommendedAction } from '../../models/PhishingResponse';
 import { RiskFactor, Severity, WarningType } from '../../models/simulation/Transaction';
 import { domainScan } from '../http/domainScan';
 
@@ -25,7 +25,9 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const pdsResponse = await domainScan(url);
   chrome.storage.local.set({ currentSite: pdsResponse });
 
-  const recentlyCreatedWarning = pdsResponse?.riskFactors?.find(warning => warning.type === WarningType.RecentlyCreated);
+  const recentlyCreatedWarning = pdsResponse?.riskFactors?.find(
+    (warning) => warning.type === WarningType.RecentlyCreated
+  );
 
   if (recentlyCreatedWarning) {
     const daysSinceCreated = Math.round(parseFloat(recentlyCreatedWarning.value || '') / 24) || 0;
@@ -46,28 +48,23 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
         title: 'Suspicious Activity Detected',
         message: `This website was created ${daysSinceCreated} days ago.\nPlease proceed with caution and double-check any approval requests`,
         iconUrl: '../images/wg_logos/Logo-Large-Transparent.png', // todo: check if dimensions need to be 128x128 & that this looks good
-        type: 'basic'
+        type: 'basic',
       });
     }
   }
 
   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
 
-  const shouldBlock = (pdsResponse?.phishing === PhishingResult.Phishing) && (settings?.phishingDetection);
-  const criticalRiskFactor: RiskFactor | undefined = pdsResponse?.riskFactors?.find(warning => warning.severity === Severity.Critical);
+  const shouldBlock = pdsResponse?.recommendedAction === RecommendedAction.Block && settings?.phishingDetection;
+  const criticalRiskFactor: RiskFactor | undefined = pdsResponse?.riskFactors?.find(
+    (warning) => warning.severity === Severity.Critical
+  );
   if (shouldBlock && criticalRiskFactor) {
     const safeURL = criticalRiskFactor.value || 'null';
     const reason = criticalRiskFactor.type || 'null';
 
     chrome.tabs.update(tab.id || chrome.tabs.TAB_ID_NONE, {
-      url:
-        chrome.runtime.getURL('phish.html') +
-        '?safe=' +
-        safeURL +
-        '&proceed=' +
-        tab.url +
-        '&reason=' +
-        reason,
+      url: chrome.runtime.getURL('phish.html') + '?safe=' + safeURL + '&proceed=' + tab.url + '&reason=' + reason,
     });
 
     const activityInfo: AlertDetail = {
@@ -75,7 +72,7 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
       category: criticalRiskFactor?.type,
       details: `${tab.url}`,
       key: tab.url || '',
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
     AlertHandler.create(activityInfo);
