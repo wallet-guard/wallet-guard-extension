@@ -3,10 +3,11 @@ import { StateChange, SimulationChangeType, AssetKey } from './Transaction';
 export function AssetsEqual(assetKey: AssetKey, stateChange: StateChange): boolean {
   return assetKey.contractAddress === stateChange.contractAddress &&
     assetKey.ercType === stateChange.assetType &&
-    (assetKey.tokenId === stateChange.tokenId || assetKey.tokenId === 'COLLECTION');
+    (assetKey.tokenId === stateChange.tokenID || assetKey.tokenId === 'COLLECTION');
 }
 
 export function IsTransferChangeType(changeType: SimulationChangeType): boolean {
+  // TODO: pull in V1 Signature change types when they're merged
   return changeType === SimulationChangeType.ChangeTypeTransfer ||
     changeType === SimulationChangeType.ChangeTypeLooksRareBidOffer ||
     changeType === SimulationChangeType.ChangeTypeApprovalForAll ||

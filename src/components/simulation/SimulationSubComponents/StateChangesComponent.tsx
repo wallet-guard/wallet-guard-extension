@@ -55,7 +55,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
     <>
       {props.simulationStateChanges.map((stateChange: StateChange) => {
         return (
-          <div key={stateChange.name + stateChange.tokenId + stateChange.fiatValue} className="container">
+          <div key={stateChange.name + stateChange.tokenID + stateChange.fiatValue} className="container">
             <div className={`${styles.assetChangeRow} row justify-content-between`}>
               <AssetInfo stateChange={stateChange} />
 

@@ -31,8 +31,8 @@ export const AssetInfo = (props: StateChangesComponentProps) => {
               ) : isNftChangeType ?
                 props.stateChange.tokenName
                   ? add3Dots(props.stateChange.tokenName, 13)
-                  : props.stateChange.tokenId
-                    ? props.stateChange.tokenId
+                  : props.stateChange.tokenID
+                    ? props.stateChange.tokenID
                     : 'Unknown'
                 : (
                   // Native and ERC20

@@ -270,7 +270,7 @@ export type StateChange = {
   contractAddress: string;
   name: string;
   logo: string;
-  tokenId: string;
+  tokenID: string;
   tokenURI: string;
   tokenName: string;
   openSeaFloorPrice: number;
