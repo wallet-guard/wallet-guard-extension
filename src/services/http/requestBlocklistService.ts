@@ -8,7 +8,7 @@ type BlocklistResponse = {
 
 async function fetchRequestsBlocklist(): Promise<string[] | null> {
   try {
-    const request: BlocklistResponse = await (await httpClient.get(`${SERVER_URL_PROD}/requests-blocklist`))?.json();
+    const request: BlocklistResponse = await (await httpClient.get(`${SERVER_URL_PROD}/v0/requests-blocklist`))?.json();
     return request.blocklist;
   } catch (e) {
     return null;

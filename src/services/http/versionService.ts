@@ -13,7 +13,7 @@ export interface VersionCheckResponse {
 
 async function getVersion(wallet: WalletType): Promise<string | null> {
   try {
-    const request: VersionCheckResponse = await (await httpClient.get(`${SERVER_URL_PROD}/version/${wallet}`))?.json();
+    const request: VersionCheckResponse = await (await httpClient.get(`${SERVER_URL_PROD}/v0/version/${wallet}`))?.json();
     return request.version;
   } catch (e) {
     return null;
