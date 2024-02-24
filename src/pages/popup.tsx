@@ -70,7 +70,8 @@ const Popup = () => {
   const successfulSimulation: CompletedSuccessfulSimulation = currentSimulation as CompletedSuccessfulSimulation;
 
   // Personal Sign Screen
-  if (currentSimulation.args.method === SimulationMethodType.PersonalSign && !currentSimulation.simulation.extraInfo) {
+  if ((currentSimulation.args.method === SimulationMethodType.PersonalSign && !currentSimulation.simulation.extraInfo) ||
+    currentSimulation.simulation.extraInfo?.type === ExtraInfoType.PseudoPersonalSign) {
     return (
       <>
         <PersonalSign currentSimulation={successfulSimulation} />

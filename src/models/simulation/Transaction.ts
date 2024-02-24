@@ -115,6 +115,7 @@ export type SimulationApiResponse = {
 
 export enum ExtraInfoType {
   UnresolvableSignature = "UNRESOLVABLE_SIGNATURE",
+  PseudoPersonalSign = "PSEUDO_PERSONAL_SIGN"
 }
 
 export type ExtraInfoData = {
