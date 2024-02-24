@@ -82,7 +82,7 @@ export const TransferNFT = (props: TransferAssetProps) => {
   return (
     <>
       <TransferValueHeading
-        title={props.type === 'send' ? `-${props.stateChange.amount} NFT` : `+${props.stateChange.amount} NFT`}
+        title={props.type === 'send' ? `-${props.stateChange.amount || 1} NFT` : `+${props.stateChange.amount || 1} NFT`}
         type={props.type}
         locked={props.stateChange.locked}
       />

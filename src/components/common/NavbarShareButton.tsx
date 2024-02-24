@@ -1,21 +1,13 @@
 import React from 'react';
-import { TwitterShareButton } from 'react-share';
 import styles from './common.module.css';
-import { BsTwitterX } from 'react-icons/bs';
+import { BsGift } from 'react-icons/bs';
+import { openDashboard } from '../../lib/helpers/linkHelper';
 
 export function NavbarShareButton() {
   return (
-    <TwitterShareButton
-      url={'https://walletguard.app'}
-      title={
-        'Join 100,000+ wallets already protected using Wallet Guard. Proactively detect wallet drainers & phishing scams so you can transact confidently in your preferred wallet.'
-      }
-      via={'wallet_guard'}
-    >
-      <div className={styles['buttonWithIcon']}>
-        Share
-        <BsTwitterX style={{ marginLeft: '5px' }} />
-      </div>
-    </TwitterShareButton>
+    <div className={styles['buttonWithIcon']} onClick={() => openDashboard('referrals')}>
+      Share
+      <BsGift style={{ marginLeft: '5px' }} />
+    </div>
   );
 }

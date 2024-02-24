@@ -162,6 +162,7 @@ export enum WarningType {
   OpenseaListing = 'OPENSEA_LISTING',
   EthSign = 'ETH_SIGN',
   LooksrareListing = 'LOOKSRARE_LISTING',
+  DrainerRequest = 'DRAINER_REQUEST'
 }
 
 export enum Severity {
@@ -231,8 +232,6 @@ export type SimulationAddressDetails = {
   etherscanVerified: boolean;
   etherscanLink: string;
   addressName: string;
-  isAssociatedWithProtocol: string;
-  addressSummary: string;
 };
 
 export type TokenData = {
@@ -276,7 +275,6 @@ export type StateChange = {
   openSeaFloorPrice: number;
   openSeaVerified: boolean;
   etherscanVerified: boolean;
-  message: string;
   fiatValue: string;
   coinmarketcapLink: string;
   openSeaLink: string;
