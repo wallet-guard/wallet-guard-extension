@@ -1,7 +1,7 @@
 import { StateChange, SimulationChangeType, AssetKey } from './Transaction';
 
 export function AssetsEqual(assetKey: AssetKey, stateChange: StateChange): boolean {
-  return assetKey.contractAddress === stateChange.contractAddress &&
+  return assetKey.contractAddress.toLowerCase() === stateChange.contractAddress.toLowerCase() &&
     assetKey.ercType === stateChange.assetType &&
     (assetKey.tokenId === stateChange.tokenID || assetKey.tokenId === 'COLLECTION');
 }
