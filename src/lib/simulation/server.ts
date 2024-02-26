@@ -6,7 +6,7 @@ import {
   TransactionArgs,
   TransactionType,
 } from '../../models/simulation/Transaction';
-import { SERVER_URL_PROD } from '../environment';
+import { SERVER_URL_PROD, SERVER_URL_PROD_V1 } from '../environment';
 
 export const fetchTransaction = async (args: TransactionArgs, type: TransactionType): Promise<SimulationResponse> => {
   try {
@@ -74,27 +74,27 @@ export function getTransactionEndpoint(chainId: string): string {
   switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':
-      return `${SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
     case '0xa4b1':
     case '42161':
-      return `${SERVER_URL_PROD}/v0/arb/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/arb/mainnet/transaction`;
     case '0x89':
     case '137':
-      return `${SERVER_URL_PROD}/v0/polygon/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/polygon/mainnet/transaction`;
     case '0xa':
     case '10':
-      return `${SERVER_URL_PROD}/v0/optimism/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/optimism/mainnet/transaction`;
     case '8453':
     case '0x2105':
-      return `${SERVER_URL_PROD}/v0/base/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/base/mainnet/transaction`;
     case '56':
     case '0x38':
-      return `${SERVER_URL_PROD}/v1/bsc/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/bsc/mainnet/transaction`;
     case '59144':
     case '0xe708':
-      return `${SERVER_URL_PROD}/v1/linea/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/linea/mainnet/transaction`;
     default:
-      return `${SERVER_URL_PROD}/v0/eth/mainnet/transaction`;
+      return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
   }
 }
 
@@ -102,20 +102,20 @@ export function getSignatureEndpoint(chainId: string): string {
   switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':
-      return `${SERVER_URL_PROD}/v1/eth/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/eth/mainnet/signature`;
     case '0xa4b1':
     case '42161':
-      return `${SERVER_URL_PROD}/v1/arb/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/arb/mainnet/signature`;
     case '0x89':
     case '137':
-      return `${SERVER_URL_PROD}/v1/polygon/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/polygon/mainnet/signature`;
     case '0xa':
     case '10':
-      return `${SERVER_URL_PROD}/v1/optimism/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/optimism/mainnet/signature`;
     case '8453':
     case '0x2105':
-      return `${SERVER_URL_PROD}/v1/base/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/base/mainnet/signature`;
     default:
-      return `${SERVER_URL_PROD}/v1/eth/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/eth/mainnet/signature`;
   }
 }

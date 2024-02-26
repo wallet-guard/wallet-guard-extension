@@ -4,7 +4,7 @@ import * as httpClient from '../clients/httpClient';
 
 export async function domainScan(url: string): Promise<PhishingResponse | null> {
   try {
-    const res = await httpClient.get(`${SERVER_URL_PROD}/v0/scan?url=${url}`);
+    const res = await httpClient.get(`${SERVER_URL_PROD}/scan?url=${url}`);
     const json: PhishingResponse = (await res?.json()) || null;
     return json;
   } catch (e) {
