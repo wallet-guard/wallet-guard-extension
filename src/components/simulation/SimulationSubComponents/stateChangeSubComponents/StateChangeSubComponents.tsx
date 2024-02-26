@@ -57,7 +57,7 @@ export const ApprovalChange = (props: ApprovalProps) => {
         style={{ color: verified ? 'white' : '#fb4b4b', fontSize: '18px', marginBottom: 0 }}
         className={`${styles['font-archivo-bold']}`}
       >
-        {roundedAmount} {symbol || 'NFT'}
+        {roundedAmount} {symbol || isNFT ? 'NFT' : 'tokens'}
       </h3>
 
       {roundedAmount !== 'ALL' && (
