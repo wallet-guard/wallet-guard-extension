@@ -18,6 +18,9 @@ import { SimulationLoading } from '../components/simulation/SimulationSubCompone
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
 import { UnresolvableSignatureModal } from '../components/simulation/SimulationSubComponents/UnresolvableSignatureModal';
+import { TrySkipTransactions } from '../components/simulation/SimulationSubComponents/TrySkipTransactions';
+import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
+import { PopupManagerType, getAdditionalDataPopup } from '../lib/simulation/popupManager';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -79,6 +82,9 @@ const Popup = () => {
     );
   }
 
+  const domainName = getDomainNameFromURL(currentSimulation.args.origin);
+  const popup = getAdditionalDataPopup(successfulSimulation);
+
   return (
     <>
       <div className={styles.transactionHeadingFixed}>
@@ -103,8 +109,12 @@ const Popup = () => {
           <TransactionContent currentSimulation={successfulSimulation} />
           <div style={{ height: currentSimulation.simulation.extraInfo ? '200px' : '140px' }} />
 
-          {currentSimulation.simulation.extraInfo?.type === ExtraInfoType.UnresolvableSignature && (
-            <UnresolvableSignatureModal message={currentSimulation.simulation.extraInfo.message} />
+          {popup === PopupManagerType.ShowUnresolvableSignature ? (
+            <UnresolvableSignatureModal message={currentSimulation.simulation.extraInfo!.message} />
+          ) : popup === PopupManagerType.ShowSkipSimulation ? (
+            <TrySkipTransactions domainName={domainName} />
+          ) : (
+            <></>
           )}
 
           {currentSimulation.args.bypassed ? (
