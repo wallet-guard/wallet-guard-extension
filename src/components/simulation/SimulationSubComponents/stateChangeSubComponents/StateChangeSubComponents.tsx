@@ -30,11 +30,9 @@ function roundNumberIfNeccessary(num: string): string {
 
 export const RevokeApprovalForAll = () => {
   return (
-    <>
-      <h3 style={{ color: 'white', fontSize: '16px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
-        Revoking approval
-      </h3>
-    </>
+    <h3 style={{ color: 'white', fontSize: '16px', marginBottom: 0 }} className={`${styles['font-archivo-bold']}`}>
+      Revoking approval
+    </h3>
   );
 };
 
