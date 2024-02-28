@@ -8,6 +8,7 @@ export interface ChangeTypeSectionProps {
   title: string;
   iconPath: string;
   gas?: SimulatedGas;
+  isFirstChild: boolean;
 }
 
 export const ChangeTypeHeading = (props: ChangeTypeSectionProps) => {
@@ -18,7 +19,7 @@ export const ChangeTypeHeading = (props: ChangeTypeSectionProps) => {
           <img src={props.iconPath} style={{ height: '16px', marginRight: '5px' }} />
           <p className={styles['label-md']}>{props.title}</p>
         </div>
-        {props.gas && (
+        {(props.gas && props.isFirstChild) && (
           <Tooltip
             placement="top-start"
             hasArrow

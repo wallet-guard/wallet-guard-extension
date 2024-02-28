@@ -7,7 +7,7 @@ import {
   TransactionType,
   SoftLockedAssetsResponse,
 } from '../../models/simulation/Transaction';
-import { SERVER_URL_PROD } from '../environment';
+import { SERVER_URL_PROD, SERVER_URL_PROD_V1 } from '../environment';
 
 export const fetchTransaction = async (args: TransactionArgs, type: TransactionType): Promise<SimulationResponse> => {
   try {
@@ -108,12 +108,12 @@ export function getTransactionEndpoint(chainId: string): string {
     case '0xa':
     case '10':
       return `${SERVER_URL_PROD}/optimism/mainnet/transaction`;
-    case '56':
-    case '0x38':
-      return `${SERVER_URL_PROD}/bsc/mainnet/transaction`;
     case '8453':
     case '0x2105':
       return `${SERVER_URL_PROD}/base/mainnet/transaction`;
+    case '56':
+    case '0x38':
+      return `${SERVER_URL_PROD}/bsc/mainnet/transaction`;
     case '59144':
     case '0xe708':
       return `${SERVER_URL_PROD}/linea/mainnet/transaction`;
@@ -126,26 +126,20 @@ export function getSignatureEndpoint(chainId: string): string {
   switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':
-      return `${SERVER_URL_PROD}/eth/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/eth/mainnet/signature`;
     case '0xa4b1':
     case '42161':
-      return `${SERVER_URL_PROD}/arb/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/arb/mainnet/signature`;
     case '0x89':
     case '137':
-      return `${SERVER_URL_PROD}/polygon/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/polygon/mainnet/signature`;
     case '0xa':
     case '10':
-      return `${SERVER_URL_PROD}/optimism/mainnet/signature`;
-    case '56':
-    case '0x38':
-      return `${SERVER_URL_PROD}/bsc/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/optimism/mainnet/signature`;
     case '8453':
     case '0x2105':
-      return `${SERVER_URL_PROD}/base/mainnet/signature`;
-    case '59144':
-    case '0xe708':
-      return `${SERVER_URL_PROD}/linea/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/base/mainnet/signature`;
     default:
-      return `${SERVER_URL_PROD}/eth/mainnet/signature`;
+      return `${SERVER_URL_PROD_V1}/eth/mainnet/signature`;
   }
 }

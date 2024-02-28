@@ -27,12 +27,15 @@ export const add3Dots = (string: string, limit: number) => {
 export const StateChangesComponent = (props: StateChangesComponentProps) => {
   const isTransfer = (stateChange: StateChange) => {
     if (
-      stateChange.changeType === SimulationChangeType.ChangeTypeTransfer ||
-      stateChange.changeType === SimulationChangeType.ChangeTypeOpenSeaListing ||
-      stateChange.changeType === SimulationChangeType.ChangeTypeLooksRareAskListing ||
-      stateChange.changeType === SimulationChangeType.ChangeTypeLooksRareBidOffer ||
-      stateChange.changeType === SimulationChangeType.ChangeTypeListingTransfer ||
-      stateChange.changeType === SimulationChangeType.ChangeTypePermitTransfer
+      stateChange.changeType === SimulationChangeType.Transfer ||
+      stateChange.changeType === SimulationChangeType.Listing ||
+      stateChange.changeType === SimulationChangeType.Bidding ||
+      // old types
+      stateChange.changeType === SimulationChangeType.OpenSeaListing ||
+      stateChange.changeType === SimulationChangeType.LooksRareAskListing ||
+      stateChange.changeType === SimulationChangeType.LooksRareBidOffer ||
+      stateChange.changeType === SimulationChangeType.ListingTransfer ||
+      stateChange.changeType === SimulationChangeType.PermitTransfer
     ) {
       return true;
     }
@@ -40,12 +43,13 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
 
   const isReceive = (stateChange: StateChange) => {
     if (
-      stateChange.changeType === SimulationChangeType.ChangeTypeReceive ||
-      stateChange.changeType === SimulationChangeType.ChangeTypeOpenSeaReceive ||
-      stateChange.changeType === SimulationChangeType.ChangeTypeLooksRareBidReceive ||
-      stateChange.changeType === SimulationChangeType.ChangeTypeLooksRareAskReceive ||
-      stateChange.changeType === SimulationChangeType.ChangeTypeListingReceive ||
-      stateChange.changeType === SimulationChangeType.ChangeTypePermitReceive
+      stateChange.changeType === SimulationChangeType.Receive ||
+      // old types
+      stateChange.changeType === SimulationChangeType.OpenSeaReceive ||
+      stateChange.changeType === SimulationChangeType.LooksRareBidReceive ||
+      stateChange.changeType === SimulationChangeType.LooksRareAskReceive ||
+      stateChange.changeType === SimulationChangeType.ListingReceive ||
+      stateChange.changeType === SimulationChangeType.PermitReceive
     ) {
       return true;
     }
@@ -57,58 +61,73 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
         return (
           <div key={stateChange.name + stateChange.tokenID + stateChange.fiatValue} className="container">
             <div className={`${styles.assetChangeRow} row justify-content-between`}>
-              <AssetInfo stateChange={stateChange} />
-
-              {stateChange && (
-                <>
-                  {/* IF NFT ELSE TOKEN */}
-                  {stateChange.assetType !== SimulationAssetTypes.Native &&
-                    stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
-                    <div className={styles.assetChangeRightColumn}>
-                      {isTransfer(stateChange) ? (
-                        <TransferNFT stateChange={stateChange} type="send" />
-                      ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount='ALL' locked={stateChange.locked} />
-                      ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
-                        <RevokeApprovalForAll />
-                      ) : isReceive(stateChange) ? (
-                        <TransferNFT stateChange={stateChange} type="receive" />
-                      ) : (
-                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
-                          <ApprovalChange
-                            verified={props.scanResult.verified}
-                            symbol={stateChange.symbol}
-                            amount={stateChange.amount}
-                          />
-                        )
-                      )}
-                    </div>
-                  ) : (
-                    <div className={styles.assetChangeRightColumn}>
-                      {isTransfer(stateChange) ? (
-                        <TransferToken stateChange={stateChange} type="send" />
-                      ) : stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount="ALL" locked={stateChange.locked} />
-                      ) : stateChange.changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ? (
-                        <RevokeApprovalForAll />
-                      ) : isReceive(stateChange) ? (
-                        <TransferToken stateChange={stateChange} type="receive" />
-                      ) : (
-                        stateChange.changeType === SimulationChangeType.ChangeTypeApprove && (
-                          <ApprovalChange
-                            symbol={stateChange.symbol}
-                            verified={props.scanResult.verified}
-                            amount={stateChange.amount}
-                            locked={stateChange.locked}
-                          />
-                        )
-                      )}
-                    </div>
-                  )}
-                </>
+<<<<<<< HEAD
+  <AssetInfo stateChange={stateChange} />
+=======
+              {stateChange.assetType !== SimulationAssetTypes.Native &&
+                stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
+                <NFTInfo stateChange={stateChange} />
+              ) : (
+                <TokenInfo stateChange={stateChange} />
               )}
-            </div>
+>>>>>>> fe68bbd87e5edc22d8c2d5a9af4f8f7d3ef1f2c9
+
+  {
+    stateChange && (
+      <>
+        {/* IF NFT ELSE TOKEN */}
+        {stateChange.assetType !== SimulationAssetTypes.Native &&
+          stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
+          <div className={styles.assetChangeRightColumn}>
+            {isTransfer(stateChange) ? (
+              <TransferNFT stateChange={stateChange} type="send" />
+            ) : stateChange.changeType === SimulationChangeType.ApprovalForAll ? (
+              <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount="ALL" fiatValue={stateChange.fiatValue} locked={stateChange.locked} isNFT />
+            ) : stateChange.changeType === SimulationChangeType.RevokeApprovalForAll ? (
+              <RevokeApprovalForAll />
+            ) : isReceive(stateChange) ? (
+              <TransferNFT stateChange={stateChange} type="receive" />
+            ) : (
+              stateChange.changeType === SimulationChangeType.Approve && (
+                <ApprovalChange
+                  verified={props.scanResult.verified}
+                  symbol={stateChange.symbol}
+                  amount={stateChange.amount}
+                  fiatValue={stateChange.fiatValue}
+                  isNFT
+                />
+              )
+            )}
           </div>
+        ) : (
+          <div className={styles.assetChangeRightColumn}>
+            {isTransfer(stateChange) ? (
+              <TransferToken stateChange={stateChange} type="send" />
+            ) : stateChange.changeType === SimulationChangeType.ApprovalForAll ? (
+              <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} fiatValue={stateChange.fiatValue} amount="ALL" locked={stateChange.locked} isNFT={false} />
+            ) : stateChange.changeType === SimulationChangeType.RevokeApprovalForAll ? (
+              <RevokeApprovalForAll />
+            ) : isReceive(stateChange) ? (
+              <TransferToken stateChange={stateChange} type="receive" />
+            ) : (
+              stateChange.changeType === SimulationChangeType.Approve && (
+                <ApprovalChange
+                  symbol={stateChange.symbol}
+                  verified={props.scanResult.verified}
+                  amount={stateChange.amount}
+                  locked={stateChange.locked}
+                  fiatValue={stateChange.fiatValue}
+                  isNFT={false}
+                />
+              )
+            )}
+          </div>
+        )}
+      </>
+    )
+  }
+            </div >
+          </div >
         );
       })}
     </>
