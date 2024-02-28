@@ -15,10 +15,12 @@ export function AssetsEqual(assetKey: AssetKey, stateChange: StateChange): boole
 }
 
 export function IsTransferChangeType(changeType: SimulationChangeType): boolean {
-  // TODO: pull in V1 Signature change types when they're merged
   return changeType === SimulationChangeType.Transfer ||
     changeType === SimulationChangeType.ApprovalForAll ||
     changeType === SimulationChangeType.Approve ||
+    changeType === SimulationChangeType.Listing ||
+    changeType === SimulationChangeType.Bidding ||
+    // Signature v0 types
     changeType === SimulationChangeType.OpenSeaListing ||
     changeType === SimulationChangeType.LooksRareAskListing ||
     changeType === SimulationChangeType.ListingTransfer ||
