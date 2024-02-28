@@ -4,7 +4,7 @@ export function AssetsEqual(assetKey: AssetKey, stateChange: StateChange): boole
   const lockedAssetContractAddress = assetKey.contractAddress.toLowerCase();
   const stateChangeContractAddress = stateChange.contractAddress.toLowerCase();
 
-  if (stateChange.changeType === SimulationChangeType.ChangeTypeApprovalForAll &&
+  if (stateChange.changeType === SimulationChangeType.ApprovalForAll &&
     stateChangeContractAddress === lockedAssetContractAddress) {
     return true;
   }
@@ -16,17 +16,11 @@ export function AssetsEqual(assetKey: AssetKey, stateChange: StateChange): boole
 
 export function IsTransferChangeType(changeType: SimulationChangeType): boolean {
   // TODO: pull in V1 Signature change types when they're merged
-  return changeType === SimulationChangeType.ChangeTypeTransfer ||
-    changeType === SimulationChangeType.ChangeTypeApprovalForAll ||
-    changeType === SimulationChangeType.ChangeTypeApprove ||
-    changeType === SimulationChangeType.ChangeTypeOpenSeaListing ||
-    changeType === SimulationChangeType.ChangeTypeLooksRareAskListing ||
-    changeType === SimulationChangeType.ChangeTypeListingTransfer ||
-    changeType === SimulationChangeType.ChangeTypePermitTransfer;
-}
-
-export function IsApprovalChangeType(changeType: SimulationChangeType): boolean {
-  return changeType === SimulationChangeType.ChangeTypeRevokeApprovalForAll ||
-    changeType === SimulationChangeType.ChangeTypeApprovalForAll ||
-    changeType === SimulationChangeType.ChangeTypeApprove;
+  return changeType === SimulationChangeType.Transfer ||
+    changeType === SimulationChangeType.ApprovalForAll ||
+    changeType === SimulationChangeType.Approve ||
+    changeType === SimulationChangeType.OpenSeaListing ||
+    changeType === SimulationChangeType.LooksRareAskListing ||
+    changeType === SimulationChangeType.ListingTransfer ||
+    changeType === SimulationChangeType.PermitTransfer;
 }
