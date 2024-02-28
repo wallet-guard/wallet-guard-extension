@@ -110,11 +110,10 @@ const Popup = () => {
           <TransactionContent currentSimulation={successfulSimulation} />
           <div style={{ height: popup !== PopupManagerType.None ? '200px' : '140px' }} />
 
-          {/* {currentSimulation.lockedAssetsState?.shouldBlockTx && (
-            <LockedAssetPopup />
-} */}
           {popup === PopupManagerType.ShowUnresolvableSignature ? (
             <UnresolvableSignatureModal message={currentSimulation.simulation.extraInfo!.message} />
+          ) : popup === PopupManagerType.ShowLockedAsset ? (
+            <LockedAssetPopup />
           ) : popup === PopupManagerType.ShowSkipSimulation ? (
             <TrySkipTransactions domainName={domainName} />
           ) : (
