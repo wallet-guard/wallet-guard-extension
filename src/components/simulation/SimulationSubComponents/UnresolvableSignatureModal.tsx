@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from '../simulation.module.css'
+import posthog from 'posthog-js';
 
 export function UnresolvableSignatureModal(props: { message: string }) {
   const { message } = props;
+
+  useEffect(() => {
+    posthog.capture('unresolvable signature ui shown', {
+      message,
+    });
+  }, []);
 
   return (
     <div className='container' style={{ position: 'fixed', bottom: '100px' }}>
