@@ -81,6 +81,19 @@ export type SimulationResponse =
   | SimulationSuccessResponse
   | SimulationErrorResponse;
 
+export type SoftLockedAssetsResponse = {
+  address: string;
+  chainID: string;
+  lockedAssets: AssetKey[];
+}
+
+export type AssetKey = {
+  ownerAddress: string;
+  ercType: string;
+  contractAddress: string;
+  tokenId: string;
+}
+
 export type SimulationErrorResponse = {
   error: SimulationError;
   scanResult?: PhishingResponse;
@@ -181,7 +194,7 @@ export enum ErrorType {
   Revert = 'REVERT',
   TooManyRequests = 'TOO_MANY_REQUESTS',
   GeneralError = 'ERROR',
-  UnknownError = "UNKNOWN_ERROR"
+  UnknownError = "UNKNOWN_ERROR",
 }
 
 export enum SimulationWarningType {
@@ -280,4 +293,5 @@ export type StateChange = {
   fiatValue: string;
   coinmarketcapLink: string;
   openSeaLink: string;
+  locked: boolean;
 };

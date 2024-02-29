@@ -5,7 +5,7 @@ import { ConfirmSimulationButton } from '../components/simulation/SimulationButt
 import { NoSimulation } from '../components/simulation/NoSimulation';
 import { SimulationHeader } from '../components/simulation/SimulationHeader';
 import { TransactionContent } from '../components/simulation/TransactionContent';
-import { ExtraInfoType, RecommendedActionType, SimulationMethodType } from '../models/simulation/Transaction';
+import { RecommendedActionType, SimulationMethodType } from '../models/simulation/Transaction';
 import * as Sentry from '@sentry/react';
 import { ErrorComponent } from '../components/simulation/Error';
 import { ChatWeb3Tab } from '../components/chatweb3/components/Chat/ChatWeb3Tab';
@@ -17,6 +17,7 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
+import { LockedAssetPopup } from '../components/simulation/SimulationSubComponents/errors/LockedAssetPopup';
 import { UnresolvableSignatureModal } from '../components/simulation/SimulationSubComponents/UnresolvableSignatureModal';
 import { TrySkipTransactions } from '../components/simulation/SimulationSubComponents/TrySkipTransactions';
 import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
@@ -107,10 +108,12 @@ const Popup = () => {
         <>
           <TransactionDetails currentSimulation={successfulSimulation} />
           <TransactionContent currentSimulation={successfulSimulation} />
-          <div style={{ height: currentSimulation.simulation.extraInfo ? '200px' : '140px' }} />
+          <div style={{ height: popup !== PopupManagerType.None ? '200px' : '140px' }} />
 
           {popup === PopupManagerType.ShowUnresolvableSignature ? (
             <UnresolvableSignatureModal message={currentSimulation.simulation.extraInfo!.message} />
+          ) : popup === PopupManagerType.ShowLockedAsset ? (
+            <LockedAssetPopup />
           ) : popup === PopupManagerType.ShowSkipSimulation ? (
             <TrySkipTransactions domainName={domainName} />
           ) : (

@@ -5,6 +5,7 @@ import {
   SimulationApiResponse,
   TransactionArgs,
   TransactionType,
+  SoftLockedAssetsResponse,
 } from '../../models/simulation/Transaction';
 import { SERVER_URL_PROD, SERVER_URL_PROD_V1 } from '../environment';
 
@@ -69,6 +70,29 @@ export const fetchTransaction = async (args: TransactionArgs, type: TransactionT
     return result;
   }
 };
+
+export const fetchLockedAssets = async (address: string): Promise<SoftLockedAssetsResponse | null> => {
+  try {
+    const response: globalThis.Response = await fetch(`${SERVER_URL_PROD}/soft-lock/locked-assets?address=${address}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      const data: SoftLockedAssetsResponse = await response.json();
+
+      return data;
+    }
+
+    return null;
+  } catch (e) {
+    console.error('error fetching soft locked assets', e);
+    return null;
+  }
+}
 
 export function getTransactionEndpoint(chainId: string): string {
   switch (chainId.toLowerCase()) {

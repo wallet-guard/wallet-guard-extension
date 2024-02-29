@@ -1,15 +1,14 @@
 import React from 'react';
 import { SimulationAssetTypes, SimulationChangeType, StateChange } from '../../../models/simulation/Transaction';
-import { NFTInfo } from './stateChangeSubComponents/NFTInfo';
 import {
   ApprovalChange,
   RevokeApprovalForAll,
   TransferNFT,
   TransferToken,
 } from './stateChangeSubComponents/StateChangeSubComponents';
-import { TokenInfo } from './stateChangeSubComponents/TokenInfo';
 import { PhishingResponse } from '../../../models/PhishingResponse';
 import styles from '../simulation.module.css';
+import { AssetInfo } from './stateChangeSubComponents/AssetInfo';
 
 export interface StateChangesComponentProps {
   simulationStateChanges: StateChange[];
@@ -62,13 +61,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
         return (
           <div key={stateChange.name + stateChange.tokenID + stateChange.fiatValue} className="container">
             <div className={`${styles.assetChangeRow} row justify-content-between`}>
-              {stateChange.assetType !== SimulationAssetTypes.Native &&
-                stateChange.assetType !== SimulationAssetTypes.ERC20 ? (
-                <NFTInfo stateChange={stateChange} />
-              ) : (
-                <TokenInfo stateChange={stateChange} />
-              )}
-
+              <AssetInfo stateChange={stateChange} />
               {stateChange && (
                 <>
                   {/* IF NFT ELSE TOKEN */}
@@ -78,7 +71,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferNFT stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount="ALL" fiatValue={stateChange.fiatValue} isNFT />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} amount="ALL" fiatValue={stateChange.fiatValue} locked={stateChange.locked} isNFT />
                       ) : stateChange.changeType === SimulationChangeType.RevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
@@ -100,7 +93,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                       {isTransfer(stateChange) ? (
                         <TransferToken stateChange={stateChange} type="send" />
                       ) : stateChange.changeType === SimulationChangeType.ApprovalForAll ? (
-                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} fiatValue={stateChange.fiatValue} amount="ALL" isNFT={false} />
+                        <ApprovalChange verified={props.scanResult.verified} symbol={stateChange.symbol} fiatValue={stateChange.fiatValue} amount="ALL" locked={stateChange.locked} isNFT={false} />
                       ) : stateChange.changeType === SimulationChangeType.RevokeApprovalForAll ? (
                         <RevokeApprovalForAll />
                       ) : isReceive(stateChange) ? (
@@ -111,6 +104,7 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                             symbol={stateChange.symbol}
                             verified={props.scanResult.verified}
                             amount={stateChange.amount}
+                            locked={stateChange.locked}
                             fiatValue={stateChange.fiatValue}
                             isNFT={false}
                           />
@@ -120,8 +114,8 @@ export const StateChangesComponent = (props: StateChangesComponentProps) => {
                   )}
                 </>
               )}
-            </div>
-          </div>
+            </div >
+          </div >
         );
       })}
     </>
