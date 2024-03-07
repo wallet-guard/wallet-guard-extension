@@ -82,9 +82,9 @@ export type SimulationResponse =
   | SimulationErrorResponse;
 
 export type SoftLockedAssetsResponse = {
-  address: string;
-  chainID: string;
-  lockedAssets: AssetKey[];
+  ownerAddress: string;
+  lastUpdatedAt: string;
+  lockedAssets: AssetKey[] | null;
 }
 
 export type AssetKey = {

@@ -88,7 +88,7 @@ const completeSimulation = async (id: string, simulation: SimulationResponse, lo
       // Check and flag any soft locked assets
       if (!simulation.error) {
         simulation.stateChanges?.forEach((stateChange, i) => {
-          lockedAssetsResponse?.lockedAssets.forEach((asset) => {
+          lockedAssetsResponse?.lockedAssets?.forEach((asset) => {
             const isEqual = AssetsEqual(asset, stateChange);
             const isTransferChangeType = IsTransferChangeType(stateChange.changeType);
 
