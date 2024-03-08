@@ -136,7 +136,7 @@ const addWalletGuardProxy = (provider: any) => {
             return Reflect.apply(target, thisArg, args);
           }
 
-          const params = JSON.parse(request.params[1]);
+          const params = typeof request.params[1] === 'string' ? JSON.parse(request.params[1]) : request.params[1];
           log.info({ params }, 'Request being sent');
 
           let signer: string = params[0];
@@ -318,7 +318,7 @@ const addWalletGuardProxy = (provider: any) => {
             return Reflect.apply(target, thisArg, args);
           }
 
-          const params = JSON.parse(request.params[1]);
+          const params = typeof request.params[1] === 'string' ? JSON.parse(request.params[1]) : request.params[1];
           log.info({ params }, 'Request being sent');
 
           let signer: string = params[0];
