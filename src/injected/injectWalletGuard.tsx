@@ -1,6 +1,7 @@
 import { EthereumProviderError, ethErrors } from 'eth-rpc-errors';
 import logger from '../lib/logger';
 import { RequestManager, Response } from '../lib/simulation/requests';
+import { ethers } from 'ethers';
 
 declare global {
   interface Window {
@@ -46,6 +47,8 @@ const log = logger.child({ component: 'Injected' });
 const REQUEST_MANAGER = new RequestManager();
 
 let timer: NodeJS.Timer | undefined = undefined;
+
+const secureProvider = new ethers.JsonRpcProvider();
 
 // Injector taken heavily taken from Pocket Universe and Revoke Cash
 // Shoutout to both for innovating on this <3
@@ -111,9 +114,23 @@ const addWalletGuardProxy = (provider: any) => {
 
         log.info(request, 'Request being sent');
 
+        // // Validate that the provider has not been modified already
+        // const network = secureProvider.getNetwork();
+
+        // (await network).chainId
+
+
+        // if (provider.request.toString() !== 'function () { [native code] }') {
+        //   provider.request = new ethers.JsonRpcProvider().getRpcRequest;
+        // }
+
+        const chainId = (await secureProvider.getNetwork()).chainId.toString();
+
+        console.log(chainId);
+
         // Sending response.
         response = await REQUEST_MANAGER.request({
-          chainId: await provider.request({ method: 'eth_chainId' }),
+          chainId,
           signer: request.params[0].from,
           transaction: convertObjectValuesToString(request.params[0]),
           method: request.method,
@@ -147,6 +164,14 @@ const addWalletGuardProxy = (provider: any) => {
 
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
+
+          // Validate that the provider has not been modified already
+          // if (provider.request.toString() !== 'function () { [native code] }') {
+          //   provider.request = new ethers.JsonRpcProvider().getRpcRequest;
+          // }
+          const chainId = (await secureProvider.getNetwork()).chainId.toString();
+
+          console.log(chainId);
 
           // Sending response.
           response = await REQUEST_MANAGER.request({
@@ -277,6 +302,10 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
+        const chainId = (await secureProvider.getNetwork()).chainId.toString();
+
+        console.log(chainId);
+
         log.info(request, 'Request being sent');
         provider
           .request({ method: 'eth_chainId' })
@@ -329,6 +358,10 @@ const addWalletGuardProxy = (provider: any) => {
 
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
+
+          const chainId = (await secureProvider.getNetwork()).chainId.toString();
+
+          console.log(chainId);
 
           provider
             .request({ method: 'eth_chainId' })

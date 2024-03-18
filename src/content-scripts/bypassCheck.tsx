@@ -151,8 +151,4 @@ window.addEventListener('message', (message) => {
       sendMessageToPort(contentScriptPort, request);
     }
   }
-
-  if (target === PortIdentifiers.METAMASK_INPAGE && data?.method?.includes('chainChanged')) {
-    metamaskChainId = Number(data?.params?.chainId ?? metamaskChainId);
-  }
 });
