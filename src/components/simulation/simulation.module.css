@@ -361,3 +361,9 @@
   border-radius: 6px;
   font-family: 'ArchivoMedium';
 }
+
+.softLockedWarningSubtitle {
+  font-family: 'InterRegular';
+  font-size: 14px;
+  color: #A9A9A9;
+}

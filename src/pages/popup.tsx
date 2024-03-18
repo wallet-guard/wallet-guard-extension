@@ -17,6 +17,11 @@ import { SimulationTabs } from '../components/simulation/SimulationTabs';
 import { SimulationLoading } from '../components/simulation/SimulationSubComponents/SimulationLoading';
 import { CompletedSuccessfulSimulation, StoredSimulationState } from '../lib/simulation/storage';
 import styles from '../styles.module.css';
+import { LockedAssetPopup } from '../components/simulation/SimulationSubComponents/errors/LockedAssetPopup';
+import { UnresolvableSignatureModal } from '../components/simulation/SimulationSubComponents/UnresolvableSignatureModal';
+import { TrySkipTransactions } from '../components/simulation/SimulationSubComponents/TrySkipTransactions';
+import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
+import { PopupManagerType, getAdditionalDataPopup } from '../lib/simulation/popupManager';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -69,7 +74,7 @@ const Popup = () => {
   const successfulSimulation: CompletedSuccessfulSimulation = currentSimulation as CompletedSuccessfulSimulation;
 
   // Personal Sign Screen
-  if (currentSimulation.args.method === SimulationMethodType.PersonalSign) {
+  if (currentSimulation.args.method === SimulationMethodType.PersonalSign && !currentSimulation.simulation.extraInfo) {
     return (
       <>
         <PersonalSign currentSimulation={successfulSimulation} />
@@ -77,6 +82,9 @@ const Popup = () => {
       </>
     );
   }
+
+  const domainName = getDomainNameFromURL(currentSimulation.args.origin);
+  const popup = getAdditionalDataPopup(successfulSimulation);
 
   return (
     <>
@@ -100,7 +108,18 @@ const Popup = () => {
         <>
           <TransactionDetails currentSimulation={successfulSimulation} />
           <TransactionContent currentSimulation={successfulSimulation} />
-          <div style={{ height: '140px' }} />
+          <div style={{ height: popup !== PopupManagerType.None ? '200px' : '140px' }} />
+
+          {popup === PopupManagerType.ShowUnresolvableSignature ? (
+            <UnresolvableSignatureModal message={currentSimulation.simulation.extraInfo!.message} />
+          ) : popup === PopupManagerType.ShowLockedAsset ? (
+            <LockedAssetPopup />
+          ) : popup === PopupManagerType.ShowSkipSimulation ? (
+            <TrySkipTransactions domainName={domainName} />
+          ) : (
+            <></>
+          )}
+
           {currentSimulation.args.bypassed ? (
             <BypassedSimulationButton storedSimulation={currentSimulation} />
           ) : (

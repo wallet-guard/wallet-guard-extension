@@ -34,7 +34,7 @@ import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
 import { SUPPORTED_CHAINS } from './lib/config/features';
-import { isBlocked } from './lib/helpers/util';
+import { isBlocked, urlIsPhishingWarning } from './lib/helpers/util';
 import { handleRequestsBlocklist } from './services/http/requestBlocklistService';
 import { KNOWN_MARKETPLACES, shouldSkipBasedOnDomain } from './lib/simulation/skip';
 
@@ -64,17 +64,26 @@ chrome.webRequest.onBeforeRequest.addListener(req => {
   isBlocked(req.url).then(({ hash, blocked }) => {
     if (blocked) {
       chrome.tabs.get(req.tabId).then((tab) => {
-        chrome.tabs.update(req.tabId, {
-          url:
-            (chrome.runtime.getURL('phish.html') +
-              '?safe=' +
-              'null' +
-              '&proceed=' +
-              (tab.url || '') +
-              '&reason=' +
-              WarningType.DrainerRequest +
-              '&value=' +
-              hash)
+        if (!tab.url) return;
+        if (urlIsPhishingWarning(tab.url)) return;
+
+        const domainName = getDomainNameFromURL(tab.url);
+
+        localStorageHelpers.get<string[]>(WgKeys.PersonalWhitelist).then((whitelist) => {
+          if (whitelist?.includes(domainName)) return;
+
+          chrome.tabs.update(req.tabId, {
+            url:
+              (chrome.runtime.getURL('phish.html') +
+                '?safe=' +
+                'null' +
+                '&proceed=' +
+                (tab.url || '') +
+                '&reason=' +
+                WarningType.DrainerRequest +
+                '&value=' +
+                hash)
+          });
         });
       });
     }

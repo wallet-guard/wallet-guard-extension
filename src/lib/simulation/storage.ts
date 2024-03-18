@@ -1,9 +1,10 @@
 // Storage wrapper for updating the storage.
-import { fetchTransaction } from './server';
-import { SimulationResponse, SimulationSuccessResponse, TransactionArgs, TransactionType } from '../../models/simulation/Transaction';
+import { fetchLockedAssets, fetchTransaction } from './server';
+import { SimulationResponse, SimulationSuccessResponse, SoftLockedAssetsResponse, TransactionArgs, TransactionType } from '../../models/simulation/Transaction';
 import Browser from 'webextension-polyfill';
 import { BrowserMessage, BrowserMessageType } from '../helpers/chrome/messageHandler';
 import { SUPPORTED_CHAINS } from '../config/features';
+import { AssetsEqual, IsTransferChangeType } from '../../models/simulation/ChangeTypeHelper';
 
 export enum StoredSimulationState {
   // Currently in the process of simulating.
@@ -50,6 +51,13 @@ export interface CompletedSimulation {
 
   // The params that were used to simulate this transaction.
   args: TransactionArgs;
+
+  lockedAssetsState?: LockedAssetState;
+}
+
+interface LockedAssetState {
+  shouldBlockTx: boolean;
+  lockedAssets: SoftLockedAssetsResponse;
 }
 
 // This is what we pass down to all simulation components
@@ -69,14 +77,42 @@ export const addSimulation = async (simulation: StoredSimulation) => {
   return chrome.storage.local.set({ simulations });
 };
 
-const completeSimulation = async (id: string, simulation: SimulationResponse) => {
+const completeSimulation = async (id: string, simulation: SimulationResponse, lockedAssetsResponse: SoftLockedAssetsResponse | null) => {
   const data = await chrome.storage.local.get('simulations');
   const simulations: CompletedSimulation[] = data.simulations || [];
 
   simulations.forEach((storedSimulation) => {
     if (storedSimulation.id === id) {
+      let isMovingLockedAsset = false;
+
+      // Check and flag any soft locked assets
+      if (!simulation.error) {
+        simulation.stateChanges?.forEach((stateChange, i) => {
+          lockedAssetsResponse?.lockedAssets?.forEach((asset) => {
+            const isEqual = AssetsEqual(asset, stateChange);
+            const isTransferChangeType = IsTransferChangeType(stateChange.changeType);
+
+            if (isEqual && isTransferChangeType) {
+              simulation.stateChanges![i].locked = true;
+              isMovingLockedAsset = true;
+            }
+          });
+        });
+
+        // Sort locked assets to the top
+        simulation.stateChanges?.sort((asset) => asset.locked ? -1 : 1);
+      }
+
+      // Map the state to successful
       storedSimulation.state = StoredSimulationState.Success;
       storedSimulation.simulation = simulation;
+
+      if (lockedAssetsResponse) {
+        storedSimulation.lockedAssetsState = {
+          shouldBlockTx: isMovingLockedAsset,
+          lockedAssets: lockedAssetsResponse
+        }
+      }
     }
   });
 
@@ -134,7 +170,7 @@ export const updateSimulationAction = async (id: string, state: SimulationComple
 
 export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
   let response: SimulationResponse;
-
+  let softLockedAssetsCheck: SoftLockedAssetsResponse | null = null;
   let state = StoredSimulationState.Simulating;
 
   // Automatically skip if chain id is incorrect. This prevents the popup.
@@ -159,8 +195,10 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
         args,
       }),
       fetchTransaction(args, TransactionType.Transaction),
+      fetchLockedAssets(args.signer)
     ]);
     response = result[1];
+    softLockedAssetsCheck = result[2];
   } else if ('hash' in args) {
     const result = await Promise.all([
       addSimulation({
@@ -170,8 +208,10 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
         args,
       }),
       fetchTransaction(args, TransactionType.Signature),
+      fetchLockedAssets(args.signer)
     ]);
     response = result[1];
+    softLockedAssetsCheck = result[2];
   } else if ('signMessage' in args) {
     const result = await Promise.all([
       addSimulation({
@@ -181,6 +221,7 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
         args,
       }),
       fetchTransaction(args, TransactionType.Signature),
+      // do not fetch locked assets on personal_sign
     ]);
     response = result[1];
   } else {
@@ -192,11 +233,13 @@ export const fetchSimulationAndUpdate = async (args: TransactionArgs) => {
         args,
       }),
       fetchTransaction(args, TransactionType.Signature),
+      fetchLockedAssets(args.signer)
     ]);
     response = result[1];
+    softLockedAssetsCheck = result[2];
   }
 
-  return completeSimulation(args.id, response)
+  return completeSimulation(args.id, response, softLockedAssetsCheck);
 };
 
 export const clearOldSimulations = async () => {

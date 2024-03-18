@@ -81,6 +81,19 @@ export type SimulationResponse =
   | SimulationSuccessResponse
   | SimulationErrorResponse;
 
+export type SoftLockedAssetsResponse = {
+  ownerAddress: string;
+  lastUpdatedAt: string;
+  lockedAssets: AssetKey[] | null;
+}
+
+export type AssetKey = {
+  ownerAddress: string;
+  ercType: string;
+  contractAddress: string;
+  tokenId: string;
+}
+
 export type SimulationErrorResponse = {
   error: SimulationError;
   scanResult?: PhishingResponse;
@@ -91,12 +104,12 @@ export type SimulationSuccessResponse = {
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
-  method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
   scanResult: PhishingResponse;
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: null;
+  extraInfo: ExtraInfoData | null;
 };
 
 export type SimulationApiResponse = {
@@ -104,13 +117,22 @@ export type SimulationApiResponse = {
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
-  method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
   scanResult: PhishingResponse;
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
   error: SimulationError | null;
+  extraInfo: ExtraInfoData | null;
 };
+
+export enum ExtraInfoType {
+  UnresolvableSignature = "UNRESOLVABLE_SIGNATURE",
+}
+
+export type ExtraInfoData = {
+  type: ExtraInfoType;
+  message: string;
+}
 
 export type SimulatedGas = {
   gasUsedEth: string;
@@ -172,7 +194,7 @@ export enum ErrorType {
   Revert = 'REVERT',
   TooManyRequests = 'TOO_MANY_REQUESTS',
   GeneralError = 'ERROR',
-  UnknownError = "UNKNOWN_ERROR"
+  UnknownError = "UNKNOWN_ERROR",
 }
 
 export enum SimulationWarningType {
@@ -182,23 +204,29 @@ export enum SimulationWarningType {
 }
 
 export enum SimulationChangeType {
-  ChangeTypeOpenSeaListing = 'OPENSEA_LISTING',
-  ChangeTypeOpenSeaReceive = 'OPENSEA_RECEIVE',
-  ChangeTypeLooksRareAskReceive = 'LOOKSRARE_ASK_RECEIVE',
-  ChangeTypeLooksRareAskListing = 'LOOKSRARE_ASK_LISTING',
-  ChangeTypeLooksRareBidReceive = 'LOOKSRARE_BID_RECEIVE',
-  ChangeTypeLooksRareBidOffer = 'LOOKSRARE_BID_OFFER',
-  ChangeTypeRevokeApprovalForAll = 'REVOKE_APPROVAL_FOR_ALL',
-  ChangeTypeApprovalForAll = 'APPROVAL_FOR_ALL',
-  ChangeTypeApprove = 'APPROVE',
-  ChangeTypeTransfer = 'TRANSFER',
-  ChangeTypeReceive = 'RECEIVE',
-  ChangeTypeReceiveApproval = 'RECEIVE_APPROVAL',
-  ChangeTypeReceiveApprovalForAll = 'RECEIVE_APPROVAL_FOR_ALL',
-  ChangeTypeListingReceive = 'LISTING_RECEIVE',
-  ChangeTypeListingTransfer = 'LISTING_TRANSFER',
-  ChangeTypePermitTransfer = 'PERMIT_TRANSFER',
-  ChangeTypePermitReceive = 'PERMIT_RECEIVE',
+  // v0 (+ everything from v1 except bid, listing, and revoke)
+  OpenSeaListing = 'OPENSEA_LISTING',
+  OpenSeaReceive = 'OPENSEA_RECEIVE',
+  LooksRareAskReceive = 'LOOKSRARE_ASK_RECEIVE',
+  LooksRareAskListing = 'LOOKSRARE_ASK_LISTING',
+  LooksRareBidReceive = 'LOOKSRARE_BID_RECEIVE',
+  LooksRareBidOffer = 'LOOKSRARE_BID_OFFER',
+  ReceiveApproval = 'RECEIVE_APPROVAL',
+  ReceiveApprovalForAll = 'RECEIVE_APPROVAL_FOR_ALL',
+  ListingReceive = 'LISTING_RECEIVE',
+  ListingTransfer = 'LISTING_TRANSFER',
+  PermitTransfer = 'PERMIT_TRANSFER',
+  PermitReceive = 'PERMIT_RECEIVE',
+
+  // v1
+  ApprovalForAll = 'APPROVAL_FOR_ALL',
+  Approve = 'APPROVE',
+  RevokeApprovalForAll = 'REVOKE_APPROVAL_FOR_ALL',
+  Revoke = 'REVOKE_APPROVE',
+  Transfer = 'TRANSFER',
+  Receive = 'RECEIVE',
+  Bidding = 'BIDDING',
+  Listing = 'LISTING',
 }
 
 export enum SimulationAssetTypes {
@@ -265,4 +293,5 @@ export type StateChange = {
   fiatValue: string;
   coinmarketcapLink: string;
   openSeaLink: string;
+  locked: boolean;
 };

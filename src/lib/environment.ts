@@ -1,5 +1,6 @@
 // Security API - For business inquiries please visit https://docs.walletguard.app
 export const SERVER_URL_PROD = 'https://api.walletguard.app/extension/v0';
+export const SERVER_URL_PROD_V1 = 'https://api.walletguard.app/extension/v1';
 
 export const SERVER_URL_PROD_V1 = 'https://api.walletguard.app/extension/v1';
 
