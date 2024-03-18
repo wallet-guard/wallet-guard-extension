@@ -54,8 +54,12 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   }
 
   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
+  if (!tab.id) return;
 
-  const shouldBlock = pdsResponse?.recommendedAction === RecommendedAction.Block && settings?.phishingDetection;
+  const currentUrl = (await chrome.tabs.get(tab.id)).url;
+  const currentDomainName = getDomainNameFromURL(currentUrl || '');
+  const tabExists = currentDomainName === pdsResponse?.domainName;
+  const shouldBlock = pdsResponse?.recommendedAction === RecommendedAction.Block && settings?.phishingDetection && tabExists;
   const criticalRiskFactor: RiskFactor | undefined = pdsResponse?.riskFactors?.find(
     (warning) => warning.severity === Severity.Critical
   );
