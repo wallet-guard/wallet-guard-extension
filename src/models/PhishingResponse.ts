@@ -8,20 +8,6 @@ export interface PhishingResponse {
   status: 'IN_PROGRESS' | 'COMPLETE';
 }
 
-export interface Warning {
-  level: WarningLevel;
-  type: WarningType;
-  value: string;
-}
-
-export enum WarningLevel {
-  Info = 'INFO',
-  Low = 'LOW',
-  Medium = 'MEDIUM',
-  High = 'HIGH',
-  Critical = 'CRITICAL',
-}
-
 export enum RecommendedAction {
   Block = 'BLOCK',
   Warn = 'WARN',
