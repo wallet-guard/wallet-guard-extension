@@ -5,7 +5,7 @@ import { ErrorComponentProps } from './GeneralError';
 import { SimulationHeader } from '../../SimulationHeader';
 import { ConfirmSimulationButton } from '../../SimulationButton';
 import { BypassedSimulationButton } from '../BypassButton';
-import { PhishingResponse, PhishingResult } from '../../../../models/PhishingResponse';
+import { PhishingResponse, RecommendedAction } from '../../../../models/PhishingResponse';
 import { Tooltip } from '@chakra-ui/react';
 
 export default function UnsupportedSignatureComponent(props: ErrorComponentProps) {
@@ -101,11 +101,13 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                 src="/images/popup/websiteDetail/green-verified.png"
                 alt=""
                 width={25}
-                className={styles.zoom + " pl-2"}
+                className={styles.zoom + ' pl-2'}
                 style={{ marginTop: '-15px', alignSelf: 'center' }}
               />
             </Tooltip>
-          ) : scanResult?.domainName && scanResult.phishing === PhishingResult.Phishing ? (
+          ) : scanResult?.domainName &&
+            (scanResult.recommendedAction === RecommendedAction.Block ||
+              scanResult.recommendedAction === RecommendedAction.Warn) ? (
             <Tooltip
               hasArrow
               label={'Potentially dangerous website'}
@@ -119,11 +121,13 @@ function UnsupportedProjectComponent(props: UnsupportedProjectComponentProps) {
                 src="/images/popup/websiteDetail/orange-danger.png"
                 alt=""
                 width={25}
-                className={styles.zoom + " pl-2"}
+                className={styles.zoom + ' pl-2'}
                 style={{ marginTop: '-15px', alignSelf: 'center' }}
               />
             </Tooltip>
-          ) : <></>}
+          ) : (
+            <></>
+          )}
         </div>
 
         <p className={`${styles['font-archivo-medium']}`} style={{ color: '#a8a8a8', marginBottom: 0 }}>
