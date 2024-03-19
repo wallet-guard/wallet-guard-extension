@@ -23,10 +23,18 @@ export function ChainDetail(props: ChainDetailProps) {
         return 'Optimism';
       case '56':
       case '0x38':
-        return 'BNB';
+        return 'Binance Smart Chain';
       case '8453':
       case '0x2105':
         return 'Base';
+      case '59144':
+      case '0xe708':
+        return 'Linea';
+      case '43114':
+      case '0xa86a':
+        return 'Avalanche';
+      default:
+        return 'Ethereum';
     }
   }
 

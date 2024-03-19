@@ -98,27 +98,30 @@ export function getTransactionEndpoint(chainId: string): string {
   switch (chainId.toLowerCase()) {
     case '0x1':
     case '1':
-      return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
+      return `${SERVER_URL_PROD_V1}/eth/mainnet/transaction`;
     case '0xa4b1':
     case '42161':
-      return `${SERVER_URL_PROD}/arb/mainnet/transaction`;
+      return `${SERVER_URL_PROD_V1}/arb/mainnet/transaction`;
     case '0x89':
     case '137':
-      return `${SERVER_URL_PROD}/polygon/mainnet/transaction`;
+      return `${SERVER_URL_PROD_V1}/polygon/mainnet/transaction`;
     case '0xa':
     case '10':
-      return `${SERVER_URL_PROD}/optimism/mainnet/transaction`;
+      return `${SERVER_URL_PROD_V1}/optimism/mainnet/transaction`;
     case '8453':
     case '0x2105':
-      return `${SERVER_URL_PROD}/base/mainnet/transaction`;
+      return `${SERVER_URL_PROD_V1}/base/mainnet/transaction`;
     case '56':
     case '0x38':
-      return `${SERVER_URL_PROD}/bsc/mainnet/transaction`;
+      return `${SERVER_URL_PROD_V1}/bsc/mainnet/transaction`;
     case '59144':
     case '0xe708':
-      return `${SERVER_URL_PROD}/linea/mainnet/transaction`;
+      return `${SERVER_URL_PROD_V1}/linea/mainnet/transaction`;
+    case '43114':
+    case '0xa86a':
+      return `${SERVER_URL_PROD_V1}/avax/mainnet/transaction`;
     default:
-      return `${SERVER_URL_PROD}/eth/mainnet/transaction`;
+      return `${SERVER_URL_PROD_V1}/eth/mainnet/transaction`;
   }
 }
 
@@ -139,6 +142,15 @@ export function getSignatureEndpoint(chainId: string): string {
     case '8453':
     case '0x2105':
       return `${SERVER_URL_PROD_V1}/base/mainnet/signature`;
+    case '56':
+    case '0x38':
+      return `${SERVER_URL_PROD_V1}/bsc/mainnet/signature`;
+    case '59144':
+    case '0xe708':
+      return `${SERVER_URL_PROD_V1}/linea/mainnet/signature`;
+    case '43114':
+    case '0xa86a':
+      return `${SERVER_URL_PROD_V1}/avax/mainnet/signature`;
     default:
       return `${SERVER_URL_PROD_V1}/eth/mainnet/signature`;
   }
