@@ -21,8 +21,7 @@ export const SUPPORTED_CHAINS = [
   '137', '0x89', // Polygon Mainnet
   '10', '0xa', // Optimism Mainnet
   '8453', '0x2105', // Base Mainnet
-
-  // Still exploring in QA
-  // '56', '0x38', // BSC Mainnet
-  // '59144', '0xe708' // Linea Mainnet
+  '56', '0x38', // BSC Mainnet
+  '59144', '0xe708', // Linea Mainnet
+  '43114', '0xa86a' // Avalanche C-Chain (Mainnet)
 ];
