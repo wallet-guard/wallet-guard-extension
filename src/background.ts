@@ -455,3 +455,16 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
     }
   }
 });
+
+let LAST_CHAIN_ID = '0x1';
+const port = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
+
+// port.postMessage({ action: 'getCurrentChainId' });
+
+port.onMessage.addListener((msg) => {
+  if (msg.name === 'publicConfig') {
+    const { chainId } = msg.data;
+    LAST_CHAIN_ID = chainId;
+  }
+});
+

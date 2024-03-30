@@ -98,13 +98,18 @@ const addWalletGuardProxy = (provider: any) => {
         request.method !== 'eth_sendTransaction' &&
         request.method !== 'eth_sign' &&
         request.method !== 'personal_sign'
+        // request.method !== 'eth_chainId'
       ) {
         return Reflect.apply(target, thisArg, args);
       }
 
       log.info({ args }, 'Request type');
       let response;
+      // if (request.method === 'eth_chainId') {
+      // todo - use secure provider?
 
+
+      // } else 
       if (request.method === 'eth_sendTransaction') {
         if (request.params.length < 1) {
           // Forward the request anyway.
@@ -165,6 +170,7 @@ const addWalletGuardProxy = (provider: any) => {
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
 
+<<<<<<< Updated upstream
           // Validate that the provider has not been modified already
           // if (provider.request.toString() !== 'function () { [native code] }') {
           //   provider.request = new ethers.JsonRpcProvider().getRpcRequest;
@@ -172,6 +178,13 @@ const addWalletGuardProxy = (provider: any) => {
           const chainId = (await secureProvider.getNetwork()).chainId.toString();
 
           console.log(chainId);
+=======
+          const requestAsString = window.ethereum?.request?.toString();
+          if (requestAsString !== 'function () { [native code] }' && window.ethereum.isMetaMask) {
+            // alert('warning! window.ethereum modified! test');
+            // window.ethereum = createMetaMaskProvider();
+          }
+>>>>>>> Stashed changes
 
           // Sending response.
           response = await REQUEST_MANAGER.request({
@@ -302,9 +315,16 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
+<<<<<<< Updated upstream
         const chainId = (await secureProvider.getNetwork()).chainId.toString();
 
         console.log(chainId);
+=======
+        const requestAsString = window.ethereum?.request?.toString();
+        if (requestAsString !== 'function () { [native code] }') {
+          alert('warning! window.ethereum modified! test2');
+        }
+>>>>>>> Stashed changes
 
         log.info(request, 'Request being sent');
         provider
@@ -359,9 +379,16 @@ const addWalletGuardProxy = (provider: any) => {
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
 
+<<<<<<< Updated upstream
           const chainId = (await secureProvider.getNetwork()).chainId.toString();
 
           console.log(chainId);
+=======
+          const requestAsString = window.ethereum?.request?.toString();
+          if (requestAsString !== 'function () { [native code] }') {
+            alert('warning! window.ethereum modified! test3');
+          }
+>>>>>>> Stashed changes
 
           provider
             .request({ method: 'eth_chainId' })
@@ -481,6 +508,16 @@ const addWalletGuardProxy = (provider: any) => {
           signer = signMessage
           signMessage = tempSigner;
         }
+
+        const requestAsString = window.ethereum?.request?.toString();
+        if (requestAsString !== 'function () { [native code] }') {
+          alert('warning! window.ethereum modified! test4');
+        }
+        // if (bypass) {
+        //   window.ethereum.request = {
+        //     if(method === 'eth_chainId') return '0x';
+        // }
+        // }
 
         provider
           .request({ method: 'eth_chainId' })

@@ -24,6 +24,7 @@ const sendMessageToPort = (stream: Browser.Runtime.Port, data: TransactionArgs):
 
 // Bypass checks for MetaMask
 window.addEventListener('message', (message) => {
+  // console.log(message);
   const { target } = message?.data ?? {};
   const { name, data } = message?.data?.data ?? {};
   const { href } = location;
