@@ -3,18 +3,19 @@ import styles from '../simulation.module.css';
 
 export const SimulationLoading = () => {
   function getRandomGif() {
-    const rand = Math.floor(Math.random() * 3) + 1;
+    return '/images/popup/nyan.gif';
+    // const rand = Math.floor(Math.random() * 3) + 1;
 
-    switch (rand) {
-      case 1:
-        return "/images/popup/RunMichaelK.gif";
-      case 2:
-        return "/images/popup/PenguinRunLeft.gif";
-      case 3:
-        return "/images/popup/PenguinRunRight.gif";
-      default:
-        return "/images/popup/RunMichaelK.gif";
-    }
+    // switch (rand) {
+    //   case 1:
+    //     return "/images/popup/RunMichaelK.gif";
+    //   case 2:
+    //     return "/images/popup/PenguinRunLeft.gif";
+    //   case 3:
+    //     return "/images/popup/PenguinRunRight.gif";
+    //   default:
+    //     return "/images/popup/RunMichaelK.gif";
+    // }
   }
 
   const loadingGif = getRandomGif();
@@ -23,7 +24,7 @@ export const SimulationLoading = () => {
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div className="row text-center" style={{ marginTop: '50%' }}>
         <div className="col" style={{ display: 'flex', justifyContent: 'center' }}>
-          <img src={loadingGif} alt="" width={150} />
+          <img src={loadingGif} alt="" width={180} />
         </div>
       </div>
 
