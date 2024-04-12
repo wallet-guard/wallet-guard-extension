@@ -2,7 +2,7 @@ import { AlertHandler } from '../../lib/helpers/chrome/alertHandler';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
 import { getDomainNameFromURL } from '../../lib/helpers/phishing/parseDomainHelper';
-import { urlIsPhishingWarning } from '../../lib/helpers/util';
+import { filterURLQueryParameters, urlIsPhishingWarning } from '../../lib/helpers/util';
 import { ExtensionSettings } from '../../lib/settings';
 import { AlertDetail } from '../../models/Alert';
 import { RecommendedAction } from '../../models/PhishingResponse';
@@ -100,89 +100,4 @@ function hasBrowserPrefix(input: string): boolean {
   }
 
   return false;
-}
-
-// TypeScript Function to Filter URL Query Parameters for PPI
-function filterURLQueryParameters(input: string): string {
-  const filteredParams = new Set([
-    'username',
-    'user',
-    'email',
-    'fullname',
-    'name',
-    'first_name',
-    'last_name',
-    'phone',
-    'phone_number',
-    'address',
-    'city',
-    'state',
-    'zipcode',
-    'postal_code',
-    'country',
-    'ssn',
-    'passport',
-    'driver_license',
-    'credit_card',
-    'password',
-    'token',
-    'auth',
-    'authentication',
-    'session',
-    'bank_account',
-    'bvn',
-    'routing_number',
-    'transaction_id',
-    'medical_record',
-    'health_insurance',
-    'patient_id',
-    'national_id',
-    'tax_id',
-    'employee_id',
-    'member_id',
-    'ip_address',
-    'mac_address',
-    'device_id',
-    'login',
-    'subscriber_id',
-    'member',
-    'profile_id',
-    'user_id',
-    'api_key',
-    'client_id',
-    'client_secret',
-    'access_token',
-    'refresh_token',
-    'dob',
-    'gender',
-    'race',
-    'nationality',
-    'marital_status',
-    'wallet_address',
-    'public_key',
-    'tx_id',
-    'transaction_hash',
-    'nonce',
-    'contract_address',
-    'token_id',
-    'signature',
-    'seed_phrase',
-    'seedphrase',
-    'node_id',
-    'chain_id',
-  ]);
-
-  const url = new URL(input);
-  const params = url.searchParams;
-
-  // Iterate over the query parameters and remove the ones that are in the filtered list
-  params.forEach((_, key) => {
-    if (filteredParams.has(key.toLowerCase())) {
-      params.delete(key);
-    }
-  });
-
-  // Set the modified search params back to the URL
-  url.search = params.toString();
-  return url.toString();
 }

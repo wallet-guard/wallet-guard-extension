@@ -82,18 +82,17 @@ export function urlIsPhishingWarning(url: string): boolean {
   return false;
 }
 
-
 const sha256 = async (domain: string) => {
-  const hash = await crypto.subtle.digest('SHA-256', new
-    TextEncoder().encode(domain));
-  return Array.from(new Uint8Array(hash)).map(b =>
-    b.toString(16).padStart(2, '0')).join('');
-}
+  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(domain));
+  return Array.from(new Uint8Array(hash))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+};
 
 type BlocklistCheckResponse = {
   blocked: boolean;
   hash: string;
-}
+};
 
 export const isBlocked = async (urlString: string): Promise<BlocklistCheckResponse> => {
   const blocklist = await localStorageHelpers.get<string[]>(WgKeys.RequestsBlocklist);
@@ -108,6 +107,90 @@ export const isBlocked = async (urlString: string): Promise<BlocklistCheckRespon
 
   return {
     blocked,
-    hash
+    hash,
   };
+};
+
+export function filterURLQueryParameters(input: string): string {
+  const filteredParams = new Set(
+    [
+      'username',
+      'user',
+      'email',
+      'fullname',
+      'name',
+      'first_name',
+      'last_name',
+      'phone',
+      'phone_number',
+      'address',
+      'city',
+      'state',
+      'zipcode',
+      'postal_code',
+      'country',
+      'ssn',
+      'passport',
+      'driver_license',
+      'credit_card',
+      'password',
+      'token',
+      'auth',
+      'authentication',
+      'session',
+      'bank_account',
+      'bvn',
+      'routing_number',
+      'transaction_id',
+      'medical_record',
+      'health_insurance',
+      'patient_id',
+      'national_id',
+      'tax_id',
+      'employee_id',
+      'member_id',
+      'ip_address',
+      'mac_address',
+      'device_id',
+      'login',
+      'subscriber_id',
+      'member',
+      'profile_id',
+      'user_id',
+      'api_key',
+      'client_id',
+      'client_secret',
+      'access_token',
+      'refresh_token',
+      'dob',
+      'gender',
+      'race',
+      'nationality',
+      'marital_status',
+      'wallet_address',
+      'public_key',
+      'tx_id',
+      'transaction_hash',
+      'nonce',
+      'contract_address',
+      'token_id',
+      'signature',
+      'seed_phrase',
+      'node_id',
+      'chain_id',
+    ].map((p) => p.toLowerCase())
+  );
+
+  const url = new URL(input);
+  const params = url.searchParams;
+
+  Array.from(params.keys()).forEach((key) => {
+    if (filteredParams.has(key.toLowerCase())) {
+      params.delete(key);
+    }
+  });
+
+  url.search = params.toString();
+
+  return url.toString();
 }
