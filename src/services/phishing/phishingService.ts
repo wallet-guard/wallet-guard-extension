@@ -22,7 +22,11 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   // do not scan if domain is browser native page
   if (hasBrowserPrefix(url)) return;
 
-  const pdsResponse = await domainScan(url);
+  // Scrub the URL of sensitive query parameters before any scan
+  const scrubbedUrl = filterURLQueryParameters(url);
+
+  const pdsResponse = await domainScan(scrubbedUrl);
+
   chrome.storage.local.set({ currentSite: pdsResponse });
 
   const recentlyCreatedWarning = pdsResponse?.riskFactors?.find(
@@ -59,7 +63,8 @@ export async function checkUrlForPhishing(tab: chrome.tabs.Tab) {
   const currentUrl = (await chrome.tabs.get(tab.id)).url;
   const currentDomainName = getDomainNameFromURL(currentUrl || '');
   const tabExists = currentDomainName === pdsResponse?.domainName;
-  const shouldBlock = pdsResponse?.recommendedAction === RecommendedAction.Block && settings?.phishingDetection && tabExists;
+  const shouldBlock =
+    pdsResponse?.recommendedAction === RecommendedAction.Block && settings?.phishingDetection && tabExists;
   const criticalRiskFactor: RiskFactor | undefined = pdsResponse?.riskFactors?.find(
     (warning) => warning.severity === Severity.Critical
   );
@@ -95,4 +100,89 @@ function hasBrowserPrefix(input: string): boolean {
   }
 
   return false;
+}
+
+// TypeScript Function to Filter URL Query Parameters for PPI
+function filterURLQueryParameters(input: string): string {
+  const filteredParams = new Set([
+    'username',
+    'user',
+    'email',
+    'fullname',
+    'name',
+    'first_name',
+    'last_name',
+    'phone',
+    'phone_number',
+    'address',
+    'city',
+    'state',
+    'zipcode',
+    'postal_code',
+    'country',
+    'ssn',
+    'passport',
+    'driver_license',
+    'credit_card',
+    'password',
+    'token',
+    'auth',
+    'authentication',
+    'session',
+    'bank_account',
+    'bvn',
+    'routing_number',
+    'transaction_id',
+    'medical_record',
+    'health_insurance',
+    'patient_id',
+    'national_id',
+    'tax_id',
+    'employee_id',
+    'member_id',
+    'ip_address',
+    'mac_address',
+    'device_id',
+    'login',
+    'subscriber_id',
+    'member',
+    'profile_id',
+    'user_id',
+    'api_key',
+    'client_id',
+    'client_secret',
+    'access_token',
+    'refresh_token',
+    'dob',
+    'gender',
+    'race',
+    'nationality',
+    'marital_status',
+    'wallet_address',
+    'public_key',
+    'tx_id',
+    'transaction_hash',
+    'nonce',
+    'contract_address',
+    'token_id',
+    'signature',
+    'seed_phrase',
+    'seedphrase',
+    'node_id',
+    'chain_id',
+  ]);
+
+  const url = new URL(input);
+  const params = url.searchParams;
+
+  // Iterate over the query parameters and remove the ones that are in the filtered list
+  params.forEach((_, key) => {
+    if (filteredParams.has(key.toLowerCase())) {
+      params.delete(key);
+    }
+  });
+
+  // Set the modified search params back to the URL
+  url.search = params.toString();
+  return url.toString();
 }
