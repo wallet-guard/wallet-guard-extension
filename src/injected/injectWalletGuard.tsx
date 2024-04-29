@@ -5,6 +5,7 @@ import { RequestManager, Response } from '../lib/simulation/requests';
 declare global {
   interface Window {
     ethereum?: any;
+    phantom?: any;
   }
 }
 
@@ -514,6 +515,13 @@ const addProxy = () => {
 
     if (window.ethereum.providers?.length) {
       window.ethereum.providers.forEach(addWalletGuardProxy);
+    }
+  }
+  if (window.phantom?.ethereum && !window.phantom?.ethereum.isWalletGuard) {
+    addWalletGuardProxy(window.phantom?.ethereum);
+
+    if (window.phantom?.ethereum.providers?.length) {
+      window.phantom?.ethereum.providers.forEach(addWalletGuardProxy);
     }
   }
 };
