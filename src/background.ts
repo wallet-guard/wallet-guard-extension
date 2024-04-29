@@ -43,6 +43,7 @@ const approvedTxns: TransactionArgs[] = [];
 
 let currentPopup: undefined | number;
 let currentChatWeb3Popup: undefined | number;
+let LAST_MM_CHAIN_ID = '0x1';
 
 Sentry.init({
   dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
@@ -94,6 +95,7 @@ chrome.webRequest.onBeforeRequest.addListener(req => {
 
 // MESSAGING
 chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendResponse) => {
+  console.log('received msg', message);
   if (message.type === BrowserMessageType.ProceedAnyway) {
     const { url, permanent } = message as ProceedAnywayMessageType;
 
@@ -127,6 +129,9 @@ chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendRespo
   } else if (message.type === BrowserMessageType.RunSimulation) {
     const { data } = message as RunSimulationMessageType;
     clearOldSimulations().then(() => fetchSimulationAndUpdate(data));
+  } else if (message.type === BrowserMessageType.GetChainId) {
+    console.log('received request');
+    sendResponse({ chainId: LAST_MM_CHAIN_ID });
   }
 });
 
@@ -326,9 +331,17 @@ chrome.storage.onChanged.addListener((changes, area) => {
 });
 
 Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) => {
+  console.log(remotePort);
   if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {
     remotePort.onMessage.addListener(contentScriptMessageHandler);
   }
+  // else if (remotePort.name === PortIdentifiers.WG_INJECTED_SCRIPT) {
+  //   remotePort.onMessage.addListener((message) => {
+  //     console.log(message);
+  //     remotePort.postMessage('some response');
+  //   });
+
+  // }
 });
 
 // Listen for when the user clicks on the context menu item
@@ -456,15 +469,13 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
   }
 });
 
-let LAST_CHAIN_ID = '0x1';
+// TODO: this id may be different depending on browser
 const port = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
-
-// port.postMessage({ action: 'getCurrentChainId' });
 
 port.onMessage.addListener((msg) => {
   if (msg.name === 'publicConfig') {
     const { chainId } = msg.data;
-    LAST_CHAIN_ID = chainId;
+    LAST_MM_CHAIN_ID = chainId;
+    console.log(chainId)
   }
 });
-

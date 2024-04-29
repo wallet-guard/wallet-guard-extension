@@ -1,7 +1,8 @@
 import { EthereumProviderError, ethErrors } from 'eth-rpc-errors';
 import logger from '../lib/logger';
 import { RequestManager, Response } from '../lib/simulation/requests';
-import { ethers } from 'ethers';
+import { BaseBrowserMessage, BrowserMessageType, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
+import Browser from 'webextension-polyfill';
 
 declare global {
   interface Window {
@@ -48,7 +49,13 @@ const REQUEST_MANAGER = new RequestManager();
 
 let timer: NodeJS.Timer | undefined = undefined;
 
-const secureProvider = new ethers.JsonRpcProvider();
+let METAMASK_CHAIN_ID = '1';
+
+window.addEventListener('message', (message) => {
+  console.log(message);
+
+
+});
 
 // Injector taken heavily taken from Pocket Universe and Revoke Cash
 // Shoutout to both for innovating on this <3
@@ -98,18 +105,13 @@ const addWalletGuardProxy = (provider: any) => {
         request.method !== 'eth_sendTransaction' &&
         request.method !== 'eth_sign' &&
         request.method !== 'personal_sign'
-        // request.method !== 'eth_chainId'
       ) {
         return Reflect.apply(target, thisArg, args);
       }
 
       log.info({ args }, 'Request type');
       let response;
-      // if (request.method === 'eth_chainId') {
-      // todo - use secure provider?
 
-
-      // } else 
       if (request.method === 'eth_sendTransaction') {
         if (request.params.length < 1) {
           // Forward the request anyway.
@@ -119,19 +121,8 @@ const addWalletGuardProxy = (provider: any) => {
 
         log.info(request, 'Request being sent');
 
-        // // Validate that the provider has not been modified already
-        // const network = secureProvider.getNetwork();
-
-        // (await network).chainId
-
-
-        // if (provider.request.toString() !== 'function () { [native code] }') {
-        //   provider.request = new ethers.JsonRpcProvider().getRpcRequest;
-        // }
-
-        const chainId = (await secureProvider.getNetwork()).chainId.toString();
-
-        console.log(chainId);
+        // console.log(chainId);
+        let chainId = await provider.request({ method: 'eth_chainId' });
 
         // Sending response.
         response = await REQUEST_MANAGER.request({
@@ -169,26 +160,39 @@ const addWalletGuardProxy = (provider: any) => {
 
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
+          let chainId = await provider.request({ method: 'eth_chainId' });
 
-<<<<<<< Updated upstream
-          // Validate that the provider has not been modified already
-          // if (provider.request.toString() !== 'function () { [native code] }') {
-          //   provider.request = new ethers.JsonRpcProvider().getRpcRequest;
-          // }
-          const chainId = (await secureProvider.getNetwork()).chainId.toString();
-
-          console.log(chainId);
-=======
           const requestAsString = window.ethereum?.request?.toString();
-          if (requestAsString !== 'function () { [native code] }' && window.ethereum.isMetaMask) {
-            // alert('warning! window.ethereum modified! test');
-            // window.ethereum = createMetaMaskProvider();
+
+          // TODO: check how this works on all types of browsers
+          // TODO: consider only running the redundancy of chainId when this is true
+          console.log(requestAsString);
+          if (requestAsString !== 'function () { [native code] }') {
+            alert('warning! window.ethereum modified! test');
+            // maybe this cant access this api since its a content script
+            console.log('hit');
+
+            window.postMessage({ data: 'test' })
+
+            // const contentScriptPort = chrome.runtime.connect({ name: PortIdentifiers.WG_INJECTED_SCRIPT });
+            // contentScriptPort.onMessage.addListener((response) => {
+            //   console.log(response);
+            // });
+            // contentScriptPort.postMessage({ data: 'test' });
+
+            // const response = await chrome.runtime?.sendMessage('testing');
+            // console.log(response);
+            // chrome.runtime.sendMessage({ type: BrowserMessageType.GetChainId } as BaseBrowserMessage);
+            // console.log('res', response);
+            // chrome.tabs.connect
+            // console.log(response);
+            // chainId = response.chainId;
+            // console.log('validated chain id', chainId);
           }
->>>>>>> Stashed changes
 
           // Sending response.
           response = await REQUEST_MANAGER.request({
-            chainId: await provider.request({ method: 'eth_chainId' }),
+            chainId,
             signer: signer,
             domain: domain,
             message: message,
@@ -208,6 +212,7 @@ const addWalletGuardProxy = (provider: any) => {
           if (e instanceof EthereumProviderError) {
             throw e;
           }
+          console.log(e);
 
           // Request does not conform to EIP-712 - pass along the params
           response = await REQUEST_MANAGER.request({
@@ -315,16 +320,15 @@ const addWalletGuardProxy = (provider: any) => {
           return Reflect.apply(target, thisArg, args);
         }
 
-<<<<<<< Updated upstream
-        const chainId = (await secureProvider.getNetwork()).chainId.toString();
+        let chainId = await provider.request({ method: 'eth_chainId' });
 
-        console.log(chainId);
-=======
         const requestAsString = window.ethereum?.request?.toString();
         if (requestAsString !== 'function () { [native code] }') {
           alert('warning! window.ethereum modified! test2');
+          const response = await chrome.runtime.sendMessage(undefined, { type: BrowserMessageType.GetChainId });
+          chainId = response.chainId;
+          console.log('hit 2')
         }
->>>>>>> Stashed changes
 
         log.info(request, 'Request being sent');
         provider
@@ -379,16 +383,11 @@ const addWalletGuardProxy = (provider: any) => {
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
 
-<<<<<<< Updated upstream
-          const chainId = (await secureProvider.getNetwork()).chainId.toString();
-
-          console.log(chainId);
-=======
           const requestAsString = window.ethereum?.request?.toString();
           if (requestAsString !== 'function () { [native code] }') {
             alert('warning! window.ethereum modified! test3');
+            console.log('validated chain id');
           }
->>>>>>> Stashed changes
 
           provider
             .request({ method: 'eth_chainId' })
@@ -512,12 +511,8 @@ const addWalletGuardProxy = (provider: any) => {
         const requestAsString = window.ethereum?.request?.toString();
         if (requestAsString !== 'function () { [native code] }') {
           alert('warning! window.ethereum modified! test4');
+          console.log('validated chain id');
         }
-        // if (bypass) {
-        //   window.ethereum.request = {
-        //     if(method === 'eth_chainId') return '0x';
-        // }
-        // }
 
         provider
           .request({ method: 'eth_chainId' })

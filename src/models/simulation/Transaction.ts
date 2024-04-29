@@ -39,6 +39,13 @@ export interface SimulateRequestArgs extends RequestArgs {
   transaction: Transaction;
 };
 
+export interface BypassedSimulateRequestArgs {
+  transaction: Transaction;
+}
+// export interface BypassedSimulateRequestArgs extends Omit<RequestArgs, 'chainId'> {
+//   transaction: Transaction;
+// }
+
 export interface UnstandardizedSignatureRequestArgs extends RequestArgs {
   params: any;
 }

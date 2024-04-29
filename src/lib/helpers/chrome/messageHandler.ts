@@ -6,9 +6,10 @@ export enum BrowserMessageType {
   ProceedAnyway = 'proceedAnyway',
   RunSimulation = 'runSimulation',
   ApprovedTxn = 'approvedTxn',
+  GetChainId = 'getChainId',
 }
 
-interface BaseBrowserMessage {
+export interface BaseBrowserMessage {
   type: BrowserMessageType;
 }
 export interface ProceedAnywayMessageType extends BaseBrowserMessage {
@@ -28,6 +29,7 @@ export type BrowserMessage = ProceedAnywayMessageType | ApprovedTxnMessageType |
 
 export const PortIdentifiers = {
   WG_CONTENT_SCRIPT: 'wg-contentscript',
+  WG_INJECTED_SCRIPT: 'wg-injectedscript',
   METAMASK_INPAGE: 'metamask-inpage',
   METAMASK_CONTENT_SCRIPT: 'metamask-contentscript',
   METAMASK_PROVIDER: 'metamask-provider',

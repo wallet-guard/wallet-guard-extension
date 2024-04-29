@@ -1,5 +1,6 @@
 import Browser from 'webextension-polyfill';
 import {
+  BypassedSimulateRequestArgs,
   PersonalSignArgs,
   SignatureHashSignArgs,
   SignatureRequestArgs,
@@ -29,6 +30,8 @@ window.addEventListener('message', (message) => {
   const { name, data } = message?.data?.data ?? {};
   const { href } = location;
   const chainId = metamaskChainId;
+  // const chainId = await chrome.runtime.sendMessage({ type: BrowserMessageType.GetChainId });
+
 
   if (name !== PortIdentifiers.METAMASK_PROVIDER || !data) return;
 
@@ -149,6 +152,7 @@ window.addEventListener('message', (message) => {
 
       // Forward received messages to background.js
       const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+      // contentScriptPort.
       sendMessageToPort(contentScriptPort, request);
     }
   }
