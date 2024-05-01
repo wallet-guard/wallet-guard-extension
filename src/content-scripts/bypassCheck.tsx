@@ -25,9 +25,13 @@ const sendMessageToPort = (stream: Browser.Runtime.Port, data: TransactionArgs):
 // Bypass checks for MetaMask
 window.addEventListener('message', (message) => {
   const { target } = message?.data ?? {};
-  const { name, data } = message?.data?.data ?? {};
+  let { name, data } = message?.data?.data ?? {};
   const { href } = location;
   const chainId = metamaskChainId;
+
+  if (Array.isArray(data)) {
+    data = data[0];
+  }
 
   if (name !== PortIdentifiers.METAMASK_PROVIDER || !data) return;
 
@@ -59,7 +63,7 @@ window.addEventListener('message', (message) => {
           return;
         }
 
-        const params = JSON.parse(data.params[1]);
+        const params = typeof data.params[1] === 'string' ? JSON.parse(data.params[1]) : data.params[1];
         let signer: string = params[0];
 
         if (!signer) {
