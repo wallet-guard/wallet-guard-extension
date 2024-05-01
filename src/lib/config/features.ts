@@ -16,7 +16,6 @@ export const supportedWallets = {
 } as const;
 
 export const SUPPORTED_CHAINS = [
-  '0', '0x0', // ETH Mainnet
   '1', '0x1', // ETH Mainnet
   '42161', '0xa4b1', // Arbitrum One
   '137', '0x89', // Polygon Mainnet
