@@ -28,7 +28,6 @@ export type BrowserMessage = ProceedAnywayMessageType | ApprovedTxnMessageType |
 
 export const PortIdentifiers = {
   WG_CONTENT_SCRIPT: 'wg-contentscript',
-  WG_INJECTED_SCRIPT: 'wg-injectedscript',
   METAMASK_INPAGE: 'metamask-inpage',
   METAMASK_CONTENT_SCRIPT: 'metamask-contentscript',
   METAMASK_PROVIDER: 'metamask-provider',
