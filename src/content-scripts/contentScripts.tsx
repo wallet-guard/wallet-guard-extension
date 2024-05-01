@@ -51,7 +51,6 @@ listenToRequest(async (request: TransactionArgs) => {
       if (msg.name === 'publicConfig') {
         const { chainId } = msg.data;
         request.chainId = chainId;
-        chrome.storage.local.set({ [WgKeys.LatestChainId]: chainId });
         metamaskExtensionPort.disconnect();
       }
     });
