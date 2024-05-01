@@ -43,6 +43,11 @@ listenToRequest(async (request: TransactionArgs) => {
   log.info({ request }, 'Request');
   ids.push(request.id);
 
+  if (!request.chainId) {
+    request.chainId = await localStorageHelpers.get<string>(WgKeys.LatestChainId) || '0x1';
+    console.log('fetching chainId...', request.chainId);
+  }
+
   let currentTab = window.location.href;
   if (currentTab) {
     request.origin = currentTab;

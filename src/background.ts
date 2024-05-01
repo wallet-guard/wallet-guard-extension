@@ -43,7 +43,6 @@ const approvedTxns: TransactionArgs[] = [];
 
 let currentPopup: undefined | number;
 let currentChatWeb3Popup: undefined | number;
-let LAST_MM_CHAIN_ID = '0x1';
 
 Sentry.init({
   dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
@@ -129,9 +128,6 @@ chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendRespo
   } else if (message.type === BrowserMessageType.RunSimulation) {
     const { data } = message as RunSimulationMessageType;
     clearOldSimulations().then(() => fetchSimulationAndUpdate(data));
-  } else if (message.type === BrowserMessageType.GetChainId) {
-    console.log('received request');
-    sendResponse({ chainId: LAST_MM_CHAIN_ID });
   }
 });
 
@@ -469,13 +465,16 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
   }
 });
 
-// TODO: this id may be different depending on browser
+// TODO: make sure this works on all browsers
+// TODO: Make sure this works with Phantom & Coinbase as well if no Metamask is detected.
 const port = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
 
 port.onMessage.addListener((msg) => {
   if (msg.name === 'publicConfig') {
     const { chainId } = msg.data;
-    LAST_MM_CHAIN_ID = chainId;
-    console.log(chainId)
+    // LAST_MM_CHAIN_ID = chainId;
+    chrome.storage.local.set({ [WgKeys.LatestChainId]: chainId });
+    // TODO: Set this in localStorage
+    // console.log(chainId)
   }
 });

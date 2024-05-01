@@ -49,14 +49,6 @@ const REQUEST_MANAGER = new RequestManager();
 
 let timer: NodeJS.Timer | undefined = undefined;
 
-let METAMASK_CHAIN_ID = '1';
-
-window.addEventListener('message', (message) => {
-  console.log(message);
-
-
-});
-
 // Injector taken heavily taken from Pocket Universe and Revoke Cash
 // Shoutout to both for innovating on this <3
 // https://github.com/RevokeCash/browser-extension
@@ -121,7 +113,6 @@ const addWalletGuardProxy = (provider: any) => {
 
         log.info(request, 'Request being sent');
 
-        // console.log(chainId);
         let chainId = await provider.request({ method: 'eth_chainId' });
 
         // Sending response.
@@ -161,33 +152,12 @@ const addWalletGuardProxy = (provider: any) => {
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
           let chainId = await provider.request({ method: 'eth_chainId' });
-
           const requestAsString = window.ethereum?.request?.toString();
 
           // TODO: check how this works on all types of browsers
           // TODO: consider only running the redundancy of chainId when this is true
-          console.log(requestAsString);
           if (requestAsString !== 'function () { [native code] }') {
-            alert('warning! window.ethereum modified! test');
-            // maybe this cant access this api since its a content script
-            console.log('hit');
-
-            window.postMessage({ data: 'test' })
-
-            // const contentScriptPort = chrome.runtime.connect({ name: PortIdentifiers.WG_INJECTED_SCRIPT });
-            // contentScriptPort.onMessage.addListener((response) => {
-            //   console.log(response);
-            // });
-            // contentScriptPort.postMessage({ data: 'test' });
-
-            // const response = await chrome.runtime?.sendMessage('testing');
-            // console.log(response);
-            // chrome.runtime.sendMessage({ type: BrowserMessageType.GetChainId } as BaseBrowserMessage);
-            // console.log('res', response);
-            // chrome.tabs.connect
-            // console.log(response);
-            // chainId = response.chainId;
-            // console.log('validated chain id', chainId);
+            chainId = '';
           }
 
           // Sending response.
@@ -321,13 +291,10 @@ const addWalletGuardProxy = (provider: any) => {
         }
 
         let chainId = await provider.request({ method: 'eth_chainId' });
-
         const requestAsString = window.ethereum?.request?.toString();
+
         if (requestAsString !== 'function () { [native code] }') {
-          alert('warning! window.ethereum modified! test2');
-          const response = await chrome.runtime.sendMessage(undefined, { type: BrowserMessageType.GetChainId });
-          chainId = response.chainId;
-          console.log('hit 2')
+          chainId = '';
         }
 
         log.info(request, 'Request being sent');

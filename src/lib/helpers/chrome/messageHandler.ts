@@ -6,7 +6,6 @@ export enum BrowserMessageType {
   ProceedAnyway = 'proceedAnyway',
   RunSimulation = 'runSimulation',
   ApprovedTxn = 'approvedTxn',
-  GetChainId = 'getChainId',
 }
 
 export interface BaseBrowserMessage {
