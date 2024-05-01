@@ -8,7 +8,7 @@ export enum BrowserMessageType {
   ApprovedTxn = 'approvedTxn',
 }
 
-export interface BaseBrowserMessage {
+interface BaseBrowserMessage {
   type: BrowserMessageType;
 }
 export interface ProceedAnywayMessageType extends BaseBrowserMessage {
