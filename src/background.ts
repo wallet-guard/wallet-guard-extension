@@ -327,7 +327,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) => {
   if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {
-    remotePort.onMessage.addListener(contentScriptMessageHandler);
+    remotePort.onMessage.addListener(bypassCheckMessageHandler);
   }
 });
 
@@ -392,7 +392,25 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
-const contentScriptMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
+const bypassCheckMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
+  if (!message.data.chainId) {
+    const metamaskExtensionPort = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
+    metamaskExtensionPort.onMessage.addListener((msg) => {
+      if (msg.name === 'publicConfig') {
+        const { chainId } = msg.data;
+        message.data.chainId = chainId;
+        metamaskExtensionPort.disconnect();
+      }
+    });
+
+    // Simulate a delay so that the event handler can process the event stream which includes chainId
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // If there is still no chainId, default it to Ethereum
+    if (!message.data.chainId) {
+      message.data.chainId = '0x1';
+    }
+  }
   if (!SUPPORTED_CHAINS.includes(message.data.chainId)) return;
   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
   if (!settings?.simulationEnabled) return;
@@ -453,17 +471,5 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
     } else {
       console.error('Invalid simulation settings update request', request);
     }
-  }
-});
-
-// TODO: make sure this works on all browsers
-// TODO: Make sure this works with Phantom & Coinbase as well as if no Metamask is detected.
-const metamaskExtensionPort = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
-
-metamaskExtensionPort.onMessage.addListener((msg) => {
-  if (msg.name === 'publicConfig') {
-    const { chainId } = msg.data;
-    chrome.storage.local.set({ [WgKeys.LatestChainId]: chainId });
-    metamaskExtensionPort.disconnect();
   }
 });

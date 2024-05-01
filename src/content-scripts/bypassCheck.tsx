@@ -11,10 +11,7 @@ import {
 import { uuid4 } from '@sentry/utils';
 import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandler';
 import { convertObjectValuesToString, shouldSwapPersonalSignArgs } from '../injected/injectWalletGuard';
-import localStorageHelpers from '../lib/helpers/chrome/localStorage';
-import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
 
-let metamaskChainId = 1;
 const bypassed = true;
 const bypassedType = 'postMessage';
 
@@ -37,22 +34,20 @@ window.addEventListener('message', (message) => {
     if (data.method === 'eth_sendTransaction') {
       const transaction: Transaction = convertObjectValuesToString(data.params[0]);
 
-      localStorageHelpers.get<string>(WgKeys.LatestChainId).then((chainId) => {
-        const request: SimulateRequestArgs = {
-          id: uuid4(),
-          chainId: String(chainId || metamaskChainId),
-          signer: transaction.from,
-          transaction,
-          method: data.method,
-          origin: href,
-          bypassed,
-          bypassedType,
-        };
+      const request: SimulateRequestArgs = {
+        id: uuid4(),
+        chainId: '',
+        signer: transaction.from,
+        transaction,
+        method: data.method,
+        origin: href,
+        bypassed,
+        bypassedType,
+      };
 
-        // Forward received messages to background.js
-        const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-        sendMessageToPort(contentScriptPort, request);
-      });
+      // Forward received messages to background.js
+      const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+      sendMessageToPort(contentScriptPort, request);
     } else if (
       data.method === 'eth_signTypedData' ||
       data.method === 'eth_signTypedData_v1' ||
@@ -74,41 +69,37 @@ window.addEventListener('message', (message) => {
         const domain = convertObjectValuesToString(params.domain);
         const message = convertObjectValuesToString(params.message);
 
-        localStorageHelpers.get<string>(WgKeys.LatestChainId).then((chainId) => {
-          const request: SignatureRequestArgs = {
-            id: uuid4(),
-            chainId: String(chainId || metamaskChainId),
-            signer,
-            domain: domain,
-            message: message,
-            primaryType: params['primaryType'],
-            method: data.method,
-            origin: href,
-            bypassed,
-            bypassedType,
-          };
+        const request: SignatureRequestArgs = {
+          id: uuid4(),
+          chainId: '',
+          signer,
+          domain: domain,
+          message: message,
+          primaryType: params['primaryType'],
+          method: data.method,
+          origin: href,
+          bypassed,
+          bypassedType,
+        };
 
-          // Forward received messages to background.js
-          const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-          sendMessageToPort(contentScriptPort, request);
-        });
+        // Forward received messages to background.js
+        const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+        sendMessageToPort(contentScriptPort, request);
       } catch (e) {
-        localStorageHelpers.get<string>(WgKeys.LatestChainId).then((chainId) => {
-          const request: UnstandardizedSignatureRequestArgs = {
-            signer: 'unknown request type',
-            params: data.params,
-            id: uuid4(),
-            chainId: String(chainId || metamaskChainId),
-            method: data.method,
-            origin: href,
-            bypassed,
-            bypassedType,
-          };
+        const request: UnstandardizedSignatureRequestArgs = {
+          signer: 'unknown request type',
+          params: data.params,
+          id: uuid4(),
+          chainId: '',
+          method: data.method,
+          origin: href,
+          bypassed,
+          bypassedType,
+        };
 
-          // Forward received messages to background.js
-          const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-          sendMessageToPort(contentScriptPort, request);
-        });
+        // Forward received messages to background.js
+        const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+        sendMessageToPort(contentScriptPort, request);
       }
     } else if (data.method === 'personal_sign') {
       if (data.params.length < 2) {
@@ -125,22 +116,20 @@ window.addEventListener('message', (message) => {
         signMessage = tempSigner;
       }
 
-      localStorageHelpers.get<string>(WgKeys.LatestChainId).then((chainId) => {
-        const request: PersonalSignArgs = {
-          id: uuid4(),
-          chainId: String(chainId || metamaskChainId),
-          origin: href,
-          method: data.method,
-          signer,
-          signMessage,
-          bypassed,
-          bypassedType,
-        };
+      const request: PersonalSignArgs = {
+        id: uuid4(),
+        chainId: '',
+        origin: href,
+        method: data.method,
+        signer,
+        signMessage,
+        bypassed,
+        bypassedType,
+      };
 
-        // Forward received messages to background.js
-        const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-        sendMessageToPort(contentScriptPort, request);
-      });
+      // Forward received messages to background.js
+      const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+      sendMessageToPort(contentScriptPort, request);
     } else if (data.method === 'eth_sign') {
       if (data.params.length < 2) {
         console.warn('Unexpected argument length.');
@@ -150,23 +139,21 @@ window.addEventListener('message', (message) => {
       const signer: string = data.params[0];
       const hash: string = data.params[1];
 
-      localStorageHelpers.get<string>(WgKeys.LatestChainId).then((chainId) => {
-        const request: SignatureHashSignArgs = {
-          id: uuid4(),
-          chainId: String(chainId || metamaskChainId),
-          origin: href,
-          method: data.method,
-          signer,
-          hash,
-          bypassed,
-          bypassedType,
-        };
+      const request: SignatureHashSignArgs = {
+        id: uuid4(),
+        chainId: '',
+        origin: href,
+        method: data.method,
+        signer,
+        hash,
+        bypassed,
+        bypassedType,
+      };
 
-        // Forward received messages to background.js
-        const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-        // contentScriptPort.
-        sendMessageToPort(contentScriptPort, request);
-      });
+      // Forward received messages to background.js
+      const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
+      // contentScriptPort.
+      sendMessageToPort(contentScriptPort, request);
     }
   }
 });

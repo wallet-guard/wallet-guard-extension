@@ -158,8 +158,6 @@ const addWalletGuardProxy = (provider: any) => {
           let chainId = await provider.request({ method: 'eth_chainId' });
           const requestAsString = provider?.request?.toString();
 
-          // TODO: check how this works on all types of browsers
-          // TODO: consider only running the redundancy of chainId when this is true
           if (requestAsString !== 'function () { [native code] }') {
             chainId = '';
           }
@@ -190,8 +188,6 @@ const addWalletGuardProxy = (provider: any) => {
           let chainId = await provider.request({ method: 'eth_chainId' });
           const requestAsString = provider?.request?.toString();
 
-          // TODO: check how this works on all types of browsers
-          // TODO: consider only running the redundancy of chainId when this is true
           if (requestAsString !== 'function () { [native code] }') {
             chainId = '';
           }

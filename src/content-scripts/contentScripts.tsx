@@ -56,15 +56,15 @@ listenToRequest(async (request: TransactionArgs) => {
       }
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
+    // Simulate a delay so that the event handler can process the event stream which includes chainId
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // If there is still no chainId, default it to Ethereum
     if (!request.chainId) {
       request.chainId = '0x1';
     }
 
-    // set the bypassedType, but do not set bypassed = true because otherwise the simulation buttons 
-    // will be incorrect
+    // Set the bypassedType, but do not set bypassed = true because otherwise the simulation buttons will be incorrect
     request.bypassedType = 'chainId';
   }
 
