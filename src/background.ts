@@ -458,12 +458,18 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
 
 // TODO: make sure this works on all browsers
 // TODO: Make sure this works with Phantom & Coinbase as well as if no Metamask is detected.
+// TODO: Figure out if we can use polling for this or get the data at the time of request.
+// Keep in mind that since this is a bypass, this path will be followed <1% of the time, so constantly
+// polling does not seem like a rational solution. If making this connection takes an extra sec, then its 
+// worth it to make this request path take the burden. The only problem is that this is a very async process.
+// maybe a setTimeout of 1s on this request path inside the contentScripts.tsx file.
 const metamaskExtensionPort = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
 
 metamaskExtensionPort.onMessage.addListener((msg) => {
   if (msg.name === 'publicConfig') {
     const { chainId } = msg.data;
     chrome.storage.local.set({ [WgKeys.LatestChainId]: chainId });
+    metamaskExtensionPort.disconnect();
   }
 });
 

@@ -46,7 +46,25 @@ listenToRequest(async (request: TransactionArgs) => {
   if (!request.chainId) {
     console.warn('WARNING: Untrusted provider detected. Fetching trusted chainId...', request.chainId);
 
-    request.chainId = await localStorageHelpers.get<string>(WgKeys.LatestChainId) || '0x1';
+    const metamaskExtensionPort = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
+    metamaskExtensionPort.onMessage.addListener((msg) => {
+      if (msg.name === 'publicConfig') {
+        const { chainId } = msg.data;
+        request.chainId = chainId;
+        chrome.storage.local.set({ [WgKeys.LatestChainId]: chainId });
+        metamaskExtensionPort.disconnect();
+      }
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
+
+    // If there is still no chainId, default it to Ethereum
+    if (!request.chainId) {
+      request.chainId = '0x1';
+    }
+
+    // set the bypassedType, but do not set bypassed = true because otherwise the simulation buttons 
+    // will be incorrect
     request.bypassedType = 'chainId';
   }
 
