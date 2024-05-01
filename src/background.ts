@@ -94,7 +94,6 @@ chrome.webRequest.onBeforeRequest.addListener(req => {
 
 // MESSAGING
 chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendResponse) => {
-  console.log('received msg', message);
   if (message.type === BrowserMessageType.ProceedAnyway) {
     const { url, permanent } = message as ProceedAnywayMessageType;
 
@@ -327,17 +326,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
 });
 
 Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) => {
-  console.log(remotePort);
   if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {
     remotePort.onMessage.addListener(contentScriptMessageHandler);
   }
-  // else if (remotePort.name === PortIdentifiers.WG_INJECTED_SCRIPT) {
-  //   remotePort.onMessage.addListener((message) => {
-  //     console.log(message);
-  //     remotePort.postMessage('some response');
-  //   });
-
-  // }
 });
 
 // Listen for when the user clicks on the context menu item
@@ -466,15 +457,12 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
 });
 
 // TODO: make sure this works on all browsers
-// TODO: Make sure this works with Phantom & Coinbase as well if no Metamask is detected.
+// TODO: Make sure this works with Phantom & Coinbase as well as if no Metamask is detected.
 const port = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
 
 port.onMessage.addListener((msg) => {
   if (msg.name === 'publicConfig') {
     const { chainId } = msg.data;
-    // LAST_MM_CHAIN_ID = chainId;
     chrome.storage.local.set({ [WgKeys.LatestChainId]: chainId });
-    // TODO: Set this in localStorage
-    // console.log(chainId)
   }
 });

@@ -44,8 +44,10 @@ listenToRequest(async (request: TransactionArgs) => {
   ids.push(request.id);
 
   if (!request.chainId) {
+    console.warn('WARNING: Untrusted provider detected. Fetching trusted chainId...', request.chainId);
+
     request.chainId = await localStorageHelpers.get<string>(WgKeys.LatestChainId) || '0x1';
-    console.log('fetching chainId...', request.chainId);
+    request.bypassedType = 'chainId';
   }
 
   let currentTab = window.location.href;
