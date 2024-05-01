@@ -458,11 +458,18 @@ chrome.runtime.onMessageExternal.addListener((request: DashboardMessageBody, sen
 
 // TODO: make sure this works on all browsers
 // TODO: Make sure this works with Phantom & Coinbase as well as if no Metamask is detected.
-const port = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
+const metamaskExtensionPort = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
 
-port.onMessage.addListener((msg) => {
+metamaskExtensionPort.onMessage.addListener((msg) => {
   if (msg.name === 'publicConfig') {
     const { chainId } = msg.data;
     chrome.storage.local.set({ [WgKeys.LatestChainId]: chainId });
   }
 });
+
+// == this does not work. no connection gets established. ==
+// const phantomExtensionPort = chrome.runtime.connect('bfnaelmomeimhlpmgjnjophhpkkoljpa');
+
+// phantomExtensionPort.onMessage.addListener((msg) => {
+//   console.log(msg);
+// });
