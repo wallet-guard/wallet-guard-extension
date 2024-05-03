@@ -6,7 +6,7 @@ import logger from '../lib/logger';
 import { dispatchResponse, listenToRequest, Response } from '../lib/simulation/requests';
 import type { StoredSimulation } from '../lib/simulation/storage';
 import { removeSimulation, StoredSimulationState } from '../lib/simulation/storage';
-import { TransactionArgs } from '../models/simulation/Transaction';
+import { BypassType, TransactionArgs } from '../models/simulation/Transaction';
 import { ExtensionSettings, SimulationSettings } from '../lib/settings';
 import { KNOWN_MARKETPLACES, shouldSkipBasedOnDomain } from '../lib/simulation/skip';
 import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
@@ -65,7 +65,7 @@ listenToRequest(async (request: TransactionArgs) => {
     }
 
     // Set the bypassType, but do not set bypassed = true because otherwise the simulation buttons will be incorrect
-    request.bypassType = 'chainId';
+    request.bypassType = BypassType.ChainId
   }
 
   let currentTab = window.location.href;

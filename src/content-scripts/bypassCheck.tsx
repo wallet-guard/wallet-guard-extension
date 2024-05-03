@@ -1,5 +1,6 @@
 import Browser from 'webextension-polyfill';
 import {
+  BypassType,
   PersonalSignArgs,
   SignatureHashSignArgs,
   SignatureRequestArgs,
@@ -13,7 +14,7 @@ import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandl
 import { convertObjectValuesToString, shouldSwapPersonalSignArgs } from '../injected/injectWalletGuard';
 
 const bypassed = true;
-const bypassType = 'postMessage';
+const bypassType = BypassType.PostMessage;
 
 const sendMessageToPort = (stream: Browser.Runtime.Port, data: TransactionArgs): void => {
   const message: PortMessage = {
