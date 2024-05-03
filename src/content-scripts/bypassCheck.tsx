@@ -13,7 +13,7 @@ import { PortMessage, PortIdentifiers } from '../lib/helpers/chrome/messageHandl
 import { convertObjectValuesToString, shouldSwapPersonalSignArgs } from '../injected/injectWalletGuard';
 
 const bypassed = true;
-const bypassedType = 'postMessage';
+const bypassType = 'postMessage';
 
 const sendMessageToPort = (stream: Browser.Runtime.Port, data: TransactionArgs): void => {
   const message: PortMessage = {
@@ -42,7 +42,7 @@ window.addEventListener('message', (message) => {
         method: data.method,
         origin: href,
         bypassed,
-        bypassedType,
+        bypassType,
       };
 
       // Forward received messages to background.js
@@ -79,7 +79,7 @@ window.addEventListener('message', (message) => {
           method: data.method,
           origin: href,
           bypassed,
-          bypassedType,
+          bypassType,
         };
 
         // Forward received messages to background.js
@@ -94,7 +94,7 @@ window.addEventListener('message', (message) => {
           method: data.method,
           origin: href,
           bypassed,
-          bypassedType,
+          bypassType,
         };
 
         // Forward received messages to background.js
@@ -124,7 +124,7 @@ window.addEventListener('message', (message) => {
         signer,
         signMessage,
         bypassed,
-        bypassedType,
+        bypassType,
       };
 
       // Forward received messages to background.js
@@ -147,12 +147,11 @@ window.addEventListener('message', (message) => {
         signer,
         hash,
         bypassed,
-        bypassedType,
+        bypassType,
       };
 
       // Forward received messages to background.js
       const contentScriptPort = Browser.runtime.connect({ name: PortIdentifiers.WG_CONTENT_SCRIPT });
-      // contentScriptPort.
       sendMessageToPort(contentScriptPort, request);
     }
   }

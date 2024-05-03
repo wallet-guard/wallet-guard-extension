@@ -33,7 +33,7 @@ import { checkAllWalletsAndCreateAlerts, fetchAllWallets } from './services/http
 import { WgKeys } from './lib/helpers/chrome/localStorageKeys';
 import * as Sentry from '@sentry/react';
 import Browser from 'webextension-polyfill';
-import { SUPPORTED_CHAINS } from './lib/config/features';
+import { SUPPORTED_CHAINS, supportedWallets } from './lib/config/features';
 import { isBlocked, urlIsPhishingWarning } from './lib/helpers/util';
 import { handleRequestsBlocklist } from './services/http/requestBlocklistService';
 import { KNOWN_MARKETPLACES, shouldSkipBasedOnDomain } from './lib/simulation/skip';
@@ -394,7 +394,7 @@ chrome.commands.onCommand.addListener((command) => {
 
 const bypassCheckMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (!message.data.chainId) {
-    const metamaskExtensionPort = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
+    const metamaskExtensionPort = chrome.runtime.connect(supportedWallets.metamask);
     metamaskExtensionPort.onMessage.addListener((msg) => {
       if (msg.name === 'publicConfig') {
         const { chainId } = msg.data;

@@ -10,6 +10,7 @@ import { TransactionArgs } from '../models/simulation/Transaction';
 import { ExtensionSettings, SimulationSettings } from '../lib/settings';
 import { KNOWN_MARKETPLACES, shouldSkipBasedOnDomain } from '../lib/simulation/skip';
 import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
+import { supportedWallets } from '../lib/config/features';
 
 // Function to inject scripts into browser
 const addScript = (url: string) => {
@@ -46,7 +47,7 @@ listenToRequest(async (request: TransactionArgs) => {
   if (!request.chainId) {
     console.warn('WARNING: Untrusted provider detected. Fetching trusted chainId...', request.chainId);
 
-    const metamaskExtensionPort = chrome.runtime.connect('nkbihfbeogaeaoehlefnkodbefgpgknn');
+    const metamaskExtensionPort = chrome.runtime.connect(supportedWallets.metamask);
     metamaskExtensionPort.onMessage.addListener((msg) => {
       if (msg.name === 'publicConfig') {
         const { chainId } = msg.data;
@@ -63,8 +64,8 @@ listenToRequest(async (request: TransactionArgs) => {
       request.chainId = '0x1';
     }
 
-    // Set the bypassedType, but do not set bypassed = true because otherwise the simulation buttons will be incorrect
-    request.bypassedType = 'chainId';
+    // Set the bypassType, but do not set bypassed = true because otherwise the simulation buttons will be incorrect
+    request.bypassType = 'chainId';
   }
 
   let currentTab = window.location.href;
