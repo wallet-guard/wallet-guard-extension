@@ -6,7 +6,7 @@ import {
   StoredSimulationState,
   updateSimulationAction,
 } from '../../lib/simulation/storage';
-import { RecommendedActionType } from '../../models/simulation/Transaction';
+import { BypassType, RecommendedActionType } from '../../models/simulation/Transaction';
 import styles from '../../styles/simulation/SimulationButton.module.css';
 import localStorageHelpers from '../../lib/helpers/chrome/localStorage';
 import { WgKeys } from '../../lib/helpers/chrome/localStorageKeys';
@@ -54,6 +54,10 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
     setNeedsConfirm(false);
   }
 
+  function joinDiscord() {
+    chrome.tabs.create({ url: 'https://discord.gg/mvbtaJzXDP' });
+  }
+
   function handlePosthogIds() {
     localStorageHelpers.get<string[] | null>(WgKeys.AddressList).then((res) => {
       const addresses = res || [];
@@ -76,78 +80,92 @@ export const ConfirmSimulationButton: React.FC<ConfirmSimulationButtonProps> = (
     return (
       <div className={`${styles['footer-container']}`}>
         <div className={styles['button-container']}>
-          <div className="row">
-            <div className="col-6" style={{ paddingRight: '7.5px' }}>
-              <SimulationActionButton
-                backgroundColor="#424242"
-                imgSrc="/images/popup/x.png"
-                imgWidth={13}
-                color="white"
-                buttonText="Reject"
-                onClick={() => {
-                  posthog.capture('simulation rejected', {
-                    storedSimulation: storedSimulation,
-                  });
-                  updateSimulationAction(id, StoredSimulationState.Rejected);
-                }}
-              />
-            </div>
-            <div className="col-6" style={{ paddingLeft: '7.5px' }}>
-              {!storedSimulation || storedSimulation.state === StoredSimulationState.Simulating ? (
+          <div
+            className="col-12 text-center"
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+          >
+            {storedSimulation.args.bypassType === BypassType.ChainId && (
+              <>
+                <p style={{ marginBottom: 0, fontSize: '14px' }}>Caution: Your wallet may be incompatible with Wallet Guard</p>
+                <a href="#" onClick={joinDiscord} style={{ marginBottom: '10px' }}>
+                  Open Support Ticket
+                </a>
+              </>
+            )}
+
+            <div className="row">
+              <div className="col-6" style={{ paddingRight: '7.5px' }}>
                 <SimulationActionButton
-                  backgroundColor="white"
-                  imgSrc="/images/popup/ArrowRight.png"
-                  imgWidth={19}
-                  buttonText="Skip"
-                  onClick={() => {
-                    posthog.capture('simulation skipped', {
-                      storedSimulation: storedSimulation,
-                    });
-                    updateSimulationAction(id, StoredSimulationState.Confirmed);
-                  }}
-                />
-              ) : !storedSimulation.simulation.error &&
-                storedSimulation.simulation.recommendedAction === RecommendedActionType.Block &&
-                needsConfirm ? (
-                <SimulationActionButton
-                  backgroundColor="rgb(211 211 211 / 8%)"
+                  backgroundColor="#424242"
+                  imgSrc="/images/popup/x.png"
+                  imgWidth={13}
                   color="white"
-                  buttonText="Proceed anyway"
+                  buttonText="Reject"
                   onClick={() => {
-                    posthog.capture('simulation proceed anyway', {
+                    posthog.capture('simulation rejected', {
                       storedSimulation: storedSimulation,
                     });
-                    handleProceedAnyway();
+                    updateSimulationAction(id, StoredSimulationState.Rejected);
                   }}
                 />
-              ) : storedSimulation.lockedAssetsState?.shouldBlockTx ?
-                (
+              </div>
+              <div className="col-6" style={{ paddingLeft: '7.5px' }}>
+                {!storedSimulation || storedSimulation.state === StoredSimulationState.Simulating ? (
                   <SimulationActionButton
-                    backgroundColor={'white'}
-                    buttonText="Visit Dashboard"
-                    onClick={() => {
-                      posthog.capture('simulation rejected', {
-                        storedSimulation: storedSimulation,
-                        isSoftLockedTx: true
-                      });
-                      openDashboard('lockedAsset');
-                      updateSimulationAction(id, StoredSimulationState.Rejected);
-                    }}
-                  />) :
-                (
-                  <SimulationActionButton
-                    backgroundColor={'white'}
+                    backgroundColor="white"
                     imgSrc="/images/popup/ArrowRight.png"
                     imgWidth={19}
-                    buttonText="Continue"
+                    buttonText="Skip"
                     onClick={() => {
-                      posthog.capture('simulation confirmed', {
+                      posthog.capture('simulation skipped', {
                         storedSimulation: storedSimulation,
                       });
                       updateSimulationAction(id, StoredSimulationState.Confirmed);
                     }}
                   />
-                )}
+                ) : !storedSimulation.simulation.error &&
+                  storedSimulation.simulation.recommendedAction === RecommendedActionType.Block &&
+                  needsConfirm ? (
+                  <SimulationActionButton
+                    backgroundColor="rgb(211 211 211 / 8%)"
+                    color="white"
+                    buttonText="Proceed anyway"
+                    onClick={() => {
+                      posthog.capture('simulation proceed anyway', {
+                        storedSimulation: storedSimulation,
+                      });
+                      handleProceedAnyway();
+                    }}
+                  />
+                ) : storedSimulation.lockedAssetsState?.shouldBlockTx ?
+                  (
+                    <SimulationActionButton
+                      backgroundColor={'white'}
+                      buttonText="Visit Dashboard"
+                      onClick={() => {
+                        posthog.capture('simulation rejected', {
+                          storedSimulation: storedSimulation,
+                          isSoftLockedTx: true
+                        });
+                        openDashboard('lockedAsset');
+                        updateSimulationAction(id, StoredSimulationState.Rejected);
+                      }}
+                    />) :
+                  (
+                    <SimulationActionButton
+                      backgroundColor={'white'}
+                      imgSrc="/images/popup/ArrowRight.png"
+                      imgWidth={19}
+                      buttonText="Continue"
+                      onClick={() => {
+                        posthog.capture('simulation confirmed', {
+                          storedSimulation: storedSimulation,
+                        });
+                        updateSimulationAction(id, StoredSimulationState.Confirmed);
+                      }}
+                    />
+                  )}
+              </div>
             </div>
           </div>
         </div>

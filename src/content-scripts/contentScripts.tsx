@@ -65,7 +65,7 @@ listenToRequest(async (request: TransactionArgs) => {
     }
 
     // Set the bypassType, but do not set bypassed = true because otherwise the simulation buttons will be incorrect
-    request.bypassType = BypassType.ChainId
+    request.bypassType = BypassType.ChainId;
   }
 
   let currentTab = window.location.href;
