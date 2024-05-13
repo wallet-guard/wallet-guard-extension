@@ -1,7 +1,6 @@
 import { EthereumProviderError, ethErrors } from 'eth-rpc-errors';
 import logger from '../lib/logger';
 import { RequestManager, Response } from '../lib/simulation/requests';
-import posthog from 'posthog-js';
 
 declare global {
   interface Window {
@@ -41,14 +40,6 @@ export function convertObjectValuesToString(inputObj: any): any {
 
   return output;
 }
-
-posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
-  api_host: 'https://app.posthog.com',
-  persistence: 'localStorage',
-  autocapture: false,
-  capture_pageleave: false,
-  disable_session_recording: true,
-});
 
 const log = logger.child({ component: 'Injected' });
 
@@ -126,13 +117,6 @@ const addWalletGuardProxy = (provider: any) => {
 
         // Override the result if it cannot be trusted
         if (requestAsString !== 'function () { [native code] }') {
-          posthog.capture('window.ethereum.request override', {
-            requestAsString: requestAsString,
-            isMetaMask: window.ethereum.isMetaMask,
-            isPhantom: window?.phantom?.ethereum?.isPhantom,
-            isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-            isRabby: window.ethereum?.isRabby,
-          });
           chainId = '';
         }
 
@@ -176,13 +160,6 @@ const addWalletGuardProxy = (provider: any) => {
           const requestAsString = provider?.request?.toString();
 
           if (requestAsString !== 'function () { [native code] }') {
-            posthog.capture('window.ethereum.request override', {
-              requestAsString: requestAsString,
-              isMetaMask: window.ethereum.isMetaMask,
-              isPhantom: window?.phantom?.ethereum?.isPhantom,
-              isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-              isRabby: window.ethereum?.isRabby,
-            });
             chainId = '';
           }
 
@@ -213,13 +190,6 @@ const addWalletGuardProxy = (provider: any) => {
           const requestAsString = provider?.request?.toString();
 
           if (requestAsString !== 'function () { [native code] }') {
-            posthog.capture('window.ethereum.request override', {
-              requestAsString: requestAsString,
-              isMetaMask: window.ethereum.isMetaMask,
-              isPhantom: window?.phantom?.ethereum?.isPhantom,
-              isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-              isRabby: window.ethereum?.isRabby,
-            });
             chainId = '';
           }
 
@@ -251,13 +221,6 @@ const addWalletGuardProxy = (provider: any) => {
         const requestAsString = provider?.request?.toString();
 
         if (requestAsString !== 'function () { [native code] }') {
-          posthog.capture('window.ethereum.request override', {
-            requestAsString: requestAsString,
-            isMetaMask: window.ethereum.isMetaMask,
-            isPhantom: window?.phantom?.ethereum?.isPhantom,
-            isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-            isRabby: window.ethereum?.isRabby,
-          });
           chainId = '';
         }
 
@@ -296,13 +259,6 @@ const addWalletGuardProxy = (provider: any) => {
         const requestAsString = provider?.request?.toString();
 
         if (requestAsString !== 'function () { [native code] }') {
-          posthog.capture('window.ethereum.request override', {
-            requestAsString: requestAsString,
-            isMetaMask: window.ethereum.isMetaMask,
-            isPhantom: window?.phantom?.ethereum?.isPhantom,
-            isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-            isRabby: window.ethereum?.isRabby,
-          });
           chainId = '';
         }
 
@@ -361,13 +317,6 @@ const addWalletGuardProxy = (provider: any) => {
         const requestAsString = provider?.request?.toString();
 
         if (requestAsString !== 'function () { [native code] }') {
-          posthog.capture('window.ethereum.request override', {
-            requestAsString: requestAsString,
-            isMetaMask: window.ethereum.isMetaMask,
-            isPhantom: window?.phantom?.ethereum?.isPhantom,
-            isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-            isRabby: window.ethereum?.isRabby,
-          });
           chainId = '';
         }
 
@@ -424,13 +373,6 @@ const addWalletGuardProxy = (provider: any) => {
 
           // Override the result if it cannot be trusted
           if (requestAsString !== 'function () { [native code] }') {
-            posthog.capture('window.ethereum.request override', {
-              requestAsString: requestAsString,
-              isMetaMask: window.ethereum.isMetaMask,
-              isPhantom: window?.phantom?.ethereum?.isPhantom,
-              isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-              isRabby: window.ethereum?.isRabby,
-            });
             chainId = '';
           }
 
@@ -468,13 +410,6 @@ const addWalletGuardProxy = (provider: any) => {
           const requestAsString = provider?.request?.toString();
 
           if (requestAsString !== 'function () { [native code] }') {
-            posthog.capture('window.ethereum.request override', {
-              requestAsString: requestAsString,
-              isMetaMask: window.ethereum.isMetaMask,
-              isPhantom: window?.phantom?.ethereum?.isPhantom,
-              isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-              isRabby: window.ethereum?.isRabby,
-            });
             chainId = '';
           }
 
@@ -516,13 +451,6 @@ const addWalletGuardProxy = (provider: any) => {
         const requestAsString = provider?.request?.toString();
 
         if (requestAsString !== 'function () { [native code] }') {
-          posthog.capture('window.ethereum.request override', {
-            requestAsString: requestAsString,
-            isMetaMask: window.ethereum.isMetaMask,
-            isPhantom: window?.phantom?.ethereum?.isPhantom,
-            isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-            isRabby: window.ethereum?.isRabby,
-          });
           chainId = '';
         }
 
@@ -570,13 +498,6 @@ const addWalletGuardProxy = (provider: any) => {
         const requestAsString = provider?.request?.toString()
 
         if (requestAsString !== 'function () { [native code] }') {
-          posthog.capture('window.ethereum.request override', {
-            requestAsString: requestAsString,
-            isMetaMask: window.ethereum.isMetaMask,
-            isPhantom: window?.phantom?.ethereum?.isPhantom,
-            isCoinbaseWallet: window?.ethereum?.isCoinbaseWallet,
-            isRabby: window.ethereum?.isRabby,
-          });
           chainId = '';
         }
 
