@@ -1,5 +1,5 @@
 import posthog from 'posthog-js';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ConfirmSimulationButton } from '../components/simulation/SimulationButton';
 import { NoSimulation } from '../components/simulation/NoSimulation';
@@ -22,6 +22,8 @@ import { UnresolvableSignatureModal } from '../components/simulation/SimulationS
 import { TrySkipTransactions } from '../components/simulation/SimulationSubComponents/TrySkipTransactions';
 import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
 import { PopupManagerType, getAdditionalDataPopup } from '../lib/simulation/popupManager';
+import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
+import { AcquisitionNoticeModal } from '../components/simulation/SimulationSubComponents/AcquisitionNotice';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -30,6 +32,7 @@ export interface SimulationBaseProps {
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
   const { currentSimulation, loading } = useSimulation();
+  const [viewedAcquisitionNotice, setViewedAcquisitionNotice] = useState(true);
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
     api_host: 'https://app.posthog.com',
@@ -38,6 +41,19 @@ const Popup = () => {
     capture_pageleave: false,
     disable_session_recording: true,
   });
+
+  useEffect(() => {
+    const viewedAcquisitionNotice = localStorage.getItem(WgKeys.ViewedAcquisitionNotice);
+
+    if (!viewedAcquisitionNotice) {
+      setViewedAcquisitionNotice(false);
+    }
+  }, []);
+
+  function closeAcquisitionPopup() {
+    localStorage.setItem(WgKeys.ViewedAcquisitionNotice, 'true');
+    setViewedAcquisitionNotice(true);
+  }
 
   Sentry.init({
     dsn: 'https://d6ac9c557b4c4eee8b1d4224528f52b3@o4504402373640192.ingest.sentry.io/4504402378293248',
@@ -109,6 +125,8 @@ const Popup = () => {
           <TransactionDetails currentSimulation={successfulSimulation} />
           <TransactionContent currentSimulation={successfulSimulation} />
           <div style={{ height: popup !== PopupManagerType.None ? '200px' : '140px' }} />
+
+          {!viewedAcquisitionNotice && <AcquisitionNoticeModal closeCb={closeAcquisitionPopup} />}
 
           {popup === PopupManagerType.ShowUnresolvableSignature ? (
             <UnresolvableSignatureModal message={currentSimulation.simulation.extraInfo!.message} />

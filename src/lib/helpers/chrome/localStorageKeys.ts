@@ -11,4 +11,5 @@ export enum WgKeys {
   RequestsBlocklist = 'requestsBlocklist',
   SimulationSettings = 'simulationSettings',
   SimulationSkipModal = 'simulationSkipModal', // This key is only accessible via the popup page context
+  ViewedAcquisitionNotice = 'viewedAcquisitionNotice',
 }

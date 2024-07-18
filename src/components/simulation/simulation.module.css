@@ -142,7 +142,12 @@
   font-family: "ArchivoBold";
 }
 
+.links {
+  color: #e6e6e6;
+}
+
 .links:hover {
+  color: #ffffff;
   text-decoration: underline solid #ffffff;
 }
 
@@ -214,6 +219,17 @@
 
 .reportButton > p {
   margin-bottom: 0;
+}
+
+.buttonOutline {
+  color: white;
+  font-family: 'ArchivoSemiBold';
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.buttonOutline:hover {
+  background: rgb(20, 20, 20);
 }
 
 .transactionDetailsCard {
