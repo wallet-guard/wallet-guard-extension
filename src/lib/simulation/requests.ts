@@ -31,9 +31,11 @@ export class RequestManager {
         transaction: Transaction;
       }
       | {
+        rawArgs: any;
         domain: any;
         message: any;
         primaryType: string;
+        types: any;
       }
       | {
         hash: string;
@@ -76,7 +78,9 @@ export class RequestManager {
           chainId,
           signer,
           origin,
+          rawArgs: args.rawArgs,
           domain: args.domain,
+          types: args.types,
           message: args.message,
           primaryType: args.primaryType,
           method: args.method,

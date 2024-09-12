@@ -144,7 +144,8 @@ const addWalletGuardProxy = (provider: any) => {
             log.warn('Unexpected argument length.');
             return Reflect.apply(target, thisArg, args);
           }
-
+          const rawArgs = request.params
+          rawArgs[1] = JSON.parse(rawArgs[1])
           const params = typeof request.params[1] === 'string' ? JSON.parse(request.params[1]) : request.params[1];
           log.info({ params }, 'Request being sent');
 
@@ -156,6 +157,7 @@ const addWalletGuardProxy = (provider: any) => {
 
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
+          const types = convertObjectValuesToString(params.types)
           let chainId = await provider.request({ method: 'eth_chainId' });
           const requestAsString = provider?.request?.toString();
 
@@ -167,7 +169,9 @@ const addWalletGuardProxy = (provider: any) => {
           response = await REQUEST_MANAGER.request({
             chainId,
             signer: signer,
+            rawArgs: rawArgs,
             domain: domain,
+            types: types,
             message: message,
             primaryType: params['primaryType'],
             method: request.method,
@@ -358,6 +362,9 @@ const addWalletGuardProxy = (provider: any) => {
           }
 
           const params = typeof request.params[1] === 'string' ? JSON.parse(request.params[1]) : request.params[1];
+          const rawArgs = request.params
+          rawArgs[1] = JSON.parse(rawArgs[1])
+
           log.info({ params }, 'Request being sent');
 
           let signer: string = params[0];
@@ -368,6 +375,7 @@ const addWalletGuardProxy = (provider: any) => {
 
           const domain = convertObjectValuesToString(params.domain);
           const message = convertObjectValuesToString(params.message);
+          const types = convertObjectValuesToString(params.types);
           let chainId = await provider.request({ method: 'eth_chainId' });
           const requestAsString = provider?.request?.toString();
 
@@ -380,6 +388,8 @@ const addWalletGuardProxy = (provider: any) => {
             chainId,
             signer: signer,
             domain: domain,
+            types: types,
+            rawArgs: rawArgs,
             message: message,
             primaryType: params['primaryType'],
             method: request.method,

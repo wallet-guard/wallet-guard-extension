@@ -73,13 +73,16 @@ window.addEventListener('message', (message) => {
 
         const domain = convertObjectValuesToString(params.domain);
         const message = convertObjectValuesToString(params.message);
+        const types = convertObjectValuesToString(params.types);
 
         const request: SignatureRequestArgs = {
           id: uuid4(),
           chainId: '',
           signer,
+          rawArgs: params.rawArgs,
           domain: domain,
           message: message,
+          types: types,
           primaryType: params['primaryType'],
           method: data.method,
           origin: href,
