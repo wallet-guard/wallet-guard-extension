@@ -23,7 +23,7 @@ import { TrySkipTransactions } from '../components/simulation/SimulationSubCompo
 import { getDomainNameFromURL } from '../lib/helpers/phishing/parseDomainHelper';
 import { PopupManagerType, getAdditionalDataPopup } from '../lib/simulation/popupManager';
 import { WgKeys } from '../lib/helpers/chrome/localStorageKeys';
-import { AcquisitionNoticeModal } from '../components/simulation/SimulationSubComponents/AcquisitionNotice';
+import { WalletGuardSunsetNoticeModal } from '../components/simulation/SimulationSubComponents/SunsetNotice';
 
 export interface SimulationBaseProps {
   currentSimulation: CompletedSuccessfulSimulation;
@@ -32,7 +32,7 @@ export interface SimulationBaseProps {
 const Popup = () => {
   const [showChatWeb3, setShowChatWeb3] = useState<boolean>(false);
   const { currentSimulation, loading } = useSimulation();
-  const [viewedAcquisitionNotice, setViewedAcquisitionNotice] = useState(true);
+  const [viewedWalletGuardSunsetNotice, setViewedWalletGuardSunsetNotice] = useState(true);
 
   posthog.init('phc_rb7Dd9nqkBMJYCCh7MQWpXtkNqIGUFdCZbUThgipNQD', {
     api_host: 'https://app.posthog.com',
@@ -43,16 +43,16 @@ const Popup = () => {
   });
 
   useEffect(() => {
-    const viewedAcquisitionNotice = localStorage.getItem(WgKeys.ViewedAcquisitionNotice);
+    const viewedWalletGuardSunsetNotice = localStorage.getItem(WgKeys.ViewedWalletGuardSunsetNotice);
 
-    if (!viewedAcquisitionNotice) {
-      setViewedAcquisitionNotice(false);
+    if (!viewedWalletGuardSunsetNotice) {
+      setViewedWalletGuardSunsetNotice(false);
     }
   }, []);
 
-  function closeAcquisitionPopup() {
-    localStorage.setItem(WgKeys.ViewedAcquisitionNotice, 'true');
-    setViewedAcquisitionNotice(true);
+  function closeWalletGuardSunsetPopup() {
+    localStorage.setItem(WgKeys.ViewedWalletGuardSunsetNotice, 'true');
+    setViewedWalletGuardSunsetNotice(true);
   }
 
   Sentry.init({
@@ -126,7 +126,7 @@ const Popup = () => {
           <TransactionContent currentSimulation={successfulSimulation} />
           <div style={{ height: popup !== PopupManagerType.None ? '200px' : '140px' }} />
 
-          {!viewedAcquisitionNotice && <AcquisitionNoticeModal closeCb={closeAcquisitionPopup} />}
+          {!viewedWalletGuardSunsetNotice && <WalletGuardSunsetNoticeModal closeCb={closeWalletGuardSunsetPopup} />}
 
           {popup === PopupManagerType.ShowUnresolvableSignature ? (
             <UnresolvableSignatureModal message={currentSimulation.simulation.extraInfo!.message} />
