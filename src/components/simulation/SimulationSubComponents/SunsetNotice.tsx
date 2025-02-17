@@ -38,7 +38,7 @@ export function WalletGuardSunsetNoticeModal({ closeCb }: WalletGuardSunsetNotic
             Please read our{' '}
             <a
               className={styles.links}
-              href="https://www.walletguard.app/sunset-notice"
+              href="https://www.walletguard.app/blog/wallet-guard-sunset-notice"
               target="_blank"
               rel="noopener noreferrer"
             >
