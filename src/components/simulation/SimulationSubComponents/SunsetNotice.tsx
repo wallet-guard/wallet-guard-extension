@@ -34,7 +34,7 @@ export function WalletGuardSunsetNoticeModal({ closeCb }: WalletGuardSunsetNotic
             className={styles['softLockedWarningSubtitle']}
             style={{ marginBottom: '0px', fontSize: '14px' }}
           >
-            The Wallet Guard extension will be discontinued in <strong>60 days</strong>. Please install MetaMask to continue using Wallet Guard's security features.
+            The Wallet Guard extension will be discontinued on <strong>March 31st, 2025</strong>. Please install MetaMask to continue using Wallet Guard's security features.
             Please read our{' '}
             <a
               className={styles.links}
