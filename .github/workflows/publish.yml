@@ -23,15 +23,15 @@ jobs:
           npm ci
           npm run build:chrome
           npm run zip:chrome
-      - name: Upload & release
-        uses: mnao305/chrome-extension-upload@v4.0.1
-        with:
-          file-path: dist/chrome.zip
-          extension-id: pdgbckgdncnhihllonhnjbdoighgpimk
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          publish: false
+      # - name: Upload & release
+      #   uses: mnao305/chrome-extension-upload@v4.0.1
+      #   with:
+      #     file-path: dist/chrome.zip
+      #     extension-id: pdgbckgdncnhihllonhnjbdoighgpimk
+      #     client-id: ${{ secrets.CHROME_CLIENT_ID }}
+      #     client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+      #     refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      #     publish: false
       - name: Build Extension Artifact
         uses: actions/upload-artifact@v4
         with:
