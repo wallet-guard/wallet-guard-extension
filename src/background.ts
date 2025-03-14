@@ -174,7 +174,14 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
     // TODO: Signin Anonymously
   } else if (details.reason === 'update') {
-    // TODO: Signin Anonymously
+    AlertHandler.create({
+      key: 'wg-sunset-notice',
+      category: AlertCategory.News,
+      name: "Wallet Guard Sunset Notice",
+      details: `The Wallet Guard extension will be discontinued on March 31st, 2025. Please install MetaMask to continue using Wallet Guard's security features.`,
+      link: "https://www.walletguard.app/blog/wallet-guard-sunset-notice",
+      createdAt: new Date().toISOString()
+    });
   }
 
   localStorageHelpers.get<SimulationSettings>(WgKeys.SimulationSettings).then((res) => {
