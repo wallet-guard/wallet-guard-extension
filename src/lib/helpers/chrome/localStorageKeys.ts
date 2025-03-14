@@ -13,4 +13,5 @@ export enum WgKeys {
   SimulationSkipModal = 'simulationSkipModal', // This key is only accessible via the popup page context
   ViewedAcquisitionNotice = 'viewedAcquisitionNotice',
   ViewedWalletGuardSunsetNotice = 'viewedWalletGuardSunsetNotice',
+  ViewedWalletGuardSunsetNoticeReminder = 'viewedWalletGuardSunsetNoticeReminder',
 }

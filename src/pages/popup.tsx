@@ -43,7 +43,7 @@ const Popup = () => {
   });
 
   useEffect(() => {
-    const viewedWalletGuardSunsetNotice = localStorage.getItem(WgKeys.ViewedWalletGuardSunsetNotice);
+    const viewedWalletGuardSunsetNotice = localStorage.getItem(WgKeys.ViewedWalletGuardSunsetNoticeReminder);
 
     if (!viewedWalletGuardSunsetNotice) {
       setViewedWalletGuardSunsetNotice(false);
@@ -51,7 +51,7 @@ const Popup = () => {
   }, []);
 
   function closeWalletGuardSunsetPopup() {
-    localStorage.setItem(WgKeys.ViewedWalletGuardSunsetNotice, 'true');
+    localStorage.setItem(WgKeys.ViewedWalletGuardSunsetNoticeReminder, 'true');
     setViewedWalletGuardSunsetNotice(true);
   }
 
