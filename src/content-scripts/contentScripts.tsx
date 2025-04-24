@@ -23,7 +23,6 @@ const addScript = (url: string) => {
 };
 
 // SUNSET NOTICE - We no longer inject to proxy transactions
-// TODO: Make sure the bypass checker no longer triggers either
 // addScript('js/vendor.js');
 // addScript('js/injected/injectWalletGuard.js');
 
