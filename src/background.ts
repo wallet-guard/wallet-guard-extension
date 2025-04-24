@@ -60,37 +60,37 @@ chrome.action.onClicked.addListener(function (tab) {
   }
 });
 
-chrome.webRequest.onBeforeRequest.addListener(req => {
-  isBlocked(req.url).then(({ hash, blocked }) => {
-    if (blocked) {
-      chrome.tabs.get(req.tabId).then((tab) => {
-        if (!tab.url) return;
-        if (urlIsPhishingWarning(tab.url)) return;
+// chrome.webRequest.onBeforeRequest.addListener(req => {
+//   isBlocked(req.url).then(({ hash, blocked }) => {
+//     if (blocked) {
+//       chrome.tabs.get(req.tabId).then((tab) => {
+//         if (!tab.url) return;
+//         if (urlIsPhishingWarning(tab.url)) return;
 
-        const domainName = getDomainNameFromURL(tab.url);
+//         const domainName = getDomainNameFromURL(tab.url);
 
-        localStorageHelpers.get<string[]>(WgKeys.PersonalWhitelist).then((whitelist) => {
-          if (whitelist?.includes(domainName)) return;
+//         localStorageHelpers.get<string[]>(WgKeys.PersonalWhitelist).then((whitelist) => {
+//           if (whitelist?.includes(domainName)) return;
 
-          chrome.tabs.update(req.tabId, {
-            url:
-              (chrome.runtime.getURL('phish.html') +
-                '?safe=' +
-                'null' +
-                '&proceed=' +
-                (tab.url || '') +
-                '&reason=' +
-                WarningType.DrainerRequest +
-                '&value=' +
-                hash)
-          });
-        });
-      });
-    }
-  });
-}, {
-  urls: ['<all_urls>'],
-});
+//           chrome.tabs.update(req.tabId, {
+//             url:
+//               (chrome.runtime.getURL('phish.html') +
+//                 '?safe=' +
+//                 'null' +
+//                 '&proceed=' +
+//                 (tab.url || '') +
+//                 '&reason=' +
+//                 WarningType.DrainerRequest +
+//                 '&value=' +
+//                 hash)
+//           });
+//         });
+//       });
+//     }
+//   });
+// }, {
+//   urls: ['<all_urls>'],
+// });
 
 // MESSAGING
 chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendResponse) => {
@@ -131,22 +131,22 @@ chrome.runtime.onMessage.addListener((message: BrowserMessage, sender, sendRespo
 });
 
 // EXTENSION DETECTION
-chrome.management.onInstalled.addListener(async (extensionInfo) => {
-  const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
+// chrome.management.onInstalled.addListener(async (extensionInfo) => {
+//   const settings = await localStorageHelpers.get<ExtensionSettings>(WgKeys.ExtensionSettings);
 
-  if (extensionInfo.installType === 'development' && settings?.maliciousExtensionDetection) {
-    chrome.management.setEnabled(extensionInfo.id, false);
-    const activityInfo = {
-      name: 'Unpacked Extension Installed',
-      category: AlertCategory.MaliciousExtension,
-      details: `Disabled extension: ${extensionInfo.name}`,
-      key: `extension:${extensionInfo.id}`,
-      data: extensionInfo,
-    } as AlertDetail;
-    AlertHandler.create(activityInfo);
-    openDashboard('malicious_extension');
-  }
-});
+//   if (extensionInfo.installType === 'development' && settings?.maliciousExtensionDetection) {
+//     chrome.management.setEnabled(extensionInfo.id, false);
+//     const activityInfo = {
+//       name: 'Unpacked Extension Installed',
+//       category: AlertCategory.MaliciousExtension,
+//       details: `Disabled extension: ${extensionInfo.name}`,
+//       key: `extension:${extensionInfo.id}`,
+//       data: extensionInfo,
+//     } as AlertDetail;
+//     AlertHandler.create(activityInfo);
+//     openDashboard('malicious_extension');
+//   }
+// });
 
 // PHISHING DETECTION
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
@@ -156,32 +156,27 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   const currentSite = await getCurrentSite();
 
   if (domainHasChanged(changeInfo.url, currentSite)) {
-    await checkUrlForPhishing(tab);
+    // await checkUrlForPhishing(tab);
   }
 });
 
 // ALARMS
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === 'checkVersions') {
-    checkAllWalletsAndCreateAlerts();
+    // checkAllWalletsAndCreateAlerts();
   } else if (alarm.name === 'fetchRequestsBlocklist') {
-    handleRequestsBlocklist();
+    // handleRequestsBlocklist();
   }
 });
 
 // INSTALLS / UPDATES
 chrome.runtime.onInstalled.addListener(async (details) => {
+  chrome.tabs.create({ url: 'https://dashboard.walletguard.app' });
+
   if (details.reason === 'install') {
     // TODO: Signin Anonymously
   } else if (details.reason === 'update') {
-    AlertHandler.create({
-      key: 'wg-sunset-notice',
-      category: AlertCategory.News,
-      name: "Wallet Guard Sunset Notice",
-      details: `The Wallet Guard extension will be discontinued on March 31st, 2025. Please install MetaMask to continue using Wallet Guard's security features.`,
-      link: "https://www.walletguard.app/blog/wallet-guard-sunset-notice",
-      createdAt: new Date().toISOString()
-    });
+    // TODO: Signin Anonymously
   }
 
   localStorageHelpers.get<SimulationSettings>(WgKeys.SimulationSettings).then((res) => {
@@ -198,7 +193,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     }
   });
 
-  chrome.runtime.setUninstallURL('https://dashboard.walletguard.app/uninstall');
+  chrome.runtime.setUninstallURL('https://dashboard.walletguard.app');
 
   const ONE_DAY_AS_MINUTES = 1440;
   chrome.alarms.create('checkVersions', {
@@ -211,24 +206,24 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     periodInMinutes: ONE_DAY_AS_MINUTES,
   });
 
-  await checkAllWalletsAndCreateAlerts();
+  // await checkAllWalletsAndCreateAlerts();
 
-  if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
-    openDashboard('install');
-  }
+  // if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
+  //   openDashboard('install');
+  // }
 
   // Create a context menu item
-  chrome.contextMenus.create({
-    id: 'ask-chatweb3',
-    title: 'Ask ChatWeb3',
-    contexts: ['all'],
-  });
+  // chrome.contextMenus.create({
+  //   id: 'ask-chatweb3',
+  //   title: 'Ask ChatWeb3',
+  //   contexts: ['all'],
+  // });
 });
 
 // STARTUP
 chrome.runtime.onStartup.addListener(() => {
   // This is ran once per Startup and every 24h
-  checkAllWalletsAndCreateAlerts();
+  // checkAllWalletsAndCreateAlerts();
 });
 
 // Reject the current transaction if we close the simulation popup
@@ -332,72 +327,72 @@ chrome.storage.onChanged.addListener((changes, area) => {
   }
 });
 
-Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) => {
-  if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {
-    remotePort.onMessage.addListener(bypassCheckMessageHandler);
-  }
-});
+// Browser.runtime.onConnect.addListener(async (remotePort: Browser.Runtime.Port) => {
+//   if (remotePort.name === PortIdentifiers.WG_CONTENT_SCRIPT) {
+//     remotePort.onMessage.addListener(bypassCheckMessageHandler);
+//   }
+// });
 
 // Listen for when the user clicks on the context menu item
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === 'ask-chatweb3') {
-    // Send a message to the content script
+// chrome.contextMenus.onClicked.addListener((info, tab) => {
+//   if (info.menuItemId === 'ask-chatweb3') {
+//     // Send a message to the content script
 
-    if (!currentChatWeb3Popup) {
-      // Indicate we're creating a popup so we don't have many.
-      currentChatWeb3Popup = -1;
+//     if (!currentChatWeb3Popup) {
+//       // Indicate we're creating a popup so we don't have many.
+//       currentChatWeb3Popup = -1;
 
-      chrome.windows
-        .create({
-          url: 'chatweb3.html',
-          type: 'popup',
-          width: 420,
-          height: 760,
-        })
-        .then((createdWindow) => {
-          currentChatWeb3Popup = createdWindow?.id;
-        });
+//       chrome.windows
+//         .create({
+//           url: 'chatweb3.html',
+//           type: 'popup',
+//           width: 420,
+//           height: 760,
+//         })
+//         .then((createdWindow) => {
+//           currentChatWeb3Popup = createdWindow?.id;
+//         });
 
-      return;
-    }
+//       return;
+//     }
 
-    if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
-      const closeId = currentChatWeb3Popup;
-      currentChatWeb3Popup = undefined;
-      chrome.windows.remove(closeId);
+//     if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
+//       const closeId = currentChatWeb3Popup;
+//       currentChatWeb3Popup = undefined;
+//       chrome.windows.remove(closeId);
 
-      return;
-    }
-  }
-});
+//       return;
+//     }
+//   }
+// });
 
-chrome.commands.onCommand.addListener((command) => {
-  if (!currentChatWeb3Popup) {
-    // Indicate we're creating a popup so we don't have many.
-    currentChatWeb3Popup = -1;
+// chrome.commands.onCommand.addListener((command) => {
+//   if (!currentChatWeb3Popup) {
+//     // Indicate we're creating a popup so we don't have many.
+//     currentChatWeb3Popup = -1;
 
-    chrome.windows
-      .create({
-        url: 'chatweb3.html',
-        type: 'popup',
-        width: 420,
-        height: 760,
-      })
-      .then((createdWindow) => {
-        currentChatWeb3Popup = createdWindow?.id;
-      });
+//     chrome.windows
+//       .create({
+//         url: 'chatweb3.html',
+//         type: 'popup',
+//         width: 420,
+//         height: 760,
+//       })
+//       .then((createdWindow) => {
+//         currentChatWeb3Popup = createdWindow?.id;
+//       });
 
-    return;
-  }
+//     return;
+//   }
 
-  if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
-    const closeId = currentChatWeb3Popup;
-    currentChatWeb3Popup = undefined;
-    chrome.windows.remove(closeId);
+//   if (currentChatWeb3Popup && currentChatWeb3Popup !== -1) {
+//     const closeId = currentChatWeb3Popup;
+//     currentChatWeb3Popup = undefined;
+//     chrome.windows.remove(closeId);
 
-    return;
-  }
-});
+//     return;
+//   }
+// });
 
 const bypassCheckMessageHandler = async (message: PortMessage, sourcePort: Browser.Runtime.Port) => {
   if (!message.data.chainId) {
