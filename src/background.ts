@@ -206,9 +206,9 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
   // await checkAllWalletsAndCreateAlerts();
 
-  // if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
-  //   openDashboard('install');
-  // }
+  if (process.env.NODE_ENV === 'production' && details.reason === 'install') {
+    openDashboard('install');
+  }
 
   // Create a context menu item
   // chrome.contextMenus.create({
