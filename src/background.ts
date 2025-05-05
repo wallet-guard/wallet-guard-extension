@@ -171,8 +171,6 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 
 // INSTALLS / UPDATES
 chrome.runtime.onInstalled.addListener(async (details) => {
-  chrome.tabs.create({ url: 'https://dashboard.walletguard.app' });
-
   if (details.reason === 'install') {
     // TODO: Signin Anonymously
   } else if (details.reason === 'update') {
