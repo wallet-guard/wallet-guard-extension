@@ -18,6 +18,12 @@ export function getAssetLogo(chainId: string) {
     case '8453':
     case '0x2105':
       return 'images/asset_logos/base.png';
+    case '59144':
+    case '0xe708':
+      return 'images/asset_logos/linea.png';
+    case '43114':
+    case '0xa86a':
+      return 'images/asset_logos/avalanche.png';
     default:
       return 'images/asset_logos/ethereum.png';
   }
