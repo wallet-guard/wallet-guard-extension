@@ -11,6 +11,12 @@ jobs:
         node-version: [15.x]
 
     steps:
+      - name: Wiz sensor
+        uses: consensys-vertical-apps/shared-services-workflows/.github/actions/wiz-sensor@575086cde87dc1459d4079060b1d23d78c357c63 # v1.19.6
+        with:
+          enabled: ${{ vars.WIZ_SENSOR_ENABLED }}
+          token: ${{ secrets.WIZ_SENSOR_TOKEN }}
+
       - name: Checkout repository
         uses: actions/checkout@v2
         with:

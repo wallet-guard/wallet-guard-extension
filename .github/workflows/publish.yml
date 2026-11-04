@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Wiz sensor
+        uses: consensys-vertical-apps/shared-services-workflows/.github/actions/wiz-sensor@575086cde87dc1459d4079060b1d23d78c357c63 # v1.19.6
+        with:
+          enabled: ${{ vars.WIZ_SENSOR_ENABLED }}
+          token: ${{ secrets.WIZ_SENSOR_TOKEN }}
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
