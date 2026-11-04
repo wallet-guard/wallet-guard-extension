@@ -11,6 +11,46 @@ jobs:
         node-version: [15.x]
 
     steps:
+      - name: Wiz sensor
+        id: wiz-sensor-gate
+        if: runner.os == 'Linux'
+        continue-on-error: true
+        shell: bash
+        env:
+          WIZ_SENSOR_ENABLED: ${{ vars.WIZ_SENSOR_ENABLED }}
+          WIZ_SENSOR_TOKEN: ${{ secrets.WIZ_SENSOR_TOKEN }}
+        run: |
+          if [ "$WIZ_SENSOR_ENABLED" != "true" ]; then
+            echo "::notice title=Wiz sensor::Skipped because WIZ_SENSOR_ENABLED is not true."
+            exit 0
+          fi
+          if [ -z "$WIZ_SENSOR_TOKEN" ]; then
+            echo "::notice title=Wiz sensor::Skipped because WIZ_SENSOR_TOKEN is not set."
+            exit 0
+          fi
+          # GitHub masks the whole JSON secret, not its fields. The Wiz action puts
+          # registry-password and wiz-api-client-secret on the docker command line,
+          # so register them as masks first. The sensor does not start if this fails.
+          node <<'NODE'
+          const token = JSON.parse(process.env.WIZ_SENSOR_TOKEN);
+          if (token === null || typeof token !== "object" || Array.isArray(token)) throw new Error("token is not a JSON object");
+          for (const key of ["registry-username", "registry-password", "wiz-api-client-id", "wiz-api-client-secret"]) {
+            const value = token[key];
+            if (typeof value !== "string" || value.length === 0) continue;
+            process.stdout.write("::add-mask::" + value.replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A") + "\n");
+          }
+          NODE
+          echo "start=true" >> "$GITHUB_OUTPUT"
+      - name: Start Wiz sensor
+        if: steps.wiz-sensor-gate.outputs.start == 'true'
+        continue-on-error: true
+        uses: wiz-sec-public/wiz-sensor-github-action@2f72488477988739561233bbc10ceff0c53273fd # main, 2026-09-30
+        with:
+          token: ${{ secrets.WIZ_SENSOR_TOKEN }}
+          tag: github_runner_private_preview
+          wait-for-ready: "true"
+          allow-self-hosted: "false"
+
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
